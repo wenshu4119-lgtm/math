@@ -17,7 +17,7 @@
 | 部署方式 | 静态文件上传；后续改为推送 GitHub 即自动上线 |
 | 工作室信息 | 许老师工作室 / 18986280310 / 微信同号 |
 
-站点文件共 4 个：`index.html`、`app.js`、`style.css`、`chart.min.js`（图表库已本地化，不依赖任何外部 CDN）。
+站点运行文件：`index.html`、`app.js`、`style.css`、`chart.min.js`，外加 `favicon.svg` / `favicon.ico` 两个图标文件。图表库已本地化，不依赖任何外部 CDN。
 
 ---
 
@@ -25,7 +25,7 @@
 
 **这是本指南最容易被搞错的一点。**
 
-系统运行时只读取 `index.html` 第 249 行的 `window.SYS_CONFIG`，**不读取任何 JSON 文件**。
+系统运行时只读取 `index.html` 中 `window.SYS_CONFIG =` 开头的那一行（用 `Ctrl + F` 搜 `SYS_CONFIG` 即可定位），**不读取任何 JSON 文件**。
 早期版本里有一个 `config.json`，它从未被代码加载，已于 2026-11-11 删除。今后不要再创建或编辑 `config.json`——改了不会生效。
 
 所有内容（工作室信息、科目、年级、模块、知识点、预设场景、报告文案）都在这一个 JSON 块里。
@@ -34,7 +34,7 @@
 
 1. 用**记事本**打开 `index.html`
 2. 按 `Ctrl + F`，搜索 `许老师工作室`（或直接搜 `"studio"`）
-3. 你会看到这样一段，全在第 249 行：
+3. 你会看到这样一段（整段都在同一行）：
 
    ```json
    "studio":{"name":"许老师工作室","phone":"18986280310","wechat":"微信同号","address":"江岸区百步亭花园路现代城一区"}
@@ -80,7 +80,7 @@
 "modules": {"math":["7shang","7xia"],"physics":["8shang"],"chem":["9shang"]}
 ```
 
-> 第 249 行很长，记事本容易看花眼。建议先 `Ctrl + F` 定位到关键词，再只改那一小段。改错标点会导致整页空白，改前先复制一份 `index.html` 备份。
+> 这一行很长，记事本容易看花眼。建议先 `Ctrl + F` 定位到关键词，再只改那一小段。改错标点会导致整页空白，改前先复制一份 `index.html` 备份。
 
 ---
 
@@ -152,10 +152,10 @@
 ## 六、常见问题
 
 **Q1：页面打开是空白？**
-→ 多半是第 249 行 `SYS_CONFIG` 的 JSON 被改坏了（中文引号、多余逗号、漏引号）。按 F12 看 Console 报错；用备份的 `index.html` 恢复后重改。
+→ 多半是 `SYS_CONFIG` 的 JSON 被改坏了（中文引号、多余逗号、漏引号）。按 F12 看 Console 报错；用备份的 `index.html` 恢复后重改。
 
 **Q2：改了电话但网站没变化？**
-→ 先确认你改的是 `index.html` 第 249 行，不是 `config.json`；再确认改动已经**部署上线**（推了 GitHub 或重传了文件夹）。Cloudflare 有缓存，可等 1～2 分钟或强制刷新。
+→ 先确认你改的是 `index.html` 里的 `SYS_CONFIG`，不是 `config.json`；再确认改动已经**部署上线**（推了 GitHub 或重传了文件夹）。Cloudflare 有缓存，可等 1～2 分钟或强制刷新。
 
 **Q3：拖拽上传一直失败？**
 → 确认拖的是整个文件夹，且 `index.html` 在根目录（没有套一层子文件夹）。
@@ -199,4 +199,4 @@
 
 ---
 
-**一句话：改内容只动 `index.html` 第 249 行；本地预览确认；推 GitHub 即上线；网址永远是 https://mrxu.uk。**
+**一句话：改内容只动 `index.html` 里的 `SYS_CONFIG`；本地预览确认；推 GitHub 即上线；网址永远是 https://mrxu.uk。**
