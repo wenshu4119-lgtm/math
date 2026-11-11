@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#2563eb">
+<title>数学能力筛查系统 · 武汉中考</title>
+<meta name="description" content="依据武汉中考数学真题逐题设计的在线能力筛查，24题5分钟定位六大模块漏洞，自动生成雷达图诊断报告。">
+<script src="chart.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ========== 填写页 ========== -->
+<section class="screen active" id="screen-form">
+  <div class="topbar">
+    <div class="wrap">
+      <div class="brand">MATH DIAGNOSIS · 武汉中考</div>
+      <h1>数学能力筛查系统</h1>
+      <p>24 题逐题定位 · 六大模块画像 · 5 分钟出报告</p>
+    </div>
+  </div>
+
+  <div class="progress-box">
+    <div class="wrap">
+      <div class="progress-head">
+        <span id="prog-text">0 / 24 题已填</span>
+        <span>共 120 分</span>
+      </div>
+      <div class="progress-bar"><i id="prog-bar" style="width:0%"></i></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>学生信息</h2>
+      <p class="sub">用于报告抬头，家长可跳过不填</p>
+      <div class="info-grid">
+        <div class="field"><label>学生姓名</label><input id="st-name" placeholder="选填"></div>
+        <div class="field"><label>年级</label><input id="st-grade" placeholder="如 初三"></div>
+        <div class="field full"><label>学校</label><input id="st-school" placeholder="如 武珞路实验初级中学"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>逐题得分填写</h2>
+      <p class="sub">按最近一次考试的实际得分选择档位。选择后可在下方标注失分原因。</p>
+      <div id="grid"></div>
+    </div>
+
+    <button class="btn btn-primary" id="btn-report" disabled>请先填写完整 24 题</button>
+    <p class="hint">填写完成即可生成能力诊断报告，无需登录</p>
+
+    <div class="card">
+      <div class="sec-title">为什么要用这套筛查</div>
+      <ul class="trend">
+        <li><b>看分数 ≠ 看漏洞。</b>同为 90 分，有人基础题全对却压轴挂零，有人压轴拿分却计算频频失误——提升路径完全不同。</li>
+        <li><b>三层定位。</b>逐题打分 → 难度分层（基础72/中档36/难题12）+ 模块画像双维度交叉 → 精准锁定该补哪一块。</li>
+        <li><b>2026 命题新变化。</b>武汉卷正从"套路化"转向"去套路化"：中档题换应用场景、全卷计算量提升、压轴重探究。机械刷题的时代正在过去。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 报告页 ========== -->
+<section class="screen" id="screen-report">
+  <button class="back-btn" id="btn-back">← 返回修改</button>
+  <div class="wrap">
+    <div class="report-head">
+      <div class="score-row">
+        <span class="score-num" id="r-total">0</span>
+        <span class="score-unit">/ 120 分</span>
+        <div class="score-rate"><b id="r-rate">0%</b><span>得分率</span></div>
+      </div>
+      <div class="grade-badge" id="r-grade">—</div>
+      <p class="desc" id="r-desc"></p>
+      <p class="rmeta"><b id="r-student">这位同学</b><span id="r-meta"></span></p>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">分层得分率</div>
+      <p class="sub">武汉卷难度结构 6:3:1，基础题是底盘、中档题是分水岭、压轴题是天花板</p>
+      <div id="lv-rows"></div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">六大模块能力画像</div>
+      <p class="sub">得分率低于 80% 即进入薄弱清单，需优先补齐</p>
+      <table>
+        <thead><tr><th>知识模块</th><th class="num">得分</th><th class="num">满分</th><th class="num">得分率</th><th class="num">诊断</th></tr></thead>
+        <tbody id="mod-rows"></tbody>
+      </table>
+      <div class="chart-box"><canvas id="radar"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">薄弱模块清单</div>
+      <p class="sub">按缺口从大到小排列，优先补缺口最大的模块</p>
+      <div id="weak-box"></div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">失分归因排行</div>
+      <p class="sub">按累计丢分金额排序，定位最需要改掉的做题习惯</p>
+      <div id="reason-box"></div>
+      <div class="chart-box tall"><canvas id="reasonBar"></canvas></div>
+    </div>
+
+    <div class="plan-box">
+      <h4>🎯 分层提升方案</h4>
+      <p id="r-plan"></p>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">2026 武汉中考命题趋势</div>
+      <ul class="trend">
+        <li><b>去套路化：</b>中档题不再固定题型，更多换应用场景，靠背题型会失灵。</li>
+        <li><b>计算量与思维双提升：</b>全卷计算量高于往年，对算理与代数变形要求更高。</li>
+        <li><b>压轴重探究：</b>23 题几何综合、24 题函数综合，强调探究过程与多解分类。</li>
+        <li><b>基础题回归课本：</b>1-8、11-13 题多为课本习题变式，课本是最高性价比的复习材料。</li>
+        <li><b>核心转向：</b>从"刷了多少题"转向"是否形成结构化的知识网络"。</li>
+      </ul>
+    </div>
+
+    <div class="card cta-box">
+      <h3>想让孩子少走弯路？</h3>
+      <p>把这份报告带过来，老师会针对薄弱模块给出个性化补漏方案，并做一次免费的深度诊断。</p>
+      <button class="btn" id="btn-cta">预约免费能力诊断 →</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="btn-reset">重新填写</button>
+      <button class="btn btn-primary" id="btn-share" style="display:none">分享报告给家长</button>
+    </div>
+
+    <div class="foot">
+      <div class="studio">XX 教育工作室</div>
+      <div>电话 138-XXXX-XXXX · 微信同号 · 武汉市武昌区 XX 路 XX 号</div>
+      <div>本报告依据武汉中考数学真题命题结构生成，仅供学习诊断参考</div>
+    </div>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
