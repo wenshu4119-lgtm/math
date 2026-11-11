@@ -1,0 +1,14 @@
+# 系统/编辑器生成物
+Thumbs.db
+.DS_Store
+*.log
+
+# 本地部署工具缓存
+node_modules/
+.wrangler/
+.dev.vars
+
+# Cloudflare 凭据，禁止入库
+*.pem
+.env
+.env.*
