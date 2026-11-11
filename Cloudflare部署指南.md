@@ -99,19 +99,27 @@
 
 ### 方式 A：推送即上线（推荐，配置一次即可）
 
-代码已纳入 Git。完成 Cloudflare 侧的 Git 连接后，流程变为：
+代码已纳入 Git，并已启用**本机推送钩子**：执行 `git push` 时会自动运行 `npx wrangler deploy`，把最新文件发布到正式域名。
 
 ```
 本地改文件 → git add . → git commit -m "改了什么" → git push
                                     ↓
-                        Cloudflare 自动构建并部署
+                        pre-push 钩子自动部署
                                     ↓
                         https://mrxu.uk 自动更新
 ```
 
-网址**不会变**，家长手上的旧二维码继续有效。
+已于 2026-11-11 端到端验证：推送后线上首页 SHA-256 与本地一致。网址**不会变**，家长手上的旧二维码继续有效。
 
-配置步骤（只需做一次，全部在已登录的 Cloudflare 控制台点选，约 1 分钟）：
+钩子文件是仓库里的 `.githooks/pre-push`，通过 `git config core.hooksPath .githooks` 启用。它依赖本机 Wrangler 登录态；换电脑后需重新执行 `npx wrangler login`，并再运行一次上述 `git config`。若推送时看到 `[auto-deploy] 部署失败`，说明登录态过期，重新登录后再推送一次即可。
+
+> 若以后改为下方「方式 C」的云端 Workers Builds，建议先停用本机钩子（`git config --unset core.hooksPath`），避免同一次推送部署两遍。
+
+### 方式 C：Cloudflare 云端 Workers Builds（可选）
+
+希望不依赖本机、由 Cloudflare 直接在云端构建时，可在已登录的 Cloudflare 控制台连接仓库。
+
+配置步骤（只需做一次，全部在控制台点选，约 1 分钟）：
 
 1. 打开 **Workers 和 Pages** → 项目 `muddy-wildflower-44b9`
    直达链接：`https://dash.cloudflare.com/e790168a5525cfa3180de7a2aea228ab/workers/services/view/muddy-wildflower-44b9/production/settings#builds`

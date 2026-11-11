@@ -1,0 +1,19 @@
+#!/bin/sh
+# 推送前自动把站点部署到 Cloudflare Workers（正式域名 https://mrxu.uk）
+# 启用方式：git config core.hooksPath .githooks
+# 依赖：本机已执行过 npx wrangler login；换电脑需重新授权。
+# 部署失败不阻止推送，仅给出警告。
+cat >/dev/null 2>&1
+ROOT=$(git rev-parse --show-toplevel) || exit 0
+cd "$ROOT" || exit 0
+
+OUT=$(npx --yes wrangler@4 deploy 2>&1)
+RC=$?
+printf '%s\n' "$OUT" | tail -6
+
+if [ "$RC" -eq 0 ]; then
+  echo "[auto-deploy] https://mrxu.uk 已更新"
+else
+  echo "[auto-deploy] 部署失败：请运行 npx wrangler login 重新授权后重试" >&2
+fi
+exit 0

@@ -1,5 +1,6 @@
 # 不上传为公开静态资源的文件（.gitignore 语法）
 .git/
+.githooks/
 .github/
 .wrangler/
 node_modules/
