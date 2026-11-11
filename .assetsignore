@@ -1,0 +1,14 @@
+# 不上传为公开静态资源的文件（.gitignore 语法）
+.git/
+.github/
+node_modules/
+*.md
+*.bat
+*.zip
+*.log
+wrangler.jsonc
+wrangler.toml
+.gitignore
+.assetsignore
+package.json
+package-lock.json
