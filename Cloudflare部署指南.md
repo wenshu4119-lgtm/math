@@ -111,14 +111,16 @@
 
 网址**不会变**，家长手上的旧二维码继续有效。
 
-配置步骤（只需做一次）：
+配置步骤（只需做一次，全部在已登录的 Cloudflare 控制台点选，约 1 分钟）：
 
-1. 打开 Cloudflare 控制台 → **Workers 和 Pages** → 项目 `muddy-wildflower-44b9`
-2. 进入 **Settings → Builds**（设置 → 构建）→ **Connect to Git / 连接到 Git**
-3. 选择 GitHub 账户 `wenshu4119-lgtm` 与仓库 `math`，分支 `main`
-4. 构建命令留空（纯静态，无需构建）；部署使用仓库中的 `wrangler.jsonc`
+1. 打开 **Workers 和 Pages** → 项目 `muddy-wildflower-44b9`
+   直达链接：`https://dash.cloudflare.com/e790168a5525cfa3180de7a2aea228ab/workers/services/view/muddy-wildflower-44b9/production/settings#builds`
+2. 进入 **Settings → Builds** → 点 **Connect**（连接）
+3. 选择 GitHub 账户 `wenshu4119-lgtm` 与仓库 `math`，生产分支 `main`
+4. 构建命令留空（纯静态，无需构建）；部署命令使用 `npx wrangler deploy`
 5. 保存后，往 `main` 推一次代码验证自动部署
 
+> ⚠️ 仓库中 `wrangler.jsonc` 的 `name` 必须保持 `muddy-wildflower-44b9`，与控制台项目名一致，否则构建会失败且域名绑定会失效。
 > Cloudflare 的 GitHub App 已安装（installation 180801883），无需重新安装。
 
 ### 方式 B：手动直接上传（备用）
