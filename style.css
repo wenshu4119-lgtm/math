@@ -284,3 +284,20 @@ ul.trend li b{color:var(--txt)}
   .tree-kps{padding-left:22px}
   .card h2{font-size:16px}
 }
+
+/* ===== 按科目分组的考试场景预设 ===== */
+.preset-tabs{display:flex;gap:6px;margin:4px 0 12px}
+.preset-tab{flex:1;min-width:0;height:36px;border:1.5px solid var(--line);border-radius:9px;background:#fff;
+  color:var(--sub);font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.preset-tab.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.preset-item .p-label{position:relative;padding-right:56px}
+.preset-item .p-exam{position:absolute;right:0;top:1px;background:var(--soft);color:var(--blue);
+  border:1px solid #bfdbfe;border-radius:7px;padding:1px 7px;font-size:11px;font-weight:700;line-height:1.7}
+.preset-item .p-scope{font-size:11.5px;color:#94a3b8;margin-top:5px}
+.preset-item.custom .p-label{color:var(--blue-d)}
+
+@media(max-width:420px){
+  .preset-tabs{gap:4px}
+  .preset-tab{font-size:12.5px;height:34px}
+  .preset-item .p-label{font-size:15px;padding-right:50px}
+}

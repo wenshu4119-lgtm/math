@@ -234,20 +234,65 @@
   /* ============================================================
      首页：五步入口 + 预设快捷入口
      ============================================================ */
-  function renderPresets() {
-    var box = $('#preset-list'); box.innerHTML = '';
-    CFG.presets.forEach(function (p) {
-      var item = el('div', 'preset-item');
-      var subjName = p.subject === 'all' ? '数学+物理+化学'
-        : (CFG.subjects[p.subject] ? CFG.subjects[p.subject].name : '');
-      var icon = p.subject === 'all' ? '✚' : (CFG.subjects[p.subject] ? CFG.subjects[p.subject].icon : '✚');
-      item.innerHTML =
-        '<div class="p-label"><span class="ic">' + icon + '</span>' + p.label
-        + ' <span style="font-weight:400;font-size:12px;color:#94a3b8">· ' + subjName + '</span></div>'
-        + '<div class="p-tip">' + p.tip + '</div>';
-      item.onclick = function () { showPresetConfirm(p); };
-      box.appendChild(item);
+  var PRESET_GROUPS = [
+    { key: 'math', name: '数学' },
+    { key: 'physics', name: '物理' },
+    { key: 'chem', name: '化学' },
+    { key: 'all', name: '全科' }
+  ];
+  var activeGroup = 'math';
+
+  function presetGroupOf(p) { return p.group || (p.subject === 'all' ? 'all' : 'math'); }
+  // 数学组与物理组都有「初二期末」，报告标题需带科目才能区分
+  function presetScene(p) {
+    return p.subject === 'all' ? p.label : p.label + ' · ' + subName(p.subject);
+  }
+  function presetScope(p) {
+    if (p.subject === 'all') {
+      var n = 0;
+      Object.keys(p.modules).forEach(function (s) { n += p.modules[s].length; });
+      return n + ' 个学期模块';
+    }
+    return p.modules.length + ' 个学期模块';
+  }
+
+  function renderPresetTabs() {
+    var box = $('#preset-tabs'); box.innerHTML = '';
+    PRESET_GROUPS.forEach(function (g) {
+      var n = CFG.presets.filter(function (p) { return presetGroupOf(p) === g.key; }).length;
+      if (!n) return;
+      var t = el('button', 'preset-tab' + (activeGroup === g.key ? ' on' : ''), g.name);
+      t.setAttribute('data-group', g.key);
+      t.onclick = function () { activeGroup = g.key; renderPresets(); };
+      box.appendChild(t);
     });
+  }
+
+  function renderPresets() {
+    renderPresetTabs();
+    var box = $('#preset-list'); box.innerHTML = '';
+    CFG.presets.filter(function (p) { return presetGroupOf(p) === activeGroup; })
+      .forEach(function (p) {
+        var item = el('div', 'preset-item');
+        var icon = p.subject === 'all' ? '✚' : subIcon(p.subject);
+        var exam = labelOf(FLOW.exams, p.exam || 'qimo');
+        var subjName = p.subject === 'all' ? '多科组合' : subName(p.subject);
+        item.innerHTML =
+          '<div class="p-label"><span class="ic">' + icon + '</span><span class="p-name">' + p.label + '</span>'
+          + '<span class="p-exam">' + exam + '</span></div>'
+          + '<div class="p-tip">' + p.tip + '</div>'
+          + '<div class="p-scope">' + subjName + ' · ' + presetScope(p) + '</div>';
+        item.onclick = function () { showPresetConfirm(p); };
+        box.appendChild(item);
+      });
+    // 范围不固定的考次引导到五步筛查，并预置当前科目
+    if (activeGroup !== 'all') {
+      var more = el('div', 'preset-item custom');
+      more.innerHTML = '<div class="p-label"><span class="ic">✎</span>月考 / 单元测 / 模拟考</div>'
+        + '<div class="p-tip">范围不固定？用五步筛查逐层勾选科目、年级、学期、考次与章节</div>';
+      more.onclick = function () { startWizard(activeGroup); };
+      box.appendChild(more);
+    }
   }
 
   /* ============================================================
@@ -256,7 +301,7 @@
   function showPresetConfirm(p) {
     STATE.mode = 'preset';
     STATE.presetKey = p.key;
-    $('#scope-title').textContent = p.label;
+    $('#scope-title').textContent = presetScene(p);
     $('#scope-sub').textContent = '系统已按预设匹配考查范围，确认后即可开始填分';
     $('#preset-label').textContent = p.label;
     $('#preset-tip').textContent = p.tip;
@@ -300,7 +345,7 @@
     STATE.mode = 'preset';
     STATE.subjects = unique(entries.map(function (e) { return e.sub; }));
     STATE.entries = entries;
-    STATE.sceneText = p.label;
+    STATE.sceneText = presetScene(p);
     STATE.questions = buildAllQuestions(entries, function (e) { return Object.keys(e.kps); });
     STATE.answers = {};
     gotoStudent();
@@ -309,11 +354,17 @@
   /* ============================================================
      五步流程：屏1 科目 / 屏2 年级 / 屏3 学期 / 屏4 考次 / 屏5 章节
      ============================================================ */
-  function startWizard() {
+  function startWizard(sub) {
     WIZ = {
       subjects: ['math'], grades: ['8'], semester: 'shang', exam: 'qimo',
       rangeMode: 'all', skipSemester: false, picked: {}, open: {}
     };
+    // 从科目分组的「月考/单元测」入口进来时，预置该科目及可用年级
+    if (sub && CFG.subjects[sub]) {
+      WIZ.subjects = [sub];
+      normalizeGrades();
+      if (WIZ.grades.indexOf('8') < 0) WIZ.grades = [WIZ.grades[0]];
+    }
     STATE.mode = 'wizard';
     renderSubjectScreen();
     show('screen-w-subject');
