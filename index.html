@@ -32,6 +32,13 @@
       <button class="btn btn-primary" id="btn-start-wizard">开始五步筛查 →</button>
     </div>
 
+    <div class="card card-paper-entry">
+      <div class="hero-tag hero-tag-teal">新 · 试卷拍照分析</div>
+      <h2>手上有刚考完的试卷？</h2>
+      <p class="sub">拍下试卷对照建表，登记每题的考察范围、题型与难度，再逐题填对错，系统自动汇总成同一份诊断报告。照片只在本机预览，不上传。</p>
+      <button class="btn btn-primary" id="btn-start-paper">拍照分析试卷 →</button>
+    </div>
+
     <div class="card">
       <h2>按考试场景快速选择</h2>
       <p class="sub">先选科目，再选考试场景；数学、物理、化学均可直接选。月考、单元测、模拟考等范围不固定的情况，请用上方「五步精准筛查」逐层勾选。</p>
@@ -47,6 +54,62 @@
         <li><b>范围可定制。</b>期末、期中、月考、单元测都能按章节或知识点逐层勾选，填分量始终可控。</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- ========== 试卷拍照分析 ========== -->
+<section class="screen" id="screen-paper">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS · 试卷分析</div>
+      <h1>试卷逐题分析</h1>
+      <p>建表 → 填对错 → 自动出诊断报告</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>试卷模式</span><div class="wiz-bar"><i style="width:100%"></i></div></div>
+
+    <div class="card">
+      <h2>① 拍下试卷作对照</h2>
+      <p class="sub">照片只在本机内存中预览，不会上传到任何服务器；刷新页面即消失。</p>
+      <input type="file" id="paper-photo" accept="image/*" capture="environment" style="display:none">
+      <button class="btn btn-ghost" id="paper-photo-btn">拍照 / 选择试卷照片</button>
+      <div id="paper-photo-box"></div>
+      <div class="field" style="margin-top:12px">
+        <label>试卷名称（选填，用于报告抬头）</label>
+        <input id="paper-title" placeholder="如 八上期末数学卷">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>② 建立题号表</h2>
+      <p class="sub">每行登记一道题的考察范围、题型与难度。可以按题号批量建行，也可以直接导入 AI 识别结果。</p>
+      <div class="paper-tools">
+        <input id="paper-range" placeholder="题号，如 1-25 或 1,2,5-9">
+        <button class="btn btn-mini" id="paper-add-range">批量建行</button>
+      </div>
+      <div class="paper-tools">
+        <button class="btn btn-mini" id="paper-add-one">+ 加一题</button>
+        <button class="btn btn-mini" id="paper-ai-btn" style="display:none">AI 识别本张试卷</button>
+        <button class="btn btn-mini" id="paper-copy-prompt">复制 AI 提示词</button>
+        <button class="btn btn-mini" id="paper-import">导入识别结果</button>
+        <button class="btn btn-mini" id="paper-clear">清空</button>
+      </div>
+      <textarea id="paper-json" rows="3" placeholder='粘贴 JSON：{"exam":"八上期末数学","questions":[{"no":1,"scope":"三角形三边关系","qtype":"选择","diff":"基础"}]}'></textarea>
+      <p class="hint" id="paper-import-msg">提示词已包含本系统全部知识点清单，把试卷照片和提示词发给任意 AI 即可得到上表 JSON。</p>
+    </div>
+
+    <div class="card">
+      <h2>③ 逐题填写对错</h2>
+      <p class="sub">3＝基本拿满，2＝大部分，1＝小部分，0＝完全没拿到。全部填完即可生成报告。</p>
+      <div class="paper-stat"><span id="paper-prog">0 / 0 题已判</span><span id="paper-score">—</span></div>
+      <div id="paper-rows"></div>
+      <p class="hint" id="paper-empty">还没有题目，请先批量建行或导入识别结果。</p>
+    </div>
+
+    <button class="btn btn-primary" id="paper-report" disabled>请先完成逐题判定</button>
+    <p class="hint">报告与五步筛查共用同一套薄弱模块 / 失分归因 / 分层提升方案引擎</p>
+    <button class="btn btn-ghost" id="paper-back">← 返回首页</button>
   </div>
 </section>
 
@@ -282,6 +345,13 @@
       <div class="chart-box"><canvas id="radar" height="320"></canvas></div>
       <div class="chart-box"><canvas id="bar" height="260"></canvas></div>
       <div id="module-table"></div>
+    </div>
+
+    <!-- 题型得分率（仅试卷模式） -->
+    <div class="card" id="paper-type-card" style="display:none">
+      <h2>按题型得分率</h2>
+      <p class="sub">区分是某一类题型整体薄弱，还是特定知识点的问题。</p>
+      <div id="paper-type-list"></div>
     </div>
 
     <!-- 薄弱模块 -->

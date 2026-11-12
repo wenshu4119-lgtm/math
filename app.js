@@ -681,6 +681,372 @@
   }
 
   /* ============================================================
+     试卷拍照分析：AI 只负责「读题干建表」，判分由人完成
+     - 照片仅在本机预览，不上传；未配置 paperAI.endpoint 时无任何网络请求
+     - 识别结果通过统一 JSON 导入，可来自任意 AI 工具或未来的云端识别服务
+     - 最终把题号表转成 STATE.questions / answers，复用既有报告引擎
+     ============================================================ */
+  var PAPER_DEFAULT_QTYPES = ['选择', '填空', '计算', '证明', '实验', '综合', '其他'];
+  var PAPER_DIFFS = ['基础', '中档', '压轴'];
+  var PAPER = { rows: [], photoUrl: null };
+  var paperUid = 0;
+  var paperCatalogCache = null;
+
+  function paperQTypes() {
+    return (CFG.paper && CFG.paper.qtypes) || PAPER_DEFAULT_QTYPES;
+  }
+  function paperEndpoint() {
+    return (CFG.paperAI && CFG.paperAI.endpoint) || '';
+  }
+
+  // 全库知识点清单：sub|modKey|chapKey|kpKey
+  function paperCatalog() {
+    if (paperCatalogCache) return paperCatalogCache;
+    var out = [];
+    Object.keys(CFG.modules).forEach(function (sub) {
+      Object.keys(CFG.modules[sub]).forEach(function (mk) {
+        var mod = CFG.modules[sub][mk];
+        Object.keys(mod.children || {}).forEach(function (ck) {
+          var chap = mod.children[ck];
+          var kps = chap.kps || {};
+          var keys = Object.keys(kps);
+          if (!keys.length) {
+            out.push({ value: sub + '|' + mk + '|' + ck + '|', subject: sub,
+              modKey: mk, chapKey: ck, kpKey: '', kpName: chap.name,
+              chapName: chap.name, modName: mod.name, subName: subName(sub) });
+            return;
+          }
+          keys.forEach(function (kk) {
+            out.push({ value: sub + '|' + mk + '|' + ck + '|' + kk, subject: sub,
+              modKey: mk, chapKey: ck, kpKey: kk, kpName: kps[kk],
+              chapName: chap.name, modName: mod.name, subName: subName(sub) });
+          });
+        });
+      });
+    });
+    paperCatalogCache = out;
+    return out;
+  }
+
+  function paperNorm(s) { return String(s || '').replace(/[\s·（）()【】、，,：:]/g, ''); }
+  // 名称模糊匹配：先精确匹配知识点，再包含匹配，最后退回章节名
+  function paperFindScope(text, subjectHint) {
+    var t = paperNorm(text);
+    if (!t) return null;
+    var list = paperCatalog().filter(function (c) {
+      return !subjectHint || !CFG.subjects[subjectHint] || c.subject === subjectHint;
+    });
+    var exact = list.filter(function (c) { return paperNorm(c.kpName) === t || paperNorm(c.chapName) === t; })[0];
+    if (exact) return exact;
+    var hit = list.filter(function (c) {
+      return paperNorm(c.kpName).indexOf(t) >= 0 || t.indexOf(paperNorm(c.kpName)) >= 0
+        || paperNorm(c.chapName).indexOf(t) >= 0 || t.indexOf(paperNorm(c.chapName)) >= 0;
+    })[0];
+    return hit || null;
+  }
+  function paperNormType(v) {
+    var s = String(v || '').trim();
+    var list = paperQTypes();
+    var hit = list.filter(function (x) { return x === s || s.indexOf(x) >= 0 || x.indexOf(s) >= 0; })[0];
+    return hit || list[list.length - 1];
+  }
+  function paperNormDiff(v) {
+    var s = String(v || '').trim();
+    var hit = PAPER_DIFFS.filter(function (x) { return x === s || s.indexOf(x) >= 0 || x.indexOf(s) >= 0; })[0];
+    return hit || '基础';
+  }
+
+  // 全页共享一份候选列表（datalist），避免每行渲染上百个 option 拖慢低端机
+  function paperEnsureDatalist() {
+    if ($('#paper-scope-list')) return;
+    var dl = document.createElement('datalist');
+    dl.id = 'paper-scope-list';
+    var seen = {}, html = '';
+    paperCatalog().forEach(function (c) {
+      var label = c.chapName + ' · ' + c.kpName;
+      if (seen[label]) return;
+      seen[label] = 1;
+      html += '<option value="' + escapeHtml(label) + '"></option>';
+    });
+    dl.innerHTML = html;
+    document.body.appendChild(dl);
+  }
+  function paperScopeText(r) {
+    if (r.cat) return r.cat.chapName + ' · ' + r.cat.kpName;
+    return r.scopeText || '';
+  }
+  function paperTypeOptions(sel) {
+    return paperQTypes().map(function (t) {
+      return '<option value="' + t + '"' + (sel === t ? ' selected' : '') + '>' + t + '</option>';
+    }).join('');
+  }
+  function paperDiffOptions(sel) {
+    return PAPER_DIFFS.map(function (d) {
+      return '<option value="' + d + '"' + (sel === d ? ' selected' : '') + '>' + d + '</option>';
+    }).join('');
+  }
+
+  function paperNewRow(no, spec) {
+    spec = spec || {};
+    return {
+      uid: 'p' + (++paperUid),
+      no: no,
+      cat: spec.cat || null,
+      scopeText: spec.scopeText || '',
+      qtype: spec.qtype || paperQTypes()[0],
+      diff: spec.diff || '基础',
+      score: spec.score == null ? null : spec.score
+    };
+  }
+
+  function paperAddNumbers(raw) {
+    var nums = [];
+    String(raw || '').split(/[,，;；\s]+/).forEach(function (part) {
+      if (!part) return;
+      var m = part.match(/^(\d+)\s*[-~—]\s*(\d+)$/);
+      if (m) {
+        var a = parseInt(m[1], 10), b = parseInt(m[2], 10);
+        if (b < a) { var t = a; a = b; b = t; }
+        if (b - a > 120) b = a + 120;
+        for (var i = a; i <= b; i++) nums.push(i);
+      } else if (/^\d+$/.test(part)) {
+        nums.push(parseInt(part, 10));
+      }
+    });
+    if (!nums.length) { toast('题号格式不对，例如 1-25 或 1,2,5-9'); return; }
+    nums.forEach(function (n) { PAPER.rows.push(paperNewRow(n)); });
+    renderPaperRows();
+    toast('已添加 ' + nums.length + ' 行');
+  }
+
+  function renderPaperRows() {
+    paperEnsureDatalist();
+    var box = $('#paper-rows'); box.innerHTML = '';
+    $('#paper-empty').style.display = PAPER.rows.length ? 'none' : '';
+    PAPER.rows.forEach(function (r, i) {
+      var row = el('div', 'paper-row');
+      row.innerHTML =
+        '<div class="pr-head"><span class="pr-no">第 ' + r.no + ' 题</span>'
+        + (r.cat ? '<span class="pr-origin">' + escapeHtml(r.cat.subName + ' · ' + r.cat.modName) + '</span>'
+                 : (r.scopeText ? '<span class="pr-origin">未匹配：' + escapeHtml(r.scopeText) + '</span>' : ''))
+        + '<button class="pr-del" data-i="' + i + '">删除</button></div>'
+        + '<div class="pr-grid">'
+          + '<label>考察范围<input class="pr-scope" list="paper-scope-list" data-i="' + i + '" value="' + escapeHtml(paperScopeText(r)) + '" placeholder="输入或选择知识点"></label>'
+          + '<label>题型<select class="pr-type" data-i="' + i + '">' + paperTypeOptions(r.qtype) + '</select></label>'
+          + '<label>难度<select class="pr-diff" data-i="' + i + '">' + paperDiffOptions(r.diff) + '</select></label>'
+        + '</div>'
+        + '<div class="pr-judge"><span class="pj-label">本题得分</span>'
+          + [0, 1, 2, 3].map(function (v) {
+              return '<button class="pj-btn' + (r.score === v ? ' on' : '') + '" data-i="' + i + '" data-v="' + v + '">'
+                + ['全错', '小部分', '大部分', '全对'][v] + '</button>';
+            }).join('')
+        + '</div>';
+      box.appendChild(row);
+    });
+    paperProgress();
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function paperProgress() {
+    var total = PAPER.rows.length;
+    var done = 0, got = 0;
+    PAPER.rows.forEach(function (r) { if (r.score != null) { done++; got += r.score; } });
+    $('#paper-prog').textContent = done + ' / ' + total + ' 题已判';
+    $('#paper-score').textContent = total ? (got + ' / ' + total * 3 + ' 分') : '—';
+    var btn = $('#paper-report');
+    btn.disabled = !total || done < total;
+    btn.textContent = !total ? '请先建立题号表' : (done < total ? '还差 ' + (total - done) + ' 题' : '生成诊断报告 →');
+  }
+
+  function paperPrompt() {
+    var lines = [];
+    var groups = {};
+    paperCatalog().forEach(function (c) {
+      var g = c.subName + ' · ' + c.modName;
+      (groups[g] = groups[g] || []).push(c);
+    });
+    Object.keys(groups).forEach(function (g) {
+      var seen = {}, kps = [];
+      groups[g].forEach(function (c) {
+        if (!seen[c.kpName]) { seen[c.kpName] = 1; kps.push(c.kpName); }
+      });
+      lines.push(g + '：' + kps.join('、'));
+    });
+    return '你是初中试卷结构分析助手。只读试卷的印刷题干，不要判断学生答案对错，不要识别手写内容，不要批改。\n'
+      + '请按题号输出 JSON，不要输出任何解释文字：\n'
+      + '{"exam":"试卷名称","questions":[{"no":1,"scope":"知识点名称","qtype":"题型","diff":"难度"}]}\n'
+      + '规则：\n'
+      + '1. no 为试卷题号（数字），每一道小题一行，不要合并、不要遗漏。\n'
+      + '2. scope 从下方知识点清单中选最贴切的一项，只写名称；确实无法对应时写最接近的章节名。\n'
+      + '3. qtype 只能取：' + paperQTypes().join(' / ') + '。\n'
+      + '4. diff 只能取：' + PAPER_DIFFS.join(' / ') + '。\n'
+      + '5. 只输出 JSON。\n\n'
+      + '可用知识点清单：\n' + lines.join('\n');
+  }
+
+  function paperCopyPrompt() {
+    var text = paperPrompt();
+    var ta = $('#paper-json');
+    // 始终在文本框展示，兼顾微信内置浏览器不支持 clipboard API 的情况
+    ta.value = text;
+    $('#paper-import-msg').textContent = '提示词已显示在文本框；复制它连同试卷照片发给 AI，再把返回的 JSON 粘贴回此处覆盖。';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        toast('提示词已复制，也已显示在文本框');
+      }).catch(function () {
+        ta.focus(); ta.select();
+        toast('提示词已填入文本框，请长按复制');
+      });
+    } else {
+      ta.focus(); ta.select();
+      toast('提示词已填入文本框，请长按复制');
+    }
+  }
+
+  function paperImport(raw) {
+    var text = String(raw == null ? $('#paper-json').value : raw)
+      .replace(/^\s*```(?:json)?/i, '').replace(/```\s*$/, '').trim();
+    if (!text) { toast('请先粘贴识别结果 JSON'); return; }
+    var data;
+    try { data = JSON.parse(text); }
+    catch (e) {
+      $('#paper-import-msg').textContent = 'JSON 解析失败：请检查引号与逗号，只保留 { … } 部分。';
+      return;
+    }
+    var arr = Array.isArray(data) ? data : (data.questions || data.items || []);
+    if (!arr.length) {
+      $('#paper-import-msg').textContent = '没有识别到题目，请确认包含 questions 数组。';
+      return;
+    }
+    var rows = [], miss = 0;
+    arr.forEach(function (q, i) {
+      var scope = q.scope || q.chapter || q.point || '';
+      var cat = paperFindScope(scope, q.subject);
+      if (!cat && scope) miss++;
+      rows.push(paperNewRow(Number(q.no) || i + 1, {
+        cat: cat,
+        scopeText: scope,
+        qtype: paperNormType(q.qtype || q.type),
+        diff: paperNormDiff(q.diff || q.difficulty)
+      }));
+    });
+    PAPER.rows = rows;
+    if (data.exam && !$('#paper-title').value.trim()) $('#paper-title').value = data.exam;
+    renderPaperRows();
+    $('#paper-import-msg').textContent = '已导入 ' + rows.length + ' 题'
+      + (miss ? '；其中 ' + miss + ' 题未自动匹配到知识点，请在表格中手工选择' : '；全部匹配到知识点');
+    $('#paper-json').value = '';
+  }
+
+  function paperPhoto(file) {
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { toast('请选择图片文件'); return; }
+    if (file.size > 15 * 1024 * 1024) { toast('图片过大，请压缩后再试'); return; }
+    if (PAPER.photoUrl) URL.revokeObjectURL(PAPER.photoUrl);
+    PAPER.photoUrl = URL.createObjectURL(file);
+    $('#paper-photo-box').innerHTML = '<div class="paper-photo-wrap"><img src="' + PAPER.photoUrl + '" alt="试卷照片">'
+      + '<button class="paper-photo-del" id="paper-photo-del">移除照片</button></div>';
+    $('#paper-photo-del').onclick = function () {
+      URL.revokeObjectURL(PAPER.photoUrl); PAPER.photoUrl = null;
+      $('#paper-photo-box').innerHTML = '';
+      $('#paper-photo').value = '';
+    };
+  }
+
+  // 预留云端识别：仅当配置 paperAI.endpoint 时启用；未配置时完全不发网络请求
+  function paperAnalyze() {
+    var ep = paperEndpoint();
+    if (!ep) { toast('未配置自动识别服务，请用「复制 AI 提示词」生成 JSON 后导入'); return; }
+    if (!PAPER.photoUrl) { toast('请先拍照或选择试卷照片'); return; }
+    toast('正在识别，请稍候…');
+    var img = $('#paper-photo-box img');
+    if (!img || !img.complete) { toast('照片尚未加载完成，请重试'); return; }
+    var canvas = document.createElement('canvas');
+    var max = 1600;
+    var scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    canvas.width = Math.round(img.naturalWidth * scale);
+    canvas.height = Math.round(img.naturalHeight * scale);
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    var dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+    fetch(ep, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: paperPrompt(), image: dataUrl })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (d) {
+      paperImport(d.json || d.result || JSON.stringify(d));
+      toast('识别完成，请核对题号表');
+    }).catch(function (e) {
+      toast('识别失败：' + e.message + '；可改用提示词 + 粘贴 JSON');
+    });
+  }
+
+  function paperToReport() {
+    var total = PAPER.rows.length;
+    if (!total) return;
+    var allDone = PAPER.rows.every(function (r) { return r.score != null; });
+    if (!allDone) { toast('请完成全部题目的判定'); return; }
+    var qs = PAPER.rows.map(function (r) {
+      var c = r.cat;
+      return {
+        qid: 'paper_' + r.uid,
+        subject: c ? c.subject : 'math',
+        modKey: (c ? c.modKey : '未分类') + '|' + (c ? c.chapKey : '未分类'),
+        modName: c ? c.chapName : '未分类',
+        kpName: c ? c.kpName : (r.scopeText || '未分类'),
+        qtype: r.qtype,
+        diff: r.diff,
+        score: 3,
+        label: c ? c.kpName : (r.scopeText || '未分类')
+      };
+    });
+    STATE.mode = 'paper';
+    STATE.presetKey = null;
+    STATE.student = { name: '', grade: '', school: '' };
+    STATE.subjects = unique(qs.map(function (q) { return q.subject; }));
+    STATE.questions = qs;
+    STATE.answers = {};
+    PAPER.rows.forEach(function (r, i) { STATE.answers[qs[i].qid] = r.score; });
+    STATE.sceneText = ($('#paper-title').value || '').trim() || '试卷逐题分析';
+    renderReport();
+    show('screen-report');
+  }
+
+  function renderPaperTypes() {
+    var card = $('#paper-type-card');
+    if (!card) return;
+    if (STATE.mode !== 'paper') { card.style.display = 'none'; return; }
+    card.style.display = '';
+    var stat = {};
+    STATE.questions.forEach(function (q) {
+      var t = q.qtype || '未分类';
+      if (!stat[t]) stat[t] = { got: 0, total: 0, n: 0 };
+      stat[t].got += STATE.answers[q.qid] || 0;
+      stat[t].total += 3;
+      stat[t].n++;
+    });
+    var keys = Object.keys(stat).sort(function (a, b) {
+      return stat[a].got / stat[a].total - stat[b].got / stat[b].total;
+    });
+    var box = $('#paper-type-list'); box.innerHTML = '';
+    keys.forEach(function (t) {
+      var s = stat[t], rate = s.total ? Math.round(s.got / s.total * 100) : 0;
+      var row = el('div', 'pt-row');
+      row.innerHTML = '<span class="pt-name">' + t + '<em>' + s.n + ' 题</em></span>'
+        + '<span class="pt-rate" style="color:' + (rate >= 80 ? '#16a34a' : rate >= 60 ? '#f59e0b' : '#dc2626') + '">' + rate + '%</span>'
+        + '<span class="pt-bar"><i class="' + (rate >= 80 ? 'good' : rate >= 60 ? 'midc' : 'bad') + '" style="width:' + rate + '%"></i></span>';
+      box.appendChild(row);
+    });
+  }
+
+  /* ============================================================
      报告计算与渲染（沿用既有链路，见下方保留代码）
      ============================================================ */
 
@@ -764,6 +1130,7 @@
     renderLoss(R.modArr);
     renderPlan(R, L);
     renderStudio();
+    renderPaperTypes();
   }
 
   var _radarChart = null, _barChart = null;
@@ -1052,6 +1419,8 @@
   $('#btn-restart').onclick = function () {
     STATE.mode = null; STATE.presetKey = null; STATE.answers = {};
     STATE.questions = []; STATE.entries = []; STATE.sceneText = '';
+    if (PAPER.photoUrl) { URL.revokeObjectURL(PAPER.photoUrl); PAPER.photoUrl = null; }
+    $('#paper-photo-box').innerHTML = '';
     $('#st-name').value = ''; $('#st-grade').value = ''; $('#st-school').value = '';
     renderPresets();
     show('screen-home');
@@ -1065,6 +1434,61 @@
     renderRangeScreen();
     show('screen-w-range');
   }
+
+  /* ---------- 试卷拍照分析 ---------- */
+  $('#btn-start-paper').onclick = function () {
+    STATE.mode = 'paper';
+    renderPaperRows();
+    show('screen-paper');
+  };
+  $('#paper-back').onclick = function () { show('screen-home'); };
+  $('#paper-photo-btn').onclick = function () { $('#paper-photo').click(); };
+  $('#paper-photo').onchange = function (e) { paperPhoto(e.target.files && e.target.files[0]); };
+  $('#paper-add-range').onclick = function () { paperAddNumbers($('#paper-range').value); };
+  $('#paper-add-one').onclick = function () {
+    var max = 0;
+    PAPER.rows.forEach(function (r) { if (r.no > max) max = r.no; });
+    PAPER.rows.push(paperNewRow(max + 1));
+    renderPaperRows();
+  };
+  $('#paper-copy-prompt').onclick = paperCopyPrompt;
+  $('#paper-import').onclick = function () { paperImport(); };
+  $('#paper-ai-btn').onclick = paperAnalyze;
+  if (paperEndpoint()) $('#paper-ai-btn').style.display = '';
+  $('#paper-clear').onclick = function () {
+    PAPER.rows = []; renderPaperRows();
+    $('#paper-import-msg').textContent = '已清空题号表';
+  };
+  $('#paper-rows').onchange = function (ev) {
+    var t = ev.target, i = parseInt(t.getAttribute('data-i'), 10);
+    if (isNaN(i) || !PAPER.rows[i]) return;
+    if (t.classList.contains('pr-scope')) {
+      var text = t.value.trim();
+      var cat = paperFindScope(text);
+      PAPER.rows[i].cat = cat;
+      PAPER.rows[i].scopeText = cat ? '' : text;
+      renderPaperRows();
+    } else if (t.classList.contains('pr-type')) {
+      PAPER.rows[i].qtype = t.value;
+    } else if (t.classList.contains('pr-diff')) {
+      PAPER.rows[i].diff = t.value;
+    }
+  };
+  $('#paper-rows').onclick = function (ev) {
+    var t = ev.target, i = parseInt(t.getAttribute('data-i'), 10);
+    if (isNaN(i) || !PAPER.rows[i]) return;
+    if (t.classList.contains('pr-del')) {
+      PAPER.rows.splice(i, 1); renderPaperRows();
+    } else if (t.classList.contains('pj-btn')) {
+      // 只更新本行按钮，不整表重绘：避免连续点击时节点失效与低端机卡顿
+      PAPER.rows[i].score = parseInt(t.getAttribute('data-v'), 10);
+      var btns = t.parentNode.querySelectorAll('.pj-btn');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('on');
+      t.classList.add('on');
+      paperProgress();
+    }
+  };
+  $('#paper-report').onclick = paperToReport;
 
   /* ---------- 初始化 ---------- */
   renderPresets();
