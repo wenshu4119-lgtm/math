@@ -10,7 +10,7 @@
     "run_worker_first": ["/api/paper/*"]
   },
   "ai": { "binding": "AI" },
-  "vars": { "PAPER_AI_ENABLED": "false" },
+  "vars": { "PAPER_AI_ENABLED": "true" },
   "ratelimits": [{
     "name": "PAPER_RATE_LIMITER",
     "namespace_id": "71030091",
