@@ -10,6 +10,11 @@ node_modules/
 *.log
 wrangler.jsonc
 wrangler.toml
+paper-worker.mjs
+.dev.vars
+.env
+.env.*
+tests/
 .gitignore
 .assetsignore
 package.json

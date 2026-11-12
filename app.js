@@ -687,8 +687,9 @@
      - 最终把题号表转成 STATE.questions / answers，复用既有报告引擎
      ============================================================ */
   var PAPER_DEFAULT_QTYPES = ['选择', '填空', '计算', '证明', '实验', '综合', '其他'];
-  var PAPER_DIFFS = ['基础', '中档', '压轴'];
-  var PAPER = { rows: [], photoUrl: null };
+  var PAPER_DIFFS = ['基础', '中档', '压轴', '待确认'];
+  var PAPER = { rows: [], photoUrl: null, available: false, controller: null, revision: 0 };
+  var MAX_PAPER_ROWS = 120;
   var paperUid = 0;
   var paperCatalogCache = null;
 
@@ -736,24 +737,34 @@
     var list = paperCatalog().filter(function (c) {
       return !subjectHint || !CFG.subjects[subjectHint] || c.subject === subjectHint;
     });
-    var exact = list.filter(function (c) { return paperNorm(c.kpName) === t || paperNorm(c.chapName) === t; })[0];
-    if (exact) return exact;
-    var hit = list.filter(function (c) {
-      return paperNorm(c.kpName).indexOf(t) >= 0 || t.indexOf(paperNorm(c.kpName)) >= 0
-        || paperNorm(c.chapName).indexOf(t) >= 0 || t.indexOf(paperNorm(c.chapName)) >= 0;
-    })[0];
-    return hit || null;
+    var exact = list.filter(function (c) {
+      return paperNorm(c.kpName) === t || paperNorm(c.chapName + ' · ' + c.kpName) === t;
+    });
+    if (exact.length === 1) return exact[0];
+    // Only accept a uniquely identified chapter. Short/ambiguous fuzzy strings stay unresolved.
+    var chapter = list.filter(function (c) { return paperNorm(c.chapName) === t; });
+    if (chapter.length && chapter.every(function (c) {
+      return c.subject === chapter[0].subject && c.modKey === chapter[0].modKey;
+    })) return chapter[0];
+    if (t.length < 5) return null;
+    var hits = list.filter(function (c) {
+      var k = paperNorm(c.kpName);
+      return k.length >= 5 && (k.indexOf(t) >= 0 || t.indexOf(k) >= 0);
+    });
+    return hits.length === 1 ? hits[0] : null;
   }
   function paperNormType(v) {
     var s = String(v || '').trim();
     var list = paperQTypes();
+    if (!s) return list[list.length - 1];
     var hit = list.filter(function (x) { return x === s || s.indexOf(x) >= 0 || x.indexOf(s) >= 0; })[0];
     return hit || list[list.length - 1];
   }
   function paperNormDiff(v) {
     var s = String(v || '').trim();
+    if (!s) return '待确认';
     var hit = PAPER_DIFFS.filter(function (x) { return x === s || s.indexOf(x) >= 0 || x.indexOf(s) >= 0; })[0];
-    return hit || '基础';
+    return hit || '待确认';
   }
 
   // 全页共享一份候选列表（datalist），避免每行渲染上百个 option 拖慢低端机
@@ -789,14 +800,30 @@
   function paperNewRow(no, spec) {
     spec = spec || {};
     return {
-      uid: 'p' + (++paperUid),
-      no: no,
+      uid: 'p' + (++paperUid), no: String(no),
       cat: spec.cat || null,
-      scopeText: spec.scopeText || '',
-      qtype: spec.qtype || paperQTypes()[0],
-      diff: spec.diff || '基础',
-      score: spec.score == null ? null : spec.score
+      subject: spec.cat ? spec.cat.subject : (spec.subject || 'unknown'),
+      scopeText: String(spec.scopeText || '').slice(0, 160),
+      qtype: spec.qtype || paperQTypes()[paperQTypes().length - 1],
+      diff: spec.diff || '待确认', evidence: String(spec.evidence || '').slice(0, 180),
+      maxScore: spec.maxScore == null ? null : spec.maxScore,
+      actual: null, score: null
     };
+  }
+  function paperChanged() {
+    PAPER.revision++;
+    $('#paper-reviewed').checked = false;
+  }
+  function paperPoints(row) {
+    if (row.maxScore != null && row.actual != null) return row.actual;
+    return row.score == null ? null : row.score / 3 * (row.maxScore == null ? 3 : row.maxScore);
+  }
+  function paperReady(row) {
+    var points = paperPoints(row);
+    return /^[A-Za-z0-9一二三四五六七八九十（）().、\-]{1,24}$/.test(row.no)
+      && row.subject !== 'unknown' && !!row.cat && row.cat.subject === row.subject
+      && row.diff !== '待确认' && points != null && Number.isFinite(points)
+      && points >= 0 && points <= (row.maxScore == null ? 3 : row.maxScore);
   }
 
   function paperAddNumbers(raw) {
@@ -814,9 +841,15 @@
       }
     });
     if (!nums.length) { toast('题号格式不对，例如 1-25 或 1,2,5-9'); return; }
-    nums.forEach(function (n) { PAPER.rows.push(paperNewRow(n)); });
-    renderPaperRows();
-    toast('已添加 ' + nums.length + ' 行');
+    var seen = {}, added = 0;
+    PAPER.rows.forEach(function (r) { seen[r.no] = true; });
+    nums.forEach(function (n) {
+      if (n > 0 && !seen[String(n)] && PAPER.rows.length < MAX_PAPER_ROWS) {
+        seen[String(n)] = true; PAPER.rows.push(paperNewRow(n)); added++;
+      }
+    });
+    paperChanged(); renderPaperRows();
+    toast('新增 ' + added + ' 行（已跳过重复题号，最多120题）');
   }
 
   function renderPaperRows() {
@@ -826,14 +859,20 @@
     PAPER.rows.forEach(function (r, i) {
       var row = el('div', 'paper-row');
       row.innerHTML =
-        '<div class="pr-head"><span class="pr-no">第 ' + r.no + ' 题</span>'
+        '<div class="pr-head"><span class="pr-no">第 ' + escapeHtml(r.no) + ' 题</span>'
         + (r.cat ? '<span class="pr-origin">' + escapeHtml(r.cat.subName + ' · ' + r.cat.modName) + '</span>'
                  : (r.scopeText ? '<span class="pr-origin">未匹配：' + escapeHtml(r.scopeText) + '</span>' : ''))
         + '<button class="pr-del" data-i="' + i + '">删除</button></div>'
+        + (r.evidence ? '<div class="paper-evidence">题干依据：' + escapeHtml(r.evidence) + '</div>' : '')
         + '<div class="pr-grid">'
-          + '<label>考察范围<input class="pr-scope" list="paper-scope-list" data-i="' + i + '" value="' + escapeHtml(paperScopeText(r)) + '" placeholder="输入或选择知识点"></label>'
+          + '<label>题号<input class="pr-number" data-i="' + i + '" value="' + escapeHtml(r.no) + '" maxlength="24" placeholder="如21(1)"></label>'
+          + '<label>科目<select class="pr-subject" data-i="' + i + '">'
+          + ['unknown', 'math', 'physics', 'chem'].map(function (s) { return '<option value="' + s + '"' + (s === r.subject ? ' selected' : '') + '>' + (s === 'unknown' ? '待确认' : subName(s)) + '</option>'; }).join('') + '</select></label>'
+          + '<label class="pr-wide">考察范围<input class="pr-scope" list="paper-scope-list" data-i="' + i + '" value="' + escapeHtml(paperScopeText(r)) + '" placeholder="输入或选择知识点"></label>'
           + '<label>题型<select class="pr-type" data-i="' + i + '">' + paperTypeOptions(r.qtype) + '</select></label>'
           + '<label>难度<select class="pr-diff" data-i="' + i + '">' + paperDiffOptions(r.diff) + '</select></label>'
+          + '<label>本题满分（未标则留空）<input type="number" class="pr-max" data-i="' + i + '" min="0.1" max="150" step="0.5" value="' + (r.maxScore == null ? '' : r.maxScore) + '"></label>'
+          + '<label>实际得分（可选）<input type="number" class="pr-actual" data-i="' + i + '" min="0" max="150" step="0.5" value="' + (r.actual == null ? '' : r.actual) + '"' + (r.maxScore == null ? ' disabled' : '') + '></label>'
         + '</div>'
         + '<div class="pr-judge"><span class="pj-label">本题得分</span>'
           + [0, 1, 2, 3].map(function (v) {
@@ -853,14 +892,25 @@
   }
 
   function paperProgress() {
-    var total = PAPER.rows.length;
-    var done = 0, got = 0;
-    PAPER.rows.forEach(function (r) { if (r.score != null) { done++; got += r.score; } });
-    $('#paper-prog').textContent = done + ' / ' + total + ' 题已判';
-    $('#paper-score').textContent = total ? (got + ' / ' + total * 3 + ' 分') : '—';
-    var btn = $('#paper-report');
-    btn.disabled = !total || done < total;
-    btn.textContent = !total ? '请先建立题号表' : (done < total ? '还差 ' + (total - done) + ' 题' : '生成诊断报告 →');
+    var total = PAPER.rows.length, judged = 0, ready = 0, got = 0, max = 0;
+    var weighted = total && PAPER.rows.every(function (r) { return r.maxScore != null; });
+    var ids = {}, duplicates = false;
+    PAPER.rows.forEach(function (r) {
+      if (ids[r.no]) duplicates = true;
+      ids[r.no] = true;
+      var p = paperPoints(r);
+      if (p != null) { judged++; got += weighted ? p : p / (r.maxScore || 3) * 3; }
+      max += weighted ? r.maxScore : 3;
+      if (paperReady(r)) ready++;
+    });
+    $('#paper-prog').textContent = judged + ' / ' + total + ' 题已判；' + ready + ' 题资料完整';
+    $('#paper-score').textContent = total ? (Math.round(got * 100) / 100 + ' / ' + max
+      + (weighted ? ' 试卷分值' : ' 等权能力指标')) : '—';
+    var btn = $('#paper-report'), reviewed = $('#paper-reviewed').checked;
+    btn.disabled = !total || ready < total || duplicates || !reviewed;
+    btn.textContent = !total ? '请先建立题号表' : duplicates ? '请修改重复题号'
+      : ready < total ? '还有 ' + (total - ready) + ' 题需判定或确认资料'
+      : !reviewed ? '请勾选人工核对确认' : '生成诊断报告 →';
   }
 
   function paperPrompt() {
@@ -879,9 +929,11 @@
     });
     return '你是初中试卷结构分析助手。只读试卷的印刷题干，不要判断学生答案对错，不要识别手写内容，不要批改。\n'
       + '请按题号输出 JSON，不要输出任何解释文字：\n'
-      + '{"exam":"试卷名称","questions":[{"no":1,"scope":"知识点名称","qtype":"题型","diff":"难度"}]}\n'
+      + '{"exam":"试卷名称","questions":[{"no":"21(1)","subject":"math|physics|chem|unknown","scope":"知识点名称","qtype":"题型","diff":"难度","maxScore":null,"evidence":"题干判断依据"}]}\n'
       + '规则：\n'
-      + '1. no 为试卷题号（数字），每一道小题一行，不要合并、不要遗漏。\n'
+      + '1. no为完整题号字符串，例如21(1)，每小题一行，不重复父题与子题。看不清不能编造。\n'
+      + 'subject按题干填写math/physics/chem，无法确定写unknown；maxScore只读卷面分值，未标明写null。\n'
+      + '难度是课程范围内的估计，无法判断写待确认；evidence用简短题干说明判断依据。不输出姓名等个人信息。\n'
       + '2. scope 从下方知识点清单中选最贴切的一项，只写名称；确实无法对应时写最接近的章节名。\n'
       + '3. qtype 只能取：' + paperQTypes().join(' / ') + '。\n'
       + '4. diff 只能取：' + PAPER_DIFFS.join(' / ') + '。\n'
@@ -909,101 +961,156 @@
   }
 
   function paperImport(raw) {
-    var text = String(raw == null ? $('#paper-json').value : raw)
-      .replace(/^\s*```(?:json)?/i, '').replace(/```\s*$/, '').trim();
-    if (!text) { toast('请先粘贴识别结果 JSON'); return; }
-    var data;
-    try { data = JSON.parse(text); }
-    catch (e) {
-      $('#paper-import-msg').textContent = 'JSON 解析失败：请检查引号与逗号，只保留 { … } 部分。';
-      return;
+    var data, text = raw == null ? $('#paper-json').value : raw;
+    try {
+      data = typeof text === 'object' ? text : JSON.parse(String(text)
+        .replace(/^\s*```(?:json)?/i, '').replace(/```\s*$/, '').trim());
+      if (!data || typeof data !== 'object') throw new Error('invalid');
+    } catch (_) {
+      $('#paper-import-msg').textContent = 'JSON解析失败，原题号表未改变。请仅粘贴完整JSON对象。';
+      return false;
     }
-    var arr = Array.isArray(data) ? data : (data.questions || data.items || []);
-    if (!arr.length) {
-      $('#paper-import-msg').textContent = '没有识别到题目，请确认包含 questions 数组。';
-      return;
+    var arr = Array.isArray(data) ? data : (data.questions || data.items);
+    if (!Array.isArray(arr) || !arr.length || arr.length > MAX_PAPER_ROWS) {
+      $('#paper-import-msg').textContent = '需要包含1至120项的questions数组，原表未改变。';
+      return false;
     }
-    var rows = [], miss = 0;
-    arr.forEach(function (q, i) {
-      var scope = q.scope || q.chapter || q.point || '';
-      var cat = paperFindScope(scope, q.subject);
-      if (!cat && scope) miss++;
-      rows.push(paperNewRow(Number(q.no) || i + 1, {
-        cat: cat,
-        scopeText: scope,
-        qtype: paperNormType(q.qtype || q.type),
-        diff: paperNormDiff(q.diff || q.difficulty)
+    var rows = [], miss = 0, seen = {}, error = '';
+    arr.forEach(function (q) {
+      if (!q || typeof q !== 'object') { error = '题目数据不是对象'; return; }
+      var no = String(q.no == null ? '' : q.no).trim();
+      if (!/^[A-Za-z0-9一二三四五六七八九十（）().、\-]{1,24}$/.test(no)) { error = '题号格式不正确'; return; }
+      if (seen[no]) { error = '存在重复题号：' + no; return; }
+      seen[no] = true;
+      var scope = String(q.scope || q.chapter || q.point || '').slice(0, 160);
+      var subject = ['math', 'physics', 'chem'].indexOf(q.subject) >= 0 ? q.subject : '';
+      var cat = paperFindScope(scope, subject);
+      if (!cat) miss++;
+      var max = q.maxScore;
+      if (max != null && (typeof max !== 'number' || !Number.isFinite(max) || max <= 0 || max > 150)) {
+        error = '满分必须为0至150之间的数字或null'; return;
+      }
+      rows.push(paperNewRow(no, {
+        cat: cat, subject: subject || (cat ? cat.subject : 'unknown'), scopeText: scope,
+        qtype: paperNormType(q.qtype || q.type), diff: paperNormDiff(q.diff || q.difficulty),
+        maxScore: max == null ? null : max, evidence: String(q.evidence || '').slice(0, 180)
       }));
     });
+    if (error) { $('#paper-import-msg').textContent = error + '；原题号表未改变。'; return false; }
+    if (PAPER.rows.some(function (r) { return paperPoints(r) != null; })
+        && !window.confirm('导入将替换现有题号表和人工评分，是否继续？')) return false;
     PAPER.rows = rows;
-    if (data.exam && !$('#paper-title').value.trim()) $('#paper-title').value = data.exam;
-    renderPaperRows();
-    $('#paper-import-msg').textContent = '已导入 ' + rows.length + ' 题'
-      + (miss ? '；其中 ' + miss + ' 题未自动匹配到知识点，请在表格中手工选择' : '；全部匹配到知识点');
+    if (data.exam && !$('#paper-title').value.trim()) $('#paper-title').value = String(data.exam).slice(0, 120);
+    paperChanged(); renderPaperRows();
+    $('#paper-import-msg').textContent = '已导入 ' + rows.length + ' 题；'
+      + (miss ? miss + '题未匹配范围，请手工确认；' : '')
+      + '题型、难度及分值为待复核信息，AI未填写任何对错。';
     $('#paper-json').value = '';
+    return true;
   }
 
   function paperPhoto(file) {
     if (!file) return;
     if (!/^image\//.test(file.type)) { toast('请选择图片文件'); return; }
     if (file.size > 15 * 1024 * 1024) { toast('图片过大，请压缩后再试'); return; }
+    paperCancelAnalyze(); paperChanged();
+    $('#paper-ai-consent').checked = false;
     if (PAPER.photoUrl) URL.revokeObjectURL(PAPER.photoUrl);
     PAPER.photoUrl = URL.createObjectURL(file);
     $('#paper-photo-box').innerHTML = '<div class="paper-photo-wrap"><img src="' + PAPER.photoUrl + '" alt="试卷照片">'
       + '<button class="paper-photo-del" id="paper-photo-del">移除照片</button></div>';
     $('#paper-photo-del').onclick = function () {
+      paperCancelAnalyze(); paperChanged();
+      $('#paper-ai-consent').checked = false;
       URL.revokeObjectURL(PAPER.photoUrl); PAPER.photoUrl = null;
       $('#paper-photo-box').innerHTML = '';
       $('#paper-photo').value = '';
     };
   }
 
-  // 预留云端识别：仅当配置 paperAI.endpoint 时启用；未配置时完全不发网络请求
-  function paperAnalyze() {
-    var ep = paperEndpoint();
-    if (!ep) { toast('未配置自动识别服务，请用「复制 AI 提示词」生成 JSON 后导入'); return; }
-    if (!PAPER.photoUrl) { toast('请先拍照或选择试卷照片'); return; }
-    toast('正在识别，请稍候…');
-    var img = $('#paper-photo-box img');
-    if (!img || !img.complete) { toast('照片尚未加载完成，请重试'); return; }
-    var canvas = document.createElement('canvas');
-    var max = 1600;
-    var scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
-    canvas.width = Math.round(img.naturalWidth * scale);
-    canvas.height = Math.round(img.naturalHeight * scale);
-    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-    var dataUrl = canvas.toDataURL('image/jpeg', 0.82);
-    fetch(ep, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: paperPrompt(), image: dataUrl })
-    }).then(function (r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
+  function paperServiceStatus() {
+    if (!paperEndpoint()) return;
+    var ep;
+    try {
+      ep = new URL(paperEndpoint(), window.location.href);
+      if (ep.origin !== window.location.origin || ep.pathname !== '/api/paper/analyze') throw new Error('endpoint');
+    } catch (_) { $('#paper-ai-status').textContent = '识图仅支持本站受保护接口，请联系管理员。'; return; }
+    fetch('/api/paper/status', { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('status'); return r.json();
     }).then(function (d) {
-      paperImport(d.json || d.result || JSON.stringify(d));
-      toast('识别完成，请核对题号表');
-    }).catch(function (e) {
-      toast('识别失败：' + e.message + '；可改用提示词 + 粘贴 JSON');
+      PAPER.available = d.available === true;
+      $('#paper-ai-btn').style.display = PAPER.available ? '' : 'none';
+      $('#paper-ai-controls').hidden = !PAPER.available;
+      $('#paper-ai-status').textContent = d.message || '网站内识图尚未启用。';
+    }).catch(function () {
+      PAPER.available = false;
+      $('#paper-ai-status').textContent = '无法连接网站内识图服务；可以先手工建表或导入结果。';
     });
+  }
+  function paperCancelAnalyze() {
+    if (PAPER.controller) PAPER.controller.abort();
+  }
+  async function paperAnalyze() {
+    if (!PAPER.available) { toast('网站内识图尚未启用'); return; }
+    if (PAPER.controller) return;
+    if (!$('#paper-ai-consent').checked) { toast('请先确认图片上传和隐私提示'); return; }
+    var access = $('#paper-access-code').value;
+    if (!access) { toast('请填写老师提供的识别访问码'); return; }
+    var img = $('#paper-photo-box img');
+    if (!img || !img.complete || img.naturalWidth < 32 || img.naturalHeight < 32) {
+      toast('请先选择清晰的试卷图片，等待加载完成'); return;
+    }
+    var canvas = document.createElement('canvas'), scale = Math.min(1, 2000 / Math.max(img.naturalWidth, img.naturalHeight));
+    canvas.width = Math.round(img.naturalWidth * scale); canvas.height = Math.round(img.naturalHeight * scale);
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    var image = canvas.toDataURL('image/jpeg', 0.85);
+    if (image.length > 2800000) { toast('照片过大，请裁剪为单页再试'); return; }
+    var revision = PAPER.revision, controller = new AbortController();
+    PAPER.controller = controller;
+    $('#paper-ai-btn').disabled = true; $('#paper-ai-cancel').hidden = false;
+    $('#paper-ai-status').textContent = '正在分析题干，请等待；结果仍需逐题人工复核。';
+    var timer = setTimeout(function () { controller.abort(); }, 75000);
+    try {
+      var response = await fetch(paperEndpoint(), {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Paper-Access-Code': access },
+        body: JSON.stringify({ image: image, consent: true }), signal: controller.signal
+      });
+      var data = await response.json();
+      if (!response.ok) throw new Error(data.message || '识别失败，HTTP ' + response.status);
+      if (PAPER.revision !== revision) throw new Error('识别期间题号表已改变，结果未覆盖原表；请重试。');
+      if (!paperImport(data)) throw new Error('识别结果未导入，请查看题号表提示。');
+      $('#paper-ai-status').textContent = '题干识别完成。请核对题号、范围、题型、难度、分值，再人工填对错。';
+    } catch (error) {
+      $('#paper-ai-status').textContent = error.name === 'AbortError'
+        ? '识别已取消或超时，原题号表未改变。已发送的模型请求仍可能计入用量。'
+        : error.message;
+    } finally {
+      clearTimeout(timer); PAPER.controller = null;
+      $('#paper-ai-btn').disabled = false; $('#paper-ai-cancel').hidden = true;
+      $('#paper-access-code').value = '';
+    }
   }
 
   function paperToReport() {
     var total = PAPER.rows.length;
     if (!total) return;
-    var allDone = PAPER.rows.every(function (r) { return r.score != null; });
-    if (!allDone) { toast('请完成全部题目的判定'); return; }
+    var ids = {}, duplicate = false;
+    PAPER.rows.forEach(function (r) { if (ids[r.no]) duplicate = true; ids[r.no] = true; });
+    if (duplicate || !$('#paper-reviewed').checked || !PAPER.rows.every(paperReady)) {
+      toast('请确认全部题目资料、分值、对错和人工核对'); return;
+    }
+    var weighted = PAPER.rows.every(function (r) { return r.maxScore != null; });
     var qs = PAPER.rows.map(function (r) {
       var c = r.cat;
       return {
         qid: 'paper_' + r.uid,
-        subject: c ? c.subject : 'math',
-        modKey: (c ? c.modKey : '未分类') + '|' + (c ? c.chapKey : '未分类'),
+        subject: c.subject,
+        modKey: c.modKey + '|' + c.chapKey,
         modName: c ? c.chapName : '未分类',
         kpName: c ? c.kpName : (r.scopeText || '未分类'),
-        qtype: r.qtype,
+        no: r.no, qtype: r.qtype,
         diff: r.diff,
-        score: 3,
+        score: weighted ? r.maxScore : 3,
         label: c ? c.kpName : (r.scopeText || '未分类')
       };
     });
@@ -1013,9 +1120,14 @@
     STATE.subjects = unique(qs.map(function (q) { return q.subject; }));
     STATE.questions = qs;
     STATE.answers = {};
-    PAPER.rows.forEach(function (r, i) { STATE.answers[qs[i].qid] = r.score; });
+    PAPER.rows.forEach(function (r, i) {
+      var points = paperPoints(r);
+      STATE.answers[qs[i].qid] = weighted ? points : points / (r.maxScore || 3) * 3;
+    });
     STATE.sceneText = ($('#paper-title').value || '').trim() || '试卷逐题分析';
     renderReport();
+    $('#r-sub').textContent = weighted ? '按人工确认的卷面分值统计；部分得分以实际输入为准。'
+      : '等权能力指标，不是原始考试成绩：存在未标明满分的题，各题等权计入。';
     show('screen-report');
   }
 
@@ -1029,7 +1141,7 @@
       var t = q.qtype || '未分类';
       if (!stat[t]) stat[t] = { got: 0, total: 0, n: 0 };
       stat[t].got += STATE.answers[q.qid] || 0;
-      stat[t].total += 3;
+      stat[t].total += q.score;
       stat[t].n++;
     });
     var keys = Object.keys(stat).sort(function (a, b) {
@@ -1104,8 +1216,8 @@
     $('#report-brand').textContent = scopeTxt + ' · 初中全科筛查';
 
     // 成绩卡
-    $('#r-score').textContent = R.totalGot;
-    $('#r-total').textContent = '/' + R.totalMax;
+    $('#r-score').textContent = Math.round(R.totalGot * 100) / 100;
+    $('#r-total').textContent = '/' + (Math.round(R.totalMax * 100) / 100);
     $('#r-rate').textContent = R.rateAll + '%';
     var lb = $('#r-level'); lb.textContent = L.name; lb.className = 'level-badge ' + L.cls;
     $('#r-level-desc').textContent = L.desc;
@@ -1438,7 +1550,7 @@
   /* ---------- 试卷拍照分析 ---------- */
   $('#btn-start-paper').onclick = function () {
     STATE.mode = 'paper';
-    renderPaperRows();
+    renderPaperRows(); paperServiceStatus();
     show('screen-paper');
   };
   $('#paper-back').onclick = function () { show('screen-home'); };
@@ -1448,40 +1560,62 @@
   $('#paper-add-one').onclick = function () {
     var max = 0;
     PAPER.rows.forEach(function (r) { if (r.no > max) max = r.no; });
-    PAPER.rows.push(paperNewRow(max + 1));
-    renderPaperRows();
+    if (PAPER.rows.length >= MAX_PAPER_ROWS) { toast('最多120题'); return; }
+    PAPER.rows.push(paperNewRow(Math.floor(max) + 1));
+    paperChanged(); renderPaperRows();
   };
   $('#paper-copy-prompt').onclick = paperCopyPrompt;
   $('#paper-import').onclick = function () { paperImport(); };
   $('#paper-ai-btn').onclick = paperAnalyze;
-  if (paperEndpoint()) $('#paper-ai-btn').style.display = '';
+  $('#paper-ai-cancel').onclick = paperCancelAnalyze;
+  $('#paper-reviewed').onchange = paperProgress;
   $('#paper-clear').onclick = function () {
-    PAPER.rows = []; renderPaperRows();
+    if (PAPER.rows.length && !window.confirm('确认清空题号表及人工评分？')) return;
+    PAPER.rows = []; paperChanged(); renderPaperRows();
     $('#paper-import-msg').textContent = '已清空题号表';
   };
   $('#paper-rows').onchange = function (ev) {
     var t = ev.target, i = parseInt(t.getAttribute('data-i'), 10);
     if (isNaN(i) || !PAPER.rows[i]) return;
+    var row = PAPER.rows[i];
     if (t.classList.contains('pr-scope')) {
       var text = t.value.trim();
-      var cat = paperFindScope(text);
-      PAPER.rows[i].cat = cat;
-      PAPER.rows[i].scopeText = cat ? '' : text;
-      renderPaperRows();
-    } else if (t.classList.contains('pr-type')) {
-      PAPER.rows[i].qtype = t.value;
-    } else if (t.classList.contains('pr-diff')) {
-      PAPER.rows[i].diff = t.value;
+      row.cat = paperFindScope(text, row.subject);
+      row.scopeText = row.cat ? '' : text;
+      if (row.cat) row.subject = row.cat.subject;
+    } else if (t.classList.contains('pr-subject')) {
+      row.subject = t.value;
+      row.cat = paperFindScope(paperScopeText(row), row.subject);
+    } else if (t.classList.contains('pr-number')) row.no = t.value.trim();
+    else if (t.classList.contains('pr-type')) row.qtype = t.value;
+    else if (t.classList.contains('pr-diff')) row.diff = t.value;
+    else if (t.classList.contains('pr-max')) {
+      var max = t.value === '' ? null : Number(t.value);
+      if (max !== null && (!Number.isFinite(max) || max <= 0 || max > 150)) {
+        toast('满分必须大于0且不超过150'); t.value = row.maxScore == null ? '' : row.maxScore; return;
+      }
+      row.maxScore = max; row.actual = null;
+    } else if (t.classList.contains('pr-actual')) {
+      var actual = t.value === '' ? null : Number(t.value);
+      if (actual != null && (!Number.isFinite(actual) || actual < 0 || actual > row.maxScore)) {
+        toast('实际得分必须在0与本题满分之间'); t.value = row.actual == null ? '' : row.actual; return;
+      }
+      row.actual = actual; if (actual != null) row.score = null;
     }
+    paperChanged(); renderPaperRows();
   };
   $('#paper-rows').onclick = function (ev) {
     var t = ev.target, i = parseInt(t.getAttribute('data-i'), 10);
     if (isNaN(i) || !PAPER.rows[i]) return;
     if (t.classList.contains('pr-del')) {
-      PAPER.rows.splice(i, 1); renderPaperRows();
+      PAPER.rows.splice(i, 1); paperChanged(); renderPaperRows();
     } else if (t.classList.contains('pj-btn')) {
       // 只更新本行按钮，不整表重绘：避免连续点击时节点失效与低端机卡顿
       PAPER.rows[i].score = parseInt(t.getAttribute('data-v'), 10);
+      PAPER.rows[i].actual = null;
+      var actualInput = t.closest('.paper-row').querySelector('.pr-actual');
+      if (actualInput) actualInput.value = '';
+      paperChanged();
       var btns = t.parentNode.querySelectorAll('.pj-btn');
       for (var j = 0; j < btns.length; j++) btns[j].classList.remove('on');
       t.classList.add('on');

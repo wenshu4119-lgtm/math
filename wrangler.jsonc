@@ -3,7 +3,17 @@
   // 项目名必须与控制台现有项目一致，否则会新建一个项目、丢掉 mrxu.uk 的域名绑定。
   "name": "muddy-wildflower-44b9",
   "compatibility_date": "2024-09-23",
+  "main": "paper-worker.mjs",
   "assets": {
-    "directory": "./"
-  }
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/paper/*"]
+  },
+  "ai": { "binding": "AI" },
+  "vars": { "PAPER_AI_ENABLED": "false" },
+  "ratelimits": [{
+    "name": "PAPER_RATE_LIMITER",
+    "namespace_id": "71030091",
+    "simple": { "limit": 3, "period": 60 }
+  }]
 }

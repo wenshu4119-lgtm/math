@@ -351,6 +351,13 @@ ul.trend li b{color:var(--txt)}
 .pt-bar i.midc{background:var(--warn)}
 .pt-bar i.bad{background:var(--bad)}
 
+.paper-consent{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--sub);margin:12px 0}
+.paper-consent input{flex:0 0 auto;margin-top:4px}
+.paper-evidence{font-size:12px;color:var(--sub);margin:5px 0 9px;word-break:break-word}
+.pr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pr-grid .pr-wide{grid-column:1/-1}
+[hidden]{display:none!important}
+.btn-mini:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:420px){
   .pr-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pr-grid label:first-child{grid-column:1/-1}
