@@ -13,7 +13,8 @@
 <body>
 
 <!-- ========== 屏1：场景选择 ========== -->
-<section class="screen active" id="screen-scene">
+<!-- ========== 首页：入口 ========== -->
+<section class="screen active" id="screen-home">
   <div class="topbar topbar-sm">
     <div class="wrap">
       <div class="brand">ABILITY DIAGNOSIS · 初中全科</div>
@@ -23,17 +24,17 @@
   </div>
 
   <div class="wrap">
-    <div class="stepbar">
-      <span class="dot active">1</span><span class="line"></span>
-      <span class="dot">2</span><span class="line"></span>
-      <span class="dot">3</span><span class="line"></span>
-      <span class="dot">4</span>
-      <p class="steptxt">第一步 · 选择场景</p>
+    <div class="card card-hero">
+      <div class="hero-tag">推荐 · 五步精准筛查</div>
+      <h2>按孩子这次考试的范围来查</h2>
+      <p class="sub">科目 → 年级 → 学期 → 考次 → 章节，每一步只显示匹配的内容；范围可精确到具体知识点。</p>
+      <div class="hero-steps"><span>① 科目</span><span>② 年级</span><span>③ 学期</span><span>④ 考次</span><span>⑤ 章节</span></div>
+      <button class="btn btn-primary" id="btn-start-wizard">开始五步筛查 →</button>
     </div>
 
     <div class="card">
-      <h2>孩子这次考的是？</h2>
-      <p class="sub">选择后系统自动匹配考查范围；不确定考了哪些内容，选"自定义范围"自行勾选。</p>
+      <h2>按考试场景快速选择</h2>
+      <p class="sub">范围固定、想直接开始时选这里；系统会自动匹配全部章节。</p>
       <div id="preset-list" class="preset-list"></div>
     </div>
 
@@ -42,62 +43,170 @@
       <ul class="trend">
         <li><b>看分数 ≠ 看漏洞。</b>同为 90 分，有人基础题全对却压轴挂零，有人压轴拿分却计算频频失误——提升路径完全不同。</li>
         <li><b>全科覆盖。</b>支持数学、物理、化学三科独立筛查，武汉中考物理 70 分 + 化学 50 分，漏掉任何一科都是浪费。</li>
-        <li><b>范围可定制。</b>预设覆盖初一至初三各期末与中考，期中、月考、单元测可自行勾选模块或知识点。</li>
+        <li><b>范围可定制。</b>期末、期中、月考、单元测都能按章节或知识点逐层勾选，填分量始终可控。</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- ========== 屏2：范围确认 / 自定义勾选 ========== -->
-<section class="screen" id="screen-scope">
+<!-- ========== 屏1：选科目 ========== -->
+<section class="screen" id="screen-w-subject">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS · 五步筛查</div>
+      <h1>第 1 步 · 选择科目</h1>
+      <p id="w-subject-summary">可多选，默认已选数学</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>第 1 / 5 步</span><div class="wiz-bar"><i style="width:20%"></i></div></div>
+    <div class="card">
+      <h2>孩子这次考了哪几科？</h2>
+      <p class="sub">后续每一步只展示与已选科目匹配的内容。</p>
+      <div id="w-subject-list" class="subject-list"></div>
+      <button class="btn btn-primary" id="w-subject-next">下一步：选年级</button>
+    </div>
+    <button class="btn btn-ghost" id="w-subject-back">← 返回首页</button>
+  </div>
+</section>
+
+<!-- ========== 屏2：选年级 ========== -->
+<section class="screen" id="screen-w-grade">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS · 五步筛查</div>
+      <h1>第 2 步 · 选择年级</h1>
+      <p id="w-grade-summary">可多选</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>第 2 / 5 步</span><div class="wiz-bar"><i style="width:40%"></i></div></div>
+    <div class="card">
+      <h2>现在是几年级？</h2>
+      <p class="sub">只显示已选科目实际开设的年级；可多选（如跨年级复习）。</p>
+      <div id="w-grade-list" class="grade-list"></div>
+      <button class="btn btn-primary" id="w-grade-next">下一步：<span id="w-grade-next-label">选学期</span></button>
+    </div>
+    <button class="btn btn-ghost" id="w-grade-back">← 上一步：选科目</button>
+  </div>
+</section>
+
+<!-- ========== 屏3：选学期 ========== -->
+<section class="screen" id="screen-w-semester">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS · 五步筛查</div>
+      <h1>第 3 步 · 选择学期</h1>
+      <p id="w-semester-summary">选择本次考试覆盖的学期</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>第 3 / 5 步</span><div class="wiz-bar"><i style="width:60%"></i></div></div>
+    <div class="card">
+      <h2>考的是哪个学期的内容？</h2>
+      <p class="sub">九年级物理为全一册，不区分学期；系统会在无需选择时自动跳过本屏。</p>
+      <div id="w-semester-list" class="opt-list"></div>
+      <button class="btn btn-primary" id="w-semester-next">下一步：选考次</button>
+    </div>
+    <button class="btn btn-ghost" id="w-semester-back">← 上一步：选年级</button>
+  </div>
+</section>
+
+<!-- ========== 屏4：选考次 ========== -->
+<section class="screen" id="screen-w-exam">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS · 五步筛查</div>
+      <h1>第 4 步 · 选择考次</h1>
+      <p id="w-exam-summary">用于报告抬头，不影响题目范围</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>第 4 / 5 步</span><div class="wiz-bar"><i style="width:80%"></i></div></div>
+    <div class="card">
+      <h2>这是哪一类考试？</h2>
+      <p class="sub">考次会写进报告标题，方便家长对照具体某次考试。</p>
+      <div id="w-exam-list" class="opt-list"></div>
+      <button class="btn btn-primary" id="w-exam-next">下一步：选章节范围</button>
+    </div>
+    <button class="btn btn-ghost" id="w-exam-back">← 上一步：选学期</button>
+  </div>
+</section>
+
+<!-- ========== 屏5：章节范围 ========== -->
+<section class="screen" id="screen-w-range">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS · 五步筛查</div>
+      <h1>第 5 步 · 章节范围</h1>
+      <p id="w-range-summary">全部章节或自选章节</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>第 5 / 5 步</span><div class="wiz-bar"><i style="width:100%"></i></div></div>
+    <div class="card">
+      <h2>要查哪些章节？</h2>
+      <p class="sub" id="w-range-tip">当前范围匹配到的章节会列在下方；自选时可精确到知识点。</p>
+      <div class="range-opts">
+        <div class="range-opt on" id="w-range-all"><b>全部章节</b><span>覆盖当前范围的全部内容</span></div>
+        <div class="range-opt" id="w-range-pick"><b>自选章节</b><span>只查某几章或某个知识点</span></div>
+      </div>
+      <div id="w-tree" class="w-tree" style="display:none"></div>
+      <p class="hint" id="w-range-hint"></p>
+      <button class="btn btn-primary" id="w-range-next">下一步：填学生信息</button>
+    </div>
+    <button class="btn btn-ghost" id="w-range-back">← 上一步：选考次</button>
+  </div>
+</section>
+
+<!-- ========== 预设快捷路径：范围确认 ========== -->
+<section class="screen" id="screen-preset">
   <div class="topbar topbar-sm">
     <div class="wrap">
       <div class="brand">ABILITY DIAGNOSIS · 初中全科</div>
       <h1 id="scope-title">确认考查范围</h1>
-      <p id="scope-sub">请确认本次筛查覆盖的内容</p>
+      <p id="scope-sub">系统已按预设匹配考查范围</p>
     </div>
   </div>
-
   <div class="wrap">
-    <div class="stepbar">
-      <span class="dot done">✓</span><span class="line done"></span>
-      <span class="dot active">2</span><span class="line"></span>
-      <span class="dot">3</span><span class="line"></span>
-      <span class="dot">4</span>
-      <p class="steptxt">第二步 · 确认范围</p>
-    </div>
-
-    <!-- 预设模式：确认 -->
-    <div class="card" id="scope-preset">
+    <div class="wiz-step"><span>快捷路径</span><div class="wiz-bar"><i style="width:100%"></i></div></div>
+    <div class="card">
       <h2 id="preset-label"></h2>
       <p class="sub" id="preset-tip"></p>
       <div id="preset-modules" class="chip-list"></div>
-      <div class="scope-actions">
-        <button class="btn btn-primary" id="btn-confirm-preset">确认，开始填分</button>
-      </div>
+      <button class="btn btn-primary" id="btn-confirm-preset">下一步：填学生信息</button>
     </div>
-
-    <!-- 自定义模式：勾选 -->
-    <div class="card" id="scope-custom" style="display:none">
-      <h2>选择科目</h2>
-      <p class="sub">可多选科目，分别勾选模块；需要更细粒度时可展开知识点。</p>
-      <div id="subject-list" class="subject-list"></div>
-
-      <div id="grade-list" class="grade-list"></div>
-
-      <div id="module-tree"></div>
-
-      <div class="scope-actions">
-        <button class="btn btn-primary" id="btn-confirm-custom">确认范围，开始填分</button>
-        <p class="hint" id="custom-hint">请先勾选至少一个模块</p>
-      </div>
-    </div>
-
-    <button class="btn btn-ghost" id="btn-back-scene">← 重新选择场景</button>
+    <button class="btn btn-ghost" id="btn-back-scene">← 返回首页</button>
   </div>
 </section>
 
-<!-- ========== 屏3：逐题填分 ========== -->
+<!-- ========== 屏6：学生信息 ========== -->
+<section class="screen" id="screen-w-student">
+  <div class="topbar topbar-sm">
+    <div class="wrap">
+      <div class="brand">ABILITY DIAGNOSIS</div>
+      <h1>第 6 步 · 学生信息</h1>
+      <p>用于报告抬头，可跳过不填</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="wiz-step"><span>第 6 / 8 步</span><div class="wiz-bar"><i style="width:75%"></i></div></div>
+    <div class="card">
+      <h2>孩子的基本信息</h2>
+      <p class="sub">只用于生成报告抬头，不会上传或保存。</p>
+      <div class="info-grid">
+        <div class="field"><label>学生姓名</label><input id="st-name" placeholder="选填"></div>
+        <div class="field"><label>年级</label><input id="st-grade" placeholder="如 初二"></div>
+        <div class="field full"><label>学校</label><input id="st-school" placeholder="如 武珞路实验初级中学"></div>
+      </div>
+      <button class="btn btn-primary" id="w-student-next" style="margin-top:14px">下一步：开始填分</button>
+      <button class="btn btn-ghost" id="w-student-skip">跳过，直接填分</button>
+    </div>
+    <button class="btn btn-ghost" id="w-student-back">← 上一步：选范围</button>
+  </div>
+</section>
+
+<!-- ========== 屏7：逐题填分 ========== -->
 <section class="screen" id="screen-form">
   <div class="topbar">
     <div class="wrap">
@@ -118,24 +227,7 @@
   </div>
 
   <div class="wrap">
-    <div class="stepbar">
-      <span class="dot done">✓</span><span class="line done"></span>
-      <span class="dot done">✓</span><span class="line done"></span>
-      <span class="dot active">3</span><span class="line"></span>
-      <span class="dot">4</span>
-      <p class="steptxt">第三步 · 逐题填分</p>
-    </div>
-
-    <div class="card">
-      <h2>学生信息</h2>
-      <p class="sub">用于报告抬头，家长可跳过不填</p>
-      <div class="info-grid">
-        <div class="field"><label>学生姓名</label><input id="st-name" placeholder="选填"></div>
-        <div class="field"><label>年级</label><input id="st-grade" placeholder="如 初二"></div>
-        <div class="field full"><label>学校</label><input id="st-school" placeholder="如 武珞路实验初级中学"></div>
-      </div>
-    </div>
-
+    <div class="wiz-step"><span>第 7 / 8 步</span><div class="wiz-bar"><i style="width:88%"></i></div></div>
     <div class="card">
       <h2>逐题得分填写</h2>
       <p class="sub">按最近一次考试的实际得分选择档位。0＝完全没拿到；1＝拿到小部分；2＝拿到大部分；3＝基本拿满。</p>
@@ -145,11 +237,11 @@
     <button class="btn btn-primary" id="btn-report" disabled>请先填写完整</button>
     <p class="hint">填写完成即可生成能力诊断报告，无需登录</p>
 
-    <button class="btn btn-ghost" id="btn-back-scope">← 重新选择范围</button>
+    <button class="btn btn-ghost" id="btn-back-scope">← 上一步：重新选择范围</button>
   </div>
 </section>
 
-<!-- ========== 屏4：报告 ========== -->
+<!-- ========== 屏8：报告 ========== -->
 <section class="screen" id="screen-report">
   <div class="report-head">
     <div class="wrap">
@@ -160,13 +252,7 @@
   </div>
 
   <div class="wrap">
-    <div class="stepbar">
-      <span class="dot done">✓</span><span class="line done"></span>
-      <span class="dot done">✓</span><span class="line done"></span>
-      <span class="dot done">✓</span><span class="line done"></span>
-      <span class="dot active">4</span>
-      <p class="steptxt">第四步 · 诊断报告</p>
-    </div>
+    <div class="wiz-step"><span>第 8 / 8 步</span><div class="wiz-bar"><i style="width:100%"></i></div></div>
 
     <!-- 成绩卡 -->
     <div class="score-card">

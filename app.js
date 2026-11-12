@@ -1,27 +1,61 @@
 /* ============================================================
-   初中全科能力筛查系统 v2
-   - 多学段预设 + 自定义范围
-   - 科目(数学/物理/化学) → 年级 → 模块 → 知识点 两级勾选
-   - 动态生成填分题 → 计算模块画像 / 难度分层 / 失分归因 / 分层方案
+   初中全科能力筛查系统 v3
+   - v2 五步范围选择器：科目 → 年级 → 学期 → 考次 → 章节范围
+   - 章节 / 知识点两级勾选；九年级物理全一册自动跳过学期屏
+   - 学生信息（可跳过）→ 逐题填分 → 诊断报告
+   - 纯前端静态；全部内容来自 index.html 内联 window.SYS_CONFIG
    ============================================================ */
 (function () {
   'use strict';
 
-  /* ---------- 配置加载 ---------- */
-  function boot(CFG) {
-    init(CFG);
-  }
-
   function init(CFG) {
     if (!CFG) { showConfigError(); return; }
 
+  /* ---------- 流程常量 ----------
+     可由 SYS_CONFIG.flow 覆盖；未配置时使用下列默认值。
+     调整考次、学期文案或题量配额，改配置即可，不必改 JS。 */
+  var DEFAULT_FLOW = {
+    semesters: [
+      { key: 'shang', label: '上学期', tip: '秋季学期内容' },
+      { key: 'xia', label: '下学期', tip: '春季学期内容' },
+      { key: 'all', label: '全学年', tip: '上下两学期都查' }
+    ],
+    exams: [
+      { key: 'qimo', label: '期末' },
+      { key: 'qizhong', label: '期中' },
+      { key: 'yuekao', label: '月考' },
+      { key: 'danyuan', label: '单元测' },
+      { key: 'moni', label: '模拟考' },
+      { key: 'zhongkao', label: '中考' }
+    ],
+    weights: { math: 30, physics: 18, chem: 12 },
+    maxQuestions: 60
+  };
+  var FLOW = CFG.flow || {};
+  Object.keys(DEFAULT_FLOW).forEach(function (k) {
+    if (FLOW[k] === undefined) FLOW[k] = DEFAULT_FLOW[k];
+  });
+
   var STATE = {
-    mode: null,        // 'preset' | 'custom'
+    mode: null,          // 'wizard' | 'preset'
     presetKey: null,
-    subjects: [],       // 勾选的科目
-    selected: {},       // {subject: [{modKey, modName, kpKeys:[], kpNames:[]}]}
-    questions: [],      // 动态生成的题目
-    answers: {}         // {qid: score}
+    subjects: [],
+    entries: [],         // 章节条目
+    questions: [],
+    answers: {},
+    sceneText: '',
+    student: { name: '', grade: '', school: '' }
+  };
+
+  var WIZ = {
+    subjects: ['math'],
+    grades: ['8'],
+    semester: 'shang',
+    exam: 'qimo',
+    rangeMode: 'all',
+    skipSemester: false,
+    picked: {},          // sub|modKey|chapKey -> { kpKey: true }
+    open: {}             // 展开的章节 key
   };
 
   var SUB_COLOR = { math: '#2563eb', physics: '#0d9488', chem: '#d97706' };
@@ -36,370 +70,529 @@
     var t = $('#toast'); t.textContent = msg; t.classList.add('show');
     clearTimeout(t._t); t._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
   };
+  function labelOf(arr, key) {
+    var hit = arr.filter(function (x) { return x.key === key; })[0];
+    return hit ? hit.label : key;
+  }
+  function gradeName(g) {
+    var hit = CFG.grades.filter(function (x) { return String(x.key) === String(g); })[0];
+    return hit ? hit.name : g;
+  }
+  function subName(s) { return CFG.subjects[s] ? CFG.subjects[s].name : s; }
+  function subIcon(s) { return CFG.subjects[s] ? CFG.subjects[s].icon : '✚'; }
+  function unique(arr) {
+    var out = [];
+    arr.forEach(function (x) { if (out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
 
-  /* ---------- 工具：模块 → 动态生成题目 ---------- */
-  // 每个模块根据知识点数量与所属科目，自动生成一组"能力核查题"
-  // 难度分布：基础60% 中档30% 压轴10%（数学压轴偏多）
-  function buildQuestionsForModule(subject, modKey, modName, kpKeys, kpNames) {
-    var items = [];
-    var mod = CFG.modules[subject] && CFG.modules[subject][modKey];
-    if (!mod) return items;
-    var list = kpKeys && kpKeys.length ? kpKeys : Object.keys(mod.children);
-    if (!list.length) return items;
-    var isMath = subject === 'math';
-    var perKp = isMath ? 3 : 2;
-    var cap = isMath ? 6 : 4;     // 每模块最多题数（全科模式防爆炸）
-    var qid = 0;
-    list.forEach(function (kpKey, idx) {
-      var kpName = kpNames ? kpNames[idx] : (mod.children[kpKey] ? mod.children[kpKey].name : '');
-      for (var i = 0; i < perKp; i++) {
-        if (items.length >= cap) return;
-        var diff = i === 0 ? '基础' : (i === 1 ? '中档' : '压轴');
-        if (isMath && i === 1 && Math.random() < 0.3) diff = '压轴';
-        items.push({
-          qid: modKey + '_' + qid++,
-          subject: subject, modKey: modKey, modName: modName,
-          kpKey: kpKey, kpName: kpName, diff: diff, score: 3,
-          label: kpName || modName
-        });
-      }
+  /* ============================================================
+     范围推导：科目 × 年级 × 学期 → 学期模块 → 章节 → 知识点
+     ============================================================ */
+  // 由模块 key 推断学期：'8shang'→上、'8xia'→下、物理 '9' 为全一册
+  function modSemesterOf(mk) {
+    if (mk.indexOf('shang') >= 0) return 'shang';
+    if (mk.indexOf('xia') >= 0) return 'xia';
+    return 'all';
+  }
+  function availableGrades() {
+    return CFG.grades.filter(function (g) {
+      return WIZ.subjects.some(function (sub) {
+        var mods = CFG.modules[sub] || {};
+        return Object.keys(mods).some(function (mk) { return String(mods[mk].grade) === String(g.key); });
+      });
     });
+  }
+  // 关键边界：所选科目 × 年级中，只要存在分上下学期的模块，就需要学期屏。
+  // 只选九年级物理时，其模块为全一册，need=false → 自动跳过学期屏。
+  function needSemester() {
+    var need = false;
+    WIZ.subjects.forEach(function (sub) {
+      var mods = CFG.modules[sub] || {};
+      WIZ.grades.forEach(function (g) {
+        if (mods[g + 'shang'] || mods[g + 'xia']) need = true;
+      });
+    });
+    return need;
+  }
+  function normalizeGrades() {
+    var avail = availableGrades().map(function (g) { return String(g.key); });
+    WIZ.grades = WIZ.grades.map(String).filter(function (g) { return avail.indexOf(g) >= 0; });
+    if (!WIZ.grades.length) WIZ.grades = [avail[0]];
+  }
+  function candidateMods() {
+    var out = [];
+    WIZ.subjects.forEach(function (sub) {
+      var mods = CFG.modules[sub] || {};
+      Object.keys(mods).forEach(function (mk) {
+        var mod = mods[mk];
+        if (WIZ.grades.indexOf(String(mod.grade)) < 0) return;
+        var ms = modSemesterOf(mk);
+        // 全一册模块（如九年级物理）在任何学期选择下都纳入；
+        // 跳过学期屏时不做学期过滤，避免状态污染。
+        if (!WIZ.skipSemester && WIZ.semester !== 'all' && ms !== 'all' && ms !== WIZ.semester) return;
+        out.push({ sub: sub, modKey: mk, modName: mod.name, mod: mod });
+      });
+    });
+    return out;
+  }
+  function chapterEntries(mods) {
+    var list = [];
+    mods.forEach(function (m) {
+      Object.keys(m.mod.children || {}).forEach(function (ck) {
+        var chap = m.mod.children[ck];
+        list.push({
+          sub: m.sub, modKey: m.modKey, modName: m.modName,
+          chapKey: ck, chapName: chap.name, kps: chap.kps || {}
+        });
+      });
+    });
+    return list;
+  }
+  function entryKey(e) { return e.sub + '|' + e.modKey + '|' + e.chapKey; }
+
+  function buildSceneText() {
+    var g = WIZ.grades.map(gradeName).join('+');
+    var s = WIZ.subjects.map(subName).join('+');
+    var sem = WIZ.skipSemester ? '全一册' : labelOf(FLOW.semesters, WIZ.semester);
+    var exam = labelOf(FLOW.exams, WIZ.exam);
+    return g + ' · ' + sem + ' · ' + exam + ' · ' + s;
+  }
+
+  /* ============================================================
+     出题：按章节配额分配，单章节不少于 9 题，全科总量封顶
+     ============================================================ */
+  function diffAt(i, total) {
+    if (total <= 2) return i === 0 ? '基础' : '中档';
+    if (i === total - 1) return '压轴';
+    if (i === total - 2) return '中档';
+    var rest = total - 2;
+    var base = Math.round(rest * 0.65);
+    return i < base ? '基础' : '中档';
+  }
+
+  function buildQuestionsForEntry(e, kpKeys, quota) {
+    var kps = kpKeys && kpKeys.length ? kpKeys : Object.keys(e.kps);
+    if (!kps.length) kps = [e.chapKey];
+    var items = [];
+    for (var i = 0; i < quota; i++) {
+      var kpKey = kps[i % kps.length];
+      var kpName = e.kps[kpKey] || e.chapName;
+      items.push({
+        qid: entryKey(e) + '_' + i,
+        subject: e.sub,
+        modKey: e.modKey + '|' + e.chapKey,  // 报告按章节聚合
+        modName: e.chapName,                 // 报告显示章节名
+        chapKey: e.chapKey,
+        kpKey: kpKey,
+        kpName: kpName,
+        diff: diffAt(i, quota),
+        score: 3,
+        label: kpName
+      });
+    }
     return items;
   }
 
-  /* 此处原有一次重复的 buildAllQuestions 定义，已合并为下方唯一版本。 */
-
-  var MAX_Q = 60;   // 全科模式的题目总量上限
-
-  function buildAllQuestions() {
-    var qs = [];
-    var limits = {}; // 每科目配额（仅多科目/全科模式启用，避免中考全科题目过多）
-    if (STATE.subjects.length > 1) {
-      var n = STATE.subjects.length;
-      STATE.subjects.forEach(function (sub) { limits[sub] = Math.max(6, Math.floor(MAX_Q / n)); });
-    }
-    var counts = {};
-    STATE.subjects.forEach(function (sub) {
-      var sel = STATE.selected[sub] || [];
-      counts[sub] = 0;
-      sel.forEach(function (m) {
-        var part = buildQuestionsForModule(sub, m.modKey, m.modName, m.kpKeys, m.kpNames);
-        if (limits[sub]) {
-          var room = Math.max(0, limits[sub] - counts[sub]);
-          part = part.slice(0, room);
-        } else {
-          // 单科目：保留合理题量，数学不超过 45 题，理化不超过 30 题
-          var cap2 = (sub === 'math') ? 45 : 30;
-          part = part.slice(0, cap2);
-        }
-        counts[sub] = (counts[sub] || 0) + part.length;
-        qs = qs.concat(part);
+  function buildAllQuestions(entries, getKps) {
+    var subs = STATE.subjects;
+    var multi = subs.length > 1;
+    var MAX = FLOW.maxQuestions || 60;
+    var perSub = {};
+    if (multi) {
+      var wsum = 0;
+      subs.forEach(function (s) { wsum += (FLOW.weights[s] || 10); });
+      subs.forEach(function (s) {
+        perSub[s] = Math.max(9, Math.round(MAX * (FLOW.weights[s] || 10) / wsum));
       });
+    } else {
+      perSub[subs[0]] = MAX;
+    }
+
+    var qs = [];
+    subs.forEach(function (sub) {
+      var list = entries.filter(function (e) { return e.sub === sub; });
+      if (!list.length) return;
+      // 单科目按章节数控制：单章 9 题；多章每章约 6 题，总不超过 45
+      var target = multi ? perSub[sub] : Math.min(45, Math.max(9, list.length * 6));
+      var per = list.length === 1 ? 9 : Math.max(3, Math.min(9, Math.round(target / list.length)));
+      var acc = [];
+      list.forEach(function (e) {
+        acc = acc.concat(buildQuestionsForEntry(e, getKps(e), per));
+      });
+      qs = qs.concat(acc.slice(0, target));
     });
-    // 编号 & 科目内连续题号
+
     var counter = {};
     qs.forEach(function (q) {
       counter[q.subject] = (counter[q.subject] || 0) + 1;
       q.no = counter[q.subject];
     });
-    return qs;
+    return qs.slice(0, MAX);
   }
 
   /* ============================================================
-     屏1：渲染预设列表
+     首页：五步入口 + 预设快捷入口
      ============================================================ */
   function renderPresets() {
     var box = $('#preset-list'); box.innerHTML = '';
     CFG.presets.forEach(function (p) {
       var item = el('div', 'preset-item');
-      if (p.key === 'custom') item.className = 'preset-item custom';
       var subjName = p.subject === 'all' ? '数学+物理+化学'
         : (CFG.subjects[p.subject] ? CFG.subjects[p.subject].name : '');
+      var icon = p.subject === 'all' ? '✚' : (CFG.subjects[p.subject] ? CFG.subjects[p.subject].icon : '✚');
       item.innerHTML =
-        '<div class="p-label"><span class="ic">' + (p.key === 'custom' ? '✎' : (CFG.subjects[p.subject] ? CFG.subjects[p.subject].icon : '✚')) + '</span>'
-        + p.label + ' <span style="font-weight:400;font-size:12px;color:#94a3b8">· ' + subjName + '</span></div>'
+        '<div class="p-label"><span class="ic">' + icon + '</span>' + p.label
+        + ' <span style="font-weight:400;font-size:12px;color:#94a3b8">· ' + subjName + '</span></div>'
         + '<div class="p-tip">' + p.tip + '</div>';
-      item.onclick = function () {
-        document.querySelectorAll('.preset-item').forEach(function (n) { n.classList.remove('on'); });
-        item.classList.add('on');
-        if (p.key === 'custom') {
-          STATE.mode = 'custom';
-          STATE.presetKey = null;
-          showCustom();
-        } else {
-          STATE.mode = 'preset';
-          STATE.presetKey = p.key;
-          showPresetConfirm(p);
-        }
-      };
+      item.onclick = function () { showPresetConfirm(p); };
       box.appendChild(item);
     });
   }
 
   /* ============================================================
-     屏2A：预设确认
+     预设快捷路径：范围确认
      ============================================================ */
   function showPresetConfirm(p) {
+    STATE.mode = 'preset';
+    STATE.presetKey = p.key;
     $('#scope-title').textContent = p.label;
     $('#scope-sub').textContent = '系统已按预设匹配考查范围，确认后即可开始填分';
     $('#preset-label').textContent = p.label;
     $('#preset-tip').textContent = p.tip;
-
     var chips = $('#preset-modules'); chips.innerHTML = '';
-    var subLabel = p.subject === 'all' ? 'all' : p.subject;
-    var modKeys = p.modules;
-    var subjectOf = subLabel === 'all' ? null : subLabel;
-
-    if (subLabel === 'all') {
+    if (p.subject === 'all') {
       Object.keys(p.modules).forEach(function (sub) {
         p.modules[sub].forEach(function (mk) {
           var mod = CFG.modules[sub] && CFG.modules[sub][mk];
           if (!mod) return;
-          var c = el('span', 'chip' + (sub === 'physics' ? ' sub' : (sub === 'chem' ? ' sub2' : '')), CFG.subjects[sub].name + '·' + mod.name);
-          chips.appendChild(c);
+          chips.appendChild(el('span', 'chip' + (sub === 'physics' ? ' sub' : (sub === 'chem' ? ' sub2' : '')), subName(sub) + '·' + mod.name));
         });
       });
     } else {
-      modKeys.forEach(function (mk) {
-        var mod = CFG.modules[subjectOf][mk];
-        if (!mod) return;
-        chips.appendChild(el('span', 'chip', mod.name));
+      p.modules.forEach(function (mk) {
+        var mod = CFG.modules[p.subject] && CFG.modules[p.subject][mk];
+        if (mod) chips.appendChild(el('span', 'chip', mod.name));
       });
     }
-
-    $('#scope-preset').style.display = '';
-    $('#scope-custom').style.display = 'none';
-    show('screen-scope');
+    show('screen-preset');
   }
 
-  function applyPreset(p) {
-    var sel = {};
+  function applyPreset() {
+    var p = CFG.presets.filter(function (x) { return x.key === STATE.presetKey; })[0];
+    if (!p) return;
+    var mods = [];
     if (p.subject === 'all') {
       Object.keys(p.modules).forEach(function (sub) {
-        sel[sub] = p.modules[sub].map(function (mk) {
-          var mod = CFG.modules[sub][mk];
-          return { modKey: mk, modName: mod.name, kpKeys: [], kpNames: [] };
+        p.modules[sub].forEach(function (mk) {
+          var mod = CFG.modules[sub] && CFG.modules[sub][mk];
+          if (mod) mods.push({ sub: sub, modKey: mk, modName: mod.name, mod: mod });
         });
       });
     } else {
-      sel[p.subject] = p.modules.map(function (mk) {
-        var mod = CFG.modules[p.subject][mk];
-        return { modKey: mk, modName: mod.name, kpKeys: [], kpNames: [] };
+      p.modules.forEach(function (mk) {
+        var mod = CFG.modules[p.subject] && CFG.modules[p.subject][mk];
+        if (mod) mods.push({ sub: p.subject, modKey: mk, modName: mod.name, mod: mod });
       });
     }
-    STATE.subjects = Object.keys(sel);
-    STATE.selected = sel;
-    STATE.questions = buildAllQuestions();
+    var entries = chapterEntries(mods);
+    if (!entries.length) { toast('该预设暂无可用章节'); return; }
+    STATE.mode = 'preset';
+    STATE.subjects = unique(entries.map(function (e) { return e.sub; }));
+    STATE.entries = entries;
+    STATE.sceneText = p.label;
+    STATE.questions = buildAllQuestions(entries, function (e) { return Object.keys(e.kps); });
     STATE.answers = {};
-    renderForm();
-    show('screen-form');
+    gotoStudent();
   }
-
-  $('#btn-confirm-preset').onclick = function () {
-    var p = CFG.presets.filter(function (x) { return x.key === STATE.presetKey; })[0];
-    if (p) applyPreset(p);
-  };
 
   /* ============================================================
-     屏2B：自定义勾选
+     五步流程：屏1 科目 / 屏2 年级 / 屏3 学期 / 屏4 考次 / 屏5 章节
      ============================================================ */
-  var CUSTOM = { subjects: ['math'], grades: {}, tree: {} };
-
-  function showCustom() {
-    // 默认勾数学
-    CUSTOM = { subjects: ['math'], grades: {}, tree: {} };
-    renderSubjects();
-    renderGrades();
-    renderTree();
-    $('#scope-preset').style.display = 'none';
-    $('#scope-custom').style.display = '';
-    updateCustomHint();
-    show('screen-scope');
+  function startWizard() {
+    WIZ = {
+      subjects: ['math'], grades: ['8'], semester: 'shang', exam: 'qimo',
+      rangeMode: 'all', skipSemester: false, picked: {}, open: {}
+    };
+    STATE.mode = 'wizard';
+    renderSubjectScreen();
+    show('screen-w-subject');
   }
 
-  function renderSubjects() {
-    var box = $('#subject-list'); box.innerHTML = '';
+  function renderSubjectScreen() {
+    var box = $('#w-subject-list'); box.innerHTML = '';
     Object.keys(CFG.subjects).forEach(function (sub) {
       var s = CFG.subjects[sub];
-      var chip = el('div', 'subject-chip' + (CUSTOM.subjects.indexOf(sub) >= 0 ? ' on' : ''), '<span class="ic">' + s.icon + '</span>' + s.name);
+      var on = WIZ.subjects.indexOf(sub) >= 0;
+      var chip = el('div', 'subject-chip' + (on ? ' on' : ''), '<span class="ic">' + s.icon + '</span>' + s.name);
       chip.setAttribute('data-sub', sub);
       chip.onclick = function () {
-        var i = CUSTOM.subjects.indexOf(sub);
+        var i = WIZ.subjects.indexOf(sub);
         if (i >= 0) {
-          if (CUSTOM.subjects.length === 1) { toast('至少保留一个科目'); return; }
-          CUSTOM.subjects.splice(i, 1);
+          if (WIZ.subjects.length === 1) { toast('至少保留一个科目'); return; }
+          WIZ.subjects.splice(i, 1);
         } else {
-          CUSTOM.subjects.push(sub);
+          WIZ.subjects.push(sub);
         }
-        renderSubjects(); renderGrades(); renderTree(); updateCustomHint();
+        normalizeGrades();
+        renderSubjectScreen();
       };
       box.appendChild(chip);
     });
+    $('#w-subject-summary').textContent = '已选：' + WIZ.subjects.map(subName).join(' + ');
   }
 
-  function renderGrades() {
-    var box = $('#grade-list'); box.innerHTML = '';
-    CFG.grades.forEach(function (g) {
-      var hasAny = CUSTOM.subjects.some(function (sub) { return CFG.modules[sub] && CFG.modules[sub][g.key + 'shang'] || (g.key === '9' && CFG.modules[sub]['9']); });
-      // 仅显示有内容的年级
-      var any = false;
-      CUSTOM.subjects.forEach(function (sub) {
-        var m = CFG.modules[sub]; if (!m) return;
-        Object.keys(m).forEach(function (mk) { if (m[mk].grade === g.key) any = true; });
-      });
-      if (!any) return;
-      var chip = el('div', 'grade-chip' + (CUSTOM.grades[g.key] === false ? '' : ' on'), g.name);
+  function renderGradeScreen() {
+    var box = $('#w-grade-list'); box.innerHTML = '';
+    availableGrades().forEach(function (g) {
+      var on = WIZ.grades.indexOf(String(g.key)) >= 0;
+      var chip = el('div', 'grade-chip' + (on ? ' on' : ''), g.name);
+      chip.setAttribute('data-grade', g.key);
       chip.onclick = function () {
-        CUSTOM.grades[g.key] = !(CUSTOM.grades[g.key] !== false);
-        renderGrades(); renderTree(); updateCustomHint();
+        var k = String(g.key);
+        var i = WIZ.grades.indexOf(k);
+        if (i >= 0) {
+          if (WIZ.grades.length === 1) { toast('至少保留一个年级'); return; }
+          WIZ.grades.splice(i, 1);
+        } else {
+          WIZ.grades.push(k);
+        }
+        renderGradeScreen();
       };
       box.appendChild(chip);
     });
+    $('#w-grade-summary').textContent = '已选科目：' + WIZ.subjects.map(subName).join(' + ')
+      + '｜已选年级：' + WIZ.grades.map(gradeName).join(' + ');
+    WIZ.skipSemester = !needSemester();
+    $('#w-grade-next-label').textContent = WIZ.skipSemester ? '选考次（跳过学期）' : '选学期';
   }
 
-  function renderTree() {
-    var box = $('#module-tree'); box.innerHTML = '';
-    var empty = true;
-    CUSTOM.subjects.forEach(function (sub) {
-      var m = CFG.modules[sub]; if (!m) return;
-      Object.keys(m).forEach(function (mk) {
-        var mod = m[mk];
-        if (CUSTOM.grades[mod.grade] === false) return; // 未勾选的年级折叠
-        empty = false;
-        var grp = el('div', 'mod-group' + (CUSTOM.tree[mk] ? ' on open' : ''));
-        var head = el('div', 'mod-group-head');
-        head.innerHTML =
-          '<span class="mch-check">' + (CUSTOM.tree[mk] ? '✓' : '') + '</span>'
-          + '<span class="mch-name" style="color:' + SUB_COLOR[sub] + '">' + CFG.subjects[sub].name + ' · ' + mod.name + '</span>'
-          + '<span class="mch-toggle">' + (CUSTOM.tree[mk] ? '收起知识点 ▴' : '展开知识点 ▾') + '</span>';
-        head.onclick = function (ev) {
-          if (ev.target.tagName === 'INPUT' || ev.target.classList.contains('kp-check')) return;
-          if (CUSTOM.tree[mk]) {
-            delete CUSTOM.tree[mk];
-          } else {
-            CUSTOM.tree[mk] = { subject: sub, modKey: mk, modName: mod.name, kps: {} };
-          }
-          renderTree(); updateCustomHint();
-        };
-        grp.appendChild(head);
-
-        var kplist = el('div', 'kp-list');
-        Object.keys(mod.children).forEach(function (ck) {
-          var c = mod.children[ck];
-          var row = el('div', 'kp-item' + (CUSTOM.tree[mk] && CUSTOM.tree[mk].kps[ck] ? ' on' : ''));
-          row.innerHTML =
-            '<span class="kp-check">' + (CUSTOM.tree[mk] && CUSTOM.tree[mk].kps[ck] ? '✓' : '') + '</span>'
-            + '<span>' + c.name + '</span>';
-          row.onclick = function () {
-            if (!CUSTOM.tree[mk]) {
-              CUSTOM.tree[mk] = { subject: sub, modKey: mk, modName: mod.name, kps: {} };
-              grp.classList.add('on');
-            }
-            if (CUSTOM.tree[mk].kps[ck]) delete CUSTOM.tree[mk].kps[ck];
-            else CUSTOM.tree[mk].kps[ck] = c.name;
-            if (!Object.keys(CUSTOM.tree[mk].kps).length) delete CUSTOM.tree[mk];
-            renderTree(); updateCustomHint();
-          };
-          kplist.appendChild(row);
-        });
-        grp.appendChild(kplist);
-        box.appendChild(grp);
-      });
+  function renderSemesterScreen() {
+    var box = $('#w-semester-list'); box.innerHTML = '';
+    FLOW.semesters.forEach(function (s) {
+      var on = WIZ.semester === s.key;
+      var opt = el('div', 'opt-item' + (on ? ' on' : ''));
+      opt.setAttribute('data-key', s.key);
+      opt.innerHTML = '<span class="oi-check">' + (on ? '✓' : '') + '</span>'
+        + '<span class="oi-body"><b>' + s.label + '</b><em>' + (s.tip || '') + '</em></span>';
+      opt.onclick = function () { WIZ.semester = s.key; renderSemesterScreen(); };
+      box.appendChild(opt);
     });
-    if (empty) box.innerHTML = '<p class="sub">请先选择科目与年级。</p>';
+    $('#w-semester-summary').textContent = '已选：' + WIZ.grades.map(gradeName).join('+') + ' · ' + WIZ.subjects.map(subName).join('+');
   }
 
-  function updateCustomHint() {
-    var count = 0;
-    Object.keys(CUSTOM.tree).forEach(function (mk) {
-      var t = CUSTOM.tree[mk];
-      var kps = Object.keys(t.kps);
-      count += kps.length ? kps.length : 1;
+  function renderExamScreen() {
+    var box = $('#w-exam-list'); box.innerHTML = '';
+    FLOW.exams.forEach(function (x) {
+      var on = WIZ.exam === x.key;
+      var opt = el('div', 'opt-item' + (on ? ' on' : ''));
+      opt.setAttribute('data-key', x.key);
+      opt.innerHTML = '<span class="oi-check">' + (on ? '✓' : '') + '</span>'
+        + '<span class="oi-body"><b>' + x.label + '</b><em>报告抬头会标注本次考次</em></span>';
+      opt.onclick = function () { WIZ.exam = x.key; renderExamScreen(); };
+      box.appendChild(opt);
     });
-    var hint = $('#custom-hint');
-    if (count === 0) {
-      hint.textContent = '请先勾选至少一个模块（或展开模块勾选知识点）';
-      $('#btn-confirm-custom').disabled = true;
+    $('#w-exam-summary').textContent = buildSceneText();
+  }
+
+  function renderRangeScreen() {
+    var mods = candidateMods();
+    var entries = chapterEntries(mods);
+    $('#w-range-all').classList.toggle('on', WIZ.rangeMode === 'all');
+    $('#w-range-pick').classList.toggle('on', WIZ.rangeMode === 'pick');
+    $('#w-tree').style.display = WIZ.rangeMode === 'pick' ? '' : 'none';
+    if (WIZ.rangeMode === 'pick') renderTree(mods);
+    var hint = $('#w-range-hint');
+    if (WIZ.rangeMode === 'all') {
+      hint.textContent = '当前范围匹配 ' + mods.length + ' 个学期模块 / ' + entries.length + ' 个章节，将全部纳入';
+      $('#w-range-next').disabled = entries.length === 0;
     } else {
-      hint.textContent = '已选 ' + count + ' 个考查单元（模块或知识点）';
-      $('#btn-confirm-custom').disabled = false;
+      var chapters = 0, kps = 0;
+      Object.keys(WIZ.picked).forEach(function (k) {
+        var n = Object.keys(WIZ.picked[k]).length;
+        if (n) { chapters++; kps += n; }
+      });
+      hint.textContent = '已选 ' + chapters + ' 个章节 / ' + kps + ' 个知识点';
+      $('#w-range-next').disabled = chapters === 0;
     }
+    $('#w-range-summary').textContent = buildSceneText();
+    $('#w-range-tip').textContent = '当前范围：' + buildSceneText() + '；自选时可精确到知识点。';
   }
 
-  $('#btn-confirm-custom').onclick = function () {
-    var sel = {};
-    Object.keys(CUSTOM.tree).forEach(function (mk) {
-      var t = CUSTOM.tree[mk];
-      var sub = t.subject;
-      if (!sel[sub]) sel[sub] = [];
-      var kps = Object.keys(t.kps);
-      sel[sub].push({
-        modKey: t.modKey,
-        modName: t.modName,
-        kpKeys: kps,
-        kpNames: kps.map(function (k) { return t.kps[k]; })
+  // 两级章节树：章节行可整体勾选，展开后可单独勾选知识点（懒渲染，适配低端机）
+  function renderTree(mods) {
+    var box = $('#w-tree'); box.innerHTML = '';
+    if (!mods.length) {
+      box.innerHTML = '<p class="sub">当前条件下没有匹配章节，请返回上一步调整。</p>';
+      return;
+    }
+    var frag = document.createDocumentFragment();
+    mods.forEach(function (m) {
+      var sec = el('div', 'tree-sec');
+      var title = el('div', 'tree-sec-title', subName(m.sub) + ' · ' + m.modName);
+      title.style.color = SUB_COLOR[m.sub];
+      sec.appendChild(title);
+      Object.keys(m.mod.children || {}).forEach(function (ck) {
+        var chap = m.mod.children[ck];
+        var key = m.sub + '|' + m.modKey + '|' + ck;
+        var kpKeys = Object.keys(chap.kps || {});
+        var picked = WIZ.picked[key] || {};
+        var n = kpKeys.filter(function (k) { return picked[k]; }).length;
+        var all = kpKeys.length > 0 && n === kpKeys.length;
+
+        var wrap = el('div', 'tree-chap-wrap');
+        var row = el('div', 'tree-chap' + (all ? ' on' : (n ? ' some' : '')));
+        row.setAttribute('data-key', key);
+        row.innerHTML = '<span class="tc-check">' + (all ? '✓' : (n ? '–' : '')) + '</span>'
+          + '<span class="tc-name">' + chap.name + '</span>'
+          + '<span class="tc-toggle">' + kpKeys.length + ' 个知识点 ' + (WIZ.open[key] ? '▴' : '▾') + '</span>';
+        wrap.appendChild(row);
+
+        var kpBox = el('div', 'tree-kps');
+        kpBox.style.display = WIZ.open[key] ? '' : 'none';
+        if (WIZ.open[key]) fillKps(kpBox, key, kpKeys, chap);
+        wrap.appendChild(kpBox);
+
+        row.onclick = function (ev) {
+          if (ev.target.classList.contains('tc-toggle')) {
+            if (WIZ.open[key]) {
+              delete WIZ.open[key];
+              kpBox.style.display = 'none';
+              ev.target.innerHTML = kpKeys.length + ' 个知识点 ▾';
+            } else {
+              WIZ.open[key] = true;
+              if (!kpBox.dataset.filled) fillKps(kpBox, key, kpKeys, chap);
+              kpBox.style.display = '';
+              ev.target.innerHTML = kpKeys.length + ' 个知识点 ▴';
+            }
+          } else {
+            if (all) delete WIZ.picked[key];
+            else {
+              WIZ.picked[key] = {};
+              kpKeys.forEach(function (k) { WIZ.picked[key][k] = true; });
+            }
+            renderRangeScreen();
+          }
+        };
+        sec.appendChild(wrap);
       });
-      // 若未细化知识点，则按整个模块处理
-      if (!kps.length) { sel[sub][sel[sub].length - 1].kpKeys = []; sel[sub][sel[sub].length - 1].kpNames = []; }
+      frag.appendChild(sec);
     });
-    STATE.subjects = Object.keys(sel);
-    STATE.selected = sel;
-    STATE.questions = buildAllQuestions();
+    box.appendChild(frag);
+  }
+
+  function fillKps(box, key, kpKeys, chap) {
+    box.innerHTML = '';
+    box.dataset.filled = '1';
+    kpKeys.forEach(function (k) {
+      var on = !!(WIZ.picked[key] && WIZ.picked[key][k]);
+      var row = el('div', 'tree-kp' + (on ? ' on' : ''));
+      row.innerHTML = '<span class="tk-check">' + (on ? '✓' : '') + '</span><span>' + (chap.kps[k] || k) + '</span>';
+      row.onclick = function () {
+        if (!WIZ.picked[key]) WIZ.picked[key] = {};
+        if (WIZ.picked[key][k]) {
+          delete WIZ.picked[key][k];
+          if (!Object.keys(WIZ.picked[key]).length) delete WIZ.picked[key];
+        } else {
+          WIZ.picked[key][k] = true;
+        }
+        renderRangeScreen();
+      };
+      box.appendChild(row);
+    });
+  }
+
+  function commitRange() {
+    var entries = chapterEntries(candidateMods());
+    var getKps;
+    if (WIZ.rangeMode === 'all') {
+      getKps = function (e) { return Object.keys(e.kps); };
+    } else {
+      entries = entries.filter(function (e) {
+        var p = WIZ.picked[entryKey(e)];
+        return p && Object.keys(p).length;
+      });
+      if (!entries.length) { toast('请至少勾选一个章节或知识点'); return false; }
+      getKps = function (e) { return Object.keys(WIZ.picked[entryKey(e)] || {}); };
+    }
+    if (!entries.length) { toast('当前条件下没有匹配章节，请返回调整'); return false; }
+    STATE.mode = 'wizard';
+    STATE.presetKey = null;
+    STATE.subjects = WIZ.subjects.slice();
+    STATE.entries = entries;
+    STATE.sceneText = buildSceneText();
+    STATE.questions = buildAllQuestions(entries, getKps);
     STATE.answers = {};
-    renderForm();
-    show('screen-form');
-  };
+    return true;
+  }
 
   /* ============================================================
-     屏3：渲染填分表单
+     屏6：学生信息（可跳过）
+     ============================================================ */
+  function gotoStudent() { show('screen-w-student'); }
+
+  function readStudent() {
+    STATE.student = {
+      name: ($('#st-name').value || '').trim(),
+      grade: ($('#st-grade').value || '').trim(),
+      school: ($('#st-school').value || '').trim()
+    };
+  }
+  function gotoForm() {
+    renderForm();
+    show('screen-form');
+  }
+
+  /* ============================================================
+     屏7：渲染填分表单
      ============================================================ */
   function renderForm() {
     var grid = $('#grid'); grid.innerHTML = '';
-    var byMod = {};
+    var byGroup = {};
     STATE.questions.forEach(function (q) {
-      var key = q.subject + '|' + q.modKey;
-      (byMod[key] = byMod[key] || []).push(q);
+      var k = q.subject + '@@' + q.modKey;
+      (byGroup[k] = byGroup[k] || []).push(q);
     });
 
     var idx = 0;
-    STATE.subjects.forEach(function (sub) {
-      var subName = CFG.subjects[sub].name;
-      Object.keys(byMod).filter(function (k) { return k.split('|')[0] === sub; }).forEach(function (key) {
-        var modName = key.split('|')[1];
-        var block = el('div', 'q-block');
-        var modInfo = CFG.modules[sub][modName];
-        var head = el('div', 'q-head');
-        head.innerHTML =
-          '<div><div class="qh-name" style="color:' + SUB_COLOR[sub] + '">' + subName + ' · ' + (modInfo ? modInfo.name : modName) + '</div>'
-          + '<div class="qh-sub">' + byMod[key].length + ' 项能力核查</div></div>'
-          + '<span class="qh-toggle">展开 ▾</span>';
-        block.appendChild(head);
+    Object.keys(byGroup).forEach(function (key) {
+      var arr = byGroup[key];
+      var first = arr[0];
+      var block = el('div', 'q-block open');
+      var head = el('div', 'q-head');
+      head.innerHTML =
+        '<div><div class="qh-name" style="color:' + SUB_COLOR[first.subject] + '">'
+        + subName(first.subject) + ' · ' + first.modName + '</div>'
+        + '<div class="qh-sub">' + arr.length + ' 项能力核查</div></div>'
+        + '<span class="qh-toggle">收起 ▴</span>';
+      block.appendChild(head);
 
-        var items = el('div', 'q-items');
-        byMod[key].forEach(function (q) {
-          idx++;
-          var row = el('div', 'q-row');
-          row.innerHTML =
-            '<div class="q-no">' + idx + '</div>'
-            + '<div class="q-body">'
-              + '<div class="q-meta">'
-                + '<span class="qt">' + q.kpName + '</span>'
-                + '<span class="tag ' + (q.diff === '基础' ? 'base' : q.diff === '中档' ? 'mid' : 'hard') + '">' + q.diff + '</span>'
-              + '</div>'
-              + '<div class="score-btns" data-qid="' + q.qid + '">'
-                + '<button class="sbtn" data-v="0">0</button>'
-                + '<button class="sbtn s2" data-v="1">1</button>'
-                + '<button class="sbtn s2" data-v="2">2</button>'
-                + '<button class="sbtn s3" data-v="3">3</button>'
-              + '</div>'
-            + '</div>';
-          items.appendChild(row);
-        });
-        block.appendChild(items);
-
-        head.onclick = function () { block.classList.toggle('open'); };
-        grid.appendChild(block);
+      var items = el('div', 'q-items');
+      arr.forEach(function (q) {
+        idx++;
+        var row = el('div', 'q-row');
+        row.innerHTML =
+          '<div class="q-no">' + idx + '</div>'
+          + '<div class="q-body">'
+            + '<div class="q-meta">'
+              + '<span class="qt">' + q.kpName + '</span>'
+              + '<span class="tag ' + (q.diff === '基础' ? 'base' : q.diff === '中档' ? 'mid' : 'hard') + '">' + q.diff + '</span>'
+            + '</div>'
+            + '<div class="score-btns" data-qid="' + q.qid + '">'
+              + '<button class="sbtn" data-v="0">0</button>'
+              + '<button class="sbtn s2" data-v="1">1</button>'
+              + '<button class="sbtn s2" data-v="2">2</button>'
+              + '<button class="sbtn s3" data-v="3">3</button>'
+            + '</div>'
+          + '</div>';
+        items.appendChild(row);
       });
+      block.appendChild(items);
+      head.onclick = function () {
+        block.classList.toggle('open');
+        head.querySelector('.qh-toggle').textContent = block.classList.contains('open') ? '收起 ▴' : '展开 ▾';
+      };
+      grid.appendChild(block);
     });
 
     grid.querySelectorAll('.score-btns').forEach(function (box) {
@@ -415,13 +608,9 @@
       });
     });
 
-    // 抬头信息
-    var scopeTxt = STATE.presetKey
-      ? (CFG.presets.filter(function (p) { return p.key === STATE.presetKey; })[0] || {}).label || ''
-      : '自定义范围';
-    $('#form-brand').textContent = scopeTxt + ' · 初中全科筛查';
+    $('#form-brand').textContent = STATE.sceneText + ' · 初中全科筛查';
     $('#form-title').textContent = '逐题得分填写';
-    $('#form-sub').textContent = '场景：' + scopeTxt + '｜共 ' + STATE.questions.length + ' 项核查';
+    $('#form-sub').textContent = '场景：' + STATE.sceneText + '｜共 ' + STATE.questions.length + ' 项核查';
     $('#prog-score').textContent = '共 ' + STATE.questions.length * 3 + ' 分';
     updateProgress();
   }
@@ -440,12 +629,9 @@
     return { done: done, total: total, sum: sum };
   }
 
-  $('#btn-report').onclick = function () {
-    var p = updateProgress();
-    if (p.done < p.total) { toast('请填写完整后再生成报告'); return; }
-    renderReport();
-    show('screen-report');
-  };
+  /* ============================================================
+     报告计算与渲染（沿用既有链路，见下方保留代码）
+     ============================================================ */
 
   /* ============================================================
      屏4：计算 + 渲染报告
@@ -493,11 +679,10 @@
     var R = calcReport();
     var L = levelOf(R.rateAll);
 
-    var scopeTxt = STATE.presetKey
-      ? (CFG.presets.filter(function (p) { return p.key === STATE.presetKey; })[0] || {}).label || ''
-      : '自定义范围';
+    var scopeTxt = STATE.sceneText || '能力筛查';
+    var who = STATE.student.name ? STATE.student.name + ' · ' : '';
 
-    $('#r-title').textContent = scopeTxt + ' · 能力诊断报告';
+    $('#r-title').textContent = who + scopeTxt + ' · 能力诊断报告';
     $('#r-sub').textContent = '基于 ' + R.totalMax + ' 分能力核查生成';
     $('#report-brand').textContent = scopeTxt + ' · 初中全科筛查';
 
@@ -624,6 +809,8 @@
   }
 
   function suggestFor(m) {
+    // 优先读内联配置中的建议文案：改内容不需要改 JS
+    if (CFG.suggestions && CFG.suggestions[m.modName]) return CFG.suggestions[m.modName];
     var map = {
       '全等三角形': '从 SSS/SAS 判定入手，重做 10 道基础证明题，规范"对应顶点"与步骤书写；辅助线重点练倍长中线与截长补短。',
       '轴对称': '先理清等腰与等边三角形性质，重点练习"无图题分类讨论"与最短路径模型的迁移。',
@@ -715,7 +902,7 @@
       btn.style.display = '';
       btn.onclick = function () {
         navigator.share({
-          title: '初中全科能力筛查报告',
+          title: (STATE.sceneText || '初中全科') + ' · 能力诊断报告',
           text: '孩子这份能力筛查报告，请老师帮忙解读一下薄弱模块。'
         }).catch(function () {});
       };
@@ -724,24 +911,113 @@
     }
   }
 
+
   /* ============================================================
-     导航
+     导航绑定
      ============================================================ */
-  $('#btn-back-scene').onclick = function () { renderPresets(); show('screen-scene'); };
-  $('#btn-back-scope').onclick = function () {
-    if (STATE.mode === 'custom') showCustom();
-    else {
-      var p = CFG.presets.filter(function (x) { return x.key === STATE.presetKey; })[0];
-      if (p) showPresetConfirm(p);
+  $('#btn-report').onclick = function () {
+    var p = updateProgress();
+    if (p.done < p.total) { toast('请填写完整后再生成报告'); return; }
+    renderReport();
+    show('screen-report');
+  };
+
+  /* ---------- 首页 ---------- */
+  $('#btn-start-wizard').onclick = startWizard;
+  $('#btn-back-scene').onclick = function () { show('screen-home'); };
+  $('#btn-confirm-preset').onclick = applyPreset;
+
+  /* ---------- 屏1 科目 ---------- */
+  $('#w-subject-next').onclick = function () {
+    normalizeGrades();
+    renderGradeScreen();
+    show('screen-w-grade');
+  };
+  $('#w-subject-back').onclick = function () { show('screen-home'); };
+
+  /* ---------- 屏2 年级 ---------- */
+  $('#w-grade-next').onclick = function () {
+    WIZ.skipSemester = !needSemester();
+    if (WIZ.skipSemester) {
+      // 九年级物理为全一册：没有上下学期之分，直接进入考次屏
+      renderExamScreen();
+      show('screen-w-exam');
+      toast('该科目为全一册，已自动跳过学期选择');
+    } else {
+      renderSemesterScreen();
+      show('screen-w-semester');
     }
   };
-  $('#btn-restart').onclick = function () {
-    STATE.mode = null; STATE.presetKey = null; STATE.answers = {}; STATE.questions = [];
-    renderPresets(); show('screen-scene');
+  $('#w-grade-back').onclick = function () {
+    renderSubjectScreen();
+    show('screen-w-subject');
   };
+
+  /* ---------- 屏3 学期 ---------- */
+  $('#w-semester-next').onclick = function () {
+    renderExamScreen();
+    show('screen-w-exam');
+  };
+  $('#w-semester-back').onclick = function () {
+    renderGradeScreen();
+    show('screen-w-grade');
+  };
+
+  /* ---------- 屏4 考次 ---------- */
+  $('#w-exam-next').onclick = function () {
+    WIZ.picked = {};
+    WIZ.open = {};
+    WIZ.rangeMode = 'all';
+    renderRangeScreen();
+    show('screen-w-range');
+  };
+  $('#w-exam-back').onclick = function () {
+    if (WIZ.skipSemester) { renderGradeScreen(); show('screen-w-grade'); }
+    else { renderSemesterScreen(); show('screen-w-semester'); }
+  };
+
+  /* ---------- 屏5 章节范围 ---------- */
+  $('#w-range-all').onclick = function () { WIZ.rangeMode = 'all'; renderRangeScreen(); };
+  $('#w-range-pick').onclick = function () { WIZ.rangeMode = 'pick'; renderRangeScreen(); };
+  $('#w-range-next').onclick = function () {
+    if (!commitRange()) return;
+    gotoStudent();
+  };
+  $('#w-range-back').onclick = function () {
+    renderExamScreen();
+    show('screen-w-exam');
+  };
+
+  /* ---------- 屏6 学生信息 ---------- */
+  $('#w-student-next').onclick = function () { readStudent(); gotoForm(); };
+  $('#w-student-skip').onclick = function () {
+    $('#st-name').value = ''; $('#st-grade').value = ''; $('#st-school').value = '';
+    readStudent(); gotoForm();
+  };
+  $('#w-student-back').onclick = backToRange;
+
+  /* ---------- 屏7 填分 / 屏8 报告 ---------- */
+  $('#btn-back-scope').onclick = backToRange;
+  $('#btn-restart').onclick = function () {
+    STATE.mode = null; STATE.presetKey = null; STATE.answers = {};
+    STATE.questions = []; STATE.entries = []; STATE.sceneText = '';
+    $('#st-name').value = ''; $('#st-grade').value = ''; $('#st-school').value = '';
+    renderPresets();
+    show('screen-home');
+  };
+
+  function backToRange() {
+    if (STATE.mode === 'preset') {
+      var p = CFG.presets.filter(function (x) { return x.key === STATE.presetKey; })[0];
+      if (p) { showPresetConfirm(p); return; }
+    }
+    renderRangeScreen();
+    show('screen-w-range');
+  }
 
   /* ---------- 初始化 ---------- */
   renderPresets();
+  show('screen-home');
   } // end init
 
   function showConfigError() {
