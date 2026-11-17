@@ -2690,11 +2690,6 @@
     "sha256": "582208f5070edd7b8e3e0942cc09f1be4d70a05eef0026c9a13fe0dcf11c2add"
   },
   {
-    "path": "junior-learning-release/test-results-release-baseline.txt",
-    "bytes": 6795,
-    "sha256": "859427e18295b3801bd29e2c35977de7fb8aa8986dd8f9d5d7625d3b4e562f34"
-  },
-  {
     "path": "junior-learning-release/wrangler.jsonc",
     "bytes": 643,
     "sha256": "0ec5aee87e31ab805abdab3b0a45d6b6a8868081ee71796a312587b46e281696"
@@ -6918,11 +6913,6 @@
     "path": "learning-plan-module/README.md",
     "bytes": 7618,
     "sha256": "582208f5070edd7b8e3e0942cc09f1be4d70a05eef0026c9a13fe0dcf11c2add"
-  },
-  {
-    "path": "learning-plan-module/test-results-release-baseline.txt",
-    "bytes": 6795,
-    "sha256": "859427e18295b3801bd29e2c35977de7fb8aa8986dd8f9d5d7625d3b4e562f34"
   },
   {
     "path": "learning-plan-module/wrangler.jsonc",
@@ -13868,11 +13858,6 @@
     "path": "time-plan-upgrade/README.md",
     "bytes": 7618,
     "sha256": "582208f5070edd7b8e3e0942cc09f1be4d70a05eef0026c9a13fe0dcf11c2add"
-  },
-  {
-    "path": "time-plan-upgrade/test-results-release-baseline.txt",
-    "bytes": 6795,
-    "sha256": "859427e18295b3801bd29e2c35977de7fb8aa8986dd8f9d5d7625d3b4e562f34"
   },
   {
     "path": "time-plan-upgrade/time-plan-source-baseline.json",

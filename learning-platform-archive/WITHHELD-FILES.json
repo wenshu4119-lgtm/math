@@ -1226,5 +1226,17 @@
   {
     "path": "time-plan-upgrade/integrations/learning-qa/bridge.py",
     "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-release/test-results-release-baseline.txt",
+    "reason": "excluded by project ignore rule: test result"
+  },
+  {
+    "path": "learning-plan-module/test-results-release-baseline.txt",
+    "reason": "excluded by project ignore rule: test result"
+  },
+  {
+    "path": "time-plan-upgrade/test-results-release-baseline.txt",
+    "reason": "excluded by project ignore rule: test result"
   }
 ]
