@@ -1,0 +1,411 @@
+{
+  "checkedAt": "2026-11-14T11:44:36.893Z",
+  "source": "Installed development packages; not browser dependencies or project-wide license",
+  "packages": [
+    {
+      "name": "@cloudflare/kv-asset-handler",
+      "version": "0.5.0",
+      "licenseDeclaration": "MIT OR Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-MIT.txt",
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-APACHE.txt"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "@cloudflare/unenv-preset",
+      "version": "2.16.2",
+      "licenseDeclaration": "MIT OR Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-MIT.txt",
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-APACHE.txt"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "@cloudflare/workerd-windows-64",
+      "version": "1.20261110.1",
+      "licenseDeclaration": "Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/workerd-1.20261110.1-LICENSE.txt"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "@cspotcode/source-map-support",
+      "version": "0.8.1",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/cspotcode_source-map-support-0.8.1-LICENSE.md",
+          "sha256": "3a7d3bb198e909ed642bd68bd29a7d7c09a636d27a51ec663d35f00c4760ec42"
+        }
+      ]
+    },
+    {
+      "name": "@esbuild/win32-x64",
+      "version": "0.28.2",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/esbuild-0.28.2-LICENSE.md"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "@img/colour",
+      "version": "1.1.0",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/img_colour-1.1.0-LICENSE.md",
+          "sha256": "e2eaa4603c14cb26f301e88648c12a853fa3f0f5da6d4b0972958c666e7f2ab8"
+        }
+      ]
+    },
+    {
+      "name": "@img/sharp-win32-x64",
+      "version": "0.35.5",
+      "licenseDeclaration": "Apache-2.0 AND LGPL-3.0-or-later",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/img_sharp-win32-x64-0.35.5-LICENSE",
+          "sha256": "dc1f5d2d43c5531dfe0acaf4e950ea5dbe3e61e1850cf0e983bda7efc10d6693"
+        }
+      ]
+    },
+    {
+      "name": "@jridgewell/resolve-uri",
+      "version": "3.1.2",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/jridgewell_resolve-uri-3.1.2-LICENSE",
+          "sha256": "b8778b155bfde5a28b023a558753c0fa058a52bb9de35c343c250be1bbcdedab"
+        }
+      ]
+    },
+    {
+      "name": "@jridgewell/sourcemap-codec",
+      "version": "1.6.0",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/jridgewell_sourcemap-codec-1.6.0-LICENSE",
+          "sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c"
+        }
+      ]
+    },
+    {
+      "name": "@jridgewell/trace-mapping",
+      "version": "0.3.9",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/jridgewell_trace-mapping-0.3.9-LICENSE",
+          "sha256": "0daa3c2445c4bfaaa7e8c69ec2742a8841bc920b75818ef2c7a510242de2b04a"
+        }
+      ]
+    },
+    {
+      "name": "@poppinss/colors",
+      "version": "4.1.6",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/poppinss_colors-4.1.6-LICENSE.md",
+          "sha256": "c21feb678df81fa8336bfb4d7e8e3f928273992cc6743af6178f8979cb8c8d9d"
+        }
+      ]
+    },
+    {
+      "name": "@poppinss/dumper",
+      "version": "0.6.5",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/poppinss_dumper-0.6.5-LICENSE.md",
+          "sha256": "bba2399e2c617b0577fc3f4e22299367625824959945318b17b39ac3c910ce5f"
+        }
+      ]
+    },
+    {
+      "name": "@poppinss/exception",
+      "version": "1.2.3",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/poppinss_exception-1.2.3-LICENSE.md",
+          "sha256": "bba2399e2c617b0577fc3f4e22299367625824959945318b17b39ac3c910ce5f"
+        }
+      ]
+    },
+    {
+      "name": "@sindresorhus/is",
+      "version": "7.2.0",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/sindresorhus_is-7.2.0-license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ]
+    },
+    {
+      "name": "@speed-highlight/core",
+      "version": "1.2.24",
+      "licenseDeclaration": "CC0-1.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/speed-highlight_core-1.2.24-LICENSE",
+          "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+        }
+      ]
+    },
+    {
+      "name": "blake3-wasm",
+      "version": "2.1.5",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/blake3-wasm-2.1.5-LICENSE",
+          "sha256": "6ae51be712bd278ca37cd2204a6e836d71aacea5b7b8210d5a95c0e02a15dc35"
+        }
+      ]
+    },
+    {
+      "name": "cookie",
+      "version": "1.1.1",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/cookie-1.1.1-LICENSE",
+          "sha256": "c02110eedc16c7114f1a9bdc026c65626ce1d9c7e27fd51a8e0feee8a48a6858"
+        }
+      ]
+    },
+    {
+      "name": "detect-libc",
+      "version": "2.1.2",
+      "licenseDeclaration": "Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/detect-libc-2.1.2-LICENSE",
+          "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+        }
+      ]
+    },
+    {
+      "name": "error-stack-parser-es",
+      "version": "1.0.5",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/error-stack-parser-es-1.0.5-LICENSE",
+          "sha256": "fe99ed9e409014494a8147a5276cd079eae73f6998179af39ba596e7de75e8a9"
+        }
+      ]
+    },
+    {
+      "name": "esbuild",
+      "version": "0.28.2",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/esbuild-0.28.2-LICENSE.md",
+          "sha256": "b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681"
+        }
+      ]
+    },
+    {
+      "name": "kleur",
+      "version": "4.1.5",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/kleur-4.1.5-license",
+          "sha256": "306fa513e39b23a6e8747520de761809d206b99800ef41907b530226574c59ae"
+        }
+      ]
+    },
+    {
+      "name": "miniflare",
+      "version": "5.20261110.1-beta",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-MIT.txt",
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-APACHE.txt"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "path-to-regexp",
+      "version": "6.3.0",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/path-to-regexp-6.3.0-LICENSE",
+          "sha256": "4eeb3271453a891df609e5a9f4ee79a68307f730c13417a3bfeffa604ac8cf25"
+        }
+      ]
+    },
+    {
+      "name": "pathe",
+      "version": "2.0.3",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/pathe-2.0.3-LICENSE",
+          "sha256": "52e92576851154bad7737e90cc72818936f43665cb0e3f7428ed8edc8cc5709b"
+        }
+      ]
+    },
+    {
+      "name": "semver",
+      "version": "7.8.6",
+      "licenseDeclaration": "ISC",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/semver-7.8.6-LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ]
+    },
+    {
+      "name": "sharp",
+      "version": "0.35.5",
+      "licenseDeclaration": "Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/sharp-0.35.5-LICENSE",
+          "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68"
+        }
+      ]
+    },
+    {
+      "name": "supports-color",
+      "version": "10.2.2",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/supports-color-10.2.2-license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ]
+    },
+    {
+      "name": "undici",
+      "version": "7.30.1",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/undici-7.30.1-LICENSE",
+          "sha256": "a6db8096b2707bc0102d256917d4d33f298ba36d8c3f25de067a2b5bb379db27"
+        }
+      ]
+    },
+    {
+      "name": "unenv",
+      "version": "2.0.0-rc.24",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/unenv-2.0.0-rc.24-LICENSE",
+          "sha256": "46231df5a7733c3f52f11b71f3df61813007745b62b09031acfb45fb42d75082"
+        }
+      ]
+    },
+    {
+      "name": "workerd",
+      "version": "1.20261110.1",
+      "licenseDeclaration": "Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/workerd-1.20261110.1-LICENSE.txt"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "wrangler",
+      "version": "4.160.1",
+      "licenseDeclaration": "MIT OR Apache-2.0",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [],
+      "upstreamLicenseFiles": [
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-MIT.txt",
+        "/licenses/workers-sdk-wrangler-4.160.1-LICENSE-APACHE.txt"
+      ],
+      "note": "安装包根目录未附许可原文；上游文本作为核查入口，具体子包以其声明和上游范围为准。"
+    },
+    {
+      "name": "ws",
+      "version": "8.21.0",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/ws-8.21.0-LICENSE",
+          "sha256": "2b29dcfe0d6471f7e8c92c5fb38c9f93edee10330937055440192f1832b1ecef"
+        }
+      ]
+    },
+    {
+      "name": "youch",
+      "version": "4.1.0-beta.10",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/youch-4.1.0-beta.10-LICENSE.md",
+          "sha256": "bba2399e2c617b0577fc3f4e22299367625824959945318b17b39ac3c910ce5f"
+        }
+      ]
+    },
+    {
+      "name": "youch-core",
+      "version": "0.3.3",
+      "licenseDeclaration": "MIT",
+      "scope": "development-and-test-toolchain",
+      "licenseFiles": [
+        {
+          "url": "/licenses/youch-core-0.3.3-LICENSE.md",
+          "sha256": "26e09f87efc06dfbe7a0ea183dd0fcc1bd2811c889d183d23df92af15625dfa1"
+        }
+      ]
+    }
+  ]
+}

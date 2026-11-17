@@ -1,0 +1,2 @@
+#session-print-denied{display:none}
+@media print{body.session-private:not(.session-print-authorized)>*{display:none!important}body.session-private:not(.session-print-authorized)>#session-print-denied{display:block!important;color:#111;background:white;font:12pt/1.7 sans-serif;padding:15mm}body.session-private.session-print-authorized>#session-print-denied{display:none!important}}

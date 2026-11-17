@@ -1,0 +1,7 @@
+import {fail} from './security.mjs';
+export const studyActorSql="EXISTS(SELECT 1 FROM users a JOIN sessions se ON se.user_id=a.id WHERE a.id=? AND a.org_id=? AND a.role=? AND a.role IN ('student','teacher','parent') AND a.active=1 AND a.must_change_password=0 AND se.token_hash=? AND se.expires_at>(julianday('now')-2440587.5)*86400000)";
+export const studyActorArgs=u=>[u.id,u.org_id,u.role,u.token_hash];
+const studentSql="EXISTS(SELECT 1 FROM users s WHERE s.id=? AND s.org_id=? AND s.role='student' AND s.active=1 AND ((?='student' AND s.id=?) OR ((?='teacher' OR (?='parent' AND ?=1)) AND EXISTS(SELECT 1 FROM relationships r WHERE r.org_id=s.org_id AND r.student_id=s.id AND r.adult_id=? AND r.kind=?))))";
+export function studyPermission(u,studentId=null,{summary=false,teacherOnly=false,extraSql='1',extraArgs=[]}={}){let sql=studyActorSql,args=studyActorArgs(u);if(teacherOnly){sql+=" AND ?='teacher'";args.push(u.role);}if(studentId){sql+=' AND '+studentSql;args.push(studentId,u.org_id,u.role,u.id,u.role,u.role,summary?1:0,u.id,u.role);}sql+=' AND ('+extraSql+')';args.push(...extraArgs);return {sql,args};}
+export const studyChanged=()=>fail(409,'STUDY_ACCESS_OR_VERSION_CHANGED','当前账号、授权、内容或记录版本已变化，请重新加载');
+export async function finalStudyAccess(db,u,studentId=null,options={}){const g=studyPermission(u,studentId,options);if(!await db.prepare('SELECT 1 AS allowed WHERE '+g.sql).bind(...g.args).first())studyChanged();}

@@ -1,0 +1,6828 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "学习规划题库、分页与受保护学习问答补充契约",
+    "version": "1.8.0-content",
+    "description": "补充docs/openapi.json业务1.6.1；不重写原契约或原生成器。描述本轮content-2候选代码，不充当部署成功记录；后端/前端实际版本与验收见release报告和线上状态。"
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "x-baseline-contract": "./openapi.json",
+  "x-source-sha256": {
+    "src/api.mjs": "e2b761ff383382886890bd4f7c74eb513516aa877ebaaf4182ecbf1aeae45419",
+    "src/question-bank.mjs": "e7f07adf773f5b3b26be6fc1ce55e8b9ef52b4fc38b0889fa9f9a4b4702bfbce",
+    "src/question-bank-import.mjs": "926aad20545c483911416b16cc4a983564f68712d74f8690b4e06805c655a5e5",
+    "src/question-bank-validation.mjs": "7f1e084b91a430896b95fc4ac8a0f60afa5c1a1d20026efa8a78910a5c4226c6",
+    "src/question-bank-expansion.mjs": "3e833e8bf7f0e2755760f2ff8e33454c4bf167d584e137162bbc100382a03d6c",
+    "src/subject-pilot-validation.mjs": "fcd7a70d5b93c2430aa048f296c542d87861763162b82f5a50dcf9a46eed1cdb",
+    "src/deeptutor-api.mjs": "39a02fb913f1a27a0317992013609994ee3b5d91779eac577e19b8f37e95c66a",
+    "src/learning-qa.mjs": "21ca9f76c7a8adeebb3924c3412a4917e0fa27b284a926f24d5f84de705f41f7",
+    "migrations/0009_learning_qa.sql": "ef6906e48e08555d693f6ebb287678fc975dac7373f7ce5b51abbaa523cac770",
+    "integrations/learning-qa/sources.json": "03ef91e5fcf367dc357c40d75504b13e59571c7a2c1d6f32f5f54bfb9aeb1aba",
+    "integrations/learning-qa/bridge.py": "35e32fd40b60d146ad032939274d3f16d8a4cb151d5d734d6e813b3c18148f61"
+  },
+  "x-authentication-notes": [
+    "生产Cookie为__Host-lp_session；本地开发为lp_session。账号必须active且完成首次改密。",
+    "写请求需要同源Origin、Content-Type application/json、会话CSRF头；JSON请求体最大65536字节。",
+    "受保护响应含X-Actor-Id；客户端须校验与当前账号一致，并在账号切换/退出时清除答案与草稿。",
+    "默认响应Cache-Control:no-store；能力接口最多15秒内部缓存不代表浏览器可缓存私人响应。",
+    "学习问答只允许teacher/student本人+本机构，30分钟TTL仅针对临时正文，不等于删除任务摘要或证明运行时内存物理擦除。个人信息检测为有限规则，仍禁止提交真实学生资料。",
+    "未列出的方法不构成支持；部分未匹配方法为404，非GET/POST/PATCH/DELETE统一405。"
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "健康状态及受保护学习问答/教师实验能力",
+        "description": "本补充覆盖旧health的AI字段。learning-qa ready优先返回limited_learning_qa，否则旧lab ready返回limited_teacher_lab，均不可推定AI出题或正式评分开放。",
+        "x-roles": [
+          "anonymous"
+        ],
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Health"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "403": {
+            "description": "403: ORIGIN_REJECTED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "ORIGIN_REJECTED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/public/coverage": {
+      "get": {
+        "summary": "免登录真实题库覆盖统计",
+        "description": "全站按题目ID去重；每项审核/可用/隔离状态按至少一个机构拥有该状态计数，可能重叠。不能推定本机构授权。含旧示例题；不含题干、答案、学生或教师身份。",
+        "x-roles": [
+          "anonymous"
+        ],
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Coverage"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "403": {
+            "description": "403: ORIGIN_REJECTED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "ORIGIN_REJECTED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/public/ai-status": {
+      "get": {
+        "summary": "免登录聚合AI状态",
+        "description": "底层两类状态探测最多缓存15秒；learning-qa ready时优先使用带freeInput=true的聚合分支，否则回落旧lab状态。无密钥、内部地址或学生数据；两个服务都不可用时200+status=unavailable。",
+        "x-roles": [
+          "anonymous"
+        ],
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AiPublicStatus"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "403": {
+            "description": "403: ORIGIN_REJECTED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "ORIGIN_REJECTED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/bank/imports": {
+      "get": {
+        "summary": "查看服务器打包且已核验的批次",
+        "description": "合并原Antigravity和新学科原创pilot批次。requiresTeacherReview=true标识必须先由老师审核的候选扩科批次。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ImportBatch"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      },
+      "post": {
+        "summary": "管理员向当前机构幂等导入打包批次",
+        "description": "仅接受GET列出的batchId，不接收任意JSON/文件；按源SHA去重，不创建老师审核。新学科pilot即使独立数值/事实检查通过仍强制pending、studentPracticeAdded=0，不能直接自动发布。未知打包ID/导入期间权限变化目前会返回通用500，不应盲目自动重试。",
+        "x-roles": [
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportResult"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "batchId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  }
+                },
+                "required": [
+                  "batchId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/knowledge/{id}": {
+      "patch": {
+        "summary": "版本化更新当前机构知识点统一难度",
+        "description": "首次revision=0。知识点须由本机构题库引用；仅更新独立定级记录，不改题干、答案、题目内容版本或历史成绩。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "knowledgeId": {
+                          "type": "string"
+                        },
+                        "revision": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "difficulty": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "very_low",
+                            "low",
+                            "medium",
+                            "high",
+                            "very_high",
+                            null
+                          ],
+                          "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+                        }
+                      },
+                      "required": [
+                        "knowledgeId",
+                        "revision",
+                        "difficulty"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "difficulty": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "very_low",
+                      "low",
+                      "medium",
+                      "high",
+                      "very_high",
+                      null
+                    ],
+                    "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  }
+                },
+                "required": [
+                  "revision",
+                  "difficulty",
+                  "note"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions": {
+      "get": {
+        "summary": "教师/管理员检索本机构题库（含答案）",
+        "description": "拒绝未列出的筛选字段；未知筛选值可返回空列表，不构成范围覆盖。首次改密账号、跨机构及会话撤销受服务端控制。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "chinese",
+                "math",
+                "english",
+                "physics",
+                "chemistry",
+                "biology",
+                "history",
+                "geography",
+                "civics"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "grade",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                7,
+                8,
+                9
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "knowledge",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "知识点ID精确匹配或标题子串"
+          },
+          {
+            "name": "difficulty",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "very_low",
+                "low",
+                "medium",
+                "high",
+                "very_high",
+                "unrated"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "knowledgeDifficulty",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "very_low",
+                "low",
+                "medium",
+                "high",
+                "very_high",
+                "unrated"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "purpose",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "diagnostic",
+                "practice",
+                "retest",
+                "exam_review"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "available",
+                "published",
+                "quarantined",
+                "withdrawn"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "reviewStatus",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending_human",
+                "human_reviewed"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionList"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_FILTER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_FILTER"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}": {
+      "get": {
+        "summary": "具体版本、来源、答案、解析、历史和举报",
+        "description": "响应发送前再次检查当前教师/管理员的会话、角色与机构；历史答案也受同一权限保护。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDetail"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      },
+      "patch": {
+        "summary": "修正题目并使原审核失效",
+        "description": "创建不可变新版本，清除老师审核并进入pending或quarantined；不静默改写旧作答。knowledgeDifficulty是本题版本的知识难度快照，统一定级必须使用/bank/knowledge/{id}。知识关联限同学科已打包知识点，可用于跨章节中考专题。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionView"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5000
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1000
+                    },
+                    "minItems": 4,
+                    "maxItems": 4
+                  },
+                  "correctOption": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  },
+                  "rationale": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5000
+                  },
+                  "difficulty": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "very_low",
+                      "low",
+                      "medium",
+                      "high",
+                      "very_high",
+                      null
+                    ],
+                    "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+                  },
+                  "knowledgeDifficulty": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "very_low",
+                      "low",
+                      "medium",
+                      "high",
+                      "very_high",
+                      null
+                    ],
+                    "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+                  },
+                  "purposes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "diagnostic",
+                        "practice",
+                        "retest",
+                        "exam_review"
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "knowledgeIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[\\w-]+$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 12
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  }
+                },
+                "required": [
+                  "revision",
+                  "note"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}/review": {
+      "post": {
+        "summary": "真实老师逐题审核当前版本",
+        "description": "confirmed必须true（accept/reject均如此）。accept要求六项checks全true且没有未解决隔离问题；审核记录包括老师、时间、内容哈希与检查项。接受后state仍pending，需单独publish；拒绝变quarantined。管理员不能代替老师审核。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionView"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, CONFIRMATION_REQUIRED, INCOMPLETE_REVIEW",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "CONFIRMATION_REQUIRED",
+              "INCOMPLETE_REVIEW"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT, QUARANTINED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT",
+              "QUARANTINED"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  },
+                  "confirmed": {
+                    "const": true
+                  },
+                  "decision": {
+                    "type": "string",
+                    "enum": [
+                      "accept",
+                      "reject"
+                    ]
+                  },
+                  "checks": {
+                    "type": "object",
+                    "properties": {
+                      "answer": {
+                        "const": true
+                      },
+                      "rationale": {
+                        "const": true
+                      },
+                      "source": {
+                        "const": true
+                      },
+                      "grade": {
+                        "const": true
+                      },
+                      "unique": {
+                        "const": true
+                      },
+                      "figures": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "answer",
+                      "rationale",
+                      "source",
+                      "grade",
+                      "unique",
+                      "figures"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "revision",
+                  "note",
+                  "confirmed",
+                  "decision"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "decision": {
+                          "const": "accept"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "checks"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}/publish": {
+      "post": {
+        "summary": "独立发布已获真实老师审核的当前版本",
+        "description": "有效字段revision/note；同一动作解析器还允许confirmed/decision/checks但本动作不使用。发布为自主练习和教师选题，不接入旧正式评分协议。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionView"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT, REVIEW_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  },
+                  "decision": {
+                    "type": "string",
+                    "enum": [
+                      "accept",
+                      "reject"
+                    ]
+                  },
+                  "checks": {
+                    "type": "object",
+                    "properties": {
+                      "answer": {
+                        "const": true
+                      },
+                      "rationale": {
+                        "const": true
+                      },
+                      "source": {
+                        "const": true
+                      },
+                      "grade": {
+                        "const": true
+                      },
+                      "unique": {
+                        "const": true
+                      },
+                      "figures": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "answer",
+                      "rationale",
+                      "source",
+                      "grade",
+                      "unique",
+                      "figures"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "revision",
+                  "note"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}/withdraw": {
+      "post": {
+        "summary": "撤回并保留不可变历史",
+        "description": "有效字段revision/note；撤回立即移出自主练习，清除当前审核标志，保留旧版本与原有成绩。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionView"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  },
+                  "decision": {
+                    "type": "string",
+                    "enum": [
+                      "accept",
+                      "reject"
+                    ]
+                  },
+                  "checks": {
+                    "type": "object",
+                    "properties": {
+                      "answer": {
+                        "const": true
+                      },
+                      "rationale": {
+                        "const": true
+                      },
+                      "source": {
+                        "const": true
+                      },
+                      "grade": {
+                        "const": true
+                      },
+                      "unique": {
+                        "const": true
+                      },
+                      "figures": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "answer",
+                      "rationale",
+                      "source",
+                      "grade",
+                      "unique",
+                      "figures"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "revision",
+                  "note"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}/report": {
+      "post": {
+        "summary": "对具体版本提交错误举报",
+        "description": "",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ReportReceipt"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT, AUTHORIZATION_CHANGED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT",
+              "AUTHORIZATION_CHANGED"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  }
+                },
+                "required": [
+                  "revision",
+                  "reason"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}/resolve-report": {
+      "post": {
+        "summary": "保留举报原文并记录处理结果",
+        "description": "",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "resolved": {
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "resolved"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: REPORT_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "REPORT_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reportId": {
+                    "type": "string"
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  }
+                },
+                "required": [
+                  "reportId",
+                  "resolution"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/questions/{id}/export": {
+      "get": {
+        "summary": "受保护JSON/CSV导出",
+        "description": "JSON仍为data包装；CSV为UTF-8 BOM、表头与单条题目记录，Excel公式起始字符已转义。导出知识难度为题目版本快照；内容包含答案，只允许本机构教师/管理员。",
+        "x-roles": [
+          "teacher",
+          "admin"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "json",
+                "csv"
+              ]
+            },
+            "description": "默认json；PDF通过鉴权打印页面完成，无服务器PDF端点"
+          },
+          {
+            "name": "revision",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "可选，但客户端必须发送所看版本以防导出版本与文件名错配；省略时导出当前版本"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionView"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "id,revision,subject,grade,difficulty,knowledgeDifficulty,purpose,prompt,options,correctOption,rationale,source,reviewStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_FORMAT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_FORMAT"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/bank/practice": {
+      "get": {
+        "summary": "筛选并分页读取不计正式成绩的自主练习",
+        "description": "data保持数组兼容，默认/最大100题，网站每页20题；总数必须读取X-Total-Count，不能使用data.length推定全量。拒绝未知/重复query key、不合法枚举、超长知识点、非安全整数分页。稳定按题目ID排序；只返回当前机构available/published且独立通过或真实老师审核的题，最终复核角色/会话/机构。不含correctOption、rationale或历史；不创建attempts/answers，管理员/家长不可读取。",
+        "x-roles": [
+          "student",
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "chinese",
+                "math",
+                "english",
+                "physics",
+                "chemistry",
+                "biology",
+                "history",
+                "geography",
+                "civics"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "grade",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                7,
+                8,
+                9
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "knowledge",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 160
+            },
+            "description": "去首尾空白后按知识点ID精确匹配或标题子串匹配"
+          },
+          {
+            "name": "difficulty",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "very_low",
+                "low",
+                "medium",
+                "high",
+                "very_high",
+                "unrated"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "purpose",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "diagnostic",
+                "practice",
+                "retest",
+                "exam_review"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991,
+              "default": 0
+            },
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PracticeQuestion"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "X-Total-Count": {
+                "description": "当前机构、当前筛选条件下可用总数。",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "X-Offset": {
+                "description": "本次分页起始偏移。",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "X-Limit": {
+                "description": "本次分页上限。",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_FILTER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_FILTER"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/bank/practice/{id}/answer": {
+      "post": {
+        "summary": "按相同版本作答后查看参考答案",
+        "description": "必须选择0..3；题目已撤回、不可用或无权限404。只供自主核对，recordedAsFormalGrade恒false；不生成正式成绩或成长记录。",
+        "x-roles": [
+          "student",
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PracticeAnswer"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "selectedOption": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  }
+                },
+                "required": [
+                  "revision",
+                  "selectedOption"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank/practice/{id}/report": {
+      "post": {
+        "summary": "学生/教师举报当前可练习题的具体版本",
+        "description": "",
+        "x-roles": [
+          "student",
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ReportReceipt"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: VERSION_CONFLICT, AUTHORIZATION_CHANGED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "VERSION_CONFLICT",
+              "AUTHORIZATION_CHANGED"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1500
+                  }
+                },
+                "required": [
+                  "revision",
+                  "reason"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-lab/status": {
+      "get": {
+        "summary": "教师受限实验状态与三个固定预设",
+        "description": "拒绝所有查询参数。管理员、学生、家长不能调用；匿名请用/public/ai-status。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AiTeacherStatus"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/ai-lab/jobs": {
+      "post": {
+        "summary": "提交固定原创样例异步实验",
+        "description": "不接受自由文本、学生资料、source/URL/model等额外字段。每老师每小时最多6次新实验；相同requestId/同预设不重复模型调用，不同预设409。202表示运行记录，不表示成功；上游忙/失联可能保存failed记录并200返回result.code，前端须看state/result，禁止自动重试模型。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AiJob"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "任务已保存；不表示模型成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AiJob"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: IDEMPOTENCY_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "IDEMPOTENCY_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED, DEEPTUTOR_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED",
+              "DEEPTUTOR_UNAVAILABLE"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+                  },
+                  "preset": {
+                    "type": "string",
+                    "enum": [
+                      "math-equation",
+                      "english-be",
+                      "outside-scope"
+                    ]
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "preset"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-lab/jobs/{id}": {
+      "get": {
+        "summary": "读取并刷新本人实验结果",
+        "description": "仅任务所属机构的创建老师；拒绝所有查询参数。轮询可保存真实上游结果与审计。失联/错误答案/引用失配等转failed（200+result.code），或返回quarantined/no_match，不能视为成功答案。结果总是teacherReviewed=false、gradingAllowed=false；范围外测试不得模型调用。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AiJob"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/public/learning-qa-status": {
+      "get": {
+        "summary": "免登录查看受保护学习问答状态与隐私范围",
+        "description": "实际就绪探测最多缓存15秒，不执行问答模型；未配置或不可用时200+unavailable/freeInput=false。只返回固定范围与限制，不读取个人任务。",
+        "x-roles": [
+          "anonymous"
+        ],
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LearningQaStatus"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "403": {
+            "description": "403: ORIGIN_REJECTED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "ORIGIN_REJECTED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/learning-qa/status": {
+      "get": {
+        "summary": "学生/教师查看学习问答范围、TTL及输入限制",
+        "description": "拒绝所有查询参数。先探测真实服务状态，再复核当前会话、角色与机构；管理员/家长不可调用。",
+        "x-roles": [
+          "teacher",
+          "student"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LearningQaStatus"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    },
+    "/learning-qa/jobs": {
+      "post": {
+        "summary": "提交本人普通学习问题，不保存正文到平台数据库",
+        "description": "仅4个请求key；不接studentId、档案、上传、sourceId、URL或model参数。teacher/student按本人+机构绑定，管理员/家长无权；每用户每小时最多8个新请求。相同requestId与相同规范化问题/学科幂等，不重跑模型；不同内容409。问题仅传本地受保护桥接，平台DB保存按用户HMAC的问题摘要、所有权、状态、结果摘要及expiresAt，不存问题/回答正文。200/202不表示回答成功；POST的result恒null，前端须GET读取。启动失败可200+state=failed/outcome=unavailable；不自动重试。",
+        "x-roles": [
+          "teacher",
+          "student"
+        ],
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LearningQaJob"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "任务已保存；不表示模型成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LearningQaJob"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT, INVALID_JSON, PRIVATE_DATA_NOT_ALLOWED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT",
+              "INVALID_JSON",
+              "PRIVATE_DATA_NOT_ALLOWED"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: IDEMPOTENCY_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "IDEMPOTENCY_CONFLICT"
+            ]
+          },
+          "413": {
+            "description": "413: BODY_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "BODY_TOO_LARGE"
+            ]
+          },
+          "415": {
+            "description": "415: JSON_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "JSON_REQUIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED, LEARNING_QA_DISABLED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED",
+              "LEARNING_QA_DISABLED"
+            ]
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "enum": [
+                      "math",
+                      "english"
+                    ]
+                  },
+                  "question": {
+                    "type": "string",
+                    "description": "服务端NFKC规范化并trim后，JavaScript UTF-16长度必须5至300；禁止控制/零宽/双向控制字符和识别到的个人资料字段。",
+                    "x-normalized-utf16-minLength": 5,
+                    "x-normalized-utf16-maxLength": 300
+                  },
+                  "noPersonalDataConfirmed": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "subject",
+                  "question",
+                  "noPersonalDataConfirmed"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/learning-qa/jobs/{id}": {
+      "get": {
+        "summary": "读取本人临时学习问答结果并核对引用",
+        "description": "拒绝查询参数；仅同机构本人拥有任务，其他老师也不能代读。平台expiresAt到期返回410，正文临时缓存最多30分钟，重启/上游提前过期也可能200+state=expired/result=null；任务摘要保留并非30分钟删除。结果只在当前请求返回，不写平台DB；GET会核对原始讲解中的引用/digest并在最终返回前再次鉴权。refused不调用模型且answer=null；unreliable无替代答案；needs_verification才可能带答案，仍teacherReviewed=false/gradingAllowed=false。上游失联/输出错误以200+failed或expired及outcome记录，不能把HTTP200当可靠回答；已完成结果摘要改变会转invalid_result。",
+        "x-roles": [
+          "teacher",
+          "student"
+        ],
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。JSON使用data包装。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LearningQaJob"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400: INVALID_INPUT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INVALID_INPUT"
+            ]
+          },
+          "401": {
+            "description": "401: UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "UNAUTHENTICATED"
+            ]
+          },
+          "403": {
+            "description": "403: FORBIDDEN, ORIGIN_REJECTED, CSRF_REJECTED, PASSWORD_CHANGE_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "FORBIDDEN",
+              "ORIGIN_REJECTED",
+              "CSRF_REJECTED",
+              "PASSWORD_CHANGE_REQUIRED"
+            ]
+          },
+          "404": {
+            "description": "404: NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "NOT_FOUND"
+            ]
+          },
+          "409": {
+            "description": "409: CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFLICT"
+            ]
+          },
+          "410": {
+            "description": "410: LEARNING_QA_EXPIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "LEARNING_QA_EXPIRED"
+            ]
+          },
+          "429": {
+            "description": "429: RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ]
+          },
+          "500": {
+            "description": "500: INTERNAL_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "INTERNAL_ERROR"
+            ]
+          },
+          "503": {
+            "description": "503: CONFIGURATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "x-error-codes": [
+              "CONFIGURATION_REQUIRED"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "session": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-lp_session"
+      },
+      "csrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "requestId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "requestId"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "additionalProperties": false
+      },
+      "Difficulty": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "very_low",
+          "low",
+          "medium",
+          "high",
+          "very_high",
+          null
+        ],
+        "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+      },
+      "Health": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "const": "ok"
+          },
+          "apiVersion": {
+            "const": "v1"
+          },
+          "ocr": {
+            "type": "string",
+            "enum": [
+              "local_available",
+              "unavailable"
+            ]
+          },
+          "ai": {
+            "type": "string",
+            "enum": [
+              "limited_learning_qa",
+              "limited_teacher_lab",
+              "unavailable"
+            ]
+          },
+          "aiGeneration": {
+            "const": "unavailable"
+          },
+          "aiFormalGrading": {
+            "const": false
+          },
+          "matching": {
+            "const": "rule-v1"
+          }
+        },
+        "required": [
+          "status",
+          "apiVersion",
+          "ocr",
+          "ai",
+          "aiGeneration",
+          "aiFormalGrading",
+          "matching"
+        ],
+        "additionalProperties": false
+      },
+      "CoverageTotals": {
+        "type": "object",
+        "properties": {
+          "questionCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "knowledgeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "catalogCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "publishedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reviewedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unreviewedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pendingCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "quarantinedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentPracticeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentPracticeKnowledgeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentScoredCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentAvailableCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "legacyExampleCount": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "questionCount",
+          "knowledgeCount",
+          "catalogCount",
+          "publishedCount",
+          "reviewedCount",
+          "unreviewedCount",
+          "pendingCount",
+          "quarantinedCount",
+          "studentPracticeCount",
+          "studentPracticeKnowledgeCount",
+          "studentScoredCount",
+          "studentAvailableCount",
+          "legacyExampleCount"
+        ],
+        "additionalProperties": false
+      },
+      "CoverageSubject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "chinese",
+              "math",
+              "english",
+              "physics",
+              "chemistry",
+              "biology",
+              "history",
+              "geography",
+              "civics"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "enum": [
+                7,
+                8,
+                9
+              ]
+            }
+          },
+          "questionCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "knowledgeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "catalogCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "publishedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reviewedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unreviewedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pendingCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "quarantinedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentPracticeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentPracticeKnowledgeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentScoredCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "studentAvailableCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "legacyExampleCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "partial",
+              "planned"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "grades",
+          "questionCount",
+          "knowledgeCount",
+          "catalogCount",
+          "publishedCount",
+          "reviewedCount",
+          "unreviewedCount",
+          "pendingCount",
+          "quarantinedCount",
+          "studentPracticeCount",
+          "studentPracticeKnowledgeCount",
+          "studentScoredCount",
+          "studentAvailableCount",
+          "legacyExampleCount",
+          "status",
+          "note"
+        ],
+        "additionalProperties": false
+      },
+      "Coverage": {
+        "type": "object",
+        "properties": {
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoverageSubject"
+            }
+          },
+          "totals": {
+            "$ref": "#/components/schemas/CoverageTotals"
+          },
+          "quarantinedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "generatedAt",
+          "subjects",
+          "totals",
+          "quarantinedCount",
+          "notice"
+        ],
+        "additionalProperties": false
+      },
+      "Validation": {
+        "type": "object",
+        "properties": {
+          "validator": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "passed",
+              "needs_review",
+              "quarantined"
+            ]
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "proof": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true,
+            "description": "按核验器分别保留独立计算、逐选项检查或解析证据；不是统一模型准确率或教师签名。"
+          },
+          "humanReview": {
+            "const": false
+          },
+          "sourceRights": {
+            "type": "string"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "teacherReviewed": {
+            "const": false
+          },
+          "formalGradingAllowed": {
+            "const": false
+          },
+          "checks": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "scope": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "additionalProperties": true
+          },
+          "curriculumReview": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "validator",
+          "status",
+          "issues",
+          "warnings",
+          "proof",
+          "humanReview",
+          "sourceRights",
+          "checkedAt"
+        ],
+        "additionalProperties": true
+      },
+      "QuestionContent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string",
+            "enum": [
+              "chinese",
+              "math",
+              "english",
+              "physics",
+              "chemistry",
+              "biology",
+              "history",
+              "geography",
+              "civics"
+            ]
+          },
+          "grade": {
+            "type": "integer",
+            "enum": [
+              7,
+              8,
+              9
+            ]
+          },
+          "semester": {
+            "type": "string"
+          },
+          "chapter": {
+            "type": "string"
+          },
+          "knowledgeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "maxItems": 12
+          },
+          "knowledgeTitle": {
+            "type": "string"
+          },
+          "knowledgeDifficulty": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "very_low",
+              "low",
+              "medium",
+              "high",
+              "very_high",
+              null
+            ],
+            "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+          },
+          "knowledgeDifficultyBasis": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "memoryCard": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "correctOption": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "very_low",
+              "low",
+              "medium",
+              "high",
+              "very_high",
+              null
+            ],
+            "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+          },
+          "difficultyBasis": {
+            "type": "string"
+          },
+          "purposes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "diagnostic",
+                "practice",
+                "retest",
+                "exam_review"
+              ]
+            },
+            "minItems": 1
+          },
+          "source": {
+            "type": "string"
+          },
+          "license": {
+            "type": "string"
+          },
+          "sourceVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sourceDigest": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sourceLabel": {
+            "type": "string"
+          },
+          "textbookScope": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "reviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending_human",
+              "human_reviewed"
+            ]
+          },
+          "originalAutomatedClaim": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "origin": {
+            "type": "string"
+          },
+          "image": {
+            "type": [
+              "object",
+              "string",
+              "null"
+            ]
+          },
+          "sourceReferences": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "checkedAt": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "use": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "url"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "subject",
+          "grade",
+          "semester",
+          "chapter",
+          "knowledgeIds",
+          "knowledgeTitle",
+          "knowledgeDifficulty",
+          "knowledgeDifficultyBasis",
+          "explanation",
+          "memoryCard",
+          "prompt",
+          "options",
+          "correctOption",
+          "rationale",
+          "difficulty",
+          "difficultyBasis",
+          "purposes",
+          "source",
+          "license",
+          "sourceVersion",
+          "sourceDigest",
+          "sourceLabel",
+          "textbookScope",
+          "region",
+          "reviewStatus",
+          "origin",
+          "image"
+        ],
+        "additionalProperties": true
+      },
+      "QuestionView": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuestionContent"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "contentHash": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "available",
+                  "published",
+                  "quarantined",
+                  "withdrawn"
+                ]
+              },
+              "validation": {
+                "$ref": "#/components/schemas/Validation"
+              },
+              "reviewedBy": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reviewedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "studentPracticeAvailable": {
+                "type": "boolean"
+              },
+              "formalScoringAvailable": {
+                "const": false
+              }
+            },
+            "required": [
+              "revision",
+              "contentHash",
+              "state",
+              "validation",
+              "reviewedBy",
+              "reviewedAt",
+              "studentPracticeAvailable",
+              "formalScoringAvailable"
+            ],
+            "additionalProperties": true
+          }
+        ]
+      },
+      "QuestionWithKnowledgeLevels": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuestionView"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "knowledgeDifficultySnapshot": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "very_low",
+                  "low",
+                  "medium",
+                  "high",
+                  "very_high",
+                  null
+                ],
+                "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+              },
+              "knowledgeLevelRevision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "knowledgeDifficulties": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "difficulty": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "very_low",
+                        "low",
+                        "medium",
+                        "high",
+                        "very_high",
+                        null
+                      ],
+                      "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+                    },
+                    "revision": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "difficulty",
+                    "revision"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "knowledgeDifficultySnapshot",
+              "knowledgeLevelRevision",
+              "knowledgeDifficulties"
+            ],
+            "additionalProperties": true
+          }
+        ],
+        "description": "列表/详情knowledgeDifficulty为本机构首关联知识点的统一定级；knowledgeDifficultySnapshot为该题版本内快照。修改题目快照不会修改知识点统一定级。"
+      },
+      "VersionHistory": {
+        "type": "object",
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "content_hash": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "reviewed_by": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewed_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "actor_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "action": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "content": {
+            "$ref": "#/components/schemas/QuestionContent"
+          }
+        },
+        "required": [
+          "revision",
+          "content_hash",
+          "state",
+          "reviewed_by",
+          "reviewed_at",
+          "actor_id",
+          "action",
+          "note",
+          "created_at",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "ErrorReport": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "org_id": {
+            "type": "string"
+          },
+          "question_id": {
+            "type": "string"
+          },
+          "question_revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "reporter_id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "resolved_by": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resolved_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resolution": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "org_id",
+          "question_id",
+          "question_revision",
+          "reporter_id",
+          "reason",
+          "created_at",
+          "resolved_by",
+          "resolved_at",
+          "resolution"
+        ],
+        "additionalProperties": false
+      },
+      "QuestionDetail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuestionWithKnowledgeLevels"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "history": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VersionHistory"
+                }
+              },
+              "reports": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ErrorReport"
+                }
+              }
+            },
+            "required": [
+              "history",
+              "reports"
+            ],
+            "additionalProperties": true
+          }
+        ]
+      },
+      "QuestionList": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionWithKnowledgeLevels"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "offset",
+          "limit",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "PracticeQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "subject": {
+            "type": "string",
+            "enum": [
+              "chinese",
+              "math",
+              "english",
+              "physics",
+              "chemistry",
+              "biology",
+              "history",
+              "geography",
+              "civics"
+            ]
+          },
+          "grade": {
+            "type": "integer",
+            "enum": [
+              7,
+              8,
+              9
+            ]
+          },
+          "knowledgeTitle": {
+            "type": "string"
+          },
+          "knowledgeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "knowledgeDifficulty": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "very_low",
+              "low",
+              "medium",
+              "high",
+              "very_high",
+              null
+            ],
+            "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+          },
+          "difficulty": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "very_low",
+              "low",
+              "medium",
+              "high",
+              "very_high",
+              null
+            ],
+            "description": "超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。"
+          },
+          "purposes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "diagnostic",
+                "practice",
+                "retest",
+                "exam_review"
+              ]
+            }
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending_human",
+              "human_reviewed"
+            ]
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "subject",
+          "grade",
+          "knowledgeTitle",
+          "knowledgeIds",
+          "knowledgeDifficulty",
+          "difficulty",
+          "purposes",
+          "prompt",
+          "options",
+          "reviewStatus",
+          "notice"
+        ],
+        "additionalProperties": false
+      },
+      "PracticeAnswer": {
+        "type": "object",
+        "properties": {
+          "questionId": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "correctOption": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "reviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending_human",
+              "human_reviewed"
+            ]
+          },
+          "recordedAsFormalGrade": {
+            "const": false
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "questionId",
+          "revision",
+          "correctOption",
+          "rationale",
+          "reviewStatus",
+          "recordedAsFormalGrade",
+          "notice"
+        ],
+        "additionalProperties": false
+      },
+      "ImportBatch": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "questions": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "knowledgePoints": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "requiresTeacherReview": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "filename",
+          "sha256",
+          "questions",
+          "knowledgePoints",
+          "requiresTeacherReview"
+        ],
+        "additionalProperties": false
+      },
+      "ImportResult": {
+        "type": "object",
+        "properties": {
+          "imported": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "skipped": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "humanReviewsCreated": {
+            "const": 0
+          },
+          "batches": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "studentPracticeAdded": {
+            "const": 0
+          }
+        },
+        "required": [
+          "imported",
+          "skipped",
+          "humanReviewsCreated",
+          "batches"
+        ],
+        "additionalProperties": false
+      },
+      "ReportReceipt": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "const": "open"
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "AiLabPublicStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "limited",
+              "unavailable"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "object",
+            "properties": {
+              "questionAnswering": {
+                "type": "boolean"
+              },
+              "syntheticKnowledgeRetrieval": {
+                "type": "boolean"
+              },
+              "generation": {
+                "const": false
+              },
+              "grading": {
+                "const": false
+              }
+            },
+            "required": [
+              "questionAnswering",
+              "syntheticKnowledgeRetrieval",
+              "generation",
+              "grading"
+            ],
+            "additionalProperties": false
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notice": {
+            "type": "string"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cacheMaxAgeSeconds": {
+            "const": 15
+          }
+        },
+        "required": [
+          "status",
+          "label",
+          "message",
+          "capabilities",
+          "scope",
+          "notice",
+          "checkedAt",
+          "cacheMaxAgeSeconds"
+        ],
+        "additionalProperties": false
+      },
+      "AiLearningPublicStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "const": "limited"
+          },
+          "label": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "object",
+            "properties": {
+              "questionAnswering": {
+                "const": true
+              },
+              "syntheticKnowledgeRetrieval": {
+                "const": true
+              },
+              "freeInput": {
+                "const": true
+              },
+              "generation": {
+                "const": false
+              },
+              "grading": {
+                "const": false
+              }
+            },
+            "required": [
+              "questionAnswering",
+              "syntheticKnowledgeRetrieval",
+              "freeInput",
+              "generation",
+              "grading"
+            ],
+            "additionalProperties": false
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "label",
+          "message",
+          "capabilities",
+          "scope",
+          "notice"
+        ],
+        "additionalProperties": false
+      },
+      "AiPublicStatus": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AiLabPublicStatus"
+          },
+          {
+            "$ref": "#/components/schemas/AiLearningPublicStatus"
+          }
+        ],
+        "description": "学习问答ready时使用带freeInput=true的聚合分支；该分支实际不返回checkedAt/cacheMaxAgeSeconds。否则保留旧教师实验室状态分支。"
+      },
+      "AiPreset": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "math-equation",
+              "english-be",
+              "outside-scope"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "subject": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "math",
+              "english",
+              null
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "subject"
+        ],
+        "additionalProperties": false
+      },
+      "AiTeacherStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "limited",
+              "unavailable"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "object",
+            "properties": {
+              "questionAnswering": {
+                "type": "boolean"
+              },
+              "syntheticKnowledgeRetrieval": {
+                "type": "boolean"
+              },
+              "generation": {
+                "const": false
+              },
+              "grading": {
+                "const": false
+              }
+            },
+            "required": [
+              "questionAnswering",
+              "syntheticKnowledgeRetrieval",
+              "generation",
+              "grading"
+            ],
+            "additionalProperties": false
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notice": {
+            "type": "string"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cacheMaxAgeSeconds": {
+            "const": 15
+          },
+          "presets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiPreset"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "label",
+          "message",
+          "capabilities",
+          "scope",
+          "notice",
+          "checkedAt",
+          "cacheMaxAgeSeconds",
+          "presets"
+        ],
+        "additionalProperties": false
+      },
+      "AiCitation": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "stage9_math.txt",
+              "stage9_english.txt"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "quote": {
+            "type": "string",
+            "maxLength": 3000
+          },
+          "nativePageCitation": {
+            "const": false
+          }
+        },
+        "required": [
+          "source",
+          "sha256",
+          "quote",
+          "nativePageCitation"
+        ],
+        "additionalProperties": false
+      },
+      "AiResult": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "answered",
+              "quarantined",
+              "no_match"
+            ]
+          },
+          "answer": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "automaticCheck": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "citations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiCitation"
+            },
+            "maxItems": 2
+          },
+          "modelCalls": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "syntheticOnly": {
+            "const": true
+          },
+          "teacherReviewed": {
+            "const": false
+          },
+          "gradingAllowed": {
+            "const": false
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome",
+          "answer",
+          "explanation",
+          "automaticCheck",
+          "citations",
+          "modelCalls",
+          "syntheticOnly",
+          "teacherReviewed",
+          "gradingAllowed",
+          "message"
+        ],
+        "additionalProperties": false
+      },
+      "AiFailure": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "const": "failed"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome",
+          "code",
+          "message"
+        ],
+        "additionalProperties": false
+      },
+      "AiJob": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "preset": {
+            "type": "string",
+            "enum": [
+              "math-equation",
+              "english-be",
+              "outside-scope"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "created",
+              "running",
+              "completed",
+              "failed"
+            ]
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/AiResult"
+              },
+              {
+                "$ref": "#/components/schemas/AiFailure"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "preset",
+          "state",
+          "result",
+          "createdAt",
+          "notice"
+        ],
+        "additionalProperties": false
+      },
+      "LearningQaStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "limited",
+              "unavailable"
+            ]
+          },
+          "freeInput": {
+            "type": "boolean"
+          },
+          "roles": {
+            "const": [
+              "teacher",
+              "student"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notice": {
+            "type": "string"
+          },
+          "retention": {
+            "type": "string"
+          },
+          "maxCharacters": {
+            "const": 300
+          },
+          "ttlSeconds": {
+            "const": 1800
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cacheMaxAgeSeconds": {
+            "const": 15
+          },
+          "gradingAllowed": {
+            "const": false
+          }
+        },
+        "required": [
+          "status",
+          "freeInput",
+          "roles",
+          "label",
+          "scope",
+          "notice",
+          "retention",
+          "maxCharacters",
+          "ttlSeconds",
+          "checkedAt",
+          "cacheMaxAgeSeconds",
+          "gradingAllowed"
+        ],
+        "additionalProperties": false
+      },
+      "LearningQaCitation": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 3500
+          },
+          "nativePageCitation": {
+            "const": false
+          }
+        },
+        "required": [
+          "sourceId",
+          "title",
+          "digest",
+          "quote",
+          "nativePageCitation"
+        ],
+        "additionalProperties": false
+      },
+      "LearningQaResult": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "refused",
+              "unreliable",
+              "needs_verification"
+            ]
+          },
+          "answer": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1800
+          },
+          "citations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LearningQaCitation"
+            },
+            "maxItems": 4
+          },
+          "modelCalls": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "teacherReviewed": {
+            "const": false
+          },
+          "gradingAllowed": {
+            "const": false
+          },
+          "automaticCheck": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[A-Z_]{1,60}$"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome",
+          "answer",
+          "citations",
+          "modelCalls",
+          "teacherReviewed",
+          "gradingAllowed",
+          "automaticCheck",
+          "reason",
+          "message"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "needs_verification"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1800
+                },
+                "modelCalls": {
+                  "const": 1
+                },
+                "citations": {
+                  "minItems": 1
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "automaticCheck": {
+                        "const": "specific_answer_checked"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "answer": {
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "answer": {
+                        "minLength": 5
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "else": {
+              "properties": {
+                "answer": {
+                  "const": null
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "refused"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "modelCalls": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "LearningQaJob": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string",
+            "enum": [
+              "math",
+              "english"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "created",
+              "running",
+              "completed",
+              "failed",
+              "expired"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "服务端创建任务时刻加1800000毫秒，Unix时间毫秒；不是ISO字符串。"
+          },
+          "outcome": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "refused",
+              "unreliable",
+              "needs_verification",
+              "unavailable",
+              "invalid_result",
+              null
+            ]
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/LearningQaResult"
+              }
+            ]
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "subject",
+          "state",
+          "createdAt",
+          "expiresAt",
+          "outcome",
+          "result",
+          "notice"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

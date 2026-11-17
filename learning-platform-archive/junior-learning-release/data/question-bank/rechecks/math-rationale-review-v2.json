@@ -1,0 +1,1902 @@
+{
+  "schemaVersion": 2,
+  "method": "The original rationales were read after independently deriving the required numerical or symbolic results. Known missing premises are recorded in the corresponding per-question evidence rather than marked correct.",
+  "records": [
+    {
+      "id": "draft-math-g7-monomial-missing-term-diag",
+      "rationaleSha256": "1ca0f9762ac170da0e354c4cf9c6b3494ffaec0135ff482070f070252b498525",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-monomial-missing-term-prac",
+      "rationaleSha256": "b324b76f6826366323b36ab8c0885937f39c78e66cebec965a9fd084e40fe1ac",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-monomial-missing-term-retest",
+      "rationaleSha256": "54ba83297a77809420a868d7517ae2f40e79504d075104b5f201af9fb22710bd",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-diag",
+      "rationaleSha256": "be4f88b649924321289018e0f42f0909c757f1e2654ece5f0a1a361fd9a7db39",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-prac",
+      "rationaleSha256": "f8b579b6081e6a753aafe3e283d1a90b7dc097acd9490e61ffbb4ad2f493ef59",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-retest",
+      "rationaleSha256": "ac1fa4852013cd673cd27a25a3831d8a29c1b20b7ce9bf47b82bdfdadfd08df4",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-diag",
+      "rationaleSha256": "766dba3ae3e6dfc0f279100bcc85227c13df6c414187b009caa9eaa814150896",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-prac",
+      "rationaleSha256": "903b035390810b1602fcf31ecf85eb77f1112d221e3c1a122249279d4d92f6b6",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-retest",
+      "rationaleSha256": "573874401d369174d5fe5c3b90418d2f49b2f4366dc2f4abe8f6f6e91b985c25",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-diag",
+      "rationaleSha256": "0402c40c6e0c60a50c63ce105605a17f262d9a01b676d4d78e54ab88709fef72",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-prac",
+      "rationaleSha256": "4842058949364305a385472063b33f99fe6e7d2b7bb7301c69f4b67fc8f6cbb2",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-retest",
+      "rationaleSha256": "81bdbab75dc33438e00264510130631ed31da270e45dd6195accf2001ead885c",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-diag",
+      "rationaleSha256": "d0b7a49434bdc6146755bf9283f8cf30ec1d80cdaa7f2788479deef8300bde8d",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-prac",
+      "rationaleSha256": "dec0c91e1d649d041711088cff431afa1066729e03007a9325352acb1ea3308d",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-retest",
+      "rationaleSha256": "bc24d7a5714af111e91ea9acaab26345982f7d1440bc7d037fedbb908ae668d0",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-diag",
+      "rationaleSha256": "d414a3973ede2efe0577db02a8d20bca187501a2c7728b58547f5d99e12cb86a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-prac",
+      "rationaleSha256": "ef437e40559c4fdff61187619d7f40495e7788e5c2ebf5ea9d2c95c5565502b3",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-retest",
+      "rationaleSha256": "997999e23bbd7893959bb3d4a857cd8b03b5bc47c0cd61789e04e7ac1b20cd76",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-diag",
+      "rationaleSha256": "df7d70492a2bffc949436e729d268ef202764a2f834f6f1b34d4b4ceacb2e710",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-prac",
+      "rationaleSha256": "a3d54cfac6261a34dcfef4f0c208e117651d4f0c8f80f91ecf8488d5e3875d93",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-retest",
+      "rationaleSha256": "c302f4d2caee194d70e34f0d66e8dcedb2ced7ad5cc6b85e1f1f89100178ba11",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-diag",
+      "rationaleSha256": "5e062e81a3af9adaa80acdd74d1ef1646629e42d8790bfcc9cbd9a9ff3bcc6b8",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-prac",
+      "rationaleSha256": "df16079552016b5ae9d3c1e3c942ec3870d7db1a944baf4f11abf44fcdaeb2b0",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-retest",
+      "rationaleSha256": "02c1aa9e9e92ebd170a4bd8324ff1961c781b856d12031d6c86c27a490a3394c",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-diag",
+      "rationaleSha256": "31c55220a742b77edeba47a984b3a2142e999dcf62c0a715d9e175b7c817403a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-prac",
+      "rationaleSha256": "386c72a8d39667e9bbf053ccf16bd73cb52ce6283763a7c14e3318021727e58c",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-retest",
+      "rationaleSha256": "2eab482348ff26da61288319e63261d39efde5ceb5423687ab6736f735644892",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-rational-prac",
+      "rationaleSha256": "149aec66643fb20d6830d222098eade7450cfc78a79102ec769db79a8716871d",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-rational-retest",
+      "rationaleSha256": "a23d012f725124d39447d371c8b08951b0eee6f8333d3933d2fe4595f5fd9295",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-diag",
+      "rationaleSha256": "bbfe219c9f7ba81ab8b59210a1477f81e4d563a47246d9a105e005eacc1f5d94",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-prac",
+      "rationaleSha256": "7112aead53d96a26db6bd65fab3c6de4edaa26921483c483caf5ce8133c6c989",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-retest",
+      "rationaleSha256": "a4ac6b31f740add33df0e527b5d57c741e00fc37ddd7d949db39f379bb38b82a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-congruence-diag",
+      "rationaleSha256": "cb5b85fe213dc7af43eb38c6c73d293c8ba089d39fe96940fd064e473ad39e8c",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-congruence-prac",
+      "rationaleSha256": "c5503287fa9d9c96d74774d9285b040a07fbc6e69f207a1b3c8cf2709a10c9d1",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-congruence-retest",
+      "rationaleSha256": "dd965466f8756416d3ae5d4178bffe582366c7b46cc4118d01f93f3cb9d9966b",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-linear-func-diag",
+      "rationaleSha256": "5a7ac94516f2909ccf50a8f7598e9d0b792759a9eb31071b489f2cdda8294d00",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-linear-func-prac",
+      "rationaleSha256": "5c811258066cfa5ee1db7406fb2fac2643b8078a354f2e101853a1dd173c119a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-linear-func-retest",
+      "rationaleSha256": "18d77fe133f7d28ff19e50696dcac63be143e44f8249bd107464833e23c7638e",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-diag",
+      "rationaleSha256": "bcf9a3f9e5e3a4a4ea4d98f2f65dd14efb9bbadbc28058e7d16d3b79650ac407",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-prac",
+      "rationaleSha256": "2b1f16766275bdd658a9aae8a35ac5a38a9f4bf5cbae86b727678fa479e9cca9",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-retest",
+      "rationaleSha256": "f917dfd4260fd6137709d73ea0fd1a36a6257b873f90f0ab2e02fe2b7ad88df3",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-trig-diag",
+      "rationaleSha256": "8c1f6254d463d406973a2594977553f8adaddd5773eef9c3656eda4f47803494",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-trig-retest",
+      "rationaleSha256": "ccbb81d5a76ed5250ba5ca216dde1e1e8c74b987689930910e735f29970abdba",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-polynomials-diag",
+      "rationaleSha256": "cdea42d25218e754e77563b8a146753c8b13de524d75e72fe1c9059177605cec",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-polynomials-prac",
+      "rationaleSha256": "f4f7def93f5975abd29309aed50a7a63fc63112d81ce198a6f5928e2280d6b69",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-polynomials-retest",
+      "rationaleSha256": "1d5e2e8bd1fe14bfdebd4c5ea9ed3ae8c54983fc248d683531b2e83b89b13267",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-isosceles-diag",
+      "rationaleSha256": "b5d9d14c0155d3143510855c6b8f3451dcc69ce691d027f5d35063552ee1fab0",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-isosceles-prac",
+      "rationaleSha256": "b7acc1b917bece9c0312a48e11bdab412f5492711db050d9c840b4a68aed8dc0",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-isosceles-retest",
+      "rationaleSha256": "cf9fb1ee0f3e95730301b405feae9f07af49ea96c578ea70aa7a64ce80bcfb58",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-diag",
+      "rationaleSha256": "3619cbcd7ba0f42fda82f8ee842a1cfd61650c98359cc8ed6ddae85a6ae63605",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-prac",
+      "rationaleSha256": "105f4983374cde40494d603e9b9c7acda6e99fb2912971c537bf6b17b2ec3748",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-retest",
+      "rationaleSha256": "0aab2762ff52fbc8f78291ffe9554761f3602aa17ce4eb9ea74ee7c3f6ced43f",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-diag",
+      "rationaleSha256": "42cad2e98581df13d6cf1ff9765fd05bdc292f2b5b41d8e23b4b4251cc29cfe6",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-prac",
+      "rationaleSha256": "3ba9cd461460f84dff0a521dab94cf4c150fd425ffe1ef857eab24b9c0d09322",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-retest",
+      "rationaleSha256": "cf86b67ce907f62ba9e65751467a3bab19651fce593b0fb01282bf8e6d0cc2e5",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-diag",
+      "rationaleSha256": "1a34c273cbfcc6941ccd478812dc53bab0efd8e94971ca9600c655c122e063df",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-prac",
+      "rationaleSha256": "5d9dd566fc06d0abd1f2b4c784ef6dc3fc756de8b867f97184f6fb1841435c0a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-retest",
+      "rationaleSha256": "fb29e78f7b781465f72d3ccf540b66f6bcdd7a76d159420f1416ea2af2a5b755",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-sys-diag",
+      "rationaleSha256": "beefda65d6c9ce9191b7c180c48748936ef5c3f83c21b841aba25f8841284381",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-sys-prac",
+      "rationaleSha256": "f8dcd5a0382a7834382af64e9b21433c42f5764763a80b788259168830f416c6",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-linear-sys-retest",
+      "rationaleSha256": "d16cb4f9d5397a3d75a500e04e5e80e1b9828afbcf2f3364d7175604e8bc29a5",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-diag",
+      "rationaleSha256": "43d55f1ff99e5f1d0a0f078bd09b460d50907f13793790975817fb6f7a68b0b5",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-prac",
+      "rationaleSha256": "2d32bd29b950a1237cba1d0508f4d56d691cec4ba881b65de50ab329fc55ae66",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-retest",
+      "rationaleSha256": "bad132442d284448e2521222f04664965f21667eed1c403b4e5d0438f72259cc",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-pythagoras-diag",
+      "rationaleSha256": "3738ea1b92a32dfcca1941c63e256b341940c8ee0d00091f7112739eef5a70c2",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-pythagoras-prac",
+      "rationaleSha256": "ecf3a18bc13d214bb707d6378b5a2f493325284f8493f51e39d3bd1399a3809f",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-pythagoras-retest",
+      "rationaleSha256": "9596b00e9cc5d00f0d26748f7e68a78e20cdeaae26b99a89061e66d573a49ef4",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-parallelogram-diag",
+      "rationaleSha256": "30b53986fb0b70b32a55603b088efd9b6fa6ea1912393a6c90698f307e060f98",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-parallelogram-prac",
+      "rationaleSha256": "4d5ffba6ac45f295deec83c0d46a45c4f0142617f12bfdfa5edbe9525dc9bc58",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-parallelogram-retest",
+      "rationaleSha256": "c9bb8d170c5278fb0c8b965567bee410a2a139ef83a96c34640db0f98f274d1c",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-diag",
+      "rationaleSha256": "a8778ff1e615a00ba30198ed1d48003d3eb727d31ccf93ece9380e02da3c48ae",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-prac",
+      "rationaleSha256": "369d544edda110f9f579b7c3f0fed24ffd23c6bce46326f9a7e66ed09e9b2582",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-retest",
+      "rationaleSha256": "ef21e413733cfa6f3c9cef89921516b6f1c867306ced94f12ecedc592e29402d",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-diag",
+      "rationaleSha256": "dde5cb48b18b6d5de66d2bae7135ee7d51667a8c83753f60e21798da3781891e",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-prac",
+      "rationaleSha256": "b16cd83a70d132f049b373016d01aaa00f0d81bd3ef6310fbc2dc2d8961ef0fe",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-retest",
+      "rationaleSha256": "5bb7f1c3e99942c188e58e105c004ffeb66e38c81ca12e181001e845c9f0a277",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-similarity-diag",
+      "rationaleSha256": "a6e0f13755faafb2bffe135203f6f8876857e7928e64e0a3cd8bc48c2f7547a0",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-similarity-prac",
+      "rationaleSha256": "068ee891e912af19f1734a0d4c964e094949207243dc4bcb80aa45ae413ace5b",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-similarity-retest",
+      "rationaleSha256": "42816fdfbb0eb684e9c03c36c97878d08ebd4c172152db4a5bfd47b6272c7404",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-sci-notation-diag",
+      "rationaleSha256": "cedd8275008774b663ffddbc3fe29de09657a0a9f16859a68959bb01861b8e7b",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-sci-notation-retest",
+      "rationaleSha256": "14d2da95eebb3c56cb71c73b6ae27ca7a0bdefe7f0201f9fdc1e3b5035d03138",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-angles-segments-diag",
+      "rationaleSha256": "2d4ab480ec93adb78827dad20662a7d0a867110046e7067311c6f2b3f255e521",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-angles-segments-prac",
+      "rationaleSha256": "16edc985369b3f484c3618605eb42089416501c2452a0736cfc27934f60f6d2e",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-angles-segments-retest",
+      "rationaleSha256": "f465f81aaeb1ec7e913ae338c8b2b268d02eab788732872f1e08ec678eeb1343",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-real-roots-diag",
+      "rationaleSha256": "83af98d466a58449961266f34e259b04ece7c03c790c08ec4c9677c09aebd543",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-real-roots-prac",
+      "rationaleSha256": "006bb2285e918d54437ee7a6c64e6afd7a8fa55ca2a5007027360d3db649039d",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-real-roots-retest",
+      "rationaleSha256": "1779454242d848129275a9dd8b173d76233fcb9340e28023fa05bafb8cf0030e",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-coord-plane-diag",
+      "rationaleSha256": "0cb6ab84cd8ef73cd58e608b24c93e2d08959d94ddfaeeaf886caff5d18d3b11",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-coord-plane-prac",
+      "rationaleSha256": "4938d7bef6054a411f14ade68dc6464b71b1e22a1589eefc13da9f52fbf20b61",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-coord-plane-retest",
+      "rationaleSha256": "d4e06b030edcf7ef4e78282c3616c5f772ef8dd139743dc8ba23cf328f04c2f2",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-diag",
+      "rationaleSha256": "3426ed79b3f57328cd8295b42d298542ba80f39a6ebaf1b665a070af37b4187b",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-prac",
+      "rationaleSha256": "e915722de3c262cc6a8d6259d7e047cf69f6e60ac51ec9e738d1144c39f581c3",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-retest",
+      "rationaleSha256": "60b1bf68ea0af911d42a6b33b009d3aa041f0fdb775875d53de74fb2822ea580",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-diag",
+      "rationaleSha256": "1fbe88bad9fe4a0fc0c947df1af68535c30b0b8656bede32732b30cc1c72181f",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-prac",
+      "rationaleSha256": "c076f53e44095f6fa6896e3c73e2a29c14f005134976b0659032b6d7e43345f1",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-retest",
+      "rationaleSha256": "34f4d122631c5b6503b22e2e8bd07e2bde92b688bea933a0d2594da24ab4e0d5",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-radicals-diag",
+      "rationaleSha256": "2891585e7d18761f61bf6556e48ae4facd7139a4670b8c46db0347b8f82223ef",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-radicals-retest",
+      "rationaleSha256": "e2b4dd3ce5120b24e7f96b44958fc74c32ab67c50d1178580e336e7deb4656d6",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-diag",
+      "rationaleSha256": "1f254216ce0eeb5e711a0477081ea903ce101b1adcd4e5e1c481ba1cbb292d8f",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-prac",
+      "rationaleSha256": "a39931615ba872b09e90e24633e1195edcfe89cbfbf823a2d87f95b4782c5d43",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-retest",
+      "rationaleSha256": "767c8a6a1c644991ad0717b282d63a0bb10e9ced337f6c498fbe563fa47ad6b0",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-probability-diag",
+      "rationaleSha256": "26f2d728da5305ee4e19b4e3466d6ca02be3701462ad297cea0dd24e8f14b1aa",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-probability-prac",
+      "rationaleSha256": "5e028e502612b144541841190ac19a88180e35731e0a1eea8af8818537788363",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-probability-retest",
+      "rationaleSha256": "d1afb47a3328c1234431f0b94b20739a5a0c15424dd98e3cfd1dd3458e22d5b9",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-profit-billing-diag",
+      "rationaleSha256": "f27b179a486cf39e70b7c70cc8ea8eb771bdad979a0a9f6afbfc874951510ccd",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-profit-billing-prac",
+      "rationaleSha256": "3957f6a0dab507167bcc835a1115b08ebdf86aa751f7df83cb33165c225c1fa5",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-profit-billing-retest",
+      "rationaleSha256": "08662d341480dcf6da22e72579971a71f28144b3e6df593f915827394e3c2110",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-data-sampling-diag",
+      "rationaleSha256": "2d4dc47a1aaee3e30e9771e148366d20d540154ece9ddf1ebc7cab704e1bf638",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-data-sampling-prac",
+      "rationaleSha256": "14a257d6d68e45840f439c475f07625fdfb3080391505ab8052a5c6d7b5dc917",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-data-sampling-retest",
+      "rationaleSha256": "eb389d8027596c991c9077a05c1547141df19a01c87d118950ede3a897f3662a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-diag",
+      "rationaleSha256": "dce6d66891e5b7cf44d96a6a5dbca7e677cb28f6a15bf92f0a8da6882478daed",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-prac",
+      "rationaleSha256": "c1d5e1088fbabaf8c77f6c6a639f749781d070c0e1d291a84f3d39c81fc10bbb",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-retest",
+      "rationaleSha256": "176a491bef156d5db7af11dcdc9c062a8d8fa2ce05506305320766fa3eefe053",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-diag",
+      "rationaleSha256": "cd8d9d86b1392670d1ffea34f425bc2d17848f2f5be6c63335224344ea267405",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-prac",
+      "rationaleSha256": "36a5d6e0d5c77056a0ec78297a400b863e0a2465487e92e7dca2cde4af4e3353",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-retest",
+      "rationaleSha256": "196b16e65854210c47183ea69f2dd9e083316f0f4d3ff2bbdb0a8231d8c5f684",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-diag",
+      "rationaleSha256": "2826e2a935e3e20044ffbd52949d7fc78b5caf8198125847e9295e53fdf4d28f",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-prac",
+      "rationaleSha256": "c6b7dcc3cad9002b480e12e2f8d9ea7c404848ee7b93bf83100f801cc8214022",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-retest",
+      "rationaleSha256": "a21e2c9d2dd36cd609aac4bb53976f34dd3c4080aa49bd6c5dd1554d9854f617",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-diag",
+      "rationaleSha256": "da5c1c084000c7794ae3b81c31909847e4e446f067eaf21a20a37c056335a289",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-prac",
+      "rationaleSha256": "291d5498204631fe8baf28887784fb0a5e3e95f5daabc0163f04a623b12f2a50",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-retest",
+      "rationaleSha256": "fa2a64074d7b264bb85ff0f4f1732fb0d85df5a16fd3960def3cd586e1ef36d9",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-diag",
+      "rationaleSha256": "57ad9a0df1b2b0ff3ec6457336bf0a8d550d4e0890059ae69c647c868f3e24ee",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-prac",
+      "rationaleSha256": "232cda645a8c85c39f9fe311122c2b1616dcb28d7e9a55bf699866358f788f22",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-retest",
+      "rationaleSha256": "8e5ce590d88f8431138df34e862ce6b923167729fe930eb6c6bfb2cf5da66918",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-diag",
+      "rationaleSha256": "a637d28794cfd5909010034d122b1408004b8f856f584742d34774922eb3499c",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-prac",
+      "rationaleSha256": "331d29b244f32775e9fb3d6ae4f2a70f1228f5d193fe0e14e7bbb0d6fda46bd8",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-retest",
+      "rationaleSha256": "04d545168d09c7433093508ef6dffc7a137f095b0d8121cc1d6625a56bc1eb6a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-projections-views-diag",
+      "rationaleSha256": "1313265449d1034af6fd6566365e5b83d340caf7add79090b1beb0c81e3f5147",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-projections-views-prac",
+      "rationaleSha256": "e992b7c5b0d987288865c59fec19924d3f1806cc0bcdb82ab4e32c2db33daf30",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-projections-views-retest",
+      "rationaleSha256": "e15307c08797c03bbe28e8325aedb165ec3471586892677a4ef66389491f118a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-diag",
+      "rationaleSha256": "b341c15a6ddab8c4c22bfb5d2fae9808179f9757e45350ca4a1d3e4b10d9f7ba",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-prac",
+      "rationaleSha256": "b28c718b56502fcf379d09073e32431e676665ea5e6f11afc6856a94e17081b5",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-retest",
+      "rationaleSha256": "9505e80d9c4f01bf982d7ac6ae307db85416066602443518fe6cc956d8a6db34",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-diag",
+      "rationaleSha256": "df184e4379e0bc45811662cd707ec06c5da82dd8627baede998428fa432450e3",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-prac",
+      "rationaleSha256": "be315c4b85e99199a7040d8443d06520c8c8f611ce268572e4e930fc86b80715",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-retest",
+      "rationaleSha256": "8456f097ed7419a5f4b14f5a7899002dce2751f45901ddf8e81dc273b8b5241b",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-diag",
+      "rationaleSha256": "1236abcf4ff2b1ae74a8bc078bcecc48c0d7317639c523cbc3fb99292e99437e",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-prac",
+      "rationaleSha256": "4a31a0ddf07ee71d919543ce4161914427fd1a598ab18d296bf72ed1f11e5cbb",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-retest",
+      "rationaleSha256": "faa016fadb1ef0e861e9f62280809a9df63ed6fc6916d7c153ef8e1490085e33",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-diag",
+      "rationaleSha256": "704934df6d2bfedfebb147d982ad2cc8aa0905c18a88dca58ec0267a6c64d572",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-prac",
+      "rationaleSha256": "8f821653afe1afac24f1a371b8d455c2133d477b57b9bc043bd0f2f50528df61",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-retest",
+      "rationaleSha256": "8f398b18f8cd7d46315e900bfa7f981b08a021c22ec5bbc0811405f6d4ad2920",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-diag",
+      "rationaleSha256": "30ba80d6c96f30c820f300739291c74fb209508056046a032c5006109ca284fd",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-prac",
+      "rationaleSha256": "15ddb6a64988cf14742f8f21d72717eb4c5c80571ce007f3fd1766e824179cc3",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-retest",
+      "rationaleSha256": "cd0a437df7e592c643d991b7841bca466b7c0501360073fb6406cf722e3fe4bd",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-diag",
+      "rationaleSha256": "30b02d46e58e4ff0a9d1676419fe9b6f0ec39b108d39b975268941cd732ea933",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-prac",
+      "rationaleSha256": "048fdd8afb83bf4046cdc21873ed221441e21f1de27c4c6819d805cb1a74fd1a",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-retest",
+      "rationaleSha256": "5157e594fdab72db63fdb4d08cb5ab07716adf188614f46a3f08433c9b95b956",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-diag",
+      "rationaleSha256": "cb24089f44c20c2ddffd0e9efed96687ecfa0d913a68f207a99fab2bbcb1265e",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-prac",
+      "rationaleSha256": "13923044d93442fc83d7f7c190c5af2f49effb1919a031b7fb896ed9bb4a4777",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-retest",
+      "rationaleSha256": "bed3bbb59fca9215c6de9003b3fca36efc160fc46231962ca03358c251bc7e48",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-diag",
+      "rationaleSha256": "22f40f818cf4fd54c47d0e02fb579cd37a4ee5c5c1c492a989f9e3f7976db2ac",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-prac",
+      "rationaleSha256": "8d525ce8ae62be1db4f7bd6af8a689d5c84af34a088d7790e712d3d1f413f872",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-retest",
+      "rationaleSha256": "a0f39343f1caac68050be50782cd4b0e9f1e2221b452cb4ffae1e5381c0531ab",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-diag",
+      "rationaleSha256": "e985111fd1c966c219e6d9f92ff106731dd8f1024f8c0b63de757ed5b76b40db",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-prac",
+      "rationaleSha256": "945d20ce0fe5e102d7e888317cf68c2154ae710d37119e88d90d8faba087e8b2",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-retest",
+      "rationaleSha256": "9579d06ad2f37895e745f23429521208451189da03ea35bf5dddf287402c8288",
+      "reviewKind": "assistant_independent_derivation_comparison_not_teacher_review",
+      "reviewedDimensions": [
+        "mathematical_steps",
+        "answer_consistency",
+        "domain_and_boundary_conditions",
+        "diagram_and_position_assumptions"
+      ],
+      "humanReview": false
+    }
+  ]
+}

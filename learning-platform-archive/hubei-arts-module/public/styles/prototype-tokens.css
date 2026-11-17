@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Design Tokens — Clean Hybrid Portal & Workspace Aesthetic
+   Inspired by modern light SaaS workspaces: crisp surfaces, soft borders,
+   high-contrast ink, tabular numerals, and clear semantic subject accents.
+   ========================================================================== */
+:root {
+  /* Core Surfaces */
+  --bg-canvas: #f4f7fb;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-muted: #f1f5f9;
+  --bg-elevated: #ffffff;
+
+  /* Ink & Typography */
+  --ink-primary: #0f172a;
+  --ink-secondary: #475569;
+  --ink-muted: #64748b;
+  --ink-faint: #94a3b8;
+
+  /* Borders & Hairlines */
+  --border-hairline: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Brand & Subjects */
+  --brand-primary: #1d63eb;
+  --brand-primary-hover: #1752c7;
+  --brand-soft: #eff6ff;
+  --brand-soft-border: #bfdbfe;
+
+  --sub-math: #1d63eb;
+  --sub-math-soft: #eff6ff;
+  --sub-english: #0d9488;
+  --sub-english-soft: #f0fdfa;
+  --sub-offline: #d97706;
+  --sub-offline-soft: #fffbeb;
+
+  /* Semantic Status */
+  --ok: #16a34a;
+  --ok-soft: #f0fdf4;
+  --ok-border: #bbf7d0;
+  --warn: #d97706;
+  --warn-soft: #fffbeb;
+  --warn-border: #fde68a;
+  --bad: #dc2626;
+  --bad-soft: #fef2f2;
+  --bad-border: #fecaca;
+
+  /* Mock vs Real Attribution Badges */
+  --mock-bg: #f5f3ff;
+  --mock-ink: #6d28d9;
+  --mock-border: #ddd6fe;
+  --real-bg: #ecfdf5;
+  --real-ink: #047857;
+  --real-border: #a7f3d0;
+
+  /* Shadows & Radii */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Layout Dimensions */
+  --topbar-h: 58px;
+  --sidebar-w: 236px;
+  --bottomnav-h: 62px;
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-math: "Cambria Math", "Times New Roman", "STIX Two Math", Georgia, serif;
+}
+
+[data-theme="dark"] {
+  --bg-canvas: #0b1120;
+  --bg-surface: #111827;
+  --bg-subtle: #172033;
+  --bg-muted: #1e293b;
+  --bg-elevated: #172033;
+
+  --ink-primary: #f1f5f9;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --ink-faint: #64748b;
+
+  --border-hairline: #1e293b;
+  --border-strong: #334155;
+
+  --brand-primary: #3b82f6;
+  --brand-primary-hover: #60a5fa;
+  --brand-soft: rgba(59, 130, 246, 0.14);
+  --brand-soft-border: rgba(59, 130, 246, 0.35);
+
+  --sub-math: #60a5fa;
+  --sub-math-soft: rgba(59, 130, 246, 0.14);
+  --sub-english: #2dd4bf;
+  --sub-english-soft: rgba(20, 184, 166, 0.14);
+  --sub-offline: #fbbf24;
+  --sub-offline-soft: rgba(245, 158, 11, 0.14);
+
+  --ok: #4ade80;
+  --ok-soft: rgba(34, 197, 94, 0.12);
+  --ok-border: rgba(34, 197, 94, 0.32);
+  --warn: #fbbf24;
+  --warn-soft: rgba(245, 158, 11, 0.12);
+  --warn-border: rgba(245, 158, 11, 0.32);
+  --bad: #f87171;
+  --bad-soft: rgba(239, 68, 68, 0.12);
+  --bad-border: rgba(239, 68, 68, 0.32);
+
+  --mock-bg: rgba(139, 92, 246, 0.16);
+  --mock-ink: #c4b5fd;
+  --mock-border: rgba(139, 92, 246, 0.35);
+  --real-bg: rgba(16, 185, 129, 0.15);
+  --real-ink: #6ee7b7;
+  --real-border: rgba(16, 185, 129, 0.32);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
+}

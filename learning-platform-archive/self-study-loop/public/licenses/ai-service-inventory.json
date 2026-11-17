@@ -1,0 +1,76 @@
+{
+  "checkedAt": "2026-11-14T11:51:42.311Z",
+  "scope": "Selected dependencies on the separately deployed AI service; not a project-wide license",
+  "packages": [
+    {
+      "name": "deeptutor",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "classifiers": []
+    },
+    {
+      "name": "PyMuPDF",
+      "version": "2.1",
+      "license": "Dual Licensed - GNU AFFERO GPL 3.0 or Artifex Commercial License",
+      "licenseExpression": null,
+      "classifiers": []
+    },
+    {
+      "name": "llama-index-core",
+      "version": "0.14.26",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "llama-index-embeddings-openai",
+      "version": "0.8.0",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "llama-index-llms-openai",
+      "version": "0.9.0",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "fastapi",
+      "version": "0.162.7",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.3",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "torch",
+      "installed": false
+    },
+    {
+      "name": "transformers",
+      "installed": false
+    }
+  ],
+  "licenseDocuments": [
+    "/licenses/pymupdf-installed-COPYING.txt",
+    "/licenses/Qwen3-generation-LICENSE.txt",
+    "/licenses/llama-b12375-LICENSE.txt",
+    "/licenses/deeptutor-node-v22.23.4-LICENSE.txt",
+    "/licenses/Qwen3-embedding-model-card.txt",
+    "/licenses/Qwen3-generation-model-card.txt"
+  ],
+  "limitations": [
+    "PyMuPDF installed metadata reads version 2.1 and dual AGPL/commercial; package provenance and applicable terms require further verification. Public integration accepts only fixed original TXT examples; no PDF parser API is exposed.",
+    "DeepTutor source license at the fixed reviewed commit is Apache-2.0; wheel metadata does not declare a license.",
+    "A previously documented GCC runtime copyright path was not present; full redistribution review remains incomplete. No model/server binaries are distributed through this website."
+  ]
+}

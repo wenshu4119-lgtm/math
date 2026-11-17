@@ -1,0 +1,2235 @@
+{
+  "generatedAt": "2026-11-14T11:41:23.609Z",
+  "sourceDirectory": "C:\\Users\\Administrator\\Desktop\\cloudflare-deploy\\platform-ui\\question-bank",
+  "files": [
+    {
+      "id": "ag-6ef4f7da17859b449aed",
+      "filename": "draft-question-bank-vol2.json",
+      "sha256": "6ef4f7da17859b449aed8e7bb7981604797ce916c1b04c43af8e043b314a52b0",
+      "bytes": 212782,
+      "modifiedAt": "2026-11-14T11:41:07.119Z",
+      "bankVersion": "1.6.1-draft-vol2",
+      "topicCount": 18,
+      "questionCount": 54,
+      "sourceDeclaration": "original_authored_cc0",
+      "licenseDeclaration": "CC0-1.0",
+      "sourceWorkflowNotice": "仅限在本学习平台经过教师实名逐题审核（human_reviewed）后用于内部测试或授权教学流程；原创内容以 CC0-1.0 贡献，任何外部非 CC0 或权利不明确题库内容不得混入并擅自标注 CC0。",
+      "partitions": {
+        "7": 54
+      }
+    },
+    {
+      "id": "ag-a637cd3519de3a85a27d",
+      "filename": "draft-question-bank.json",
+      "sha256": "a637cd3519de3a85a27d9781be1299b42eff9d98571d06db47bae86d38107eeb",
+      "bytes": 946183,
+      "modifiedAt": "2026-11-14T11:41:07.099Z",
+      "bankVersion": "1.5.1-draft",
+      "topicCount": 90,
+      "questionCount": 270,
+      "sourceDeclaration": "original_authored_cc0",
+      "licenseDeclaration": "CC0-1.0",
+      "sourceWorkflowNotice": "仅限在本学习平台经过教师实名逐题审核（human_reviewed）后用于内部测试或授权教学流程；原创内容以 CC0-1.0 贡献，任何外部非 CC0 或权利不明确题库内容不得混入并擅自标注 CC0。",
+      "partitions": {
+        "1": 36,
+        "2": 18,
+        "3": 54,
+        "4": 54,
+        "5": 54,
+        "6": 54
+      }
+    }
+  ],
+  "totals": {
+    "questions": 324,
+    "knowledgePoints": 108,
+    "independentlyPassed": 4,
+    "pending": 317,
+    "quarantined": 3,
+    "humanReviewed": 0
+  },
+  "checks": {
+    "sourceFilesRead": true,
+    "fieldMapping": true,
+    "sourceRights": "CC0 declared by source, not external ownership certification",
+    "duplicates": true,
+    "answers": "only supported prompt-derived arithmetic independently proved; unsupported questions remain pending",
+    "formulas": "Unicode retained; unsupported syntax remains pending",
+    "images": "explicit missing required figures quarantined; geometry warnings retained",
+    "grade": "source grade recorded; textbook/region not certified"
+  },
+  "issues": [
+    {
+      "id": "draft-en-g8-present-perfect-prac",
+      "issues": [
+        "MULTIPLE_ENGLISH_READINGS_REQUIRE_CONTEXT"
+      ]
+    },
+    {
+      "id": "draft-en-g8-indefinite-pronouns-freq-diag",
+      "issues": [
+        "MULTIPLE_ENGLISH_READINGS_REQUIRE_CONTEXT"
+      ]
+    },
+    {
+      "id": "draft-en-g8-perfect-adverbs-yet-already-diag",
+      "issues": [
+        "MULTIPLE_ENGLISH_READINGS_REQUIRE_CONTEXT"
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "id": "draft-math-g7-monomial-missing-term-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-monomial-missing-term-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-monomial-missing-term-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-be-subject-prep-basics-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-be-subject-prep-basics-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-be-subject-prep-basics-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-other-another-pronouns-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-other-another-pronouns-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-other-another-pronouns-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-sensory-conjunctions-logic-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-sensory-conjunctions-logic-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-sensory-conjunctions-logic-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-invitations-modals-refusal-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-invitations-modals-refusal-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-invitations-modals-refusal-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-until-so-that-no-matter-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-until-so-that-no-matter-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-until-so-that-no-matter-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-rise-raise-borrow-lend-pairs-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-rise-raise-borrow-lend-pairs-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-rise-raise-borrow-lend-pairs-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-prep-which-whom-special-that-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-prep-which-whom-special-that-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-prep-which-whom-special-that-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-phrasal-verbs-context-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-phrasal-verbs-context-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-phrasal-verbs-context-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-so-neither-inversion-responses-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-so-neither-inversion-responses-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-so-neither-inversion-responses-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-rational-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-rational-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-congruence-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-congruence-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-congruence-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-linear-func-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-linear-func-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-linear-func-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-trig-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-trig-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-simple-present-be-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-simple-present-be-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-simple-present-be-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-present-continuous-past-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-present-continuous-past-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-present-continuous-past-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-comparative-adverbs-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-comparative-adverbs-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-comparative-adverbs-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-present-perfect-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-present-perfect-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-present-perfect-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-passive-voice-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-passive-voice-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-passive-voice-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-object-relative-clauses-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-object-relative-clauses-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-object-relative-clauses-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-polynomials-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-polynomials-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-polynomials-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-isosceles-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-isosceles-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-isosceles-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-pronouns-possessive-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-pronouns-possessive-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-pronouns-possessive-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-adverbial-clauses-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-adverbial-clauses-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-adverbial-clauses-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-nonfinite-verbs-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-nonfinite-verbs-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-nonfinite-verbs-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-sys-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-sys-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-linear-sys-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-pythagoras-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-pythagoras-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-pythagoras-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-parallelogram-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-parallelogram-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-parallelogram-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-similarity-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-similarity-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-similarity-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-nouns-articles-prep-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-nouns-articles-prep-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-nouns-articles-prep-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-modals-imperatives-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-modals-imperatives-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-modals-imperatives-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-quantifiers-there-future-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-quantifiers-there-future-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-quantifiers-there-future-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-indefinite-pronouns-freq-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-indefinite-pronouns-freq-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-indefinite-pronouns-freq-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-future-predictions-if-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-future-predictions-if-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-future-predictions-if-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-past-continuous-when-while-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-past-continuous-when-while-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-past-continuous-when-while-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-exclamations-modals-deduction-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-exclamations-modals-deduction-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-exclamations-modals-deduction-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-relative-clauses-whose-prep-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-relative-clauses-whose-prep-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-relative-clauses-whose-prep-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-past-perfect-reported-speech-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-past-perfect-reported-speech-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-past-perfect-reported-speech-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-sci-notation-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-sci-notation-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-angles-segments-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-angles-segments-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-angles-segments-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-real-roots-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-real-roots-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-real-roots-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-coord-plane-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-coord-plane-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-coord-plane-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-radicals-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-radicals-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-probability-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-probability-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-probability-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-numbers-dates-time-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-numbers-dates-time-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-numbers-dates-time-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-wh-questions-price-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-wh-questions-price-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-wh-questions-price-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-transport-spend-take-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-transport-spend-take-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-transport-spend-take-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-ed-ing-adjectives-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-ed-ing-adjectives-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-ed-ing-adjectives-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-too-to-so-that-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-too-to-so-that-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-too-to-so-that-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-advice-modals-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-advice-modals-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-advice-modals-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-phrasal-verbs-pronoun-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-phrasal-verbs-pronoun-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-phrasal-verbs-pronoun-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-fractions-one-of-superlative-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-fractions-one-of-superlative-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-fractions-one-of-superlative-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-by-doing-it-adj-to-do-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-by-doing-it-adj-to-do-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-by-doing-it-adj-to-do-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-profit-billing-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-profit-billing-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-profit-billing-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-data-sampling-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-data-sampling-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-data-sampling-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-projections-views-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-projections-views-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-projections-views-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-demonstratives-locations-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-demonstratives-locations-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-demonstratives-locations-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-weather-irregular-past-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-weather-irregular-past-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-weather-irregular-past-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-unless-as-long-as-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-unless-as-long-as-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-unless-as-long-as-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-perfect-adverbs-yet-already-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-perfect-adverbs-yet-already-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-perfect-adverbs-yet-already-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-correlative-conjunctions-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-correlative-conjunctions-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-correlative-conjunctions-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-present-future-passive-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-present-future-passive-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-present-future-passive-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-prefer-causative-make-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-prefer-causative-make-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-prefer-causative-make-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-whether-vs-if-wh-infinitive-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-whether-vs-if-wh-infinitive-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-whether-vs-if-wh-infinitive-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-word-formation-affixes-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-word-formation-affixes-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-word-formation-affixes-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-retest",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-diag",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-prac",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-diag",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-prac",
+      "warnings": [
+        "GEOMETRY_OR_GRAPH_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-retest",
+      "warnings": [
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-plural-rules-can-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-plural-rules-can-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-plural-rules-can-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-do-does-freq-order-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-do-does-freq-order-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-do-does-freq-order-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-gerund-subj-double-obj-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-gerund-subj-double-obj-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g7-gerund-subj-double-obj-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-as-as-comparative-and-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-as-as-comparative-and-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-as-as-comparative-and-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-verb-infinitive-vs-gerund-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-verb-infinitive-vs-gerund-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-verb-infinitive-vs-gerund-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-been-vs-gone-in-duration-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-been-vs-gone-in-duration-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g8-been-vs-gone-in-duration-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-zero-passive-phrasal-passive-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-zero-passive-phrasal-passive-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-zero-passive-phrasal-passive-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-daily-responses-politeness-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-daily-responses-politeness-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-daily-responses-politeness-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-collective-time-agreement-diag",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-collective-time-agreement-prac",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    },
+    {
+      "id": "draft-en-g9-collective-time-agreement-retest",
+      "warnings": [
+        "ENGLISH_CONTEXT_REQUIRES_TEACHER",
+        "SEMANTIC_ANSWER_NOT_INDEPENDENTLY_PROVEN"
+      ]
+    }
+  ],
+  "passedIds": [
+    "draft-math-g7-rational-diag",
+    "draft-math-g9-trig-prac",
+    "draft-math-g7-sci-notation-prac",
+    "draft-math-g8-radicals-prac"
+  ]
+}

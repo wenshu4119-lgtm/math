@@ -1,0 +1,182 @@
+{
+  "installedMetadata": [
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/deeptutor_parsing-1.7.2.dist-info",
+      "metadataSha256": "c528aa91dd66a79d71ef2fb58f115d69e237ffdeebace5f4a3ccb9fbb269e1c7",
+      "name": "deeptutor-parsing",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 492,
+      "files": [
+        "REQUESTED",
+        "INSTALLER",
+        "top_level.txt",
+        "RECORD",
+        "direct_url.json",
+        "METADATA",
+        "WHEEL"
+      ],
+      "vcsCommit": null,
+      "editable": null
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/deeptutor-1.7.2.dist-info",
+      "metadataSha256": "5fcbf8329211606b540b9460d8acb1787b9f507c9e67cc41b093d2ba44863f18",
+      "name": "deeptutor",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 6705,
+      "files": [
+        "REQUESTED",
+        "INSTALLER",
+        "top_level.txt",
+        "RECORD",
+        "direct_url.json",
+        "entry_points.txt",
+        "METADATA",
+        "WHEEL"
+      ],
+      "vcsCommit": null,
+      "editable": null
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/deeptutor_web-1.7.2.dist-info",
+      "metadataSha256": "e8f27e463eb770d6588395444126f75a6f42b18aeaab8ede0ba05012b1d9a13f",
+      "name": "deeptutor-web",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 188,
+      "files": [
+        "REQUESTED",
+        "INSTALLER",
+        "top_level.txt",
+        "RECORD",
+        "direct_url.json",
+        "METADATA",
+        "WHEEL"
+      ],
+      "vcsCommit": null,
+      "editable": null
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/deeptutor_providers-1.7.2.dist-info",
+      "metadataSha256": "92c4f7a9bb3ae29d4e8704505abf39b425a7ca58feb02e4318237bbf2a2a91cb",
+      "name": "deeptutor-providers",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 298,
+      "files": [
+        "REQUESTED",
+        "INSTALLER",
+        "top_level.txt",
+        "RECORD",
+        "direct_url.json",
+        "METADATA",
+        "WHEEL"
+      ],
+      "vcsCommit": null,
+      "editable": null
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/pymupdf_layout-2.1.dist-info",
+      "metadataSha256": "9acd548e9ebd5b21f6049f4f7dda4116db9534bcf2a08692300b8a667d4ed962",
+      "name": "pymupdf_layout",
+      "version": "2.1",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 657,
+      "files": [
+        "INSTALLER",
+        "RECORD",
+        "METADATA",
+        "WHEEL"
+      ]
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/deeptutor_server-1.7.2.dist-info",
+      "metadataSha256": "d747ef7f3a4956a51f3d16feb90cf05daf26adf8c04c206a5cd8d96ec256b66a",
+      "name": "deeptutor-server",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 445,
+      "files": [
+        "REQUESTED",
+        "INSTALLER",
+        "top_level.txt",
+        "RECORD",
+        "direct_url.json",
+        "METADATA",
+        "WHEEL"
+      ],
+      "vcsCommit": null,
+      "editable": null
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/pymupdf-2.1.dist-info",
+      "metadataSha256": "8ad17d38075bd7bcb0d54fd6c54c656da34f7608b37ae5ba4f802a909dea7557",
+      "name": "pymupdf",
+      "version": "2.1",
+      "license": "Dual Licensed - GNU AFFERO GPL 3.0 or Artifex Commercial License",
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 26498,
+      "files": [
+        "README.md",
+        "INSTALLER",
+        "RECORD",
+        "entry_points.txt",
+        "METADATA",
+        "COPYING",
+        "WHEEL"
+      ]
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/pymupdf4llm-2.1.dist-info",
+      "metadataSha256": "da43459931931a7cef979b67a7d4090e4933b8d98e5f2791e32db156e925898e",
+      "name": "pymupdf4llm",
+      "version": "2.1",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 648,
+      "files": [
+        "INSTALLER",
+        "RECORD",
+        "METADATA",
+        "WHEEL"
+      ]
+    },
+    {
+      "directory": "/opt/deeptutor/venv/lib/python3.12/site-packages/deeptutor_knowledge-1.7.2.dist-info",
+      "metadataSha256": "501cf481034ba578c6b5f165b4d76ad811479351ffc566846c8829da1322b18e",
+      "name": "deeptutor-knowledge",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "licenseFiles": null,
+      "metadataBytes": 622,
+      "files": [
+        "REQUESTED",
+        "INSTALLER",
+        "top_level.txt",
+        "RECORD",
+        "direct_url.json",
+        "METADATA",
+        "WHEEL"
+      ],
+      "vcsCommit": null,
+      "editable": null
+    }
+  ]
+}

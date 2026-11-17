@@ -1,0 +1,21 @@
+[Unit]
+Description=Learning planning platform API
+After=network.target
+[Service]
+User=learningapp
+Group=learningapp
+WorkingDirectory=/opt/learning-platform/current
+ExecStart=/opt/learning-platform/tools/node/bin/node --disable-warning=ExperimentalWarning /opt/learning-platform/current/release/production-server.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=40
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/learning-platform/data
+UMask=0077
+MemoryMax=512M
+CPUQuota=50%
+[Install]
+WantedBy=multi-user.target

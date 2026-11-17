@@ -1,0 +1,1144 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-11-14",
+  "batches": [
+    {
+      "id": "pilot-physics-20261114-v1",
+      "filename": "original-physics-pilot.json",
+      "sha256": "9093ec17ae4eea658cdbc2cebf53ccc7f5fd01483567ce3340f90db733babf33",
+      "questionCount": 6,
+      "topicCount": 2,
+      "sourceDeclaration": "本平台原创；未复制教材、真题、第三方图片",
+      "licenseDeclaration": "仅本平台教学使用；不向全项目或外部素材授予统一许可证",
+      "requiresTeacherReview": true,
+      "questionIds": [
+        "pilot-physics-units-diagnostic",
+        "pilot-physics-units-practice",
+        "pilot-physics-units-retest",
+        "pilot-physics-speed-diagnostic",
+        "pilot-physics-speed-practice",
+        "pilot-physics-speed-retest"
+      ]
+    },
+    {
+      "id": "pilot-geography-20261114-v1",
+      "filename": "original-geography-pilot.json",
+      "sha256": "c409528e1eab7a24ae1db368121dfb9f6485f8ea234240ee4c13f2419a44a55c",
+      "questionCount": 6,
+      "topicCount": 2,
+      "sourceDeclaration": "本平台原创；未复制教材、真题、第三方图片",
+      "licenseDeclaration": "仅本平台教学使用；不向全项目或外部素材授予统一许可证",
+      "requiresTeacherReview": true,
+      "questionIds": [
+        "pilot-geography-scale-diagnostic",
+        "pilot-geography-scale-practice",
+        "pilot-geography-scale-retest",
+        "pilot-geography-latitude-diagnostic",
+        "pilot-geography-latitude-practice",
+        "pilot-geography-latitude-retest"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "question": {
+        "id": "pilot-physics-units-diagnostic",
+        "subject": "physics",
+        "grade": 8,
+        "semester": "编排待本机构核定",
+        "chapter": "常用单位与十进制换算",
+        "knowledgeIds": [
+          "pilot-physics-units"
+        ],
+        "knowledgeTitle": "常用单位与十进制换算",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "写出数值前先核对单位。1 km = 1000 m，1 min = 60 s，1 kg = 1000 g。换算只改变数值与单位的组合，不改变所表示的实际量。",
+        "memoryCard": "千米到米乘1000；分钟到秒乘60；克到千克除1000。",
+        "prompt": "将0.72 km换算为m，结果是（ ）。",
+        "options": [
+          "7.2 m",
+          "72 m",
+          "720 m",
+          "7200 m"
+        ],
+        "correctOption": 2,
+        "rationale": "1 km = 1000 m，所以0.72 × 1000 = 720 m。",
+        "difficulty": "very_low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "diagnostic"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "BIPM — SI base units",
+            "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+            "checkedAt": "2026-11-14",
+            "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+          },
+          {
+            "title": "教育部2024年义务教育国家课程教学用书目录",
+            "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+            "checkedAt": "2026-11-14",
+            "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+          }
+        ],
+        "textbookScope": "适用初中八至九年级物理基础；候选编排八年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 720,
+          "unit": "m",
+          "optionIndexes": [
+            2
+          ],
+          "method": "SI conversion from prompt",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 720,
+        "unit": "m",
+        "optionIndexes": [
+          2
+        ],
+        "method": "SI conversion from prompt",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-physics-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-physics-units-practice",
+        "subject": "physics",
+        "grade": 8,
+        "semester": "编排待本机构核定",
+        "chapter": "常用单位与十进制换算",
+        "knowledgeIds": [
+          "pilot-physics-units"
+        ],
+        "knowledgeTitle": "常用单位与十进制换算",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "写出数值前先核对单位。1 km = 1000 m，1 min = 60 s，1 kg = 1000 g。换算只改变数值与单位的组合，不改变所表示的实际量。",
+        "memoryCard": "千米到米乘1000；分钟到秒乘60；克到千克除1000。",
+        "prompt": "将2.5 min换算为s，结果是（ ）。",
+        "options": [
+          "25 s",
+          "150 s",
+          "250 s",
+          "600 s"
+        ],
+        "correctOption": 1,
+        "rationale": "1 min = 60 s，所以2.5 × 60 = 150 s。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "practice"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "BIPM — SI base units",
+            "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+            "checkedAt": "2026-11-14",
+            "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+          },
+          {
+            "title": "教育部2024年义务教育国家课程教学用书目录",
+            "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+            "checkedAt": "2026-11-14",
+            "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+          }
+        ],
+        "textbookScope": "适用初中八至九年级物理基础；候选编排八年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 150,
+          "unit": "s",
+          "optionIndexes": [
+            1
+          ],
+          "method": "SI conversion from prompt",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 150,
+        "unit": "s",
+        "optionIndexes": [
+          1
+        ],
+        "method": "SI conversion from prompt",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-physics-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-physics-units-retest",
+        "subject": "physics",
+        "grade": 8,
+        "semester": "编排待本机构核定",
+        "chapter": "常用单位与十进制换算",
+        "knowledgeIds": [
+          "pilot-physics-units"
+        ],
+        "knowledgeTitle": "常用单位与十进制换算",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "写出数值前先核对单位。1 km = 1000 m，1 min = 60 s，1 kg = 1000 g。换算只改变数值与单位的组合，不改变所表示的实际量。",
+        "memoryCard": "千米到米乘1000；分钟到秒乘60；克到千克除1000。",
+        "prompt": "将360 g换算为kg，结果是（ ）。",
+        "options": [
+          "0.036 kg",
+          "0.36 kg",
+          "3.6 kg",
+          "36 kg"
+        ],
+        "correctOption": 1,
+        "rationale": "1 kg = 1000 g，所以360 ÷ 1000 = 0.36 kg。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "retest"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "BIPM — SI base units",
+            "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+            "checkedAt": "2026-11-14",
+            "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+          },
+          {
+            "title": "教育部2024年义务教育国家课程教学用书目录",
+            "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+            "checkedAt": "2026-11-14",
+            "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+          }
+        ],
+        "textbookScope": "适用初中八至九年级物理基础；候选编排八年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 0.36,
+          "unit": "kg",
+          "optionIndexes": [
+            1
+          ],
+          "method": "SI conversion from prompt",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 0.36,
+        "unit": "kg",
+        "optionIndexes": [
+          1
+        ],
+        "method": "SI conversion from prompt",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-physics-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-physics-speed-diagnostic",
+        "subject": "physics",
+        "grade": 8,
+        "semester": "编排待本机构核定",
+        "chapter": "平均速度：总路程除以总时间",
+        "knowledgeIds": [
+          "pilot-physics-speed"
+        ],
+        "knowledgeTitle": "平均速度：总路程除以总时间",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "一段行程的平均速度等于这段总路程除以总时间。先统一单位，再把不同路段的路程与时间分别相加。不同路段的速度不能随意直接取算术平均。",
+        "memoryCard": "全程平均速度 = 总路程 ÷ 总时间；先加路程、再加时间。",
+        "prompt": "一名跑步者用20 s跑过120 m，这段路程的平均速度为（ ）。",
+        "options": [
+          "4 m/s",
+          "5 m/s",
+          "6 m/s",
+          "8 m/s"
+        ],
+        "correctOption": 2,
+        "rationale": "平均速度 = 120 ÷ 20 = 6 m/s。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "diagnostic"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "BIPM — SI base units",
+            "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+            "checkedAt": "2026-11-14",
+            "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+          },
+          {
+            "title": "教育部2024年义务教育国家课程教学用书目录",
+            "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+            "checkedAt": "2026-11-14",
+            "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+          }
+        ],
+        "textbookScope": "适用初中八至九年级物理基础；候选编排八年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 6,
+          "unit": "m/s",
+          "optionIndexes": [
+            2
+          ],
+          "method": "Total distance / elapsed time from prompt",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 6,
+        "unit": "m/s",
+        "optionIndexes": [
+          2
+        ],
+        "method": "Total distance / elapsed time from prompt",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-physics-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-physics-speed-practice",
+        "subject": "physics",
+        "grade": 8,
+        "semester": "编排待本机构核定",
+        "chapter": "平均速度：总路程除以总时间",
+        "knowledgeIds": [
+          "pilot-physics-speed"
+        ],
+        "knowledgeTitle": "平均速度：总路程除以总时间",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "一段行程的平均速度等于这段总路程除以总时间。先统一单位，再把不同路段的路程与时间分别相加。不同路段的速度不能随意直接取算术平均。",
+        "memoryCard": "全程平均速度 = 总路程 ÷ 总时间；先加路程、再加时间。",
+        "prompt": "一辆小车用150 s走过1800 m，这段路程的平均速度为（ ）。",
+        "options": [
+          "10 m/s",
+          "12 m/s",
+          "15 m/s",
+          "18 m/s"
+        ],
+        "correctOption": 1,
+        "rationale": "平均速度 = 总路程 ÷ 总时间 = 1800 ÷ 150 = 12 m/s。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "practice"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "BIPM — SI base units",
+            "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+            "checkedAt": "2026-11-14",
+            "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+          },
+          {
+            "title": "教育部2024年义务教育国家课程教学用书目录",
+            "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+            "checkedAt": "2026-11-14",
+            "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+          }
+        ],
+        "textbookScope": "适用初中八至九年级物理基础；候选编排八年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 12,
+          "unit": "m/s",
+          "optionIndexes": [
+            1
+          ],
+          "method": "Total distance / elapsed time from prompt",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 12,
+        "unit": "m/s",
+        "optionIndexes": [
+          1
+        ],
+        "method": "Total distance / elapsed time from prompt",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-physics-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-physics-speed-retest",
+        "subject": "physics",
+        "grade": 8,
+        "semester": "编排待本机构核定",
+        "chapter": "平均速度：总路程除以总时间",
+        "knowledgeIds": [
+          "pilot-physics-speed"
+        ],
+        "knowledgeTitle": "平均速度：总路程除以总时间",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "一段行程的平均速度等于这段总路程除以总时间。先统一单位，再把不同路段的路程与时间分别相加。不同路段的速度不能随意直接取算术平均。",
+        "memoryCard": "全程平均速度 = 总路程 ÷ 总时间；先加路程、再加时间。",
+        "prompt": "一名同学先用60 s走过300 m，再用20 s走过200 m。两段之间不停留，全程平均速度为（ ）。",
+        "options": [
+          "5 m/s",
+          "6.25 m/s",
+          "7.5 m/s",
+          "10 m/s"
+        ],
+        "correctOption": 1,
+        "rationale": "总路程500 m，总时间80 s，全程平均速度500 ÷ 80 = 6.25 m/s，不能直接把两段速度5与10取平均。",
+        "difficulty": "medium",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "retest"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "BIPM — SI base units",
+            "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+            "checkedAt": "2026-11-14",
+            "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+          },
+          {
+            "title": "教育部2024年义务教育国家课程教学用书目录",
+            "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+            "checkedAt": "2026-11-14",
+            "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+          }
+        ],
+        "textbookScope": "适用初中八至九年级物理基础；候选编排八年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 6.25,
+          "unit": "m/s",
+          "optionIndexes": [
+            1
+          ],
+          "method": "Sum distance / sum time, never arithmetic mean of segment speeds",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 6.25,
+        "unit": "m/s",
+        "optionIndexes": [
+          1
+        ],
+        "method": "Sum distance / sum time, never arithmetic mean of segment speeds",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-physics-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-geography-scale-diagnostic",
+        "subject": "geography",
+        "grade": 7,
+        "semester": "编排待本机构核定",
+        "chapter": "比例尺与图上、实际距离",
+        "knowledgeIds": [
+          "pilot-geography-scale"
+        ],
+        "knowledgeTitle": "比例尺与图上、实际距离",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "数字比例尺1:n表示图上1个长度单位对应实际n个相同长度单位。先保持长度单位一致，再根据需要换算成米或千米。题目中的路线长度按给定图上长度计算，不另猜测地形或地图变形。",
+        "memoryCard": "实际距离 = 图上距离 × n；图上距离 = 实际距离 ÷ n。",
+        "prompt": "在比例尺1:50000的地图上，两点间图上距离为3 cm，按该比例尺计算实际距离为（ ）。",
+        "options": [
+          "0.15 km",
+          "1.5 km",
+          "15 km",
+          "150 km"
+        ],
+        "correctOption": 1,
+        "rationale": "实际距离 = 3 × 50000 = 150000 cm = 1.5 km。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "diagnostic"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "USGS — Map Scale",
+            "url": "https://ngmdb.usgs.gov/ngmdb/ngmdb_help_comp.html",
+            "checkedAt": "2026-11-14",
+            "use": "比例尺同单位长度比定义；未复制地图或习题"
+          },
+          {
+            "title": "人教版义务教育地理（七～八年级）新教材介绍",
+            "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+            "checkedAt": "2026-11-14",
+            "use": "核对地理七至八年级学段，不复制教材内容"
+          }
+        ],
+        "textbookScope": "适用初中七至八年级地理基础；候选编排七年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 1.5,
+          "unit": "km",
+          "optionIndexes": [
+            1
+          ],
+          "method": "Representative fraction with matching units",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 1.5,
+        "unit": "km",
+        "optionIndexes": [
+          1
+        ],
+        "method": "Representative fraction with matching units",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-geography-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-geography-scale-practice",
+        "subject": "geography",
+        "grade": 7,
+        "semester": "编排待本机构核定",
+        "chapter": "比例尺与图上、实际距离",
+        "knowledgeIds": [
+          "pilot-geography-scale"
+        ],
+        "knowledgeTitle": "比例尺与图上、实际距离",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "数字比例尺1:n表示图上1个长度单位对应实际n个相同长度单位。先保持长度单位一致，再根据需要换算成米或千米。题目中的路线长度按给定图上长度计算，不另猜测地形或地图变形。",
+        "memoryCard": "实际距离 = 图上距离 × n；图上距离 = 实际距离 ÷ n。",
+        "prompt": "在比例尺1:200000的地图上，两点间图上距离为1.5 cm，按该比例尺计算实际距离为（ ）。",
+        "options": [
+          "0.3 km",
+          "1.5 km",
+          "3 km",
+          "30 km"
+        ],
+        "correctOption": 2,
+        "rationale": "实际距离 = 1.5 × 200000 = 300000 cm = 3 km。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "practice"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "USGS — Map Scale",
+            "url": "https://ngmdb.usgs.gov/ngmdb/ngmdb_help_comp.html",
+            "checkedAt": "2026-11-14",
+            "use": "比例尺同单位长度比定义；未复制地图或习题"
+          },
+          {
+            "title": "人教版义务教育地理（七～八年级）新教材介绍",
+            "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+            "checkedAt": "2026-11-14",
+            "use": "核对地理七至八年级学段，不复制教材内容"
+          }
+        ],
+        "textbookScope": "适用初中七至八年级地理基础；候选编排七年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 3,
+          "unit": "km",
+          "optionIndexes": [
+            2
+          ],
+          "method": "Representative fraction with matching units",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 3,
+        "unit": "km",
+        "optionIndexes": [
+          2
+        ],
+        "method": "Representative fraction with matching units",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-geography-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-geography-scale-retest",
+        "subject": "geography",
+        "grade": 7,
+        "semester": "编排待本机构核定",
+        "chapter": "比例尺与图上、实际距离",
+        "knowledgeIds": [
+          "pilot-geography-scale"
+        ],
+        "knowledgeTitle": "比例尺与图上、实际距离",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "数字比例尺1:n表示图上1个长度单位对应实际n个相同长度单位。先保持长度单位一致，再根据需要换算成米或千米。题目中的路线长度按给定图上长度计算，不另猜测地形或地图变形。",
+        "memoryCard": "实际距离 = 图上距离 × n；图上距离 = 实际距离 ÷ n。",
+        "prompt": "在比例尺1:25000的地图上，一段实际长度为2 km的路线对应图上长度为（ ）。",
+        "options": [
+          "0.8 cm",
+          "2 cm",
+          "4 cm",
+          "8 cm"
+        ],
+        "correctOption": 3,
+        "rationale": "2 km = 200000 cm，图上长度200000 ÷ 25000 = 8 cm。",
+        "difficulty": "medium",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "retest"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "USGS — Map Scale",
+            "url": "https://ngmdb.usgs.gov/ngmdb/ngmdb_help_comp.html",
+            "checkedAt": "2026-11-14",
+            "use": "比例尺同单位长度比定义；未复制地图或习题"
+          },
+          {
+            "title": "人教版义务教育地理（七～八年级）新教材介绍",
+            "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+            "checkedAt": "2026-11-14",
+            "use": "核对地理七至八年级学段，不复制教材内容"
+          }
+        ],
+        "textbookScope": "适用初中七至八年级地理基础；候选编排七年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": 8,
+          "unit": "cm",
+          "optionIndexes": [
+            3
+          ],
+          "method": "Actual centimetres / scale denominator",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": 8,
+        "unit": "cm",
+        "optionIndexes": [
+          3
+        ],
+        "method": "Actual centimetres / scale denominator",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-geography-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-geography-latitude-diagnostic",
+        "subject": "geography",
+        "grade": 7,
+        "semester": "编排待本机构核定",
+        "chapter": "纬度、赤道与南北半球",
+        "knowledgeIds": [
+          "pilot-geography-latitude"
+        ],
+        "knowledgeTitle": "纬度、赤道与南北半球",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "赤道纬度为0°。N表示北纬，S表示南纬；北纬地点在北半球，南纬地点在南半球。纬度数值最大到90°，南北极分别为90°S与90°N。这里只判断南北半球，不由纬度判断东西半球。",
+        "memoryCard": "赤道0°；N北、S南；南北极纬度90°。",
+        "prompt": "赤道的纬度是（ ）。",
+        "options": [
+          "0°",
+          "23.5°N",
+          "66.5°S",
+          "90°N"
+        ],
+        "correctOption": 0,
+        "rationale": "赤道是0°纬线，划分南北半球。",
+        "difficulty": "very_low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "diagnostic"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "NOAA — What is latitude?",
+            "url": "https://oceanservice.noaa.gov/facts/latitude.html",
+            "checkedAt": "2026-11-14",
+            "use": "赤道、纬度与南北半球的公开事实；未复制图片或习题"
+          },
+          {
+            "title": "人教版义务教育地理（七～八年级）新教材介绍",
+            "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+            "checkedAt": "2026-11-14",
+            "use": "核对地理七至八年级学段，不复制教材内容"
+          }
+        ],
+        "textbookScope": "适用初中七至八年级地理基础；候选编排七年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": "0°",
+          "unit": null,
+          "optionIndexes": [
+            0
+          ],
+          "method": "NOAA latitude definition",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": "0°",
+        "unit": null,
+        "optionIndexes": [
+          0
+        ],
+        "method": "NOAA latitude definition",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-geography-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-geography-latitude-practice",
+        "subject": "geography",
+        "grade": 7,
+        "semester": "编排待本机构核定",
+        "chapter": "纬度、赤道与南北半球",
+        "knowledgeIds": [
+          "pilot-geography-latitude"
+        ],
+        "knowledgeTitle": "纬度、赤道与南北半球",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "赤道纬度为0°。N表示北纬，S表示南纬；北纬地点在北半球，南纬地点在南半球。纬度数值最大到90°，南北极分别为90°S与90°N。这里只判断南北半球，不由纬度判断东西半球。",
+        "memoryCard": "赤道0°；N北、S南；南北极纬度90°。",
+        "prompt": "某地纬度为30°N。仅根据纬度可以确定，该地位于（ ）。",
+        "options": [
+          "北半球",
+          "南半球",
+          "赤道上",
+          "南极点"
+        ],
+        "correctOption": 0,
+        "rationale": "N表示北纬，30°N在赤道以北，因此位于北半球；纬度不能用来判定东西半球。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "practice"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "NOAA — What is latitude?",
+            "url": "https://oceanservice.noaa.gov/facts/latitude.html",
+            "checkedAt": "2026-11-14",
+            "use": "赤道、纬度与南北半球的公开事实；未复制图片或习题"
+          },
+          {
+            "title": "人教版义务教育地理（七～八年级）新教材介绍",
+            "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+            "checkedAt": "2026-11-14",
+            "use": "核对地理七至八年级学段，不复制教材内容"
+          }
+        ],
+        "textbookScope": "适用初中七至八年级地理基础；候选编排七年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": "北半球",
+          "unit": null,
+          "optionIndexes": [
+            0
+          ],
+          "method": "Latitude sign determines north/south hemisphere only",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": "北半球",
+        "unit": null,
+        "optionIndexes": [
+          0
+        ],
+        "method": "Latitude sign determines north/south hemisphere only",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-geography-20261114-v1"
+    },
+    {
+      "question": {
+        "id": "pilot-geography-latitude-retest",
+        "subject": "geography",
+        "grade": 7,
+        "semester": "编排待本机构核定",
+        "chapter": "纬度、赤道与南北半球",
+        "knowledgeIds": [
+          "pilot-geography-latitude"
+        ],
+        "knowledgeTitle": "纬度、赤道与南北半球",
+        "knowledgeDifficulty": null,
+        "knowledgeDifficultyBasis": "原创知识条目尚待教师定级",
+        "explanation": "赤道纬度为0°。N表示北纬，S表示南纬；北纬地点在北半球，南纬地点在南半球。纬度数值最大到90°，南北极分别为90°S与90°N。这里只判断南北半球，不由纬度判断东西半球。",
+        "memoryCard": "赤道0°；N北、S南；南北极纬度90°。",
+        "prompt": "某地纬度为25°S。仅根据纬度可以确定，该地位于（ ）。",
+        "options": [
+          "北半球",
+          "南半球",
+          "赤道上",
+          "北极点"
+        ],
+        "correctOption": 1,
+        "rationale": "S表示南纬，25°S在赤道以南，因此位于南半球。",
+        "difficulty": "low",
+        "difficultyBasis": "原创初标：按单步读取、换算或多步合成区分；未做测量校准，待教师核定",
+        "purposes": [
+          "retest"
+        ],
+        "source": "original_platform_authored",
+        "license": "platform-internal-use",
+        "sourceVersion": 1,
+        "sourceLabel": "本平台原创学科补充；仅参考定义事实，未复制教材或外部题目",
+        "sourceDigest": null,
+        "sourceReferences": [
+          {
+            "title": "NOAA — What is latitude?",
+            "url": "https://oceanservice.noaa.gov/facts/latitude.html",
+            "checkedAt": "2026-11-14",
+            "use": "赤道、纬度与南北半球的公开事实；未复制图片或习题"
+          },
+          {
+            "title": "人教版义务教育地理（七～八年级）新教材介绍",
+            "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+            "checkedAt": "2026-11-14",
+            "use": "核对地理七至八年级学段，不复制教材内容"
+          }
+        ],
+        "textbookScope": "适用初中七至八年级地理基础；候选编排七年级，具体教材册次和地区待本机构教师核定",
+        "region": "未指定地区；不声称对应某地区中考",
+        "reviewStatus": "pending_human",
+        "origin": "codex_original_subject_pilot",
+        "image": null
+      },
+      "validation": {
+        "validator": "subject-pilot-v1",
+        "status": "needs_review",
+        "issues": [],
+        "warnings": [
+          "TEACHER_PEDAGOGY_AND_LOCAL_SCOPE_REVIEW_REQUIRED"
+        ],
+        "proof": {
+          "status": "passed",
+          "answer": "南半球",
+          "unit": null,
+          "optionIndexes": [
+            1
+          ],
+          "method": "Latitude sign determines north/south hemisphere only",
+          "humanReview": false,
+          "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+        },
+        "humanReview": false,
+        "sourceRights": "original_platform_use_no_public_license_grant",
+        "checkedAt": "2026-11-14"
+      },
+      "independentAnswer": {
+        "status": "passed",
+        "answer": "南半球",
+        "unit": null,
+        "optionIndexes": [
+          1
+        ],
+        "method": "Latitude sign determines north/south hemisphere only",
+        "humanReview": false,
+        "reason": "从题干数值/定义推导预期结果，逐个对比全部选项，再与给定答案核对；未进行教师审核。"
+      },
+      "batchId": "pilot-geography-20261114-v1"
+    }
+  ],
+  "sources": {
+    "units": {
+      "title": "BIPM — SI base units",
+      "url": "https://www.bipm.org/en/measurement-units/si-base-units",
+      "checkedAt": "2026-11-14",
+      "use": "仅单位定义事实；题目情境、数值、选项与中文解析为本平台原创"
+    },
+    "scale": {
+      "title": "USGS — Map Scale",
+      "url": "https://ngmdb.usgs.gov/ngmdb/ngmdb_help_comp.html",
+      "checkedAt": "2026-11-14",
+      "use": "比例尺同单位长度比定义；未复制地图或习题"
+    },
+    "latitude": {
+      "title": "NOAA — What is latitude?",
+      "url": "https://oceanservice.noaa.gov/facts/latitude.html",
+      "checkedAt": "2026-11-14",
+      "use": "赤道、纬度与南北半球的公开事实；未复制图片或习题"
+    },
+    "physicsScope": {
+      "title": "教育部2024年义务教育国家课程教学用书目录",
+      "url": "https://www.moe.gov.cn/srcsite/a26/s8001/202408/W020240805496325238752.pdf",
+      "checkedAt": "2026-11-14",
+      "use": "核对物理八至九年级学段，不作具体教材章节授权或适配认证"
+    },
+    "geographyScope": {
+      "title": "人教版义务教育地理（七～八年级）新教材介绍",
+      "url": "https://www.pep.com.cn/xw/zt/hd/12/xjcjs/cz/202409/t20240918_1995544.html",
+      "checkedAt": "2026-11-14",
+      "use": "核对地理七至八年级学段，不复制教材内容"
+    }
+  }
+}

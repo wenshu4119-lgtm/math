@@ -1,0 +1,7 @@
+[Unit]
+Description=Encrypted complete learning platform backup
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/learning-platform/current/release/production-backup-runner.py
+UMask=0077
+TimeoutStartSec=240

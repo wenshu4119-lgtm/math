@@ -1,0 +1,19 @@
+[Unit]
+Description=Persistent tunnel for learning planning platform
+After=network-online.target learning-platform.service
+Wants=network-online.target
+[Service]
+User=learningtunnel
+Group=learningtunnel
+Environment=HOME=/tmp
+ExecStart=/opt/learning-platform/tools/cloudflared tunnel --no-autoupdate --protocol http2 run --token-file /etc/learning-platform/tunnel.token
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+MemoryMax=192M
+CPUQuota=25%
+[Install]
+WantedBy=multi-user.target

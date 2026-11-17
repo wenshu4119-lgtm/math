@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {join} from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {createLocalOcr,defaultOcrEngine} from './local-ocr.mjs';
+import {root} from './environment.mjs';
+const results=[];
+await assert.rejects(createLocalOcr({modelDir:join(root,'.local','missing-model-test-'+crypto.randomUUID())}));results.push('missing model files fail before worker startup; no automatic downloads');
+const ocr=await createLocalOcr({timeoutMs:1}),image=await readFile(join(root,'test-results/ocr/english-clear.png'));
+await assert.rejects(ocr.recognize(image,{language:'../../eng'}),e=>e.code==='OCR_LANGUAGE_UNSUPPORTED');results.push('unapproved language/path rejected');
+await assert.rejects(ocr.recognize(image,{language:'eng'}),e=>e.code==='OCR_TIMEOUT');assert.equal(ocr.busy,false);results.push('real child process times out and releases busy state');
+const child=spawnSync(process.execPath,[join(root,'scripts/ocr-child.mjs'),process.env.OCR_ENGINE_DIR||defaultOcrEngine,process.env.OCR_MODEL_DIR||join(root,'.local/ocr-models'),'eng','25'],{input:image,windowsHide:true,timeout:5000,maxBuffer:200000});assert.equal(child.status,124);results.push('independent child watchdog stops work without a parent runner timer');
+await mkdir(join(root,'test-results/ocr'),{recursive:true});await writeFile(join(root,'test-results/ocr/runtime-safety.json'),JSON.stringify({passed:results.length,results,scope:'Actual local runner, synthetic image; no private data or paid service'},null,2));console.log(`本机OCR运行边界 ${results.length}/${results.length} 通过。`);

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import {browserHarness} from '../tests/browser-harness.mjs';
+import {root} from './environment.mjs';
+const f=await browserHarness(),checks=[];
+try{
+  const teacher=await f.login('teacher');await f.review(teacher);async function draft(title){return (await f.request('/homeworks',{client:teacher,method:'POST',body:{studentId:f.users.student.id,subject:'math',title,items:[{questionId:'math-equation-practice',maxScore:1}],requestId:crypto.randomUUID()}})).data;}
+  const a=await draft('迟到的作业A'),b=await draft('后打开的作业B'),{page}=await f.openRole('teacher',{width:1280,height:950});
+  await page.locator('.sidebar [data-nav=homeworks]').click();await page.getByRole('heading',{name:'我负责的作业'}).waitFor();let release,responded;const gate=new Promise(r=>release=r),completed=new Promise(r=>responded=r);
+  await page.route(`**/api/v1/homeworks/${a.id}`,async route=>{await gate;await route.continue();responded();});
+  await page.locator('section.card').filter({has:page.getByRole('heading',{name:a.title,exact:true})}).getByRole('button',{name:'编辑并发布'}).click();await page.getByRole('button',{name:'返回作业中心'}).click();await page.getByRole('heading',{name:'我负责的作业'}).waitFor();await page.locator('section.card').filter({has:page.getByRole('heading',{name:b.title,exact:true})}).getByRole('button',{name:'编辑并发布'}).click();await page.getByRole('heading',{name:b.title,exact:true}).waitFor();await page.getByLabel('作业标题',{exact:true}).fill('B的未保存编辑');release();await completed;await page.waitForTimeout(150);assert(await page.getByRole('heading',{name:b.title,exact:true}).isVisible());assert.equal(await page.getByLabel('作业标题',{exact:true}).inputValue(),'B的未保存编辑');checks.push('late A response does not replace B or its unsaved editing');
+  await page.unroute(`**/api/v1/homeworks/${a.id}`);let releaseCatalog,catalogSeen;const catGate=new Promise(r=>releaseCatalog=r),catStarted=new Promise(r=>catalogSeen=r);await page.route('**/api/v1/homework-catalog?subject=math',async route=>{catalogSeen();await catGate;await route.continue();});await page.locator('.sidebar [data-nav=homeworks]').click();await catStarted;await page.getByLabel('作业科目',{exact:true}).selectOption('english');await page.locator('.homework-editor').waitFor();assert((await page.locator('.homework-editor').innerText()).includes('They'));releaseCatalog();await page.waitForTimeout(150);assert.equal(await page.getByLabel('作业科目',{exact:true}).inputValue(),'english');assert((await page.locator('.homework-editor').innerText()).includes('They'));assert(!(await page.locator('.homework-editor').innerText()).includes('3x'));checks.push('late math catalog cannot overwrite the selected English form');
+  await mkdir(join(root,'test-results/homework'),{recursive:true});await writeFile(join(root,'test-results/homework/view-races.json'),JSON.stringify({passed:checks.length,checks,method:'synthetic delayed network, actual API and browser'},null,2));console.log(`作业视图异步回归 ${checks.length}/${checks.length} 通过。`);
+}finally{await f.cleanup();}

@@ -1,0 +1,3266 @@
+{
+  "version": "1.6.0",
+  "paths": {
+    "/draft-provider": {
+      "get": {
+        "summary": "隔离候选生成配置可用性；不探测模型或泄露地址/密钥",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DraftCapability"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/draft-sources": {
+      "get": {
+        "summary": "本人最近100份不可变合成资料",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DraftSource"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "保存原创合成资料及来源声明；requestId幂等",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DraftSource"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DraftSource"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "enum": [
+                      "math",
+                      "english"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 12000
+                  },
+                  "sourceLabel": {
+                    "type": "string"
+                  },
+                  "licenseDeclaration": {
+                    "type": "string",
+                    "enum": [
+                      "original_private",
+                      "CC0-1.0"
+                    ]
+                  },
+                  "syntheticOnly": {
+                    "const": true
+                  },
+                  "rightsConfirmed": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "title",
+                  "subject",
+                  "text",
+                  "sourceLabel",
+                  "licenseDeclaration",
+                  "syntheticOnly",
+                  "rightsConfirmed"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/draft-sources/{id}": {
+      "get": {
+        "summary": "本人单份来源、版本与SHA256",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DraftSource"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question-drafts": {
+      "get": {
+        "summary": "本人最近100个候选批次；history为空，详情可读保存历史",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QuestionDraft"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "人工录入1至3题，仅结构与引用校验，默认pending_human",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "enum": [
+                      "math",
+                      "english"
+                    ]
+                  },
+                  "sourceIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "maxItems": 2,
+                    "uniqueItems": true
+                  },
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "topic": {
+                          "type": "string"
+                        },
+                        "grade": {
+                          "type": "integer",
+                          "enum": [
+                            7,
+                            8,
+                            9
+                          ]
+                        },
+                        "phase": {
+                          "type": "string",
+                          "enum": [
+                            "diagnostic",
+                            "practice",
+                            "retest"
+                          ]
+                        },
+                        "prompt": {
+                          "type": "string"
+                        },
+                        "options": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 4,
+                          "maxItems": 4
+                        },
+                        "correctOption": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 3
+                        },
+                        "rationale": {
+                          "type": "string"
+                        },
+                        "citations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "sourceId": {
+                                "type": "string"
+                              },
+                              "sourceVersion": {
+                                "const": 1
+                              },
+                              "digest": {
+                                "type": "string"
+                              },
+                              "lineStart": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "lineEnd": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "sourceId",
+                              "digest",
+                              "lineStart",
+                              "lineEnd",
+                              "text"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 1,
+                          "maxItems": 3
+                        }
+                      },
+                      "required": [
+                        "topic",
+                        "grade",
+                        "phase",
+                        "prompt",
+                        "options",
+                        "correctOption",
+                        "rationale",
+                        "citations"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 3
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "title",
+                  "subject",
+                  "sourceIds",
+                  "questions"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question-drafts/{id}": {
+      "get": {
+        "summary": "读取本人候选及所有保存版本",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "revision并发更新；每次修改重置为待审，保留历史",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "topic": {
+                          "type": "string"
+                        },
+                        "grade": {
+                          "type": "integer",
+                          "enum": [
+                            7,
+                            8,
+                            9
+                          ]
+                        },
+                        "phase": {
+                          "type": "string",
+                          "enum": [
+                            "diagnostic",
+                            "practice",
+                            "retest"
+                          ]
+                        },
+                        "prompt": {
+                          "type": "string"
+                        },
+                        "options": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 4,
+                          "maxItems": 4
+                        },
+                        "correctOption": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 3
+                        },
+                        "rationale": {
+                          "type": "string"
+                        },
+                        "citations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "sourceId": {
+                                "type": "string"
+                              },
+                              "sourceVersion": {
+                                "const": 1
+                              },
+                              "digest": {
+                                "type": "string"
+                              },
+                              "lineStart": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "lineEnd": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "sourceId",
+                              "digest",
+                              "lineStart",
+                              "lineEnd",
+                              "text"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 1,
+                          "maxItems": 3
+                        }
+                      },
+                      "required": [
+                        "topic",
+                        "grade",
+                        "phase",
+                        "prompt",
+                        "options",
+                        "correctOption",
+                        "rationale",
+                        "citations"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 3
+                  }
+                },
+                "required": [
+                  "revision",
+                  "title",
+                  "questions"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question-drafts/generate": {
+      "post": {
+        "summary": "先保存幂等请求；关闭/失败状态明确，无重试和伪候选",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "相同意图仍生成中；不会再次发起调用",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "enum": [
+                      "math",
+                      "english"
+                    ]
+                  },
+                  "sourceIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "maxItems": 2,
+                    "uniqueItems": true
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                  },
+                  "syntheticOnly": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "title",
+                  "subject",
+                  "sourceIds",
+                  "count",
+                  "instructions",
+                  "syntheticOnly"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/question-drafts/{id}/review": {
+      "post": {
+        "summary": "逐题人工核对；accept仍accepted_isolated且published=false",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuestionDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "decision": {
+                    "type": "string",
+                    "enum": [
+                      "accept",
+                      "reject"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 2000
+                  },
+                  "confirmed": {
+                    "const": true
+                  },
+                  "checks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "questionId": {
+                          "type": "string"
+                        },
+                        "answer": {
+                          "type": "boolean"
+                        },
+                        "rationale": {
+                          "type": "boolean"
+                        },
+                        "source": {
+                          "type": "boolean"
+                        },
+                        "ageAppropriate": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "questionId",
+                        "answer",
+                        "rationale",
+                        "source",
+                        "ageAppropriate"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "revision",
+                  "decision",
+                  "note",
+                  "confirmed",
+                  "checks"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/draft-exports": {
+      "get": {
+        "summary": "四类隔离内容授权文档/JSON/CSV；同一所有权边界",
+        "description": "仅当前机构的创建老师本人；管理员、学生、家长及其他老师无权读取。隔离内容从未发布到正式题库。",
+        "x-roles": [
+          "teacher"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "draft-sources",
+                "draft-source",
+                "question-drafts",
+                "question-draft"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "document",
+                "json",
+                "csv"
+              ],
+              "default": "document"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权保存/读取结果；生成必须另外检查data.status，不表示出题成功",
+            "headers": {
+              "X-Actor-Id": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/DraftPrintDocument"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "formatVersion": {
+                              "const": "1"
+                            },
+                            "kind": {
+                              "type": "string"
+                            },
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object"
+                              }
+                            },
+                            "notice": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "formatVersion",
+                            "kind",
+                            "records",
+                            "notice"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "标准错误信封；无原始上游错误或配置值",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "schemas": {
+    "DraftSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string",
+          "enum": [
+            "math",
+            "english"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "digest": {
+          "type": "string"
+        },
+        "version": {
+          "const": 1
+        },
+        "sourceLabel": {
+          "type": "string"
+        },
+        "licenseDeclaration": {
+          "type": "string",
+          "enum": [
+            "original_private",
+            "CC0-1.0"
+          ]
+        },
+        "syntheticOnly": {
+          "const": true
+        },
+        "rightsVerified": {
+          "const": false
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "notice": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "subject",
+        "text",
+        "digest",
+        "version",
+        "sourceLabel",
+        "licenseDeclaration",
+        "syntheticOnly",
+        "rightsVerified",
+        "createdAt",
+        "notice"
+      ],
+      "additionalProperties": false
+    },
+    "DraftCandidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "integer",
+          "enum": [
+            7,
+            8,
+            9
+          ]
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "diagnostic",
+            "practice",
+            "retest"
+          ]
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "correctOption": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "sourceVersion": {
+                "const": 1
+              },
+              "digest": {
+                "type": "string"
+              },
+              "lineStart": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "lineEnd": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sourceId",
+              "sourceVersion",
+              "digest",
+              "lineStart",
+              "lineEnd",
+              "text"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "id",
+        "topic",
+        "grade",
+        "phase",
+        "prompt",
+        "options",
+        "correctOption",
+        "rationale",
+        "citations"
+      ],
+      "additionalProperties": false
+    },
+    "DraftVersion": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "generating",
+            "pending_human",
+            "accepted_isolated",
+            "rejected",
+            "failed",
+            "unavailable"
+          ]
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "topic": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "integer",
+                "enum": [
+                  7,
+                  8,
+                  9
+                ]
+              },
+              "phase": {
+                "type": "string",
+                "enum": [
+                  "diagnostic",
+                  "practice",
+                  "retest"
+                ]
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "correctOption": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "rationale": {
+                "type": "string"
+              },
+              "citations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "sourceVersion": {
+                      "const": 1
+                    },
+                    "digest": {
+                      "type": "string"
+                    },
+                    "lineStart": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "lineEnd": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceVersion",
+                    "digest",
+                    "lineStart",
+                    "lineEnd",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 3
+              }
+            },
+            "required": [
+              "id",
+              "topic",
+              "grade",
+              "phase",
+              "prompt",
+              "options",
+              "correctOption",
+              "rationale",
+              "citations"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "schemaValid": {
+              "type": "boolean"
+            },
+            "citationsLocated": {
+              "type": "boolean"
+            },
+            "questionCount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracyEvaluated": {
+              "type": "boolean"
+            },
+            "humanReview": {
+              "type": "boolean"
+            },
+            "notice": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "review": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "decision": {
+                  "type": "string",
+                  "enum": [
+                    "accept",
+                    "reject"
+                  ]
+                },
+                "note": {
+                  "type": "string"
+                },
+                "checks": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "questionId": {
+                        "type": "string"
+                      },
+                      "answer": {
+                        "type": "boolean"
+                      },
+                      "rationale": {
+                        "type": "boolean"
+                      },
+                      "source": {
+                        "type": "boolean"
+                      },
+                      "ageAppropriate": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "questionId",
+                      "answer",
+                      "rationale",
+                      "source",
+                      "ageAppropriate"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "reviewerId": {
+                  "type": "string"
+                },
+                "reviewedAt": {
+                  "type": "string"
+                },
+                "reviewedRevision": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "attestationOnly": {
+                  "const": true
+                },
+                "published": {
+                  "const": false
+                }
+              },
+              "required": [
+                "decision",
+                "note",
+                "checks",
+                "reviewerId",
+                "reviewedAt",
+                "reviewedRevision",
+                "attestationOnly",
+                "published"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actorId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "revision",
+        "status",
+        "questions",
+        "validation",
+        "review",
+        "actorId",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    },
+    "QuestionDraft": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string",
+          "enum": [
+            "math",
+            "english"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "generating",
+            "pending_human",
+            "accepted_isolated",
+            "rejected",
+            "failed",
+            "unavailable"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "version": {
+                "const": 1
+              },
+              "digest": {
+                "type": "string"
+              },
+              "sourceLabel": {
+                "type": "string"
+              },
+              "licenseDeclaration": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "version",
+              "digest",
+              "sourceLabel",
+              "licenseDeclaration"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "contract": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "providerRevision": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "model": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "transportExecuted": {
+              "type": "boolean"
+            },
+            "transportAttempted": {
+              "type": "boolean"
+            },
+            "modelExecution": {
+              "type": "string",
+              "enum": [
+                "not_executed",
+                "not_executed_test_fixture",
+                "provider_reported_unverified",
+                "unknown_after_failure"
+              ]
+            },
+            "usage": {
+              "type": "object",
+              "properties": {
+                "inputTokens": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "outputTokens": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "inputTokens",
+                "outputTokens"
+              ],
+              "additionalProperties": false
+            },
+            "syntheticOnly": {
+              "const": true
+            },
+            "gradingAllowed": {
+              "const": false
+            }
+          },
+          "required": [
+            "kind",
+            "contract",
+            "providerRevision",
+            "model",
+            "transportExecuted",
+            "modelExecution",
+            "usage",
+            "syntheticOnly",
+            "gradingAllowed"
+          ],
+          "additionalProperties": false
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "topic": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "integer",
+                "enum": [
+                  7,
+                  8,
+                  9
+                ]
+              },
+              "phase": {
+                "type": "string",
+                "enum": [
+                  "diagnostic",
+                  "practice",
+                  "retest"
+                ]
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "correctOption": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "rationale": {
+                "type": "string"
+              },
+              "citations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "sourceVersion": {
+                      "const": 1
+                    },
+                    "digest": {
+                      "type": "string"
+                    },
+                    "lineStart": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "lineEnd": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceVersion",
+                    "digest",
+                    "lineStart",
+                    "lineEnd",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 3
+              }
+            },
+            "required": [
+              "id",
+              "topic",
+              "grade",
+              "phase",
+              "prompt",
+              "options",
+              "correctOption",
+              "rationale",
+              "citations"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "schemaValid": {
+              "type": "boolean"
+            },
+            "citationsLocated": {
+              "type": "boolean"
+            },
+            "questionCount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracyEvaluated": {
+              "type": "boolean"
+            },
+            "humanReview": {
+              "type": "boolean"
+            },
+            "notice": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "review": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "decision": {
+                  "type": "string",
+                  "enum": [
+                    "accept",
+                    "reject"
+                  ]
+                },
+                "note": {
+                  "type": "string"
+                },
+                "checks": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "questionId": {
+                        "type": "string"
+                      },
+                      "answer": {
+                        "type": "boolean"
+                      },
+                      "rationale": {
+                        "type": "boolean"
+                      },
+                      "source": {
+                        "type": "boolean"
+                      },
+                      "ageAppropriate": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "questionId",
+                      "answer",
+                      "rationale",
+                      "source",
+                      "ageAppropriate"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "reviewerId": {
+                  "type": "string"
+                },
+                "reviewedAt": {
+                  "type": "string"
+                },
+                "reviewedRevision": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "attestationOnly": {
+                  "const": true
+                },
+                "published": {
+                  "const": false
+                }
+              },
+              "required": [
+                "decision",
+                "note",
+                "checks",
+                "reviewerId",
+                "reviewedAt",
+                "reviewedRevision",
+                "attestationOnly",
+                "published"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DraftVersion"
+          }
+        },
+        "errorCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "syntheticOnly": {
+          "const": true
+        },
+        "published": {
+          "const": false
+        },
+        "gradingAllowed": {
+          "const": false
+        },
+        "notice": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "subject",
+        "status",
+        "revision",
+        "sources",
+        "provenance",
+        "questions",
+        "validation",
+        "review",
+        "history",
+        "errorCode",
+        "createdAt",
+        "updatedAt",
+        "syntheticOnly",
+        "published",
+        "gradingAllowed",
+        "notice"
+      ],
+      "additionalProperties": false
+    },
+    "DraftCapability": {
+      "type": "object",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notice": {
+          "type": "string"
+        },
+        "contract": {
+          "const": "junior-candidates-v1"
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "providerRevision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "syntheticOnly": {
+          "const": true
+        },
+        "ragVerified": {
+          "const": false
+        },
+        "gradingAllowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "available",
+        "reason",
+        "notice",
+        "contract",
+        "provider",
+        "model",
+        "providerRevision",
+        "syntheticOnly",
+        "ragVerified",
+        "gradingAllowed"
+      ],
+      "additionalProperties": false
+    },
+    "DraftPrintDocument": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "viewer": {
+          "type": "string"
+        },
+        "role": {
+          "const": "老师"
+        },
+        "student": {
+          "type": "null"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "empty": {
+          "type": "boolean"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "title",
+        "viewer",
+        "role",
+        "student",
+        "count",
+        "empty",
+        "blocks"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

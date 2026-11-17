@@ -1,0 +1,16 @@
+node_modules/
+.local/
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+*.log
+test-results/
+output/
+test-results-release-baseline.txt
+android/.gradle/
+android/**/build/
+android/local.properties
+*.jks
+*.keystore

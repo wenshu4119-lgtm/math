@@ -1,0 +1,85 @@
+// Documentation-only generator for the released content extension. No runtime or DB writes.
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const ref=name=>({$ref:'#/components/schemas/'+name});
+const str={type:'string'},int={type:'integer',minimum:0},bool={type:'boolean'},nullableString={type:['string','null']};
+const obj=(properties,required=Object.keys(properties),extra=false)=>({type:'object',properties,required,additionalProperties:extra});
+const arr=items=>({type:'array',items});
+const enums=values=>({type:'string',enum:values});
+const difficulty={type:['string','null'],enum:['very_low','low','medium','high','very_high',null],description:'超低、低、中等、高、超高；null为待定级。题目初标与知识点统一定级分别保留依据。'};
+const purpose=enums(['diagnostic','practice','retest','exam_review']);
+const subject=enums(['chinese','math','english','physics','chemistry','biology','history','geography','civics']);
+const revision={type:'integer',minimum:1};
+const note={type:'string',minLength:5,maxLength:1500};
+const countKeys=['questionCount','knowledgeCount','catalogCount','publishedCount','reviewedCount','unreviewedCount','pendingCount','quarantinedCount','studentPracticeCount','studentPracticeKnowledgeCount','studentScoredCount','studentAvailableCount','legacyExampleCount'];
+const countProperties=Object.fromEntries(countKeys.map(k=>[k,int]));
+const schemas={
+ Error:obj({error:obj({code:str,message:str,requestId:str})}),
+ Difficulty:difficulty,
+ Health:obj({status:{const:'ok'},apiVersion:{const:'v1'},ocr:enums(['local_available','unavailable']),ai:enums(['limited_teacher_lab','unavailable']),aiGeneration:{const:'unavailable'},aiFormalGrading:{const:false},matching:{const:'rule-v1'}}),
+ CoverageTotals:obj(countProperties),
+ CoverageSubject:obj({id:subject,name:str,grades:arr({type:'integer',enum:[7,8,9]}),...countProperties,status:enums(['partial','planned']),note:str}),
+ Coverage:obj({generatedAt:{type:'string',format:'date-time'},subjects:arr(ref('CoverageSubject')),totals:ref('CoverageTotals'),quarantinedCount:int,notice:str}),
+ Validation:obj({validator:{const:'independent-bank-v1'},status:enums(['passed','needs_review','quarantined']),issues:arr(str),warnings:arr(str),proof:{oneOf:[{type:'null'},obj({number:{type:'number'},method:str})]},humanReview:{const:false},sourceRights:{const:'author_declared_CC0_not_external_clearance'},checkedAt:{type:'string',format:'date-time'}}),
+ QuestionContent:obj({id:str,subject,grade:{type:'integer',enum:[7,8,9]},semester:str,chapter:str,knowledgeIds:{type:'array',items:str,minItems:1,maxItems:12},knowledgeTitle:str,knowledgeDifficulty:difficulty,knowledgeDifficultyBasis:str,explanation:str,memoryCard:str,prompt:str,options:{type:'array',items:str,minItems:4,maxItems:4},correctOption:{type:'integer',minimum:0,maximum:3},rationale:str,difficulty,difficultyBasis:str,purposes:{type:'array',items:purpose,minItems:1},source:str,license:str,sourceVersion:revision,sourceDigest:nullableString,sourceLabel:str,textbookScope:str,region:str,reviewStatus:enums(['pending_human','human_reviewed']),originalAutomatedClaim:nullableString,origin:str,image:{type:['object','string','null']}},undefined,true),
+ QuestionView:{allOf:[ref('QuestionContent'),obj({revision,contentHash:str,state:enums(['pending','available','published','quarantined','withdrawn']),validation:ref('Validation'),reviewedBy:nullableString,reviewedAt:nullableString,studentPracticeAvailable:bool,formalScoringAvailable:{const:false}},undefined,true)]},
+ QuestionWithKnowledgeLevels:{allOf:[ref('QuestionView'),obj({knowledgeDifficultySnapshot:difficulty,knowledgeLevelRevision:int,knowledgeDifficulties:arr(obj({id:str,difficulty,revision:int}))},undefined,true)],description:'列表/详情knowledgeDifficulty为本机构首关联知识点的统一定级；knowledgeDifficultySnapshot为该题版本内快照。修改题目快照不会修改知识点统一定级。'},
+ VersionHistory:obj({revision,content_hash:str,state:str,reviewed_by:nullableString,reviewed_at:nullableString,actor_id:nullableString,action:str,note:str,created_at:str,content:ref('QuestionContent')}),
+ ErrorReport:obj({id:str,org_id:str,question_id:str,question_revision:revision,reporter_id:str,reason:str,created_at:str,resolved_by:nullableString,resolved_at:nullableString,resolution:nullableString}),
+ QuestionDetail:{allOf:[ref('QuestionWithKnowledgeLevels'),obj({history:arr(ref('VersionHistory')),reports:arr(ref('ErrorReport'))},undefined,true)]},
+ QuestionList:obj({total:int,offset:int,limit:{type:'integer',minimum:1,maximum:100},items:arr(ref('QuestionWithKnowledgeLevels'))}),
+ PracticeQuestion:obj({id:str,revision,subject,grade:{type:'integer',enum:[7,8,9]},knowledgeTitle:str,knowledgeIds:arr(str),knowledgeDifficulty:difficulty,difficulty,purposes:arr(purpose),prompt:str,options:arr(str),reviewStatus:enums(['pending_human','human_reviewed']),notice:str}),
+ PracticeAnswer:obj({questionId:str,revision,correctOption:{type:'integer',minimum:0,maximum:3},rationale:str,reviewStatus:enums(['pending_human','human_reviewed']),recordedAsFormalGrade:{const:false},notice:str}),
+ ImportBatch:obj({id:str,filename:str,sha256:{type:'string',pattern:'^[a-f0-9]{64}$'},questions:int,knowledgePoints:int}),
+ ImportResult:obj({imported:int,skipped:int,humanReviewsCreated:{const:0},batches:arr(str)}),
+ ReportReceipt:obj({id:str,status:{const:'open'}}),
+ AiPublicStatus:obj({status:enums(['limited','unavailable']),label:str,message:str,capabilities:obj({questionAnswering:bool,syntheticKnowledgeRetrieval:bool,generation:{const:false},grading:{const:false}}),scope:arr(str),notice:str,checkedAt:{type:'string',format:'date-time'},cacheMaxAgeSeconds:{const:15}}),
+ AiPreset:obj({id:enums(['math-equation','english-be','outside-scope']),title:str,subject:{type:['string','null'],enum:['math','english',null]}}),
+ AiTeacherStatus:{type:'object'},
+ AiCitation:obj({source:enums(['stage9_math.txt','stage9_english.txt']),sha256:{type:'string',pattern:'^[a-f0-9]{64}$'},quote:{type:'string',maxLength:3000},nativePageCitation:{const:false}}),
+ AiResult:obj({outcome:enums(['answered','quarantined','no_match']),answer:nullableString,explanation:nullableString,automaticCheck:nullableString,citations:{type:'array',items:ref('AiCitation'),maxItems:2},modelCalls:{type:'integer',enum:[0,1]},syntheticOnly:{const:true},teacherReviewed:{const:false},gradingAllowed:{const:false},message:str}),
+ AiFailure:obj({outcome:{const:'failed'},code:str,message:str}),
+ AiJob:obj({id:{type:'string',format:'uuid'},preset:enums(['math-equation','english-be','outside-scope']),state:enums(['created','running','completed','failed']),result:{oneOf:[{type:'null'},ref('AiResult'),ref('AiFailure')]},createdAt:{type:'string',format:'date-time'},notice:str})
+};
+schemas.AiTeacherStatus=obj({...schemas.AiPublicStatus.properties,presets:arr(ref('AiPreset'))});
+const paths={};
+const commonErrorCodes={400:['INVALID_INPUT','INVALID_JSON'],401:['UNAUTHENTICATED'],403:['FORBIDDEN','ORIGIN_REJECTED','CSRF_REJECTED','PASSWORD_CHANGE_REQUIRED'],404:['NOT_FOUND'],409:['CONFLICT'],413:['BODY_TOO_LARGE'],415:['JSON_REQUIRED'],429:['RATE_LIMITED'],500:['INTERNAL_ERROR'],503:['CONFIGURATION_REQUIRED']};
+const errorResponse=(status,codes)=>({description:`${status}: ${codes.join(', ')}`,content:{'application/json':{schema:ref('Error')}},'x-error-codes':codes});
+function operation(path,method,{summary,description='',roles=['teacher','admin'],request,response,success=200,errors={},parameters=[]}){
+ const writing=method!=='get';const merged={...commonErrorCodes,...errors};if(!writing){delete merged[413];delete merged[415];}if(roles.includes('anonymous')){delete merged[401];delete merged[429];merged[403]=['ORIGIN_REJECTED'];}
+ const responses=Object.fromEntries(Object.entries(merged).map(([status,codes])=>[status,errorResponse(status,codes)]));
+ for(const status of Array.isArray(success)?success:[success])responses[status]={description:status===202?'任务已保存；不表示模型成功。':'成功。JSON使用data包装。',content:{'application/json':{schema:obj({data:response})}}};
+ const op={summary,description,'x-roles':roles,security:roles.includes('anonymous')?[]:[writing?{session:[],csrf:[]}:{session:[]}],parameters:[...Array.from(path.matchAll(/\{([^}]+)\}/g),m=>({name:m[1],in:'path',required:true,schema:str})),...parameters],responses};
+ if(request)op.requestBody={required:true,content:{'application/json':{schema:request}}};
+ (paths[path]??={})[method]=op;return op;
+}
+const query=(name,schema,description='')=>({name,in:'query',schema,description});
+operation('/health','get',{summary:'健康状态及受限教师AI能力',roles:['anonymous'],response:ref('Health'),description:'本补充覆盖旧契约health的AI字段；limited_teacher_lab不表示自由问答、出题或自动评分开放。'});
+operation('/public/coverage','get',{summary:'免登录真实题库覆盖统计',roles:['anonymous'],response:ref('Coverage'),description:'全站按题目ID去重；每项审核/可用/隔离状态按至少一个机构拥有该状态计数，可能重叠。不能推定本机构授权。含旧示例题；不含题干、答案、学生或教师身份。'});
+operation('/public/ai-status','get',{summary:'免登录DeepTutor实时受限状态',roles:['anonymous'],response:ref('AiPublicStatus'),description:'最多缓存15秒；上游失联以200+status=unavailable明确展示，不伪造就绪。无密钥、内部地址或学生数据。'});
+operation('/bank/imports','get',{summary:'查看服务器打包且已核验的批次',response:arr(ref('ImportBatch'))});
+operation('/bank/imports','post',{summary:'向当前机构幂等导入指定打包批次',roles:['admin'],request:obj({batchId:{type:'string',minLength:1,maxLength:80}}),response:ref('ImportResult'),description:'仅接受GET列出的batchId，不接收任意JSON/文件；按源SHA去重，不创建老师审核。未知打包ID/导入期间权限变化目前会返回通用500，不应盲目自动重试。'});
+operation('/bank/knowledge/{id}','patch',{summary:'版本化更新当前机构知识点统一难度',request:obj({revision:int,difficulty,note}),response:obj({knowledgeId:str,revision,difficulty}),errors:{409:['VERSION_CONFLICT']},description:'首次revision=0。知识点须由本机构题库引用；仅更新独立定级记录，不改题干、答案、题目内容版本或历史成绩。'});
+operation('/bank/questions','get',{summary:'教师/管理员检索本机构题库（含答案）',response:ref('QuestionList'),parameters:[query('subject',subject),query('grade',{type:'integer',enum:[7,8,9]}),query('knowledge',str,'知识点ID精确匹配或标题子串'),query('difficulty',enums(['very_low','low','medium','high','very_high','unrated'])),query('knowledgeDifficulty',enums(['very_low','low','medium','high','very_high','unrated'])),query('purpose',purpose),query('state',enums(['pending','available','published','quarantined','withdrawn'])),query('reviewStatus',enums(['pending_human','human_reviewed'])),query('offset',{type:'integer',minimum:0,default:0}),query('limit',{type:'integer',minimum:1,maximum:100,default:50})],errors:{400:['INVALID_FILTER']},description:'拒绝未列出的筛选字段；未知筛选值可返回空列表，不构成范围覆盖。首次改密账号、跨机构及会话撤销受服务端控制。'});
+operation('/bank/questions/{id}','get',{summary:'具体版本、来源、答案、解析、历史和举报',response:ref('QuestionDetail'),description:'响应发送前再次检查当前教师/管理员的会话、角色与机构；历史答案也受同一权限保护。'});
+operation('/bank/questions/{id}','patch',{summary:'修正题目并使原审核失效',request:obj({revision,prompt:{type:'string',minLength:1,maxLength:5000},options:{type:'array',items:{type:'string',minLength:1,maxLength:1000},minItems:4,maxItems:4},correctOption:{type:'integer',minimum:0,maximum:3},rationale:{type:'string',minLength:1,maxLength:5000},difficulty,knowledgeDifficulty:difficulty,purposes:{type:'array',items:purpose,minItems:1},knowledgeIds:{type:'array',items:{type:'string',pattern:'^[\\w-]+$'},minItems:1,maxItems:12},note},['revision','note']),response:ref('QuestionView'),errors:{409:['VERSION_CONFLICT']},description:'创建不可变新版本，清除老师审核并进入pending或quarantined；不静默改写旧作答。knowledgeDifficulty是本题版本的知识难度快照，统一定级必须使用/bank/knowledge/{id}。知识关联限同学科已打包知识点，可用于跨章节中考专题。'});
+const reviewChecks=obj(Object.fromEntries(['answer','rationale','source','grade','unique','figures'].map(k=>[k,{const:true}])));
+const actionBody=obj({revision,note,confirmed:bool,decision:enums(['accept','reject']),checks:reviewChecks},['revision','note']);
+operation('/bank/questions/{id}/review','post',{summary:'真实老师逐题审核当前版本',roles:['teacher'],request:{...actionBody,properties:{...actionBody.properties,confirmed:{const:true}},required:['revision','note','confirmed','decision'],allOf:[{if:{properties:{decision:{const:'accept'}}},then:{required:['checks']}}]},response:ref('QuestionView'),errors:{400:['INVALID_INPUT','CONFIRMATION_REQUIRED','INCOMPLETE_REVIEW'],409:['VERSION_CONFLICT','QUARANTINED']},description:'confirmed必须true（accept/reject均如此）。accept要求六项checks全true且没有未解决隔离问题；审核记录包括老师、时间、内容哈希与检查项。接受后state仍pending，需单独publish；拒绝变quarantined。管理员不能代替老师审核。'});
+operation('/bank/questions/{id}/publish','post',{summary:'独立发布已获真实老师审核的当前版本',request:actionBody,response:ref('QuestionView'),errors:{409:['VERSION_CONFLICT','REVIEW_REQUIRED']},description:'有效字段revision/note；同一动作解析器还允许confirmed/decision/checks但本动作不使用。发布为自主练习和教师选题，不接入旧正式评分协议。'});
+operation('/bank/questions/{id}/withdraw','post',{summary:'撤回并保留不可变历史',request:actionBody,response:ref('QuestionView'),errors:{409:['VERSION_CONFLICT']},description:'有效字段revision/note；撤回立即移出自主练习，清除当前审核标志，保留旧版本与原有成绩。'});
+const reportBody=obj({revision,reason:{type:'string',minLength:5,maxLength:1500}});
+operation('/bank/questions/{id}/report','post',{summary:'对具体版本提交错误举报',request:reportBody,response:ref('ReportReceipt'),success:201,errors:{409:['VERSION_CONFLICT','AUTHORIZATION_CHANGED']}});
+operation('/bank/questions/{id}/resolve-report','post',{summary:'保留举报原文并记录处理结果',request:obj({reportId:str,resolution:{type:'string',minLength:5,maxLength:1500}}),response:obj({resolved:{const:true}}),errors:{409:['REPORT_CONFLICT']}});
+const exp=operation('/bank/questions/{id}/export','get',{summary:'受保护JSON/CSV导出',response:ref('QuestionView'),parameters:[query('format',enums(['json','csv']),'默认json；PDF通过鉴权打印页面完成，无服务器PDF端点'),query('revision',revision,'可选，但客户端必须发送所看版本以防导出版本与文件名错配；省略时导出当前版本')],errors:{400:['INVALID_FORMAT'],409:['VERSION_CONFLICT']},description:'JSON仍为data包装；CSV为UTF-8 BOM、表头与单条题目记录，Excel公式起始字符已转义。导出知识难度为题目版本快照；内容包含答案，只允许本机构教师/管理员。'});
+exp.responses[200].content['text/csv']={schema:{type:'string'},example:'id,revision,subject,grade,difficulty,knowledgeDifficulty,purpose,prompt,options,correctOption,rationale,source,reviewStatus'};
+operation('/bank/practice','get',{summary:'当前机构不计正式成绩的自主练习',roles:['student','teacher'],response:arr(ref('PracticeQuestion')),description:'仅available/published且独立自动通过或有真实老师审核的题。列表不含correctOption或rationale；不创建attempts/answers。管理员/家长不可读取该学生入口。'});
+operation('/bank/practice/{id}/answer','post',{summary:'按相同版本作答后查看参考答案',roles:['student','teacher'],request:obj({revision,selectedOption:{type:'integer',minimum:0,maximum:3}}),response:ref('PracticeAnswer'),errors:{409:['VERSION_CONFLICT']},description:'必须选择0..3；题目已撤回、不可用或无权限404。只供自主核对，recordedAsFormalGrade恒false；不生成正式成绩或成长记录。'});
+operation('/bank/practice/{id}/report','post',{summary:'学生/教师举报当前可练习题的具体版本',roles:['student','teacher'],request:reportBody,response:ref('ReportReceipt'),success:201,errors:{409:['VERSION_CONFLICT','AUTHORIZATION_CHANGED']}});
+operation('/ai-lab/status','get',{summary:'教师受限实验状态与三个固定预设',roles:['teacher'],response:ref('AiTeacherStatus'),description:'拒绝所有查询参数。管理员、学生、家长不能调用；匿名请用/public/ai-status。'});
+operation('/ai-lab/jobs','post',{summary:'提交固定原创样例异步实验',roles:['teacher'],request:obj({requestId:{type:'string',format:'uuid',pattern:'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'},preset:enums(['math-equation','english-be','outside-scope'])}),response:ref('AiJob'),success:[200,202],errors:{409:['IDEMPOTENCY_CONFLICT'],429:['RATE_LIMITED'],503:['CONFIGURATION_REQUIRED','DEEPTUTOR_UNAVAILABLE']},description:'不接受自由文本、学生资料、source/URL/model等额外字段。每老师每小时最多6次新实验；相同requestId/同预设不重复模型调用，不同预设409。202表示运行记录，不表示成功；上游忙/失联可能保存failed记录并200返回result.code，前端须看state/result，禁止自动重试模型。'});
+operation('/ai-lab/jobs/{id}','get',{summary:'读取并刷新本人实验结果',roles:['teacher'],response:ref('AiJob'),description:'仅任务所属机构的创建老师；拒绝所有查询参数。轮询可保存真实上游结果与审计。失联/错误答案/引用失配等转failed（200+result.code），或返回quarantined/no_match，不能视为成功答案。结果总是teacherReviewed=false、gradingAllowed=false；范围外测试不得模型调用。',errors:{404:['NOT_FOUND']}});
+const sources=['src/api.mjs','src/question-bank.mjs','src/question-bank-import.mjs','src/question-bank-validation.mjs','src/deeptutor-api.mjs'];
+const doc={openapi:'3.1.0',info:{title:'学习规划题库与DeepTutor受限实验补充契约',version:'2026-11-14.content-1',description:'补充docs/openapi.json业务1.6.1；不重写原契约或原生成器。本文件描述当前实际路由，含health的新增AI状态字段。'},servers:[{url:'/api/v1'}],'x-baseline-contract':'./openapi.json','x-source-sha256':Object.fromEntries(sources.map(p=>[p,createHash('sha256').update(readFileSync(new URL('../'+p,import.meta.url))).digest('hex')])),'x-authentication-notes':['生产Cookie为__Host-lp_session；本地开发为lp_session。账号必须active且完成首次改密。','写请求需要同源Origin、Content-Type application/json、会话CSRF头；JSON请求体最大65536字节。','受保护响应含X-Actor-Id；客户端须校验与当前账号一致，并在账号切换/退出时清除答案与草稿。','默认响应Cache-Control:no-store；能力接口最多15秒内部缓存不代表浏览器可缓存私人响应。','未列出的方法不构成支持；部分未匹配方法为404，非GET/POST/PATCH/DELETE统一405。'],paths,components:{securitySchemes:{session:{type:'apiKey',in:'cookie',name:'__Host-lp_session'},csrf:{type:'apiKey',in:'header',name:'X-CSRF-Token'}},schemas}};
+writeFileSync(new URL('../docs/content-api-contract.json',import.meta.url),JSON.stringify(doc,null,2)+'\n');
+console.log(JSON.stringify({pathCount:Object.keys(paths).length,operationCount:Object.values(paths).reduce((n,p)=>n+Object.keys(p).length,0),schemaCount:Object.keys(schemas).length}));

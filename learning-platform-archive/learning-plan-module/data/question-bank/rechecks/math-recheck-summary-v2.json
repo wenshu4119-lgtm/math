@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 2,
+  "checker": "independent-bank-math-v2",
+  "checkedAt": "2026-11-14T12:37:10.854Z",
+  "sourceCatalogSha256": "7f6fac3cb1b41eb49d92118ac57e9085bb589e72249733bf36eb0706e2a676a3",
+  "proposalChecksum": "addd4e486604230b380298fc474207e7cc5200f99c40e951a9a802e8cf7696c0",
+  "totals": {
+    "total": 158,
+    "passed": 154,
+    "needsReview": 0,
+    "quarantined": 4,
+    "humanReviewed": 0
+  },
+  "grades": [
+    {
+      "batchId": "math-recheck-v2-g7",
+      "grade": 7,
+      "total": 52,
+      "passed": 50,
+      "needsReview": 0,
+      "quarantined": 2,
+      "humanReviewed": 0
+    },
+    {
+      "batchId": "math-recheck-v2-g8",
+      "grade": 8,
+      "total": 53,
+      "passed": 52,
+      "needsReview": 0,
+      "quarantined": 1,
+      "humanReviewed": 0
+    },
+    {
+      "batchId": "math-recheck-v2-g9",
+      "grade": 9,
+      "total": 53,
+      "passed": 52,
+      "needsReview": 0,
+      "quarantined": 1,
+      "humanReviewed": 0
+    }
+  ],
+  "quarantined": [
+    {
+      "questionId": "draft-math-g7-parallel-lines-prac",
+      "issues": [
+        "GEOMETRY_POSITION_AMBIGUOUS"
+      ],
+      "independentAnswer": {
+        "optionIndexes": [
+          0,
+          1
+        ],
+        "answerText": "[35,55]",
+        "method": "frozen_stem_independent_derivation_v2",
+        "reason": "取F=(0,0),D=(1,0),E=(cos70°,sin70°)。当射线EB向右时，内角平分线与y=0交于F右侧，∠EGF=55°；当EB向左时交于F左侧，∠EGF=35°。两配置都满足已写条件，AB∥CD未固定射线EB与FD方向。",
+        "computed": [
+          35,
+          55
+        ],
+        "optionChecks": [
+          {
+            "index": 0,
+            "parsed": 55,
+            "consistent": true
+          },
+          {
+            "index": 1,
+            "parsed": 35,
+            "consistent": true
+          },
+          {
+            "index": 2,
+            "parsed": 70,
+            "consistent": false
+          },
+          {
+            "index": 3,
+            "parsed": 65,
+            "consistent": false
+          }
+        ]
+      },
+      "suggestedRepair": "补充“射线EB与FD同向”，或明确A,E,B及C,F,G,D的顺序后重新核验。"
+    },
+    {
+      "questionId": "draft-math-g7-parallel-lines-retest",
+      "issues": [
+        "GEOMETRY_POSITION_UNCLEAR"
+      ],
+      "independentAnswer": {
+        "optionIndexes": [
+          1
+        ],
+        "answerText": "[83,167]",
+        "method": "frozen_stem_independent_derivation_v2",
+        "reason": "令P=(0,0)，l1:y=1,l2:y=-1。A=(-cot35°,1)，C=(-cot48°,-1)时角为83°；改C=(cot48°,-1)时角为167°。所谓“折点P朝向截线AC同一侧”未定义明确位置关系，不能据此排除后一配置。",
+        "computed": [
+          83,
+          167
+        ],
+        "optionChecks": [
+          {
+            "index": 0,
+            "parsed": 97,
+            "consistent": false
+          },
+          {
+            "index": 1,
+            "parsed": 83,
+            "consistent": true
+          },
+          {
+            "index": 2,
+            "parsed": 13,
+            "consistent": false
+          },
+          {
+            "index": 3,
+            "parsed": 73,
+            "consistent": false
+          }
+        ]
+      },
+      "suggestedRepair": "明确“A、C位于过P且垂直于两平行线的直线同侧”，则∠APC=35°+48°；或给出可核验的必要图示。"
+    },
+    {
+      "questionId": "draft-math-g8-factoring-formulas-retest",
+      "issues": [
+        "FACTORIZATION_FORM_CONVENTION_AMBIGUOUS"
+      ],
+      "independentAnswer": {
+        "optionIndexes": [
+          1,
+          3
+        ],
+        "answerText": "[\"2x(x+3)(x-3)\",\"x(2x+6)(x-3)\"]",
+        "method": "frozen_stem_independent_derivation_v2",
+        "reason": "2x(x+3)(x-3)和x(2x+6)(x-3)展开均为2x³-18x，且两者的非单项因子都为一次。若要排除后者，需要明确多项式因子系数互质/数字公因式先提出的规范，不能仅用“正确因式分解”排除等价式。",
+        "computed": [
+          "2x(x+3)(x-3)",
+          "x(2x+6)(x-3)"
+        ],
+        "optionChecks": [
+          {
+            "index": 0,
+            "parsed": "2x(x²-9)",
+            "consistent": false
+          },
+          {
+            "index": 1,
+            "parsed": "2x(x+3)(x-3)",
+            "consistent": true
+          },
+          {
+            "index": 2,
+            "parsed": "2x(x-3)²",
+            "consistent": false
+          },
+          {
+            "index": 3,
+            "parsed": "x(2x+6)(x-3)",
+            "consistent": true
+          }
+        ]
+      },
+      "suggestedRepair": "将D改为一个展开不等于原式的干扰项，或在题干明确“各一次多项式因式须为整系数本原多项式”。"
+    },
+    {
+      "questionId": "draft-math-g9-trig-bearing-apps-prac",
+      "issues": [
+        "GEOMETRY_ORDER_REQUIRED"
+      ],
+      "independentAnswer": {
+        "optionIndexes": [
+          1
+        ],
+        "answerText": "[34.64101615137754,17.32050807568877]",
+        "method": "frozen_stem_independent_derivation_v2",
+        "reason": "设塔高h，AD=√3h且BD=h/√3。若B在A,D之间，AD-BD=40给h=20√3；若前进40米越过塔底D，则AD+BD=40给h=10√3。题干只说共线与朝D方向前进，未排除第二种位置，解析直接使用相减额外假设了点序。",
+        "computed": [
+          34.64101615137754,
+          17.32050807568877
+        ],
+        "optionChecks": [
+          {
+            "index": 0,
+            "parsed": 40,
+            "consistent": false
+          },
+          {
+            "index": 1,
+            "parsed": 34.64101615137754,
+            "consistent": true
+          },
+          {
+            "index": 2,
+            "parsed": 69.28203230275508,
+            "consistent": false
+          },
+          {
+            "index": 3,
+            "parsed": 20,
+            "consistent": false
+          }
+        ]
+      },
+      "suggestedRepair": "补充“B位于线段AD上（未经过灯塔底部D）”，再按AD-BD=40核验。"
+    }
+  ],
+  "remaining": []
+}

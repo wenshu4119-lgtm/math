@@ -1,0 +1,37 @@
+{
+  "version": "production-20261115.3",
+  "stage": "learning-plan-center",
+  "uploadsAvailable": true,
+  "aiAvailable": false,
+  "aiLabStatusEndpoint": "/api/v1/public/ai-status",
+  "questionBankAvailable": true,
+  "physicalDeviceTested": false,
+  "physicalPrintingTested": false,
+  "learningQaStatusEndpoint": "/api/v1/public/learning-qa-status",
+  "artsAvailable": true,
+  "artsPublicCatalogEndpoint": "/api/v1/public/arts/catalog",
+  "sharingExperienceAvailable": true,
+  "referralSimulationAvailable": true,
+  "referralLiveEnabled": false,
+  "referralPaymentsEnabled": false,
+  "wecomApiConnected": false,
+  "consultationPubliclyEnabled": false,
+  "contactDraftConfigAvailable": true,
+  "timePlanningAvailable": true,
+  "timePlanningPath": "/planning/index.html",
+  "timePlanningReportSources": [
+    "junior_legacy_submitted_diagnostic_retest",
+    "arts_submitted_diagnostic_retest"
+  ],
+  "timePlanningJuniorGradesWithReportAdapter": [
+    7
+  ],
+  "timePlanningFullCurriculum": false,
+  "ocrAvailable": false,
+  "printPrivacyGuardAvailable": true,
+  "planCenterAvailable": true,
+  "customLearningPlansAvailable": true,
+  "weeklyPlanReflectionsAvailable": true,
+  "planLifecycleAvailable": true,
+  "onlyOneActivePlanPerScope": true
+}

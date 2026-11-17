@@ -1,0 +1,23 @@
+{
+  "name": "junior-learning-trial-20261114",
+  "main": "release/worker-vps.mjs",
+  "account_id": "e790168a5525cfa3180de7a2aea228ab",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page"
+  },
+  "vars": {
+    "APP_ORIGIN": "https://junior-learning-trial-20261114.wenshu4119.workers.dev",
+    "APP_ENV": "trial",
+    "TRIAL_PAUSED": "false",
+    "TRIAL_BACKEND_ORIGIN": "https://itunes-prep-kills-stops.trycloudflare.com"
+  }
+}

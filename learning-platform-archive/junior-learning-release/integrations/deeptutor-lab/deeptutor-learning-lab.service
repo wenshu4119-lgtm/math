@@ -1,0 +1,31 @@
+[Unit]
+Description=Protected DeepTutor synthetic teaching laboratory
+After=network.target deeptutor-backend.service deeptutor-local-llm.service deeptutor-local-embedding.service
+
+[Service]
+Type=simple
+User=deeptutor
+Group=deeptutor
+WorkingDirectory=/var/lib/deeptutor/runtime
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=DEEPTUTOR_HOME=/var/lib/deeptutor/runtime
+Environment=DEEPTUTOR_WORKSPACE_ROOT=/var/lib/deeptutor/runtime/content
+Environment=DEEPTUTOR_LAB_TOKEN_FILE=/var/lib/deeptutor/local-models/learning-lab.key
+ExecStart=/opt/deeptutor/venv/bin/python -B /opt/deeptutor-learning-lab/bridge.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/deeptutor/runtime
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=any
+IPAddressAllow=localhost
+CPUQuota=20%
+MemoryMax=350M
+TasksMax=64
+Nice=15
+
+[Install]
+WantedBy=multi-user.target

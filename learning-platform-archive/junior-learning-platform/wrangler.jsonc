@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "junior-learning-platform-local",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "public",
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "junior-learning-local",
+    "database_id": "00000000-0000-0000-0000-000000000001",
+    "migrations_dir": "migrations"
+  }],
+  "r2_buckets": [{ "binding": "PAPERS", "bucket_name": "junior-learning-papers-local" }]
+}

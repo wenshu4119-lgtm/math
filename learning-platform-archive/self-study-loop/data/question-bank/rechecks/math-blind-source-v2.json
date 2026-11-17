@@ -1,0 +1,2061 @@
+{
+  "schemaVersion": 2,
+  "purpose": "Frozen prompt/options only; no answer key, rationale or original automated check is used by independent derivations.",
+  "sourceCatalogSha256": "7f6fac3cb1b41eb49d92118ac57e9085bb589e72249733bf36eb0706e2a676a3",
+  "records": [
+    {
+      "id": "draft-math-g7-monomial-missing-term-diag",
+      "grade": 7,
+      "prompt": "关于单项式 -2πx³y² / 3 的系数与次数，下列正确的一组是（ ）。",
+      "options": [
+        "系数 -2π / 3，次数 5",
+        "系数 -2 / 3，次数 6",
+        "系数 -2π / 3，次数 6",
+        "系数 -2 / 3，次数 5"
+      ],
+      "stemOptionsSha256": "c652d3d8892e26e5931bdfc11e970e4cb9698d066a1512a6dd7f6c9bd5479ddf",
+      "sourceContentHash": "74622546785b19f38369ef9bde080951ff59646c81fe466a3f6806feab83df4f"
+    },
+    {
+      "id": "draft-math-g7-monomial-missing-term-prac",
+      "grade": 7,
+      "prompt": "已知关于 x 的多项式 3x² - mx + 2x - 5 合并同类项后不含 x 的一次项，则常数 m 的值为（ ）。",
+      "options": [
+        "-2",
+        "2",
+        "3",
+        "-3"
+      ],
+      "stemOptionsSha256": "7619e458b4963d732e8ce4cf91e9f1be9b7aed7e59249199c854197791c0b7b4",
+      "sourceContentHash": "98cddf5f5c1eb0154c6f73929ec94b51bf52b1f394c474a790cdee550d931554"
+    },
+    {
+      "id": "draft-math-g7-monomial-missing-term-retest",
+      "grade": 7,
+      "prompt": "若 (m - 3)x³ + x² - x + 1 是关于 x 的二次多项式（m 为常数），且该二次多项式共有 n 项，则 m + n 的值为（ ）。",
+      "options": [
+        "7",
+        "5",
+        "6",
+        "4"
+      ],
+      "stemOptionsSha256": "198a7f8d979b3cc13c20dd6a4b530faf5d6164399cf615d21b3cffef0be3cd2f",
+      "sourceContentHash": "e8ea0e9777c5ebafc59605d1bf0483bed655ab82bb17ed8386e8848e124eb721"
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-diag",
+      "grade": 7,
+      "prompt": "在实数 22 / 7、√9、π / 2、0.333… 中，属于无理数的是（ ）。",
+      "options": [
+        "22 / 7",
+        "√9",
+        "0.333…",
+        "π / 2"
+      ],
+      "stemOptionsSha256": "d9ac22ef948cb01803a67da2787d420a9393cfb97339ffebe72ca5874a89e467",
+      "sourceContentHash": "31e11ab465c655d08192bcb224ff380882c3dc42c859e707940f520463765667"
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-prac",
+      "grade": 7,
+      "prompt": "已知 √13 的整数部分为 a，小数部分为 b，则代数式 a - b 化简后的结果为（ ）。",
+      "options": [
+        "√13",
+        "6 - √13",
+        "-√13",
+        "√13 - 6"
+      ],
+      "stemOptionsSha256": "bd911419fafc8460c566241d546a55084eb588d3cc9224231deaf74ab55f6f58",
+      "sourceContentHash": "4f18de0b4d71ec85a55e4790a358f7c4f1663b960c77524c6b66f94e7e6eb2e5"
+    },
+    {
+      "id": "draft-math-g7-irrational-estimation-retest",
+      "grade": 7,
+      "prompt": "比较实数 (√11 - 1) / 2 与 1 的大小关系，下列结论正确的是（ ）。",
+      "options": [
+        "(√11 - 1) / 2 < 1",
+        "(√11 - 1) / 2 = 1",
+        "(√11 - 1) / 2 > 1",
+        "无法比较大小"
+      ],
+      "stemOptionsSha256": "115d2f223b6c55b563c5ebdf2fbd0c9d6b781c9d252a2f0f0da2a1086de60036",
+      "sourceContentHash": "38cfb33c8ccf4a02a4e1f4c38405259d0267d0db47faabab605afa5f6deabda5"
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-diag",
+      "grade": 7,
+      "prompt": "若关于 x 的一元一次不等式组 { x > 2, x < a } 无解，则实数 a 的取值范围是（ ）。",
+      "options": [
+        "a < 2",
+        "a > 2",
+        "a ≥ 2",
+        "a ≤ 2"
+      ],
+      "stemOptionsSha256": "1653f06027ba1992727ae748901a4703f2f8b5dfa02fb9f2d0b0a0943e75d920",
+      "sourceContentHash": "1c38e96b34d94133ec32b3f0eda754db0228bfe8456fe651341b9421b78d1e76"
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-prac",
+      "grade": 7,
+      "prompt": "某校计划用不超过 550 元的资金购买 A 品牌笔记本（每本 15 元）与 B 品牌中性笔（每支 5 元）共 50 件，则最多能购买 A 品牌笔记本（ ）本。",
+      "options": [
+        "30",
+        "29",
+        "31",
+        "35"
+      ],
+      "stemOptionsSha256": "988ae41b6f3f1d55f0e00ee17df05011d00c00bb225cd9cdbb51b8ccda42f6ec",
+      "sourceContentHash": "061f603d0bf46c53c92bf3eadd78ad30f04f70066a39732f8fcb2e53949d4a0a"
+    },
+    {
+      "id": "draft-math-g7-ineq-apps-region-retest",
+      "grade": 7,
+      "prompt": "若关于 x 的不等式组 { x ≥ -1, x < m } 恰好有 3 个整数解，则实数 m 的取值范围是（ ）。",
+      "options": [
+        "1 ≤ m < 2",
+        "1 < m ≤ 2",
+        "1 < m < 2",
+        "2 < m ≤ 3"
+      ],
+      "stemOptionsSha256": "5756df2982ac21a0e1afd1c38861feeb07ed361ca7ef3b17e892db0bdf78920a",
+      "sourceContentHash": "24fd4f44b99285ad3a0141f01d656c213f2d6642ec6aed7d05d160c5261e8134"
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-diag",
+      "grade": 8,
+      "prompt": "在 △ABC 中，AD 是 BC 边上的中线，E 是 AD 的中点。若 △ABC 的面积为 24 cm²，则 △ABE 的面积为（ ）。",
+      "options": [
+        "12 cm²",
+        "8 cm²",
+        "6 cm²",
+        "4 cm²"
+      ],
+      "stemOptionsSha256": "b8a495d782c601bc45e42bfcfceb98b269e29bdeab80543528fa91faeee44201",
+      "sourceContentHash": "597d818e031470b9ecff4fd974221f8412ac2a012f140a69be6030bfdb20cd7c"
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-prac",
+      "grade": 8,
+      "prompt": "在等腰 △ABC 中，AB = AC，一腰 AC 边上的高 BD 所在直线与另一腰 AB 所成锐角 ∠ABD = 40°，则该等腰三角形顶角 ∠BAC 的度数为（ ）。",
+      "options": [
+        "50°",
+        "130°",
+        "40° 或 140°",
+        "50° 或 130°"
+      ],
+      "stemOptionsSha256": "9ac1f980bcacecd347dda7bde7868103be45fab2ac58d790e11539fcfeca1b22",
+      "sourceContentHash": "6145da2925a67fdb56c22be545260f854c97e90f89726f546bd660c5c24c4586"
+    },
+    {
+      "id": "draft-math-g8-triangle-altitudes-medians-retest",
+      "grade": 8,
+      "prompt": "点 D 在 △ABC 的内部，连接 BD、CD（形成凹四边形模型）。若已知 ∠A = 42°，∠ABD = 33°，∠ACD = 25°，则 ∠BDC 的度数为（ ）。",
+      "options": [
+        "100°",
+        "80°",
+        "110°",
+        "90°"
+      ],
+      "stemOptionsSha256": "70d00a42027556f24e454befd068d1b2c1fc4336e9600dabf5f84e518b4fa6be",
+      "sourceContentHash": "b2c07317ddf6607fe576f2321c128fc75224d2caefec0d0e09a9eabe9ed98795"
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-diag",
+      "grade": 8,
+      "prompt": "下列四组线段长中，能首尾顺次连接构成直角三角形的一组是（ ）。",
+      "options": [
+        "4，5，6",
+        "7，24，25",
+        "2，3，4",
+        "5，11，13"
+      ],
+      "stemOptionsSha256": "2c19bd36aa85b2b210bf559f189908a4e9ddf4c2b948ca700d7e68212af7ea2f",
+      "sourceContentHash": "905c7ea01814dcad37654bc5de0481d7429fe26324e8cd77599f125864e2ed5e"
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-prac",
+      "grade": 8,
+      "prompt": "在长方形纸片 ABCD 中，已知 AB = 4，BC = 8，现将纸片沿折痕 EF 折叠（E 在 AD 上、F 在 BC 上），使点 A 与点 C 恰好重合，则线段 AE 的长为（ ）。",
+      "options": [
+        "4",
+        "6",
+        "5",
+        "3"
+      ],
+      "stemOptionsSha256": "7bf84f30de835b10d5983e2fb85d0c5c0576900a6cd20bcba46eff5b6ed42d3c",
+      "sourceContentHash": "744a38562ff379aa36ef13c89ad10b00ab309989b532fa019e7d124f33bef022"
+    },
+    {
+      "id": "draft-math-g8-pythagoras-converse-3d-retest",
+      "grade": 8,
+      "prompt": "一个长 3 cm、宽 2 cm、高 12 cm 的长方体木箱，一只蚂蚁从下底面顶点 A 沿木箱外表面爬行到上底面与 A 相对的顶点 C₁，则它爬行的最短路程是（ ）。",
+      "options": [
+        "17 cm",
+        "√205 cm",
+        "15 cm",
+        "13 cm"
+      ],
+      "stemOptionsSha256": "a4a9761bc06e532a47bb113cf9fb1c77aad0195e41e5792040aa1395135391eb",
+      "sourceContentHash": "9e6a2d2bf34ce30ee45e4be2c0c2798ca426ed071032406133dbbbec0d2d1bf5"
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-diag",
+      "grade": 8,
+      "prompt": "已知菱形 ABCD 的两条对角线 AC = 6 cm，BD = 8 cm，则该菱形的面积与边长分别为（ ）。",
+      "options": [
+        "24 cm²，5 cm",
+        "48 cm²，5 cm",
+        "24 cm²，10 cm",
+        "12 cm²，5 cm"
+      ],
+      "stemOptionsSha256": "dab44de7bcc467770def859e6217aae2abdabd02f2d9c6d96b79acc6955ee4e7",
+      "sourceContentHash": "176d1c9eac5d326647390ec9d580d12043653ebda967b41f59d3b5c9c3c72cc6"
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-prac",
+      "grade": 8,
+      "prompt": "顺次连接一个对角线相等的凸四边形四条边中点，所得到的“中点四边形”一定是（ ）。",
+      "options": [
+        "矩形",
+        "菱形",
+        "正方形",
+        "等腰梯形"
+      ],
+      "stemOptionsSha256": "4821e0fc21153f0373d2808e722630e68e7912c8141ec0a09623e9c6d7474820",
+      "sourceContentHash": "2be54e6c2d920e10ae3a9d2b21785f24f226f2c0db57c367c2280ba1ffe5e221"
+    },
+    {
+      "id": "draft-math-g8-varignon-trapezoid-square-retest",
+      "grade": 8,
+      "prompt": "在边长为 4 的正方形 ABCD 中，点 E 在边 BC 上且 BE = 3，将 △ABE 绕点 A 逆时针旋转 90° 得到 △ADF（点 F 在 CD 延长线上），则线段 EF 的长为（ ）。",
+      "options": [
+        "5",
+        "7",
+        "5√2",
+        "4√2"
+      ],
+      "stemOptionsSha256": "269a1334d43cdd5c886cc6f36e71e41317be5c49de0b753e41cd7c7a5bf0d449",
+      "sourceContentHash": "4c5411e7558eaf8b86f5fb856e05d6786f7f0d5014e29a4939ede84a1a9f3adf"
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-diag",
+      "grade": 9,
+      "prompt": "某篮球运动员在相同条件下进行大量定点投篮试验，试验次数分别为 500、1000、2000、5000 时，投中频率依次为 0.782、0.804、0.799、0.801。据此可估计该运动员投篮一次命中的概率约为（ ）。",
+      "options": [
+        "0.70",
+        "0.78",
+        "0.85",
+        "0.80"
+      ],
+      "stemOptionsSha256": "94a8cd89475d108977001bf8c5782b93a6445d2e53502c500e026882f8bcba95",
+      "sourceContentHash": "3a5ad0fa819d0a257f7af46d7d454fbb5923088173627b6678d18c4e33b4e6e4"
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-prac",
+      "grade": 9,
+      "prompt": "不透明袋子中装有除颜色外完全相同的 2 个红球和 2 个白球，从中依次不放回地随机摸出 2 个球，摸出的两个球颜色相同的概率为（ ）。",
+      "options": [
+        "1 / 3",
+        "1 / 2",
+        "2 / 3",
+        "1 / 4"
+      ],
+      "stemOptionsSha256": "06eff9896f057679ae9d206725c838672e944943cb64f313e40c57fa843fa7a7",
+      "sourceContentHash": "f9de3389042064720c9f6e3d3888cdd80c0fcda83d26a63adca09815ddf12a66"
+    },
+    {
+      "id": "draft-math-g9-frequency-tree-prob-retest",
+      "grade": 9,
+      "prompt": "从 -1、0、1、2 这四个数中，先随机抽取一个数作为横坐标 x（抽取后放回），再随机抽取一个数作为纵坐标 y，则点 (x, y) 恰好落在反比例函数 y = 2 / x 图象上的概率为（ ）。",
+      "options": [
+        "1 / 4",
+        "1 / 8",
+        "1 / 16",
+        "3 / 16"
+      ],
+      "stemOptionsSha256": "95f916cf08fcb1542485822368e1c923418286cd715acb86690acf77788f51a9",
+      "sourceContentHash": "0cf4b258b1a3090fe80c659ca341da93118a70b4d35895be76e4ee3aacdd2717"
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-diag",
+      "grade": 9,
+      "prompt": "正比例函数 y = 2x 与反比例函数 y = k / x 的图象交于 A、B 两点，若点 A 的坐标为 (2, 4)，则点 B 的坐标为（ ）。",
+      "options": [
+        "(-2, 4)",
+        "(2, -4)",
+        "(-2, -4)",
+        "(-4, -2)"
+      ],
+      "stemOptionsSha256": "83d600828f6cc60c15c44cfa0fb342053349e808c25892c43c402c9a50bdd1d4",
+      "sourceContentHash": "b048c4e2d417f3fe82940565fff3aca16643a48a29246bcb5481d771d76d7597"
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-prac",
+      "grade": 9,
+      "prompt": "一次函数 y₁ = x + 2 与反比例函数 y₂ = 3 / x 的图象交于点 A(1, 3) 和点 B(-3, -1)，则使 y₁ > y₂ 成立的 x 的取值范围是（ ）。",
+      "options": [
+        "x > 1",
+        "-3 < x < 1",
+        "x < -3 或 0 < x < 1",
+        "-3 < x < 0 或 x > 1"
+      ],
+      "stemOptionsSha256": "13018513338613e840ff3f98d5d265310e622f60c164b8b58c4cc4f216d3c301",
+      "sourceContentHash": "3e86cae3b17e7d483f67185a243e194c37fa51c26dce9209c40726e1064d2f17"
+    },
+    {
+      "id": "draft-math-g9-inverse-linear-combine-retest",
+      "grade": 9,
+      "prompt": "一次函数 y = x + 3 与反比例函数 y = 4 / x 的图象交于 A(1, 4) 和 B(-4, -1)，O 为坐标原点，则 △AOB 的面积为（ ）。",
+      "options": [
+        "7.5",
+        "15",
+        "6",
+        "4.5"
+      ],
+      "stemOptionsSha256": "5eeaa0f3ec628aa5b2bcf39d6d972227a5f083df7292dd0391645d01ac75b221",
+      "sourceContentHash": "5b72b36042fceb2b04ced18120fbf8f888a09d4b90f430f46f5df517bfc0513d"
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-diag",
+      "grade": 9,
+      "prompt": "三条平行线 l₁ ∥ l₂ ∥ l₃ 分别交直线 m 于 A、B、C，交直线 n 于 D、E、F。若 AB = 4，BC = 6，DE = 2，则 EF 的长为（ ）。",
+      "options": [
+        "4",
+        "3",
+        "5",
+        "1.5"
+      ],
+      "stemOptionsSha256": "890d440bdcf6e9a2702311ff1a1a85aa55d16bd73f16bf652d6d63909e90a209",
+      "sourceContentHash": "6c7cf458060b189d8caeb5ddab6a0d92c5b96cbb835522fd59ef4b552f98fb35"
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-prac",
+      "grade": 9,
+      "prompt": "点 C 在线段 AB 上，点 D、E 位于 AB 同侧且 DA ⊥ AB 于 A，EB ⊥ AB 于 B，∠DCE = 90°（一线三直角模型）。若 AC = 4，BC = 9，AD = 3，则 BE 的长为（ ）。",
+      "options": [
+        "6",
+        "8",
+        "12",
+        "13.5"
+      ],
+      "stemOptionsSha256": "1ba63e9120c52c5ee103baa726aa9033e093a3bd2e591ad912139de1bdc5ca86",
+      "sourceContentHash": "184fa0f9f4bd6a7be872d095e0c525d554d564882028bfe3dc4a3a1b77de89be"
+    },
+    {
+      "id": "draft-math-g9-similarity-homothety-retest",
+      "grade": 9,
+      "prompt": "在平面直角坐标系中，点 A 的坐标为 (-4, 6)，以原点 O 为位似中心将 △OAB 缩小为原来的 1 / 2，若变换后对应点 A′ 位于第四象限，则点 A′ 的坐标为（ ）。",
+      "options": [
+        "(-2, 3)",
+        "(-2, -3)",
+        "(3, -2)",
+        "(2, -3)"
+      ],
+      "stemOptionsSha256": "6fea1e039c2fb069b550a2603265784f5b083c0077337d71905af0659a16464b",
+      "sourceContentHash": "4b092000505729adce9a78cff091602ddc2c24d30cc500adf8f9977aaff05f72"
+    },
+    {
+      "id": "draft-math-g7-rational-prac",
+      "grade": 7,
+      "prompt": "若实数 a、b 满足 |a - 2| + (b + 3)² = 0，则 a × b 的值是（ ）。",
+      "options": [
+        "6",
+        "-5",
+        "-6",
+        "1"
+      ],
+      "stemOptionsSha256": "e6620ae193da0d8d40e363a17a45e4698e57502ff45591e755230915944140f7",
+      "sourceContentHash": "af996b361971c7ca746aeb631596988e17dc8f871e185d2efed0f2e94bf89668"
+    },
+    {
+      "id": "draft-math-g7-rational-retest",
+      "grade": 7,
+      "prompt": "在数轴上，点 A 表示的数是 -4，点 B 到点 A 的距离为 7 且位于原点右侧，则点 B 表示的数为（ ）。",
+      "options": [
+        "-11",
+        "11",
+        "-3",
+        "3"
+      ],
+      "stemOptionsSha256": "182f5e6021a2d6c4a4bdf792e555da5f36332d092a147e27be7093529ee513dd",
+      "sourceContentHash": "b78aaf274697dd59b8a59a14480b55ec23808f68bdc8bad88f2e403ddbe03a47"
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-diag",
+      "grade": 7,
+      "prompt": "不等式 2x - 3 > 5 的解集是（ ）。",
+      "options": [
+        "x > 4",
+        "x < 4",
+        "x > 1",
+        "x ≥ 4"
+      ],
+      "stemOptionsSha256": "b887cb7c6501299e481e11aa5618f484b2adbe79f9bb5441ff0fff03752dcf2c",
+      "sourceContentHash": "185186ac53e6b4727084bd34e4c4509ff8787095b7fe0cc6f767b66b47024119"
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-prac",
+      "grade": 7,
+      "prompt": "不等式 3(x + 1) ≤ 5x - 1 的最小整数解是（ ）。",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "0"
+      ],
+      "stemOptionsSha256": "fc472bc33e8d9ecb9853053e079250aed9b92a2ddd947e95ee23c01dc525fed2",
+      "sourceContentHash": "cecae719a2caab94607421173f1af4c923eb0e37d97b1caad1f64aa5f659107b"
+    },
+    {
+      "id": "draft-math-g7-linear-ineq-retest",
+      "grade": 7,
+      "prompt": "若关于 x 的不等式组 { x > 1, x < a } 恰好有 3 个整数解，且 a 为整数，则 a 的值为（ ）。",
+      "options": [
+        "4",
+        "6",
+        "5",
+        "3"
+      ],
+      "stemOptionsSha256": "14289bfd57935294b92aebee7667b3a5298dce1693ad60cde0c971e8450adde1",
+      "sourceContentHash": "7afcc08cb2f7711b3f4d4094f8c89e9af24d2e3fd643857951152aaceaf0da80"
+    },
+    {
+      "id": "draft-math-g8-congruence-diag",
+      "grade": 8,
+      "prompt": "在 △ABC 和 △DEF 中，已知 AB = DE，∠A = ∠D，若要用 SAS 判定 △ABC ≅ △DEF，应补充的条件是（ ）。",
+      "options": [
+        "BC = EF",
+        "∠B = ∠E",
+        "∠C = ∠F",
+        "AC = DF"
+      ],
+      "stemOptionsSha256": "c2e8304b2680444c69328ab667602fd1a5c5be3e97be9c7003d1bc313dc6bdc5",
+      "sourceContentHash": "7aaf4f38cc6ddeadaef3db8b1b703e2f2622d8d45e2e2947a6ed405a6f9a86e6"
+    },
+    {
+      "id": "draft-math-g8-congruence-prac",
+      "grade": 8,
+      "prompt": "已知 △ABC 中 AB = AC，D 为底边 BC 的中点，连接 AD，若直接利用三边关系证明 △ABD ≅ △ACD，依据是（ ）。",
+      "options": [
+        "SSS",
+        "AAS",
+        "HL",
+        "SSA"
+      ],
+      "stemOptionsSha256": "aaf83bb32d2025cd36c9fe84838a410070b4b75d384a3ae10f452b531d302e48",
+      "sourceContentHash": "c8aa2ab9f16d3d240ab68c27530787815b22cdb45bc9c178574f70d00122fdb6"
+    },
+    {
+      "id": "draft-math-g8-congruence-retest",
+      "grade": 8,
+      "prompt": "已知 △ABC ≅ △DEF，且 ∠A = 50°，∠E = 65°，则 ∠C 的度数是（ ）。",
+      "options": [
+        "50°",
+        "65°",
+        "115°",
+        "55°"
+      ],
+      "stemOptionsSha256": "bebdc1ca4923f7cb97e74cb3505d49eaefa806cd04977f87f71bbbe5d24cc58e",
+      "sourceContentHash": "a09cd5137dfaf7a1ffa7e7086ebf46c96250a3af4c0cdd7adcf63a0ce8bff311"
+    },
+    {
+      "id": "draft-math-g8-linear-func-diag",
+      "grade": 8,
+      "prompt": "一次函数 y = -2x + 6 的图像与 y 轴交点的坐标为（ ）。",
+      "options": [
+        "(3, 0)",
+        "(6, 0)",
+        "(0, 6)",
+        "(0, -2)"
+      ],
+      "stemOptionsSha256": "0f948797da3687e5e6cba7b56b059550c8ccf53ecb0c14ab5dc0e3394f34056c",
+      "sourceContentHash": "5ec3139e03460cb26749ba78bd9ca59f15d11ebe714f21d8a2f2b555bc02b12d"
+    },
+    {
+      "id": "draft-math-g8-linear-func-prac",
+      "grade": 8,
+      "prompt": "若一次函数 y = kx + 4 的图像经过点 (2, -2)，则比例系数 k 等于（ ）。",
+      "options": [
+        "3",
+        "-1",
+        "1",
+        "-3"
+      ],
+      "stemOptionsSha256": "00080821e00f4215983bab5951c39b3573fb536e389434729bb9326b302c8cfd",
+      "sourceContentHash": "ebbd5b16a036cb79c11e7023ae589bb8cf2bfe987e5affbac23f0961d0d33a6e"
+    },
+    {
+      "id": "draft-math-g8-linear-func-retest",
+      "grade": 8,
+      "prompt": "将直线 y = 3x - 1 向上平移 4 个单位后，新直线与 x 轴交点的横坐标为（ ）。",
+      "options": [
+        "-1",
+        "1",
+        "-3",
+        "3"
+      ],
+      "stemOptionsSha256": "b7462407af83a0a41ecb2eae43d280387d0ca366092f9698aa515178895d7676",
+      "sourceContentHash": "a161747927f42ca13706b10fa18531bc39a483b35a7c9e52bc5e91d9d3a335d6"
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-diag",
+      "grade": 9,
+      "prompt": "一元二次方程 x² - 5x + 6 = 0 的两个实数根之和为（ ）。",
+      "options": [
+        "-5",
+        "5",
+        "6",
+        "-6"
+      ],
+      "stemOptionsSha256": "f231a37cc87d2d64565ec4947b791ec35a036bcc559f54dac7813589ea9c5138",
+      "sourceContentHash": "c507bcebf968dd1fa8369b0ecb681a7e719cb015429f5a3c68a1713f49d280d5"
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-prac",
+      "grade": 9,
+      "prompt": "关于 x 的方程 x² - 4x + k = 0 有两个相等的实数根，则常数 k 的值为（ ）。",
+      "options": [
+        "-4",
+        "2",
+        "4",
+        "8"
+      ],
+      "stemOptionsSha256": "e069352d08f90121966cfda003613a26a845122cfb0a61102516f978fea07bdb",
+      "sourceContentHash": "ebdc53865657f38f59c40e8fc6fdd2c9a9a1710802092e3d959304b599e0cecf"
+    },
+    {
+      "id": "draft-math-g9-quadratic-eq-retest",
+      "grade": 9,
+      "prompt": "设 x₁、x₂ 是方程 2x² - 6x + 3 = 0 的两个实数根，则 x₁ + x₂ - x₁x₂ 的值是（ ）。",
+      "options": [
+        "9/2",
+        "-3/2",
+        "3",
+        "3/2"
+      ],
+      "stemOptionsSha256": "521e77481827b15609d1174cdc2ece777cb06a9b5b331fcb616ebbff6f75770b",
+      "sourceContentHash": "ac47031c7abe72f944183d003337e5df62338daea44fe9717f6da10dfe8e4b02"
+    },
+    {
+      "id": "draft-math-g9-trig-diag",
+      "grade": 9,
+      "prompt": "在 Rt△ABC 中，∠C = 90°，直角边 AC = 3，BC = 4，则 sin A 的值为（ ）。",
+      "options": [
+        "4/5",
+        "3/5",
+        "3/4",
+        "4/3"
+      ],
+      "stemOptionsSha256": "750e8f114f61794478ca44727dd0102557f7d68c72fa64042d461e5abb29ec43",
+      "sourceContentHash": "8695748204e5507f39015eda144dde2b4b8eccb9fb63f136e7a054554ef4d49d"
+    },
+    {
+      "id": "draft-math-g9-trig-retest",
+      "grade": 9,
+      "prompt": "若一段斜坡的坡度 i = 1 : √3，则该斜坡的坡角 α 为（ ）。",
+      "options": [
+        "45°",
+        "60°",
+        "30°",
+        "15°"
+      ],
+      "stemOptionsSha256": "9750f8aeedd151f4510359dba7e31d2c0ab9babea0225280a876190dc0d625f2",
+      "sourceContentHash": "870585fc1cb8c6bec040bfc08736a58f473181a9efa57ae10a9ccc7d8dab6988"
+    },
+    {
+      "id": "draft-math-g7-polynomials-diag",
+      "grade": 7,
+      "prompt": "若单项式 3xᵃy² 与 -5x³yᵇ 是同类项，则 a + b 的值为（ ）。",
+      "options": [
+        "6",
+        "5",
+        "4",
+        "1"
+      ],
+      "stemOptionsSha256": "dc1f650d27ccc12dede22f51f86e41115078d1ce5574fe9edfcf1268c6ad8dfe",
+      "sourceContentHash": "66ef660d69d4fa8911267cb15964866a6e869675673b621933eda05d72b2309f"
+    },
+    {
+      "id": "draft-math-g7-polynomials-prac",
+      "grade": 7,
+      "prompt": "化简 2(3x - y) - 3(x - 2y)，当 x = 2，y = -1 时，代数式的值为（ ）。",
+      "options": [
+        "-2",
+        "10",
+        "2",
+        "14"
+      ],
+      "stemOptionsSha256": "0af510304982146bd6a06ceab25e8182fe6dcc2e77a6b02a64bfb0b028c67128",
+      "sourceContentHash": "395a8fde35f7a5e84a91c3748310b781b3d78a6b1dd736db5a28706695bf8de1"
+    },
+    {
+      "id": "draft-math-g7-polynomials-retest",
+      "grade": 7,
+      "prompt": "已知 A = x² - 2x + 1，B = 2x² + x - 3，当 x = -1 时，2A - B 的值为（ ）。",
+      "options": [
+        "6",
+        "0",
+        "-10",
+        "10"
+      ],
+      "stemOptionsSha256": "809a85d5b989179314b9aae03cf0989f83a138aef3826497ce6968d399f02474",
+      "sourceContentHash": "5466d5d7bc71480ec13c9646376051355045531505e8468758aaa7df8f68d9c6"
+    },
+    {
+      "id": "draft-math-g8-isosceles-diag",
+      "grade": 8,
+      "prompt": "等腰三角形的一个底角为 50°，则它的顶角度数为（ ）。",
+      "options": [
+        "80°",
+        "50°",
+        "65°",
+        "100°"
+      ],
+      "stemOptionsSha256": "44c047fba48b494bde9e717830b8f777af7f434a40df80de6453510a4b429cca",
+      "sourceContentHash": "34e3feed713a9cc2ede05262dc29fbe4bc85a3c9f601c0618587e12a371e4d53"
+    },
+    {
+      "id": "draft-math-g8-isosceles-prac",
+      "grade": 8,
+      "prompt": "等腰三角形的两边长分别为 3 和 7，则它的周长为（ ）。",
+      "options": [
+        "13",
+        "17",
+        "10",
+        "20"
+      ],
+      "stemOptionsSha256": "5e97c26c31eefbc6926d9a4707d6804da0d8cab2c35bd5179a3450fc1103b2a0",
+      "sourceContentHash": "a627970aa229351a20e0559533fb9300c66c3f6044e93b22407c6d5439ee560e"
+    },
+    {
+      "id": "draft-math-g8-isosceles-retest",
+      "grade": 8,
+      "prompt": "在平面直角坐标系中，点 P(-3, 4) 关于 y 轴对称的点 P' 的坐标为（ ）。",
+      "options": [
+        "(-3, -4)",
+        "(3, -4)",
+        "(3, 4)",
+        "(4, -3)"
+      ],
+      "stemOptionsSha256": "029158d86830eae4644815b09eda3eeabf51b563a41c5dc82582b392684df20c",
+      "sourceContentHash": "9429b6c33d12707a1433d1acea8009b5a23d59ed81359b321c65f4c73b06963e"
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-diag",
+      "grade": 9,
+      "prompt": "二次函数 y = 2(x - 3)² + 5 图像的顶点坐标是（ ）。",
+      "options": [
+        "(-3, 5)",
+        "(3, -5)",
+        "(-3, -5)",
+        "(3, 5)"
+      ],
+      "stemOptionsSha256": "6e8339968f15358c2fdc17830c00f81d68fd6e60717416da895bb39686e59a70",
+      "sourceContentHash": "86b6a23bac9e97438850bf46ecbb2435d8fd196b70beaaffe0b64ef280e675bb"
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-prac",
+      "grade": 9,
+      "prompt": "抛物线 y = x² - 4x + 7 的对称轴是直线（ ）。",
+      "options": [
+        "x = 2",
+        "x = -2",
+        "x = 4",
+        "x = -4"
+      ],
+      "stemOptionsSha256": "84ffb4e1867d8395c4797a17c9dc32a46cfc74e35e0e1933583e85e62d2d5426",
+      "sourceContentHash": "2212f6c0a506ed39c38ae474a222531bc75d56f53f15f101a0a21a8f2de81426"
+    },
+    {
+      "id": "draft-math-g9-quadratic-func-retest",
+      "grade": 9,
+      "prompt": "二次函数 y = -x² + 2x + 3 在实数范围内的最大值为（ ）。",
+      "options": [
+        "3",
+        "4",
+        "2",
+        "5"
+      ],
+      "stemOptionsSha256": "b026a05f05eabb6248779f5a4cc9695963f99aa17d861556726b9f1e2b279723",
+      "sourceContentHash": "e786f82409643c1a0a85f5e3f63a395cd908ceaebba1b214a4a2050d83fff56b"
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-diag",
+      "grade": 7,
+      "prompt": "解方程 (x + 1) / 2 - 1 = (x - 1) / 3 时，方程两边同乘 6 去分母后，所得结果正确的是（ ）。",
+      "options": [
+        "3(x + 1) - 6 = 2(x - 1)",
+        "3(x + 1) - 1 = 2(x - 1)",
+        "3x + 1 - 6 = 2x - 1",
+        "2(x + 1) - 6 = 3(x - 1)"
+      ],
+      "stemOptionsSha256": "a4a4173fc543e9202977f2001c04a36c11f45ce7beb46b3e4b0be42e87f107d3",
+      "sourceContentHash": "c8ed16e99ea4d1223d12a308c8c0a56685cf5fb2a119c1e59967d256e4df12a3"
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-prac",
+      "grade": 7,
+      "prompt": "方程 (x + 2) / 2 - (x - 1) / 3 = 2 的解为（ ）。",
+      "options": [
+        "x = 8",
+        "x = 4",
+        "x = 6",
+        "x = -6"
+      ],
+      "stemOptionsSha256": "0af50add09f920c596e5eb411b0c3538ef20238a2bdeb024add7dcf21b8dd102",
+      "sourceContentHash": "8dc3f1b2263b594853c021a7cbdaced8fe7a164e00879279e626c93d89dc7ef7"
+    },
+    {
+      "id": "draft-math-g7-linear-eq-app-retest",
+      "grade": 7,
+      "prompt": "一项工程，甲单独做需 10 天完成，乙单独做需 15 天完成。若甲先单独做 5 天后，余下部分由甲、乙合作完成，则还需合作的天数为（ ）。",
+      "options": [
+        "2",
+        "4",
+        "3",
+        "5"
+      ],
+      "stemOptionsSha256": "0403cc05cac12754daa8733b37f692f180961d38577231c2925811efc50ac835",
+      "sourceContentHash": "0842fc1c11dc7f2c03c396e84da33f87c36130d2734517c50002b41f3f24714d"
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-diag",
+      "grade": 7,
+      "prompt": "已知直线 a ∥ b，直线 c 与 a、b 相交，若其中一对同旁内角中有一个角为 65°，则另一个同旁内角的度数是（ ）。",
+      "options": [
+        "65°",
+        "25°",
+        "125°",
+        "115°"
+      ],
+      "stemOptionsSha256": "43f631257619acb837bd85a80a3351943c360f7381e45f1e3f3c942ee5cff577",
+      "sourceContentHash": "9b748fa140fb8ebf05a3e61d55c6605755cfa2aa94a8e605bbee7506acb10c49"
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-prac",
+      "grade": 7,
+      "prompt": "已知直线 AB ∥ CD，点 E 在 AB 上，点 F 在 CD 上，射线 EG 平分 ∠BEF 并交 CD 于点 G。若 ∠EFD = 70°，则 ∠EGF 的度数是（ ）。",
+      "options": [
+        "55°",
+        "35°",
+        "70°",
+        "65°"
+      ],
+      "stemOptionsSha256": "5e9d70a1a7bcd106bfb3658c9150bdd90dbee33efa7037973a687af91d9656a9",
+      "sourceContentHash": "80df9d8f062f51ca6c599a8a9e018f9d8beaf2bcf17b5810974950848d9ff26c"
+    },
+    {
+      "id": "draft-math-g7-parallel-lines-retest",
+      "grade": 7,
+      "prompt": "已知直线 l₁ ∥ l₂，点 P 在 l₁、l₂ 之间，点 A 在 l₁ 上，点 C 在 l₂ 上，且折点 P 朝向截线 AC 同一侧。若 AP 与 l₁ 所成锐角为 35°，CP 与 l₂ 所成锐角为 48°，则 ∠APC 的度数为（ ）。",
+      "options": [
+        "97°",
+        "83°",
+        "13°",
+        "73°"
+      ],
+      "stemOptionsSha256": "01bb4ab8ebcecd76414270012c3047455bfba3d0c8308bfef89602153ec5d2d7",
+      "sourceContentHash": "53e0cc5318942b728ed03d96c33f54bbe63074e9552af9e2504335f01286ec4f"
+    },
+    {
+      "id": "draft-math-g7-linear-sys-diag",
+      "grade": 7,
+      "prompt": "已知二元一次方程组 { x + y = 7, x - y = 3 }，则 x 的值为（ ）。",
+      "options": [
+        "2",
+        "4",
+        "5",
+        "10"
+      ],
+      "stemOptionsSha256": "d3418c97a9a201cfe63aba3107aed25dc50bb3c7eef6d275563cb69ac5317108",
+      "sourceContentHash": "cff991061de358232fd28bbc5964eeff1b507eefeba64b444156b61ac4b59574"
+    },
+    {
+      "id": "draft-math-g7-linear-sys-prac",
+      "grade": 7,
+      "prompt": "若 x、y 满足二元一次方程组 { 2x + y = 8, x + 2y = 7 }，则代数式 x - y 的值为（ ）。",
+      "options": [
+        "5",
+        "-1",
+        "3",
+        "1"
+      ],
+      "stemOptionsSha256": "95801ab178a0a803a4ae12f82285948e33dfa29d02e355891914d725392cee19",
+      "sourceContentHash": "6bd7f16fa7fabca4c2375bbec093e7311abc5b0491fb78e722776e604afe81dd"
+    },
+    {
+      "id": "draft-math-g7-linear-sys-retest",
+      "grade": 7,
+      "prompt": "已知关于 x、y 的二元一次方程组 { 2x + 3y = k, 3x + 2y = k + 2 } 的解满足 x + y = 4，则常数 k 的值为（ ）。",
+      "options": [
+        "9",
+        "10",
+        "8",
+        "7"
+      ],
+      "stemOptionsSha256": "b88b282b0b2dfd6bdad999b98c44178b84159c970d1053c8c19d2d2bf2295a32",
+      "sourceContentHash": "7a0a1201a106e5582d7c0de33faaa7e1c4661ee0ac43fe68ca64604c083d8360"
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-diag",
+      "grade": 8,
+      "prompt": "若分式 (x - 2) / (x + 3) 的值为 0，则实数 x 的值为（ ）。",
+      "options": [
+        "-3",
+        "2",
+        "-2",
+        "3"
+      ],
+      "stemOptionsSha256": "0ebab6692e552b8ed13cd31d1f1aab6904d4f6ae118dff98024b4e16d487cbdd",
+      "sourceContentHash": "745e7f3e3b67fa3fa35df4f5af2ba886c06897477b7315a65e46cba51d32335b"
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-prac",
+      "grade": 8,
+      "prompt": "分式方程 3 / (x - 1) = 1 / x 的解为（ ）。",
+      "options": [
+        "x = 1/2",
+        "x = -2",
+        "x = -1/2",
+        "x = 2"
+      ],
+      "stemOptionsSha256": "a0a56ffd0e6f1cbfe7cf57eb9430e1a12b2d528886eb1b609dde6796422ea64d",
+      "sourceContentHash": "0dd377f9417994273cf60df06f9f15be0780570d7f07061cc406251de6bce556"
+    },
+    {
+      "id": "draft-math-g8-fractions-eq-retest",
+      "grade": 8,
+      "prompt": "若关于 x 的分式方程 x / (x - 3) - 2 = m / (x - 3) 产生增根，则常数 m 的值为（ ）。",
+      "options": [
+        "-3",
+        "6",
+        "0",
+        "3"
+      ],
+      "stemOptionsSha256": "ca4e67a51ab32fdedc487115fc858796f62c2a9c0c8fcce543fedc146cb64eea",
+      "sourceContentHash": "d5f75ee49c41a5bff654add23fe789bf35c1c00e13dc52014a4890da0b3815c6"
+    },
+    {
+      "id": "draft-math-g8-pythagoras-diag",
+      "grade": 8,
+      "prompt": "在 Rt△ABC 中，∠C = 90°，若斜边 AB = 13，直角边 AC = 5，则另一条直角边 BC 的长为（ ）。",
+      "options": [
+        "12",
+        "8",
+        "10",
+        "14"
+      ],
+      "stemOptionsSha256": "fbfd18a3eed4827d6da879c3fcb8af5b26db4c5e46209a0c6966e610a4307b9f",
+      "sourceContentHash": "95a2cd20ecbcd0850f49da5c334369acbc6548c7c7565c37befab38c4c856d28"
+    },
+    {
+      "id": "draft-math-g8-pythagoras-prac",
+      "grade": 8,
+      "prompt": "在平面直角坐标系中，点 A(-3, 2) 与点 B(3, 10) 之间的距离为（ ）。",
+      "options": [
+        "14",
+        "10",
+        "8",
+        "2√13"
+      ],
+      "stemOptionsSha256": "b2c9654cc4b9c7dbefc1834c8f491abec84534aa0e0aaf12840490002314ab2f",
+      "sourceContentHash": "bd19ea60c4cbcf9322504408254295816e134a3eda1614d666a9241a7f867997"
+    },
+    {
+      "id": "draft-math-g8-pythagoras-retest",
+      "grade": 8,
+      "prompt": "在矩形 ABCD 中，AB = 6，BC = 8，点 E 在边 BC 上。将 △ABE 沿 AE 折叠，使点 B 恰好落在对角线 AC 上的点 F 处，则 BE 的长为（ ）。",
+      "options": [
+        "4",
+        "5/2",
+        "3",
+        "7/2"
+      ],
+      "stemOptionsSha256": "e7376574cef57619f50e1f7b1740110cf8dc0578bb16146df9e5dfd593383887",
+      "sourceContentHash": "e14d4b76a0353cd6011f6863a3f68804864d72574c8366e6e04d646e7de943d6"
+    },
+    {
+      "id": "draft-math-g8-parallelogram-diag",
+      "grade": 8,
+      "prompt": "在平行四边形 ABCD 中，若对角 ∠A + ∠C = 140°，则邻角 ∠B 的度数为（ ）。",
+      "options": [
+        "70°",
+        "40°",
+        "120°",
+        "110°"
+      ],
+      "stemOptionsSha256": "7c7fd521496c46957e53d2ae7f2b9e3fcf33cf6fca5a10367de376d6aa333666",
+      "sourceContentHash": "5a509a9eaeedebdadc2fe7d9479777f256edd149ec2202364002826d6a22acbc"
+    },
+    {
+      "id": "draft-math-g8-parallelogram-prac",
+      "grade": 8,
+      "prompt": "已知菱形 ABCD 的两条对角线长分别为 AC = 6，BD = 8，则该菱形的周长为（ ）。",
+      "options": [
+        "20",
+        "24",
+        "28",
+        "10"
+      ],
+      "stemOptionsSha256": "f1576aa09fbb73f307ce90cad715a918d009a4ebba16d4576d2c6ef11ba69f97",
+      "sourceContentHash": "41df6e5ecce41be9f381aca3d7b30a71121248e35449efc032bbd0fb39c1e2bf"
+    },
+    {
+      "id": "draft-math-g8-parallelogram-retest",
+      "grade": 8,
+      "prompt": "在矩形 ABCD 中，对角线 AC 与 BD 相交于点 O。若 ∠AOB = 60°，AB = 4，则对角线 AC 的长为（ ）。",
+      "options": [
+        "4",
+        "8",
+        "4√3",
+        "6"
+      ],
+      "stemOptionsSha256": "6265b8ff1cb18ad0d60ea13c9a23b4125c09b504eed80830a7bf539f8c6ce039",
+      "sourceContentHash": "4bbee55e7d38f458446bfad23a1c555781320154519a383b7f458cb87890279c"
+    },
+    {
+      "id": "draft-math-g9-circle-diag",
+      "grade": 9,
+      "prompt": "点 A、B、C 在 ⊙O 上，若圆心角 ∠AOB = 100°，点 C 在优弧 AB 上，则圆周角 ∠ACB 的度数为（ ）。",
+      "options": [
+        "100°",
+        "80°",
+        "50°",
+        "40°"
+      ],
+      "stemOptionsSha256": "b91fc1f0b9153710e89b6cf7d7ee9225e7f0115afcb065aca3cc17fd191d1245",
+      "sourceContentHash": "d54e2c5927620e346e6b98bb661546924491eb85009262b129ef7ab411fe1ece"
+    },
+    {
+      "id": "draft-math-g9-circle-prac",
+      "grade": 9,
+      "prompt": "已知 ⊙O 的半径为 5，弦 AB 的长为 8，则圆心 O 到弦 AB 的距离为（ ）。",
+      "options": [
+        "4",
+        "2",
+        "√41",
+        "3"
+      ],
+      "stemOptionsSha256": "a5bdb1d21b8c4d9a097b41c15bd31777f6e60a2b9f6aa1696124ab20b0c66a4e",
+      "sourceContentHash": "ca3f413f2c9bb41319298659edb849104a9b5049864654207719ec4970e436f6"
+    },
+    {
+      "id": "draft-math-g9-circle-retest",
+      "grade": 9,
+      "prompt": "已知一个扇形的圆心角为 120°，半径为 6，则该扇形的面积为（ ）。",
+      "options": [
+        "12π",
+        "4π",
+        "6π",
+        "24π"
+      ],
+      "stemOptionsSha256": "0e49110fd78de4144af54981083bb405fc5b2bbbf290f3efc9d44dc1d0986517",
+      "sourceContentHash": "48ec50fde39f5608222888740d8315befa2194b17af89a6b3098718a43157506"
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-diag",
+      "grade": 9,
+      "prompt": "若反比例函数 y = k / x 的图像经过点 (2, -3)，则该函数图像所在的象限是（ ）。",
+      "options": [
+        "第一、三象限",
+        "第二、四象限",
+        "第一、二象限",
+        "第三、四象限"
+      ],
+      "stemOptionsSha256": "4703b5bfb75101f4b06938fc91af0732de400adb65454fa50946c784ced465fc",
+      "sourceContentHash": "6c1952bd24145ec495c396eb10ea73d0cdea881aa7d4f8df3d5e55217d075be4"
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-prac",
+      "grade": 9,
+      "prompt": "点 A(-2, y₁) 与点 B(-1, y₂) 都在反比例函数 y = 6 / x 的图像上，则 y₁ 与 y₂ 的大小关系为（ ）。",
+      "options": [
+        "y₁ < y₂",
+        "y₁ = y₂",
+        "y₁ > y₂",
+        "无法确定"
+      ],
+      "stemOptionsSha256": "3564c3a2a6f93c2bd2b5de771d4ba1889381f13fdcd11aade777750c38b03181",
+      "sourceContentHash": "9be5062852722fa8060b46ce0710c7309cbfc85eb0911ea73841be430ea77735"
+    },
+    {
+      "id": "draft-math-g9-inverse-prop-retest",
+      "grade": 9,
+      "prompt": "点 P 是反比例函数 y = k / x 在第二象限图像上的一点，过点 P 作 PA ⊥ x 轴于点 A，连接 PO（O 为坐标原点）。若 △PAO 的面积为 4，则常数 k 的值为（ ）。",
+      "options": [
+        "8",
+        "4",
+        "-4",
+        "-8"
+      ],
+      "stemOptionsSha256": "a162d48378dfcd7b089288254cea7e599fad48c142656f6c99e1f1e7ca197a11",
+      "sourceContentHash": "1a5a0ab692dc1f788d304229b841fd9404c23f2e1d47c460132f2586cbc4d55b"
+    },
+    {
+      "id": "draft-math-g9-similarity-diag",
+      "grade": 9,
+      "prompt": "已知 △ABC ∽ △DEF，且相似比 AB : DE = 2 : 3，则 △ABC 与 △DEF 的周长之比为（ ）。",
+      "options": [
+        "2 : 3",
+        "4 : 9",
+        "√2 : √3",
+        "3 : 2"
+      ],
+      "stemOptionsSha256": "578c0dc2e86dbb86aa1e89da603af0e379cb8a93d46397eb173078e29d41a758",
+      "sourceContentHash": "9e5576cb01a3f873403ebb2083e2f4d9c42eb304368572f6ef73618cc095b209"
+    },
+    {
+      "id": "draft-math-g9-similarity-prac",
+      "grade": 9,
+      "prompt": "在 △ABC 中，点 D、E 分别在边 AB、AC 上，且 DE ∥ BC。若 AD = 2，DB = 4，DE = 3，则 BC 的长为（ ）。",
+      "options": [
+        "6",
+        "9",
+        "12",
+        "15"
+      ],
+      "stemOptionsSha256": "67d3dbee6b90414b052a955d0b98560fa1946951f9c9403fa2c03e35f7703161",
+      "sourceContentHash": "d51373e6f6f3decf1d0d29b9190a370f798fe22408cac49527410513f7b8d149"
+    },
+    {
+      "id": "draft-math-g9-similarity-retest",
+      "grade": 9,
+      "prompt": "在 △ABC 中，点 D、E 分别在边 AB、AC 上，DE ∥ BC，且 AD : DB = 1 : 2。若 △ADE 的面积为 2，则四边形 DBCE 的面积为（ ）。",
+      "options": [
+        "18",
+        "8",
+        "16",
+        "14"
+      ],
+      "stemOptionsSha256": "d569bb4c7136139fdcd633bdcbeb86e4d2e2f10d1cccad528f9c3a5077b786dd",
+      "sourceContentHash": "b51a58413aaf0eb84c68bd8544dd770eea7278e8820e15b10661b594e2805eee"
+    },
+    {
+      "id": "draft-math-g7-sci-notation-diag",
+      "grade": 7,
+      "prompt": "某大型水利工程的总库容约为 36000000 立方米，用科学记数法表示 36000000 为（ ）。",
+      "options": [
+        "36 × 10⁶",
+        "3.6 × 10⁷",
+        "0.36 × 10⁸",
+        "3.6 × 10⁶"
+      ],
+      "stemOptionsSha256": "0f387ff85f42eec4526ead6efcccb6f62f9af6dbf6a9afe2a412b28fd122ee27",
+      "sourceContentHash": "98faf42ef5e482b6b9fe61c377857b87ac7e9523febf0607718b0b928e4c8502"
+    },
+    {
+      "id": "draft-math-g7-sci-notation-retest",
+      "grade": 7,
+      "prompt": "将整数 24580000 精确到百万位，并用科学记数法表示为（ ）。",
+      "options": [
+        "2.5 × 10⁷",
+        "2.4 × 10⁷",
+        "2.46 × 10⁷",
+        "25 × 10⁶"
+      ],
+      "stemOptionsSha256": "ed03d432185f8b6e9cbdd50eeb3c84989e29aa294fc72d96686444fc033498e2",
+      "sourceContentHash": "8d88b6e117e9b90d0538677cf655defe7527a183541407ab7dbf3fa02457cc96"
+    },
+    {
+      "id": "draft-math-g7-angles-segments-diag",
+      "grade": 7,
+      "prompt": "若一个锐角的补角恰好等于它余角的 3 倍，则这个角的度数为（ ）。",
+      "options": [
+        "30°",
+        "60°",
+        "50°",
+        "45°"
+      ],
+      "stemOptionsSha256": "39f109da925bb02703413a930a87e02e1e9efb4d8c396f714040fd03cfaddcfc",
+      "sourceContentHash": "eedc6ffb79767cfd55541d731899d15b7707ee786ec8e54d9d0e168d40554c6b"
+    },
+    {
+      "id": "draft-math-g7-angles-segments-prac",
+      "grade": 7,
+      "prompt": "点 C 在线段 AB 上，AC = 6 cm，CB = 4 cm，点 M、N 分别是 AC 与 CB 的中点，则线段 MN 的长为（ ）。",
+      "options": [
+        "5 cm",
+        "2 cm",
+        "10 cm",
+        "4 cm"
+      ],
+      "stemOptionsSha256": "1f1c9669b0ae8df71373c85ec185e83a503f7166ee5dccd2b60da0c01821cecb",
+      "sourceContentHash": "a1480cfd3f4adc72c0854fc3b15292aade50cffcfda4aa027a4b56388825b921"
+    },
+    {
+      "id": "draft-math-g7-angles-segments-retest",
+      "grade": 7,
+      "prompt": "按度分秒 60 进制换算，计算 90° - 24°35′ 的结果是（ ）。",
+      "options": [
+        "66°25′",
+        "65°65′",
+        "65°25′",
+        "66°35′"
+      ],
+      "stemOptionsSha256": "fd661c1c4ecdba3fac1ac349c85508ae5d31fe20a2f4310f97ee40b6ad692888",
+      "sourceContentHash": "fd07dfb51f90574bdb2bc8c3d9521039f759ed41abca1164c986ca8177cd7334"
+    },
+    {
+      "id": "draft-math-g7-real-roots-diag",
+      "grade": 7,
+      "prompt": "实数 √16 的算术平方根是（ ）。",
+      "options": [
+        "4",
+        "2",
+        "±4",
+        "±2"
+      ],
+      "stemOptionsSha256": "bc48f875f0ba0c1c4ff7f136c028fe2f8bc882935e6f291cf1cb2699efcabad9",
+      "sourceContentHash": "b2fb4bc2693d5b87b9bde1e43d501109f5da0aa5ae39b82430c8ccdaabdb997b"
+    },
+    {
+      "id": "draft-math-g7-real-roots-prac",
+      "grade": 7,
+      "prompt": "已知一个正数的两个平方根分别是 2m - 4 和 3m - 11，则这个正数是（ ）。",
+      "options": [
+        "3",
+        "2",
+        "-2",
+        "4"
+      ],
+      "stemOptionsSha256": "f6a4c310b58b2b005ac1c219edaff7213b7f8c1dbae4ce101b96f2c06b70b992",
+      "sourceContentHash": "aab22810d69009981b7e9140691e4a0b0c754e0313c50f1c4a0aac7c4595c514"
+    },
+    {
+      "id": "draft-math-g7-real-roots-retest",
+      "grade": 7,
+      "prompt": "已知 ∛(x - 1) = -2，且 y 是无理数 √19 的整数部分，则 x + y 的值为（ ）。",
+      "options": [
+        "-3",
+        "-1",
+        "-11",
+        "13"
+      ],
+      "stemOptionsSha256": "fe0b9ff5bbc93b302b713e2f5a8f651f57e1fb6fe8eadad031f0f65ee775a907",
+      "sourceContentHash": "9ba3288014f7e4aeb1c21aeabd400f182cc87fb7a87355ccb537bf7a43d6e183"
+    },
+    {
+      "id": "draft-math-g7-coord-plane-diag",
+      "grade": 7,
+      "prompt": "已知点 P(m + 2, 2m - 6) 在第四象限，且点 P 到 x 轴的距离为 2，则点 P 的坐标为（ ）。",
+      "options": [
+        "(6, -2)",
+        "(4, 2)",
+        "(4, -2)",
+        "(2, -2)"
+      ],
+      "stemOptionsSha256": "a243aba8358d226efae89931a645df747b5335cef58b3cb3c81c56978728f5e9",
+      "sourceContentHash": "000ab2bb3a94871c5732bbd15a68ea18e52e546c1fc6f08f9c7d1075e9c61b98"
+    },
+    {
+      "id": "draft-math-g7-coord-plane-prac",
+      "grade": 7,
+      "prompt": "在平面直角坐标系中，过点 A(-2, 5) 和点 B(m, n) 的直线平行于 x 轴，且 AB = 6。若点 B 在第一象限，则点 B 的坐标为（ ）。",
+      "options": [
+        "(-8, 5)",
+        "(4, 5)",
+        "(-2, 11)",
+        "(6, 5)"
+      ],
+      "stemOptionsSha256": "2eaff17ffcc405bb70be94548520e7231aeda3784dff8e58933e7ce96c3047e2",
+      "sourceContentHash": "204805cdb343fd920708b36cf524b2a1358256eef1d63172e4f7a801fda1f4ba"
+    },
+    {
+      "id": "draft-math-g7-coord-plane-retest",
+      "grade": 7,
+      "prompt": "已知线段 AB 的端点分别为 A(-2, 3) 和 B(1, -1)，将线段 AB 平移后得到线段 A′B′。若点 A′ 的坐标为 (3, 5)，则点 B′ 的坐标为（ ）。",
+      "options": [
+        "(6, -3)",
+        "(-4, 1)",
+        "(4, 1)",
+        "(6, 1)"
+      ],
+      "stemOptionsSha256": "11699a37c7b6476e2c9da02d5aa5be5b90c2f56a974b032a79cfb1d809022dd1",
+      "sourceContentHash": "8fa3d984c8e6c8fe7164abbae17ba40dd4cdea89b4c22e89e6c78af028c7a966"
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-diag",
+      "grade": 8,
+      "prompt": "一个三角形的两边长分别为 4 cm 和 9 cm，若第三边长为奇数，则第三边长的最小值与最大值之和为（ ）。",
+      "options": [
+        "18 cm",
+        "16 cm",
+        "20 cm",
+        "12 cm"
+      ],
+      "stemOptionsSha256": "ccfeb04451fdac862f47bec7118920c494ce28e8be6f20f8692733b9be36239f",
+      "sourceContentHash": "9fe7e98b02a3028303b7ab1b1c6150199a2efe41746b48cb80a19e7363f3e32a"
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-prac",
+      "grade": 8,
+      "prompt": "在 △ABC 中，∠B = 40°，∠C = 70°，AD 是 △ABC 的内角平分线交 BC 于点 D，则 ∠ADC 的度数为（ ）。",
+      "options": [
+        "105°",
+        "65°",
+        "75°",
+        "85°"
+      ],
+      "stemOptionsSha256": "0f63226ee074c0fc3e562be0355f7bde13179fa93ec9a4b35ba015c67698b44a",
+      "sourceContentHash": "daa2103cf8d5ba0bf5f9a5344c02f9226a055f63364d5c134c8ba7f71e71ec72"
+    },
+    {
+      "id": "draft-math-g8-polygon-angles-retest",
+      "grade": 8,
+      "prompt": "若一个正多边形的每个内角都比它的外角大 108°，则这个正多边形的边数是（ ）。",
+      "options": [
+        "8",
+        "10",
+        "12",
+        "9"
+      ],
+      "stemOptionsSha256": "76f2fb82ec99a67a02bfb8ad5ba84b3322d8df75df62298af145dab3b502b174",
+      "sourceContentHash": "21366e3ce5ac57acb999531ccb20a8f039340d5bf90e42cc6bace346cf58a6c6"
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-diag",
+      "grade": 8,
+      "prompt": "已知 a^m = 3，a^n = 5（a > 0），则 a^(2m - n) 的值为（ ）。",
+      "options": [
+        "6/5",
+        "4",
+        "1",
+        "9/5"
+      ],
+      "stemOptionsSha256": "68544e6aba3b41a4df23cfeb46e4abda68999535c937f5c0da5967526fa3503f",
+      "sourceContentHash": "3a916845a6d07a846dc3c05340a1aa1250be12ca8d229d85c5a544768e382ddc"
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-prac",
+      "grade": 8,
+      "prompt": "已知 x + y = 6，xy = 7，则代数式 x² + y² - xy 的值为（ ）。",
+      "options": [
+        "15",
+        "22",
+        "29",
+        "1"
+      ],
+      "stemOptionsSha256": "60acc3a97c956aefe5805b6a0175ee3bcebf95313ba5e996faf0e52a051a6f66",
+      "sourceContentHash": "20fff938b781ba1540cc0c6817f1aa57faeaa73bd29bda77e170c75bf4c19a5b"
+    },
+    {
+      "id": "draft-math-g8-factoring-formulas-retest",
+      "grade": 8,
+      "prompt": "把多项式 2x³ - 18x 进行因式分解，分解彻底后的正确结果是（ ）。",
+      "options": [
+        "2x(x² - 9)",
+        "2x(x + 3)(x - 3)",
+        "2x(x - 3)²",
+        "x(2x + 6)(x - 3)"
+      ],
+      "stemOptionsSha256": "e5eafc6533023c6b98f64eab9642617528e37ab6244006fa5de3510358dd13ff",
+      "sourceContentHash": "cb6a55fb678a0c44471f3cfeee95f2f75a4372d18af2e40151d5ce5176dc255c"
+    },
+    {
+      "id": "draft-math-g8-radicals-diag",
+      "grade": 8,
+      "prompt": "要使代数式 √(x + 2) / (x - 1) 在实数范围内有意义，实数 x 的取值范围是（ ）。",
+      "options": [
+        "x ≥ -2",
+        "x > -2 且 x ≠ 1",
+        "x ≥ -2 且 x ≠ 1",
+        "x ≠ 1"
+      ],
+      "stemOptionsSha256": "a976d4634b2acc90b43b53d0a0d1a2f3ec25f602424df41a57564fac095c8f14",
+      "sourceContentHash": "e70a1cc65846254e4e477e81f894cc7cb23f5d27906d5b9b156b728a89a1cc47"
+    },
+    {
+      "id": "draft-math-g8-radicals-retest",
+      "grade": 8,
+      "prompt": "若 1 < a < 4，则化简 √((a - 1)²) + |a - 4| 的结果是（ ）。",
+      "options": [
+        "2a - 5",
+        "5 - 2a",
+        "-3",
+        "3"
+      ],
+      "stemOptionsSha256": "3229a2f53862cbd1e1c63d9ccfa6c23f46afcf6dfdc3119630bf2b0cd3835dce",
+      "sourceContentHash": "db7da93c01e4d504ca5a3280e87d6a0abf2ebb702308cc01d8ccf74d13dcd042"
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-diag",
+      "grade": 8,
+      "prompt": "某班 6 名同学的立定跳远评分分别为 6, 9, 4, 9, 7, 5，这组数据的中位数和众数分别是（ ）。",
+      "options": [
+        "6, 9",
+        "6.5, 9",
+        "7, 9",
+        "6.5, 6"
+      ],
+      "stemOptionsSha256": "8978aca04a9f2e9a880d751a6ef27c2c0217d5df44b4c1ff63d5117045708f0b",
+      "sourceContentHash": "e8c52466fb9a94da8486638b61cc68f32d1dcdb3f4d870f8cbd5a1fe6be6bcba"
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-prac",
+      "grade": 8,
+      "prompt": "甲组数据 2, 4, 5, 4, 5 的方差为 s₁²；乙组 5 个数据的平均数与甲组相等且方差 s₂² = 0.8。则 s₁² 的值及更稳定的一组分别是（ ）。",
+      "options": [
+        "s₁² = 6，甲组",
+        "s₁² = 1.2，甲组",
+        "s₁² = 1.2，乙组",
+        "s₁² = 1.6，乙组"
+      ],
+      "stemOptionsSha256": "072cd4e00dec76c85e3dabfa0686311d1c24a1f0aa4523c3b342405539385d30",
+      "sourceContentHash": "af174243197038166feda576978d7ac4d6955f03adc9a3998e7893991b93ef22"
+    },
+    {
+      "id": "draft-math-g8-statistics-variance-retest",
+      "grade": 8,
+      "prompt": "学校演讲比赛按“内容主题、语言表达、台风仪表”三项以 5 : 3 : 2 的权重计算总评。若小宇三项得分依次为 90 分、80 分、85 分，则他的总评成绩为（ ）。",
+      "options": [
+        "85 分",
+        "84 分",
+        "87 分",
+        "86 分"
+      ],
+      "stemOptionsSha256": "a4b7206419effc51075e55da31a89b8dd74222c59f018f5e789ba8b068bf4f58",
+      "sourceContentHash": "ca1dbb814aecb081430e4d014c5b230ca6e77c6cd64fee687ed6207ebbc0824e"
+    },
+    {
+      "id": "draft-math-g9-probability-diag",
+      "grade": 9,
+      "prompt": "一个不透明的袋子中装有 3 个红球和 5 个白球（除颜色外完全相同），从中随机摸出 1 个球，摸到红球的概率是（ ）。",
+      "options": [
+        "3/8",
+        "5/8",
+        "3/5",
+        "1/3"
+      ],
+      "stemOptionsSha256": "0b67dee671314ecf0b0fdfa6c958da101a585bc051b0a97710551abc3826c6e2",
+      "sourceContentHash": "53391b242eda9494d9737dfd47ce768cb4a9562f82d19b90179e67d46418746f"
+    },
+    {
+      "id": "draft-math-g9-probability-prac",
+      "grade": 9,
+      "prompt": "同时抛掷两枚质地均匀的正六面体骰子，朝上一面的点数之和大于 9 的概率是（ ）。",
+      "options": [
+        "1/9",
+        "1/6",
+        "5/18",
+        "1/4"
+      ],
+      "stemOptionsSha256": "3f3b668c4c9e33820d55679ba0d63a5cedbd8ef6a8920a0c6ee3a550382424e7",
+      "sourceContentHash": "17028ffacae8c4220138a1d13d78c695f4e405b4a48d9c8d9e46cf09c0d682e2"
+    },
+    {
+      "id": "draft-math-g9-probability-retest",
+      "grade": 9,
+      "prompt": "不透明箱内有标号为 1、2、3、4 的 4 张卡片，随机抽 1 张不放回，再随机抽 1 张，则两张标号之积为偶数的概率为（ ）。",
+      "options": [
+        "3/4",
+        "1/2",
+        "5/6",
+        "2/3"
+      ],
+      "stemOptionsSha256": "201ed0b10c870eb1fab62fcdb8d06cb5b3a29df232ddcbea5c5abf4ee7252b39",
+      "sourceContentHash": "6dad912d766b04398f37d3d8e36e3e5f8a8e107a54b9c443bd03c88e3d8145f8"
+    },
+    {
+      "id": "draft-math-g7-profit-billing-diag",
+      "grade": 7,
+      "prompt": "一件夹克衫的进价为 120 元，按标价 180 元的八折出售，则出售这件夹克衫的利润率为（ ）。",
+      "options": [
+        "15%",
+        "25%",
+        "20%",
+        "30%"
+      ],
+      "stemOptionsSha256": "7d273e0e397b85a9c4b51e21a769ffc7da13f73aeb5979c7cfb868fbd20e4fa1",
+      "sourceContentHash": "9aebdb2504c9c5988f1855069d932e812e713a3316ad9e5ff4cdb141c29e951e"
+    },
+    {
+      "id": "draft-math-g7-profit-billing-prac",
+      "grade": 7,
+      "prompt": "某市居民自来水实行阶梯水价：每月用水不超过 15 吨（含 15 吨）的部分按 3 元/吨计费，超过 15 吨的部分按 5 元/吨计费。若某户居民本月缴纳水费 65 元，则该户本月用水量为（ ）。",
+      "options": [
+        "17 吨",
+        "18 吨",
+        "20 吨",
+        "19 吨"
+      ],
+      "stemOptionsSha256": "3a42fe4a47a181cca29dee4f7d6afad448836e7361129226bf2bf145a34cbc7a",
+      "sourceContentHash": "8b5bba9ef56bbfd5928ee2f2307a500e79a6718e98bfb8320a2425086a98dc0c"
+    },
+    {
+      "id": "draft-math-g7-profit-billing-retest",
+      "grade": 7,
+      "prompt": "某文具店同时以每件 60 元的价格卖出两款计算器，其中一款盈利 20%，另一款亏损 20%。在这次买卖中，该文具店总体盈亏情况是（ ）。",
+      "options": [
+        "亏损 5 元",
+        "不盈不亏",
+        "盈利 5 元",
+        "亏损 10 元"
+      ],
+      "stemOptionsSha256": "028c28de44b674f033fb1570ecc23fe4a49a1a4ecd08cd4a15638823a4d28618",
+      "sourceContentHash": "636b6f7261059e65b3a8ec721b11ec18f09f7a4081da3b293112783a8d33b791"
+    },
+    {
+      "id": "draft-math-g7-data-sampling-diag",
+      "grade": 7,
+      "prompt": "在某校社团课程扇形统计图中，参加“编程创客”社团的人数占总人数的 25%，则该部分对应的扇形圆心角度数为（ ）。",
+      "options": [
+        "72°",
+        "90°",
+        "100°",
+        "108°"
+      ],
+      "stemOptionsSha256": "2aee01db276a811e92028264ea5553b74fb1838b20b0b3f32d19aee4cf1910ac",
+      "sourceContentHash": "598d0f384356ea0f68d2db60f4195caf4b320477e823b0f4cfb9ab96c15052fd"
+    },
+    {
+      "id": "draft-math-g7-data-sampling-prac",
+      "grade": 7,
+      "prompt": "将容量为 80 的样本数据分成 4 组，若前 3 组的频率依次为 0.20、0.35、0.30，则第 4 组的频数为（ ）。",
+      "options": [
+        "8",
+        "15",
+        "12",
+        "16"
+      ],
+      "stemOptionsSha256": "2953cf455b10521363c86ba0dc53a35e13fbb4fb7c6c6e63f10caa643afda466",
+      "sourceContentHash": "9cc6e49c4795674ee5f8f5df4f8cab8110e5bc353ded49178598e06521e9d050"
+    },
+    {
+      "id": "draft-math-g7-data-sampling-retest",
+      "grade": 7,
+      "prompt": "某中学共有 1200 名学生，为了解学生每天体育锻炼时长，随机抽取 100 名学生调查，其中每天锻炼不少于 1 小时的有 45 人。据此估计全校每天锻炼不少于 1 小时的学生约有（ ）。",
+      "options": [
+        "450 人",
+        "480 人",
+        "600 人",
+        "540 人"
+      ],
+      "stemOptionsSha256": "36e0b623260ea814c150a2a6ff80f60c8ab68e404625632b725a5c084cdad917",
+      "sourceContentHash": "fb0b6268df40d1bb3dcc7f855e60ea5b6737ab38fc6eb2fe8f7350c0918f9445"
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-diag",
+      "grade": 8,
+      "prompt": "当 a ≠ 2 时，化简分式 a² / (a - 2) - 4 / (a - 2) 的结果是（ ）。",
+      "options": [
+        "a + 2",
+        "a - 2",
+        "a² - 4",
+        "1"
+      ],
+      "stemOptionsSha256": "cee98bc828b71890dfdc1c83c6a5cddf1a3115ca12e7b7fa794bd7294c59a692",
+      "sourceContentHash": "cdc88fa6cbb654775732c651c040faaffd95edbf0431b41667b95f0a0a9b37d6"
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-prac",
+      "grade": 8,
+      "prompt": "已知非零实数 m 满足 m - 1 / m = 3，则代数式 m² + 1 / m² 的值为（ ）。",
+      "options": [
+        "7",
+        "11",
+        "9",
+        "13"
+      ],
+      "stemOptionsSha256": "85123df4f4b49bd6dc2222914f02e528163b0fe0a59111b81530777b56008045",
+      "sourceContentHash": "2de95d0595a64bc59348c6290ef652e459fdfad00f18c3de5105507042ce0eb8"
+    },
+    {
+      "id": "draft-math-g8-fraction-apps-retest",
+      "grade": 8,
+      "prompt": "某工程队铺设一条长 480 米的管线，实际施工时每天比原计划多铺设 20 米，结果提前 2 天完成任务。设原计划每天铺设 x 米，则所列分式方程正确的是（ ）。",
+      "options": [
+        "480 / (x + 20) - 480 / x = 2",
+        "480 / x - 480 / (x - 20) = 2",
+        "480 / x - 480 / (x + 20) = 2",
+        "480 / (x - 20) - 480 / x = 2"
+      ],
+      "stemOptionsSha256": "88061140ca0c448f07df53b0b28af9831ac5160a83e930cbf36dfb069de4b5f0",
+      "sourceContentHash": "0c6fd88b729b0b6a35df6b516b471cd2e991cda7e4d7ac15bcf1cbb70962eee2"
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-diag",
+      "grade": 8,
+      "prompt": "在 △ABC 中，点 D、E、F 分别是边 AB、BC、CA 的中点，若 △ABC 的周长为 24 cm，则中点三角形 △DEF 的周长为（ ）。",
+      "options": [
+        "6 cm",
+        "8 cm",
+        "16 cm",
+        "12 cm"
+      ],
+      "stemOptionsSha256": "662b6766db708b81c7ae54e36f89dda362850c1b415cc96ec3ffbc6569c82bbb",
+      "sourceContentHash": "367b6abf3e09227a6b022ac70ac2d168203d30356747ad2f9c10efefa415ecdf"
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-prac",
+      "grade": 8,
+      "prompt": "在 Rt△ABC 中，∠ACB = 90°，点 D 为斜边 AB 的中点，若两直角边 AC = 6，BC = 8，则斜边中线 CD 的长为（ ）。",
+      "options": [
+        "5",
+        "4",
+        "6",
+        "10"
+      ],
+      "stemOptionsSha256": "50eb782cb34241845b5e5ab2fcd2ca59c57d85342677d03862f31a5cabbb8d8b",
+      "sourceContentHash": "f844a3538bee23708b00bcbef0ddc6d77b51a676276b806ff40a4ba20af971b5"
+    },
+    {
+      "id": "draft-math-g8-midsegment-square-retest",
+      "grade": 8,
+      "prompt": "正方形 ABCD 的边长为 4，点 E 是边 BC 的中点，点 P 是对角线 BD 上的一个动点，则 PE + PC 的最小值为（ ）。",
+      "options": [
+        "4",
+        "2√5",
+        "4√2",
+        "6"
+      ],
+      "stemOptionsSha256": "64224bdf6e6b71b3118be53023d890df0c9f3ac4137ff212736c1018a49f79dd",
+      "sourceContentHash": "2d5c288959403cb533b09dc55282d05f4ca83911b9b199a7d658e5ac6db929a7"
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-diag",
+      "grade": 9,
+      "prompt": "在平面直角坐标系中，若点 P(a - 1, 4) 与点 Q(-3, b - 2) 关于原点对称，则 a + b 的值为（ ）。",
+      "options": [
+        "-2",
+        "0",
+        "2",
+        "4"
+      ],
+      "stemOptionsSha256": "83416781cc0a7d575b6687998db948cabaac9f25753828ec5c2c29ed1100e042",
+      "sourceContentHash": "358db649758e91fae525f3a18ed83563e17c5fc540cbeefd3d3c2849d7385ae3"
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-prac",
+      "grade": 9,
+      "prompt": "将 △ABC 绕顶点 A 逆时针旋转 50° 得到 △AB′C′，若点 B′ 恰好落在边 BC 上，则 ∠AB′B 的度数为（ ）。",
+      "options": [
+        "50°",
+        "60°",
+        "70°",
+        "65°"
+      ],
+      "stemOptionsSha256": "d34cfde720c3c79890f0561e637d27ae1722c82e2aa9e207c19e7183d5caec21",
+      "sourceContentHash": "f8141b074cdf69d8ebba7a57f5c4f5c6558bf207beaa46a55d1473c236300019"
+    },
+    {
+      "id": "draft-math-g9-rotation-symmetry-retest",
+      "grade": 9,
+      "prompt": "已知线段 AB = 5，将线段 AB 绕端点 A 顺时针旋转 60° 到 AB′ 的位置，则线段 AB 在旋转过程中所扫过区域的面积为（ ）。",
+      "options": [
+        "25π / 6",
+        "5π / 3",
+        "25π / 3",
+        "5π / 6"
+      ],
+      "stemOptionsSha256": "da82b37fd132feec2774eab8ec7eee0590d30841fb765870fc49352284832c7c",
+      "sourceContentHash": "2f614a6ede25d11a4ac2a6fbedcc22f0593482839dc848c90d8e4c32484b0418"
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-diag",
+      "grade": 9,
+      "prompt": "某校图书馆前年藏书量为 5 万册，经过两年连续扩充后今年藏书量达到 7.2 万册，设这两年藏书量的年平均增长率为 x，则 x 的值为（ ）。",
+      "options": [
+        "15%",
+        "20%",
+        "22%",
+        "25%"
+      ],
+      "stemOptionsSha256": "4b43ebdee48db92f8cff18573be80358aed736d12178cf5201265df39b31a043",
+      "sourceContentHash": "94a6248b3f8205233a82e96475f115cd23ca52bf14d285c46f2c906a967f7169"
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-prac",
+      "grade": 9,
+      "prompt": "校园篮球联赛采用单循环赛制（每两支球队之间都只比赛一场），若赛事共进行了 28 场比赛，则参赛球队共有（ ）。",
+      "options": [
+        "7 支",
+        "14 支",
+        "8 支",
+        "9 支"
+      ],
+      "stemOptionsSha256": "c9147d45ca6c6957f1c9026cf66dad18973c71d7a0a1cf1c7f9f83846e326bc3",
+      "sourceContentHash": "3ab7e709bf82444bf914ab8d659267b2554a18159afef15922ac943080dcf35f"
+    },
+    {
+      "id": "draft-math-g9-quadratic-apps-retest",
+      "grade": 9,
+      "prompt": "用总长 24 m 的篱笆，一面利用长为 11 m 的现有砖墙（篱笆只围其余三面），围成一个面积为 70 m² 的矩形苗圃。设平行于墙的一边长为 y m，则符合题意的 y 值为（ ）。",
+      "options": [
+        "14 m",
+        "7 m",
+        "10 m 或 14 m",
+        "10 m"
+      ],
+      "stemOptionsSha256": "aff45efff49e5822670cbf7f335e80de759b9b45914ec1cb4a63aaa7ce012265",
+      "sourceContentHash": "0e006e7b09277ee2501d6abf6e8be03aaa20ecca11016f7119ea08dc8de8d8a9"
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-diag",
+      "grade": 9,
+      "prompt": "二次函数 y = x² - 4x + 3 的图像与 x 轴的两个交点之间的距离为（ ）。",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "1"
+      ],
+      "stemOptionsSha256": "e869261f098c538fd1529e45d9233a6222a098061d7cfa61bd77f3fd79afbe2d",
+      "sourceContentHash": "bbc1fb1a529cd76d281c41c9f3ae0569fc224c9ff43f2515643cd6271435ecf0"
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-prac",
+      "grade": 9,
+      "prompt": "将抛物线 y = 2(x + 1)² - 3 先向右平移 4 个单位长度，再向上平移 2 个单位长度，所得新抛物线的解析式为（ ）。",
+      "options": [
+        "y = 2(x + 5)² - 1",
+        "y = 2(x - 3)² - 5",
+        "y = 2(x - 3)² - 1",
+        "y = 2(x - 4)² - 1"
+      ],
+      "stemOptionsSha256": "05c4340749a88aa5e2b776bbbaadab4a5897e230519166b6bd93d96ae5fc5088",
+      "sourceContentHash": "f7e574935495db61e9333f4f593d8e155b9d610cf087a79bb80139f210c1f593"
+    },
+    {
+      "id": "draft-math-g9-quadratic-intersections-retest",
+      "grade": 9,
+      "prompt": "若二次函数 y = kx² - 6x + 3 的图像与 x 轴有公共点，则实数 k 的取值范围是（ ）。",
+      "options": [
+        "k ≤ 3",
+        "k ≤ 3 且 k ≠ 0",
+        "k < 3 且 k ≠ 0",
+        "k ≥ 3"
+      ],
+      "stemOptionsSha256": "2539aa7403dcdca5c70b876d2ac7a81ee4f86b2dea8d491006d09dbc1ea3cc09",
+      "sourceContentHash": "e6cd032aad944bad8c730428f07446c854c9f31864f22a5007c07a14c292dd2c"
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-diag",
+      "grade": 9,
+      "prompt": "四边形 ABCD 内接于 ⊙O，若 ∠A = 68°，则它的对角 ∠C 的度数为（ ）。",
+      "options": [
+        "68°",
+        "122°",
+        "102°",
+        "112°"
+      ],
+      "stemOptionsSha256": "a5fb49f6c701cd4aa594d922e47df6f0cdb6cbe2fdc94499362d89cf8bd36e6c",
+      "sourceContentHash": "387ec1e6928a1a3bf9048341d034699a400e06339e2e4ddb70fc68f7c6e9577c"
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-prac",
+      "grade": 9,
+      "prompt": "PA、PB 分别切 ⊙O 于点 A、B，若 ⊙O 的半径 OA = 3，两切线夹角 ∠APB = 60°，则切线长 PA 为（ ）。",
+      "options": [
+        "3√3",
+        "3",
+        "6",
+        "2√3"
+      ],
+      "stemOptionsSha256": "66e78f02a444ae9d075a161d065e8371e1ba9631b4aeadabc3f1259e40c15eb9",
+      "sourceContentHash": "02212fb800a1b15ae3c668acb2a0066d241f876b2281f0c5ad9f9ae275f171b4"
+    },
+    {
+      "id": "draft-math-g9-circle-tangent-retest",
+      "grade": 9,
+      "prompt": "在 Rt△ABC 中，∠C = 90°，两直角边 AC = 9，BC = 12，则 △ABC 的内切圆半径 r 为（ ）。",
+      "options": [
+        "2",
+        "2.5",
+        "3",
+        "7.5"
+      ],
+      "stemOptionsSha256": "4edcada4beb8415a6f7e1e78bef8eac8e44e7b5425fd24d698b57dba4312a750",
+      "sourceContentHash": "2568e2f1c88416ad5af1303b02bc4e292249baa18e9e9ed64aabbd773ccf7412"
+    },
+    {
+      "id": "draft-math-g9-projections-views-diag",
+      "grade": 9,
+      "prompt": "一个圆柱的主视图和左视图都是边长为 4 cm 的正方形，俯视图是圆，则该圆柱的侧面积为（ ）。",
+      "options": [
+        "8π cm²",
+        "16π cm²",
+        "24π cm²",
+        "32π cm²"
+      ],
+      "stemOptionsSha256": "2f3104a928d9d509ebe2defba91cf1f94b803c377492baec657b442fcfeed666",
+      "sourceContentHash": "0f453f0610fa45a38279888790aa2a163916c1ae1d8d354aee2e982cc8c706c0"
+    },
+    {
+      "id": "draft-math-g9-projections-views-prac",
+      "grade": 9,
+      "prompt": "已知圆锥的底面半径 r = 3 cm，母线长 l = 9 cm，将该圆锥侧面沿一条母线剪开铺平，所得扇形的圆心角度数为（ ）。",
+      "options": [
+        "90°",
+        "150°",
+        "180°",
+        "120°"
+      ],
+      "stemOptionsSha256": "5ec7a0b5155b2c0926dda429cbbee379883394cbf55351e0fa0d8a90ffd2b98d",
+      "sourceContentHash": "9fc526b35092d890445a2c5a044ef01083a02c03a0ebf4650070af60987ff4f0"
+    },
+    {
+      "id": "draft-math-g9-projections-views-retest",
+      "grade": 9,
+      "prompt": "在同一时刻的太阳光（平行光）照射下，高为 1.5 m 的标杆在地面上的影长为 2.5 m，若此时旁边教学楼的影长为 20 m，则教学楼的高度为（ ）。",
+      "options": [
+        "10 m",
+        "15 m",
+        "12 m",
+        "16 m"
+      ],
+      "stemOptionsSha256": "4ffe9c9d121941f587fb6d4d6c5ca11c2b65d651f7bfeaf3a74bb01d21a3fabf",
+      "sourceContentHash": "1b7cf2bacc216870efa7c4d08007e0eaa75ee2db196a1c66820e7155d3637513"
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-diag",
+      "grade": 7,
+      "prompt": "已知点 A 在数轴上表示的数是 -3，将数轴沿某一点折叠后，点 A 恰好与表示 5 的点重合，则折痕所在位置表示的数是（ ）。",
+      "options": [
+        "1",
+        "4",
+        "-1",
+        "2"
+      ],
+      "stemOptionsSha256": "2be005dd840b9622b9837e7d12b0dc98a05f3cbe6e694d7a147ca9babdb29225",
+      "sourceContentHash": "bdb3b8dd0b2c76514d1bb1cc2cdb2e40f0ca17d624c5b369302132843935d872"
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-prac",
+      "grade": 7,
+      "prompt": "在数轴上，点 M 表示数 -2。点 P 从原点出发以每秒 3 个单位长度的速度向右移动，同时点 Q 从点 M 出发以每秒 1 个单位长度的速度向左移动，经过（ ）秒后，P、Q 两点相距 10 个单位长度。",
+      "options": [
+        "1.5",
+        "2",
+        "2.5",
+        "3"
+      ],
+      "stemOptionsSha256": "fd6490abfab3f2aa0cfefd75698444b6f27c012ecbcfc7c38c0e8ee6be086eb8",
+      "sourceContentHash": "4ba37855a10944087d263fa6ffb134b99ee9f2f27b4cdd7ac4d718c10f80be5c"
+    },
+    {
+      "id": "draft-math-g7-numberline-sym-retest",
+      "grade": 7,
+      "prompt": "若 |x - 2| = 5 且 y 是 -4 的相反数，当数 x 对应的点位于原点左侧时，x + y 的值为（ ）。",
+      "options": [
+        "11",
+        "-1",
+        "1",
+        "-7"
+      ],
+      "stemOptionsSha256": "4945fc56b3190188b27bc765081e597b3ce285a0f119e3de35c290a4c9a38170",
+      "sourceContentHash": "1b2576b47acd5f0dce488e5ef670f8c5a2d17d20d35322da90913a616bf90db5"
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-diag",
+      "grade": 7,
+      "prompt": "在一条直线上顺次取 A、B、C、D、E 五个点，以这五个点为端点共能构成（ ）条不同的线段。",
+      "options": [
+        "5",
+        "8",
+        "20",
+        "10"
+      ],
+      "stemOptionsSha256": "d118ba58e6ea225af78b153d75cc7ea078c3d9f08f730bcde50cd2e5c9d4dfa3",
+      "sourceContentHash": "4af8a40a33e43366886ae44f3d92b00f886e49da35eb0d1f624059594596afba"
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-prac",
+      "grade": 7,
+      "prompt": "钟表在 3 点 20 分整时，时针与分针所成的较小夹角的度数为（ ）。",
+      "options": [
+        "20°",
+        "30°",
+        "25°",
+        "15°"
+      ],
+      "stemOptionsSha256": "25182072f0b34362961043e6e7eab421dd29053c51f404f43b1beb2803062c0b",
+      "sourceContentHash": "4ffc3b5c9b1f18dc2542fe50fb78d3551621b98c1414f6ff68dee8887b38042c"
+    },
+    {
+      "id": "draft-math-g7-ray-clock-bisector-retest",
+      "grade": 7,
+      "prompt": "已知 ∠AOB = 80°，射线 OC 在 ∠AOB 的内部且将 ∠AOB 分成两部分，若 OM 平分 ∠AOC，ON 平分 ∠BOC，则 ∠MON 的度数为（ ）。",
+      "options": [
+        "30°",
+        "40°",
+        "50°",
+        "60°"
+      ],
+      "stemOptionsSha256": "45f42ce88374c4a9e4902a4af079b67fb570c10731221dc4552104eb441c070d",
+      "sourceContentHash": "40404b8da72afd5adca2914cd692a99c759b3e4b9153970bff1e33b9d838b176"
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-diag",
+      "grade": 7,
+      "prompt": "某车间有 28 名工人生产螺栓和螺母，每人每天平均可生产螺栓 12 个或螺母 18 个。已知 1 个螺栓配 2 个螺母，为使每天生产的螺栓与螺母刚好配套，应安排（ ）名工人生产螺栓。",
+      "options": [
+        "10",
+        "14",
+        "12",
+        "16"
+      ],
+      "stemOptionsSha256": "1b8c0af08f54131977285085f819e880ebf643e743d0bfb531c10a3a0de47b47",
+      "sourceContentHash": "17eafa7fad967e292a319a498119fe23976904bc0ee4037a6f1bca171c6d5241"
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-prac",
+      "grade": 7,
+      "prompt": "一艘轮船顺水航行 48 千米用了 2 小时，逆水航行同样距离用了 3 小时，则该轮船在静水中的航行速度是（ ）。",
+      "options": [
+        "18 千米/时",
+        "22 千米/时",
+        "4 千米/时",
+        "20 千米/时"
+      ],
+      "stemOptionsSha256": "d0e5c55b9f67fbb5145a1ce9b06b597ed9bd5277a6b5008e3bde31a51d203c9b",
+      "sourceContentHash": "56aecaa6a8a3af709c988c02b577a44ce997ed1b6b751f65f754dbf76496b707"
+    },
+    {
+      "id": "draft-math-g7-system-word-apps-retest",
+      "grade": 7,
+      "prompt": "某中学购买 A、B 两种型号的篮球共 30 个，共用去 2500 元。已知 A 型篮球每个 70 元，B 型篮球每个 90 元，则购买 A 型篮球的数量比 B 型篮球（ ）。",
+      "options": [
+        "少 10 个",
+        "多 10 个",
+        "少 5 个",
+        "多 5 个"
+      ],
+      "stemOptionsSha256": "79317292928994627241d9414ea0973b955a95b1ec4a04be0f20d7bf267cd7ae",
+      "sourceContentHash": "5253239daf3936531e1d1c11313a3cf6d505c3266405a86e10173bac5b874a24"
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-diag",
+      "grade": 8,
+      "prompt": "在 △ABC 中，∠C = 90°，AD 平分 ∠BAC 交 BC 于点 D。若 CD = 3 cm，AB = 10 cm，则 △ABD 的面积为（ ）。",
+      "options": [
+        "30 cm²",
+        "15 cm²",
+        "13 cm²",
+        "7.5 cm²"
+      ],
+      "stemOptionsSha256": "73b83b60a500caea1d6fbb3d0036d7c56e32f48c46f4456fdd07179578b7de67",
+      "sourceContentHash": "bfa96fe5851ee9cb29c2e52309384bf87246367aedb45b7700906cd146555252"
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-prac",
+      "grade": 8,
+      "prompt": "在 Rt△ABC 和 Rt△DEF 中，已知 ∠C = ∠F = 90°，且直角边 BC = EF。若只再添加一个条件就能直接依据“HL”判定 Rt△ABC ≌ Rt△DEF，应添加的条件是（ ）。",
+      "options": [
+        "AC = DF",
+        "∠A = ∠D",
+        "AB = DE",
+        "∠B = ∠E"
+      ],
+      "stemOptionsSha256": "1e5024c9b93df22c6c40a97083d8e3cc43f9b4338cb72f778fb63b6316e439a7",
+      "sourceContentHash": "ee093015d82b79a0dff4a58a03a85ae87433aed4e559e6bada5bb02d256431e6"
+    },
+    {
+      "id": "draft-math-g8-bisector-hl-retest",
+      "grade": 8,
+      "prompt": "在 △ABC 中，∠C = 90°，AC = 5，BC = 12，AB = 13，AD 平分 ∠BAC 交 BC 于 D，DE ⊥ AB 于 E，则 △BDE 的周长为（ ）。",
+      "options": [
+        "17",
+        "18",
+        "25",
+        "20"
+      ],
+      "stemOptionsSha256": "c64c2971b39e67a700fe9e8dae2458d2ddab9a2b37f00d01d01911512a4e15bb",
+      "sourceContentHash": "3f638d6dc4ae25e44437adf3a2145e460eb6f4c9ddb76dade47778aaf7252bec"
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-diag",
+      "grade": 8,
+      "prompt": "在 △ABC 中，DE 是 AC 的垂直平分线，分别交 BC、AC 于点 D、E。已知 AE = 3，△ABD 的周长为 14，则 △ABC 的周长为（ ）。",
+      "options": [
+        "20",
+        "17",
+        "23",
+        "11"
+      ],
+      "stemOptionsSha256": "a894b86d0450b8436d4fbe86eda23489c199f594869f621350dcad1e0214a6c9",
+      "sourceContentHash": "3f6a581b49fbcfde308168e53bbd35ebc65fd9ebec2ffd4675d9757958633359"
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-prac",
+      "grade": 8,
+      "prompt": "在 Rt△ABC 中，∠C = 90°，∠B = 30°，斜边 AB = 12，则直角边 AC 的长为（ ）。",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "24"
+      ],
+      "stemOptionsSha256": "5880833b4a4f231ec4295f8cdce48e46706901e925fbdf4aceca4480763e9d15",
+      "sourceContentHash": "7ec2d4e2ad25d139e5235b808213104407da1f10994401c43fce2c4a1d2e8f42"
+    },
+    {
+      "id": "draft-math-g8-perp-bisector-equilateral-retest",
+      "grade": 8,
+      "prompt": "在 △ABC 中，AB = AC，∠BAC = 120°，AB 的垂直平分线交 BC 于点 D，交 AB 于点 E，若 BD = 4，则 BC 的长为（ ）。",
+      "options": [
+        "8",
+        "10",
+        "12",
+        "16"
+      ],
+      "stemOptionsSha256": "9ac85e37efe12657f6df522674758523d5f360cdcc60f5cbdb26c07d99a49b99",
+      "sourceContentHash": "cc4c07410692e8d82fc42fe3c0511da8581aa54e0d51d22a09045ac4877b56d6"
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-diag",
+      "grade": 8,
+      "prompt": "已知一次函数 y = (m - 2)x + 3 的图象不经过第三象限，且 y 随 x 的增大而减小，则实数 m 的取值范围是（ ）。",
+      "options": [
+        "m > 2",
+        "m ≥ 2",
+        "m ≤ 2",
+        "m < 2"
+      ],
+      "stemOptionsSha256": "69a6a495aae1d28070d0f0be1d3e5c2844b411a449fe5cb5903c82bbc59bd6a8",
+      "sourceContentHash": "9526400d2118f6cd4208c7dc746ff1154c096987fa36927f3249b66272efcce5"
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-prac",
+      "grade": 8,
+      "prompt": "直线 l₁：y = 2x - 1 与直线 l₂：y = -x + 5 交于点 P(2, 3)，则关于 x 的不等式 2x - 1 > -x + 5 的解集为（ ）。",
+      "options": [
+        "x > 2",
+        "x < 2",
+        "x > 3",
+        "x < 3"
+      ],
+      "stemOptionsSha256": "c2778e061c9979d260775f39eca26e513d222b3ed0ab77139d4fa57db6925a16",
+      "sourceContentHash": "2ff55953f2f66311d50540bd74e53578af8629c5f53d2593bf46babbf43d0c34"
+    },
+    {
+      "id": "draft-math-g8-linear-ineq-cost-retest",
+      "grade": 8,
+      "prompt": "某校采购 A、B 两种护眼台灯共 40 盏，已知 A 型每盏 50 元，B 型每盏 80 元，且要求 B 型数量不少于 15 盏。设购买 A 型 x 盏，总费用 W（元）的最小值为（ ）。",
+      "options": [
+        "2000 元",
+        "2450 元",
+        "2600 元",
+        "2750 元"
+      ],
+      "stemOptionsSha256": "e1f688093336672ed9160c7c271cf802ef4babaaf0b99c3f683349141748c88b",
+      "sourceContentHash": "6f1d3b5c936aa207dfad8a5c830dc328ed6d434f352f5dc0830aa995c787c688"
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-diag",
+      "grade": 9,
+      "prompt": "用配方法解一元二次方程 x² - 6x - 4 = 0 时，将其变形为 (x + a)² = b 的形式，则 a + b 的值为（ ）。",
+      "options": [
+        "16",
+        "2",
+        "10",
+        "-2"
+      ],
+      "stemOptionsSha256": "e45766beff316db95c4138948fe26ead2c49411112b5b8d5d0f53f020229ab40",
+      "sourceContentHash": "44cc85c8f238ebf40217bbe2d79ac96160b8fa6a7ce91681abd2f0a52e8812e3"
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-prac",
+      "grade": 9,
+      "prompt": "方程 x(x - 3) = 2(x - 3) 的两个实数根分别为（ ）。",
+      "options": [
+        "仅 x = 2",
+        "x₁ = -2，x₂ = 3",
+        "x₁ = 2，x₂ = -3",
+        "x₁ = 2，x₂ = 3"
+      ],
+      "stemOptionsSha256": "b6d24aec22f060dec6829a956b13ec16d784ee0dc621a7113994e9be9eb32a1b",
+      "sourceContentHash": "c04988ca1888e52ef981fc993d69027be458fc54bad55acc47e8332e88e13a13"
+    },
+    {
+      "id": "draft-math-g9-quadratic-methods-retest",
+      "grade": 9,
+      "prompt": "若实数 x 满足 (x² + 2x)² - (x² + 2x) - 6 = 0，则代数式 x² + 2x 的值为（ ）。",
+      "options": [
+        "3",
+        "3 或 -2",
+        "-2",
+        "1 或 -3"
+      ],
+      "stemOptionsSha256": "8ca45ae38a52c72e4e66629cf65b4449fcd778b31ee7184cee18029a7bccc90f",
+      "sourceContentHash": "ae4d9f7bc88e9d0e71db946e8f34fb63d9b4affa8632f3ad046e9a368d2f662b"
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-diag",
+      "grade": 9,
+      "prompt": "已知 ⊙O 的半径为 5 cm，圆心 O 到直线 l 的距离为 3 cm，则直线 l 与 ⊙O 的公共点个数为（ ）。",
+      "options": [
+        "0",
+        "2",
+        "1",
+        "3"
+      ],
+      "stemOptionsSha256": "91cceff585f6c53e77b6ccf67f82279f6e47f37b9189608bcbb2b63738c8b631",
+      "sourceContentHash": "58a569ad14914f34c78661274d49e703af92aa1d4f550260625ba47943a4bff9"
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-prac",
+      "grade": 9,
+      "prompt": "某摩天轮座舱沿着半径为 12 米的圆周匀速转动，当转过的圆心角为 150° 时，座舱经过的弧长为（ ）。",
+      "options": [
+        "5π 米",
+        "8π 米",
+        "10π 米",
+        "12π 米"
+      ],
+      "stemOptionsSha256": "2cb98ed79f34a3caafae25443257b63f84d0e0b1a99b159e309137a67688dc91",
+      "sourceContentHash": "e598784f92e2a30feb717204c7a939e7334805419002ad8507500dd272199231"
+    },
+    {
+      "id": "draft-math-g9-circle-pos-arc-retest",
+      "grade": 9,
+      "prompt": "已知一个圆内接正多边形每条边所对的中心角为 45°，则该正多边形的一个内角比其中心角大（ ）。",
+      "options": [
+        "45°",
+        "60°",
+        "135°",
+        "90°"
+      ],
+      "stemOptionsSha256": "e0d0d63ea486f560d0de3ef9218a8f18b8e47155b9a8aa3dd16f630a6323be2e",
+      "sourceContentHash": "007a40bb6b7150454ca9b73e35d7610c0ae943cbffc1b7291533c9c75ec46068"
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-diag",
+      "grade": 9,
+      "prompt": "某段公路护坡的坡比 i = 1 : √3（铅直高度与水平宽度之比），若该斜坡的铅直高度为 6 米，则其坡角 α 及水平宽度分别为（ ）。",
+      "options": [
+        "30°，6√3 米",
+        "60°，6√3 米",
+        "30°，2√3 米",
+        "60°，2√3 米"
+      ],
+      "stemOptionsSha256": "89d893edcbb7efbea5ff476b88ed22b0550045328a58289048863536614fe4fc",
+      "sourceContentHash": "f131e1482940e784a038fed125c09c864dedfddff3ac8e59054ac1df5542a06a"
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-prac",
+      "grade": 9,
+      "prompt": "在水平地面 A 处测得垂直于地面的灯塔顶部 P 的仰角为 30°，向灯塔底部 D 方向水平前行 40 米到达 B 处，再测得塔顶 P 的仰角为 60°（A、B、D 在同一直线上），则灯塔高度 PD 为（ ）。",
+      "options": [
+        "40 米",
+        "20√3 米",
+        "40√3 米",
+        "20 米"
+      ],
+      "stemOptionsSha256": "2b55a647c24b78039bd2aa030f1a2dba866e587f9abe77be99b4b4abbc159415",
+      "sourceContentHash": "49e9ec39b15876762885de31beb18fc582aefe834326c5ed1842698814dd6c23"
+    },
+    {
+      "id": "draft-math-g9-trig-bearing-apps-retest",
+      "grade": 9,
+      "prompt": "一艘海监船位于灯塔 O 的南偏西 30° 方向且距离 60 海里的 A 处，该船沿正东方向航行至位于灯塔 O 正南方向的 B 处，则 OB 的长为（ ）。",
+      "options": [
+        "30 海里",
+        "20√3 海里",
+        "30√3 海里",
+        "45 海里"
+      ],
+      "stemOptionsSha256": "8cbcedcfa81909e31c323099c959b7c2106bc6bcad650eed79a1b0730e95c1c2",
+      "sourceContentHash": "56259a137ea3602bee7ba4b5c80bcca18a1ffc697d42e5cbc8d19da7a630c1a6"
+    }
+  ]
+}

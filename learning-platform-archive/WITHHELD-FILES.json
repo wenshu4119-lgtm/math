@@ -1,0 +1,1230 @@
+[
+  {
+    "path": "junior-learning-platform/.dev.vars",
+    "reason": "environment secret"
+  },
+  {
+    "path": "junior-learning-platform/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-platform/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-platform/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-platform/scripts/experiments/deeptutor-module-probe.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-platform/scripts/experiments/rag-local-evaluation.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-platform/scripts/experiments/__pycache__/rag-local-evaluation.cpython-312.pyc",
+    "reason": "non-text file requires separate review"
+  },
+  {
+    "path": "junior-learning-content-integration/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-content-integration/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-content-integration/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-content-integration/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-content-integration/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-content-integration/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-release/.local-account-final.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-account-tests.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-all-pdf-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-export-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-formal-checks.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-homework-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-production-checks.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-production-regression.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-session-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-stage8-tests.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-teacher-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-ui-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/.local-view-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "junior-learning-release/release/arts-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/arts-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/content-release.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/content-round2.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/linux-upload-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/open-backup-recovery.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/open-production-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/open-trial-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/ownership-handoff-20261115.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/plan-center-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/plan-center-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-baseline.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-config.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-domain-inventory.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-gates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-operations-status.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-restore-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-secret-scan.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/production-server-preparation.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/protection-check.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/referral-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/referral-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/root-domain-rollback.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/root-rollback-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/stage8-import.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/time-plan-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/time-plan-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-release/release/upstream-snapshot.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/verification-summary.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/查看备份恢复口令.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/查看正式管理员账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/release/查看试用账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "junior-learning-release/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-release/scripts/deploy-learning-qa.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-release/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-release/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-release/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-release/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "junior-learning-release/release/__pycache__/content-upgrade.cpython-314.pyc",
+    "reason": "non-text file requires separate review"
+  },
+  {
+    "path": "junior-learning-release/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "junior-learning-release/integrations/learning-qa/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/release/arts-20261114.1-delta.zip",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "hubei-arts-module/release/arts-20261114.2-delta.zip",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "hubei-arts-module/release/arts-manifest-20261114.1-withdrawn.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/arts-manifest-20261114.2.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/arts-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/arts-withdrawn-candidates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/content-release.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/linux-upload-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/open-backup-recovery.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/open-production-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/open-trial-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-baseline.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-config.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-domain-inventory.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-gates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-operations-status.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-restore-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-secret-scan.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/production-server-preparation.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/protection-check.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/root-domain-rollback.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/root-rollback-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/stage8-import.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/release/upstream-snapshot.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/verification-summary.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/查看备份恢复口令.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/查看正式管理员账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/release/查看试用账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "hubei-arts-module/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/scripts/deploy-learning-qa.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "hubei-arts-module/integrations/learning-qa/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "learning-plan-module/.local-account-final.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-account-tests.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-all-pdf-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-export-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-formal-checks.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-homework-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-production-checks.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-production-regression.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-session-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-stage8-tests.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-teacher-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-ui-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/.local-view-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "learning-plan-module/release/arts-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/arts-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/content-release.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/content-round2.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/linux-upload-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/open-backup-recovery.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/open-production-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/open-trial-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/ownership-handoff-20261115.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/plan-center-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/plan-center-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-baseline.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-config.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-domain-inventory.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-gates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-operations-status.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-restore-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-secret-scan.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/production-server-preparation.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/protection-check.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/referral-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/referral-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/root-domain-rollback.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/root-rollback-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/stage8-import.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/time-plan-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/time-plan-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "learning-plan-module/release/upstream-snapshot.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/verification-summary.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/查看备份恢复口令.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/查看正式管理员账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/release/查看试用账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "learning-plan-module/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "learning-plan-module/scripts/deploy-learning-qa.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "learning-plan-module/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "learning-plan-module/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "learning-plan-module/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "learning-plan-module/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "learning-plan-module/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "learning-plan-module/integrations/learning-qa/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "referral-partner-module/release/arts-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/arts-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/content-release.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/content-round2.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/linux-upload-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/open-backup-recovery.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/open-production-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/open-trial-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-baseline.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-config.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-domain-inventory.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-gates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-operations-status.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-restore-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-secret-scan.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/production-server-preparation.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/protection-check.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/root-domain-rollback.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/root-rollback-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/stage8-import.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "referral-partner-module/release/upstream-snapshot.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/verification-summary.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/查看备份恢复口令.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/查看正式管理员账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/release/查看试用账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "referral-partner-module/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "referral-partner-module/scripts/deploy-learning-qa.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "referral-partner-module/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "referral-partner-module/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "referral-partner-module/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "referral-partner-module/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "referral-partner-module/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "referral-partner-module/integrations/learning-qa/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "self-study-loop/release/arts-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/arts-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/content-release.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/content-round2.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/linux-upload-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/open-backup-recovery.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/open-production-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/open-trial-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/ownership-handoff-20261115.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-baseline.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-config.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-domain-inventory.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-gates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-operations-status.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-restore-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-secret-scan.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/production-server-preparation.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/protection-check.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/referral-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/referral-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/root-domain-rollback.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/root-rollback-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/stage8-import.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "self-study-loop/release/upstream-snapshot.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/verification-summary.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/查看备份恢复口令.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/查看正式管理员账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/release/查看试用账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "self-study-loop/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "self-study-loop/scripts/deploy-learning-qa.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "self-study-loop/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "self-study-loop/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "self-study-loop/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "self-study-loop/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "self-study-loop/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "self-study-loop/integrations/learning-qa/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/.local-account-final.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-account-tests.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-all-pdf-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-export-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-formal-checks.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-homework-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-production-checks.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-production-regression.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-session-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-stage8-tests.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-teacher-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-ui-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/.local-view-test.log",
+    "reason": "binary, runtime or private-data artifact"
+  },
+  {
+    "path": "time-plan-upgrade/release/arts-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/arts-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/content-release.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/content-round2.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/linux-upload-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/open-backup-recovery.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/open-production-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/open-trial-login.ps1",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/ownership-handoff-20261115.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-backup-verification.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-baseline.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-config.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-deployment.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-domain-inventory.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-gates.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-operations-status.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-restore-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-secret-scan.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/production-server-preparation.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/protection-check.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/referral-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/referral-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/root-domain-rollback.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/root-rollback-rehearsal.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/stage8-import.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/time-plan-import-manifest.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/time-plan-production.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/release/upstream-snapshot.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/verification-summary.json",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/查看备份恢复口令.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/查看正式管理员账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/release/查看试用账号.cmd",
+    "reason": "operational report or account-access launcher"
+  },
+  {
+    "path": "time-plan-upgrade/scripts/deploy-deeptutor-lab.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/scripts/deploy-learning-qa.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/scripts/ocr-ui-test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/tests/account-self-service.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/tests/helpers.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/tests/platform.test.mjs",
+    "reason": "credential-like literal requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/release/__pycache__/content-upgrade.cpython-314.pyc",
+    "reason": "non-text file requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/integrations/deeptutor-lab/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  },
+  {
+    "path": "time-plan-upgrade/integrations/learning-qa/bridge.py",
+    "reason": "credential-like assignment requires separate review"
+  }
+]

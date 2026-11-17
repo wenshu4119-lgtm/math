@@ -1,0 +1,110 @@
+{
+  "packages": [
+    {
+      "name": "deeptutor",
+      "version": "1.7.2",
+      "license": null,
+      "licenseExpression": null,
+      "classifiers": []
+    },
+    {
+      "name": "PyMuPDF",
+      "version": "2.1",
+      "license": "Dual Licensed - GNU AFFERO GPL 3.0 or Artifex Commercial License",
+      "licenseExpression": null,
+      "classifiers": []
+    },
+    {
+      "name": "llama-index-core",
+      "version": "0.14.26",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "llama-index-embeddings-openai",
+      "version": "0.8.0",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "llama-index-llms-openai",
+      "version": "0.9.0",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "fastapi",
+      "version": "0.162.7",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.3",
+      "license": null,
+      "licenseExpression": "MIT",
+      "classifiers": []
+    },
+    {
+      "name": "torch",
+      "installed": false
+    },
+    {
+      "name": "transformers",
+      "installed": false
+    }
+  ],
+  "licenseFiles": [
+    {
+      "path": "/opt/deeptutor/venv/lib/python3.12/site-packages/pymupdf-2.1.dist-info/COPYING",
+      "bytes": 64,
+      "sha256": "40e60697600535eabfb5ae05f72829d88cfe8d02dd4792f5a754f6f51dabe55b",
+      "localPath": "licenses\\deeptutor-selected\\01-COPYING"
+    },
+    {
+      "path": "/opt/deeptutor-models/licenses/Qwen-generation-LICENSE.txt",
+      "bytes": 11544,
+      "sha256": "5de36594c10839788a8c589443a8ef9d8b8d17c65a1b5807206ae037fc36c6bd",
+      "localPath": "licenses\\deeptutor-selected\\02-Qwen-generation-LICENSE.txt"
+    },
+    {
+      "path": "/opt/deeptutor-models/llama-b12375/llama-b12375/LICENSE",
+      "bytes": 1078,
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+      "localPath": "licenses\\deeptutor-selected\\03-LICENSE"
+    },
+    {
+      "path": "/opt/deeptutor/node-v22.23.4-linux-x64/LICENSE",
+      "bytes": 145485,
+      "sha256": "c738ae413cf561f174e34f6961f8ca458aae2369a73640dda6234c629b98bcc4",
+      "localPath": "licenses\\deeptutor-selected\\04-LICENSE"
+    },
+    {
+      "path": "/opt/deeptutor-models/licenses/Qwen-embedding-model-card.md",
+      "bytes": 11889,
+      "sha256": "5dc596e802ce79342678281d42ec4b98fbee2fee241758df330cdc35cc15d29f",
+      "localPath": "licenses\\deeptutor-selected\\05-Qwen-embedding-model-card.md"
+    },
+    {
+      "path": "/opt/deeptutor-models/licenses/Qwen-generation-model-card.md",
+      "bytes": 6236,
+      "sha256": "44adabae2153c3a7bb741b86fbffd48736bc95118831935fdfc4d3cc1854f2f5",
+      "localPath": "licenses\\deeptutor-selected\\06-Qwen-generation-model-card.md"
+    },
+    {
+      "path": "/opt/deeptutor-models/licenses/manifest.json",
+      "bytes": 972,
+      "sha256": "4d0ad569b6e6f8469c7ab7c383ebde9e58e33d9080e3fbec22fa25126f573db4",
+      "localPath": "licenses\\deeptutor-selected\\07-manifest.json"
+    }
+  ],
+  "gccRuntimeCopyright": {
+    "path": "/opt/deeptutor-models/runtime-library/extracted/usr/share/doc/libgomp1/copyright",
+    "isFile": false,
+    "isSymlink": false
+  }
+}

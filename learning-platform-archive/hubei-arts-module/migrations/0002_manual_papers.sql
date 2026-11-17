@@ -1,0 +1,43 @@
+CREATE TABLE paper_assessments (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL REFERENCES organizations(id),
+  student_id TEXT NOT NULL REFERENCES users(id),
+  subject TEXT NOT NULL CHECK(subject IN ('math','english')),
+  title TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK(kind IN ('scored_paper','ability_observation')),
+  content_origin TEXT NOT NULL DEFAULT 'manual_entry' CHECK(content_origin='manual_entry'),
+  status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','confirmed')),
+  revision INTEGER NOT NULL DEFAULT 1,
+  write_token TEXT NOT NULL,
+  request_id TEXT NOT NULL,
+  request_hash TEXT NOT NULL,
+  upload_id TEXT REFERENCES uploads(id) ON DELETE SET NULL,
+  created_by TEXT NOT NULL REFERENCES users(id),
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  confirmed_by TEXT REFERENCES users(id),
+  confirmed_at TEXT,
+  report_json TEXT,
+  UNIQUE(org_id,created_by,request_id)
+);
+CREATE INDEX papers_student ON paper_assessments(student_id,created_at);
+CREATE TABLE paper_items (
+  paper_id TEXT NOT NULL REFERENCES paper_assessments(id),
+  question_no TEXT NOT NULL,
+  parent_no TEXT,
+  position INTEGER NOT NULL,
+  prompt TEXT NOT NULL,
+  qtype TEXT NOT NULL CHECK(qtype IN ('choice','fill','solution','observation')),
+  mapping_level TEXT NOT NULL CHECK(mapping_level IN ('knowledge','chapter','unresolved')),
+  scope_text TEXT NOT NULL,
+  knowledge_id TEXT REFERENCES knowledge(id),
+  knowledge_version INTEGER,
+  max_cents INTEGER CHECK(max_cents>0 AND max_cents<=100000),
+  earned_cents INTEGER CHECK(earned_cents>=0 AND earned_cents<=max_cents),
+  observation_level INTEGER CHECK(observation_level BETWEEN 0 AND 3),
+  note TEXT NOT NULL DEFAULT '',
+  reviewed_by TEXT REFERENCES users(id),
+  PRIMARY KEY(paper_id,question_no),
+  CHECK((observation_level IS NULL) OR (max_cents IS NULL AND earned_cents IS NULL)),
+  CHECK((mapping_level='knowledge' AND knowledge_id IS NOT NULL) OR (mapping_level!='knowledge' AND knowledge_id IS NULL))
+);

@@ -1,0 +1,4 @@
+import {cents,money,exampleReward,e} from './model.js';
+const form=document.querySelector('#calculator'),output=document.querySelector('#calculation');
+function calculate(){try{const f=new FormData(form),result=exampleReward({paidCents:cents(f.get('paid')),excludedCents:cents(f.get('excluded')),eligibleRefundCents:cents(f.get('eligibleRefund')),excludedRefundCents:cents(f.get('excludedRefund')),level:Number(f.get('level'))});output.className='rp-result';output.innerHTML=`<strong>示例奖励 ${money(result.rewardCents)} 元</strong><p>合格基数 ${money(result.baseCents)} 元 × ${result.bps/100}% ，单笔上限 ${money(result.capCents)} 元。</p><p class="rp-small">已排除部分的退款不重复扣除奖励基数。这个结果不是可提现余额，不代表真实订单已付款或已获奖励资格。</p>`;}catch(err){output.className='rp-error';output.textContent=err.message;}}
+form.addEventListener('submit',ev=>{ev.preventDefault();calculate();});calculate();

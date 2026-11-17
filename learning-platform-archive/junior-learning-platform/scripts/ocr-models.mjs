@@ -1,0 +1,6 @@
+export const OCR_MODEL_REVISION='87416418657359cb625c412a48b6e1d6d41c29bd';
+export const OCR_MODELS=Object.freeze({
+  'eng.traineddata':{bytes:4113088,sha256:'7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2'},
+  'chi_sim.traineddata':{bytes:2469156,sha256:'a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730'},
+  LICENSE:{bytes:11358,sha256:'cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30'}
+});

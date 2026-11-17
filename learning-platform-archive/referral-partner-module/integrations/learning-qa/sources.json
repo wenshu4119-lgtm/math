@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "math-equality.txt",
+      "subject": "math",
+      "title": "等式性质与一元一次方程的方法",
+      "digest": "4eb18bc8f1f5861f82d827b381a2305b9600d53a2efda0433935053a88a34f77",
+      "text": "原创学习讲解，供受限学习问答检索；不包含学生资料或正式题库答案。\n主题：等式性质与一元一次方程的方法。\n等式两边同时加上或减去同一个数，等式仍成立。两边同时乘以或除以同一个非零数，等式仍成立；除数不能为零。只改变一边通常会破坏相等关系。\n解一元一次方程的目标是把未知数单独留在一边。消去常数项，再处理未知数前的非零系数；每一步都必须保持等式成立。所谓移项变号，来自等式两边同时加上或减去同一个式子，并不是只移动一个符号。\n解出未知数后，将结果代回原方程，检查左边和右边是否相等。代入检验只能验证这个候选值是否满足原式。\n如果变形后得到恒成立的等式，可能有无数个解；如果得到矛盾的等式，则无解。不能遇到零系数就直接除以零。\nFor a linear equation, apply the same operation to both sides. Division requires a nonzero divisor. Isolate the variable and check the result by substitution into the original equation.\n",
+      "source": "original_authored",
+      "license": "platform-internal-use",
+      "rightsNotice": "仅本平台教学使用；未额外授予公开再许可",
+      "teacherReviewed": false
+    },
+    {
+      "id": "math-arithmetic.txt",
+      "subject": "math",
+      "title": "有理数的基础四则运算",
+      "digest": "c27be70658d2515a0156f5f83266a852c032e56f198c02f36276c2c588732bcb",
+      "text": "原创学习讲解，供受限学习问答检索；不包含学生资料或正式题库答案。\n主题：有理数的基础四则运算。\n先算括号，再算乘除，最后算加减；同一级运算通常从左到右计算。括号可以改变运算顺序。\n同号数相加，绝对值相加并保留共同符号。异号数相加，绝对值相减并保留绝对值较大数的符号。减去一个数等于加上它的相反数。\n两个数相乘或相除，同号得正、异号得负；零不能作除数。不能把加法的符号规则直接套用到乘法。\n分数相加减时先通分为同分母，再对分子进行加减，分母保持不变。分数相乘用分子相乘、分母相乘；分数相除可乘除数的倒数，但除数不能为零。结果应在合适时约分。\nUse parentheses first, then multiplication and division, then addition and subtraction. Subtracting a number means adding its opposite. Division by zero is not defined. Fractions need a common denominator for addition or subtraction.\n",
+      "source": "original_authored",
+      "license": "platform-internal-use",
+      "rightsNotice": "仅本平台教学使用；未额外授予公开再许可",
+      "teacherReviewed": false
+    },
+    {
+      "id": "english-present-be.txt",
+      "subject": "english",
+      "title": "一般现在时的 be 动词",
+      "digest": "6757ae8b19223e39b19ffcd6b400d53abfa4ee0290f745984357bd84178b5682",
+      "text": "原创学习讲解，供受限学习问答检索；不包含学生资料或正式题库答案。\n主题：一般现在时的 be 动词，仅讨论 am、is、are。\nIn the present simple, use am with I; use is with he, she, and it; use are with you, we, and they. A singular noun normally takes is, and a plural noun normally takes are.\nTo make a negative sentence, put not after the be verb: I am not; he is not; she is not; it is not; you are not; we are not; they are not. Is not can be shortened to isn't, and are not can be shortened to aren't.\nTo make a yes-or-no question, put am, is or are before the subject. For example, a statement with subject she and verb is becomes a question starting with Is she. Do not add do or does to make this basic be-verb question.\n一般现在时描述当前状态、身份或一般事实。be 动词的形式要与主语搭配。否定句把 not 放在 be 后；一般疑问句把 be 放到主语前。\n这些规则不覆盖过去时、将来时、虚拟语气、完成时、被动语态或其他实义动词；不要把此处的规则推广到所有英语句型。\n",
+      "source": "original_authored",
+      "license": "platform-internal-use",
+      "rightsNotice": "仅本平台教学使用；未额外授予公开再许可",
+      "teacherReviewed": false
+    }
+  ]
+}

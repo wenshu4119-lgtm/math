@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily learning platform backup at 04:00 Asia Shanghai
+[Timer]
+OnCalendar=*-*-* 20:00:00 UTC
+Persistent=true
+Unit=learning-platform-backup.service
+[Install]
+WantedBy=timers.target

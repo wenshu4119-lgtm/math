@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "fromPackageVersion": 1,
+  "toPackageVersion": 2,
+  "previousContentFileHash": "c30d430a29547fc41b73169d59971b41f9e093cfd601b0e18ea464c207eb7941",
+  "supersededAuditHash": "ec5f8545257a8996652aa494c812fbb0863ac87b7f901ac9bc38eca4d16daf95",
+  "reason": "独立AI全文复核后的版本2：修正三处内容，并增加固定文本独立复核白名单；仍0真人审核。",
+  "productionPublished": false,
+  "humanReview": false,
+  "changes": [
+    {
+      "pointId": "study-jr-physics-speed",
+      "fromPointVersion": 1,
+      "toPointVersion": 2,
+      "reason": "修正二进制浮点干扰项显示，46.800000000000004改为46.8。",
+      "old": {
+        "questionId": "study-jr-physics-speed-retest-2",
+        "questionVersion": 1,
+        "options": [
+          "46.800000000000004",
+          "43.2",
+          "12",
+          "39.6"
+        ]
+      }
+    },
+    {
+      "pointId": "study-arts-ge-solar",
+      "fromPointVersion": 1,
+      "toPointVersion": 2,
+      "reason": "讲义已含非零直射纬度题，取消无条件使用0°，统一给定δ的条件分支。",
+      "old": {
+        "handoutSteps": [
+          "确认题目是地方时正午，并辨认直射纬度是直接给定，还是春秋分简化模型中的0°。",
+          "写出直射纬度0°。",
+          "求当地与0°之间的纬度差，即当地纬度的绝对值。",
+          "用90°减去纬度差，并检查结果在0°至90°之间。",
+          "若太阳不直射赤道，先取当地与直射点的纬度差绝对值。"
+        ]
+      }
+    },
+    {
+      "pointId": "study-jr-bio-cell",
+      "fromPointVersion": 1,
+      "toPointVersion": 2,
+      "reason": "原题仅以含染色体识别结构，线粒体环状染色体使宽泛语义有歧义；原题版本隔离，新题限定核膜与核染色体。",
+      "old": {
+        "questionId": "study-jr-bio-cell-practice-2",
+        "questionVersion": 1,
+        "prompt": "研究者在一种典型具核细胞中观察到含染色体的结构。该结构是？",
+        "rationale": "题目限定典型细胞；本题对应结构为细胞核，按材料所给功能识别，不推广至所有细胞。",
+        "invalidatedStatus": "quarantined_ambiguous_nuclear_vs_mitochondrial_chromosome"
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+原创合成数学资料；只用于技术验证，未经过真人教学审核。
+主题：等式性质与一元一次方程。
+等式两边同时加上或减去同一个数，等式仍成立。等式两边同时乘以或除以同一个非零数，等式仍成立。
+例子：x + 2 = 5。两边同时减去2，得到x = 3。检验时把3代回原式，3 + 2 = 5，因此这个例子的解是3。
+检验方法：将求得的未知数代回原方程，检查左边是否等于右边。不能只修改等式一边。
+This synthetic math note explains equality and checking a solution by substitution. For x + 2 = 5, subtract 2 from both sides; x = 3.

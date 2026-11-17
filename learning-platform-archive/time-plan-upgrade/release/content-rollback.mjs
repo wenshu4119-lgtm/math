@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import {cf} from './cf-client.mjs';
+if(process.argv[2]!=='--frontend')throw Error('Use --frontend to restore the recorded pre-content frontend. See CONTENT-RELEASE-REPORT.md for full rollback.');
+const release=JSON.parse(fs.readFileSync('release/content-release.json','utf8'));
+const path='/workers/scripts/learning-platform-production/deployments';
+const current=(await cf(path)).deployments[0].versions;
+if(current.length!==1||![release.workerVersion,release.previousWorkerVersion].includes(current[0].version_id))throw Error('A different deployment is active. Re-audit before rollback.');
+if(current[0].version_id!==release.previousWorkerVersion)await cf(path,{method:'POST',body:{strategy:'percentage',versions:[{version_id:release.previousWorkerVersion,percentage:100}]}});
+const verified=(await cf(path)).deployments[0];
+if(verified.versions[0].version_id!==release.previousWorkerVersion)throw Error('Rollback was not confirmed');
+const metadata=JSON.parse(fs.readFileSync('release/production-deployment.json','utf8'));metadata.activeVersion=release.previousWorkerVersion;metadata.contentFrontendRolledBackAt=new Date().toISOString();fs.writeFileSync('release/production-deployment.json',JSON.stringify(metadata,null,2));
+console.log({frontend:release.previousWorkerVersion,backendChanged:false,databaseChanged:false,rootRouteChanged:false});

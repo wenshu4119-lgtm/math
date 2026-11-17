@@ -1,0 +1,953 @@
+{
+  "schemaVersion": 1,
+  "title": "家长分享与在线合伙人：公开政策及平台能力核验",
+  "checkedAt": "2026-11-15",
+  "timezone": "Asia/Shanghai",
+  "scope": "全国线上初高中工具测评与任务定制服务的分享及在线合作研究；不是武汉线下辅导经营方案。保留已核公开证据，按真实交付内容判断适用性，未修改生产、旧arts或此前支付提示词。",
+  "activation": {
+    "businessEnabled": false,
+    "visitorRealDataCollection": false,
+    "realCommissionSettlement": false,
+    "wecomIntegrationEnabled": false,
+    "paymentTransferEnabled": false
+  },
+  "limitations": [
+    "这是可核验公开证据和实现边界，不是对特定经营模式出具合规结论。",
+    "未登录任何真实企业微信、微信支付或税务账户，无法验证本商户已开通权限、额度或获批场景。",
+    "本次检索不是法规穷尽证明；平台规则、产品资格及属地执行在启用时复核。"
+  ],
+  "sources": [
+    {
+      "id": "CN-ADS-2021",
+      "title": "关于做好校外培训广告管控的通知",
+      "issuer": "市场监管总局等八部门",
+      "url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/ggjgs/art/2023/art_781ca322151f4817b1c175a73107819a.html",
+      "documentNumber": "国市监广发〔2021〕70号",
+      "documentDate": "2021-11-03",
+      "publishedAt": "2021-11-09",
+      "scope": "面向中小学（含幼儿园）的学科类、非学科类校外培训广告；网络平台等线上线下传播空间",
+      "verifiedClaims": [
+        "管控不以学科类或非学科类区分，涉及网络平台及变相软文广告。",
+        "夸大效果、制造焦虑以及校园内和校园周边违规广告受到重点监管。"
+      ],
+      "implementationImplication": "“家长自愿分享”“只发微信群”“有真实经历”均不能自行推出推广广告可发布；具体分享内容、激励机制和发布场景需属地核实。",
+      "confirmationRequired": [
+        "实际服务是否构成校外培训",
+        "公开海报、个人转介、群分享、招生信息公示分别适用的当地口径"
+      ],
+      "status": "official_text_verified",
+      "applicabilityToCurrentService": "conditional_on_actual_training_service_classification; online_form_not_exempt"
+    },
+    {
+      "id": "CN-ADLAW-2021",
+      "title": "中华人民共和国广告法（2021年修正）",
+      "issuer": "全国人大常委会；市场监管总局公布",
+      "url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_5474cf75173c45d6a0379730fb4e8d97.html",
+      "documentDate": "2021-04-29",
+      "publishedAt": "2022-11-02",
+      "scope": "境内商业广告，包括通过互联网直接或间接介绍服务",
+      "articles": [
+        "2",
+        "24",
+        "25",
+        "33",
+        "38",
+        "39",
+        "43"
+      ],
+      "verifiedClaims": [
+        "教育培训广告不能承诺升学、考试通过或效果，不能利用受益者等名义或形象作推荐证明。",
+        "有投资回报预期的招商广告不能保证收益。电子信息广告涉及接收者同意或请求及退出方式。"
+      ],
+      "implementationImplication": "不生成家长成绩见证、保录宣传、躺赚或保底收益素材；标明推广关系不能替代实体广告限制。",
+      "confirmationRequired": [
+        "具体文案及传播渠道审核",
+        "合伙人名称是否被理解为投资、入股或收益承诺"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-INTERNET-ADS-2023",
+      "title": "互联网广告管理办法",
+      "issuer": "国家市场监督管理总局",
+      "url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+      "documentDate": "2023-02-25",
+      "publishedAt": "2023-03-20",
+      "effectiveAt": "2023-05-01",
+      "scope": "互联网商业广告活动",
+      "articles": [
+        "2",
+        "6",
+        "9"
+      ],
+      "verifiedClaims": [
+        "互联网广告应具备可识别性；知识介绍、体验分享等形式中推销服务并附加购买方式的情形有广告标识要求。",
+        "禁止广告的商品或服务不能通过互联网发布广告。"
+      ],
+      "implementationImplication": "只有在具体内容允许发布的前提下，才处理广告识别、商业关系披露等展示要求；不能用“经验分享”掩饰销售推广。",
+      "confirmationRequired": [
+        "页面是否广告以及适当广告标识",
+        "分享卡片是否包含购买链接或联系方式"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-TUTORING-PENALTY-2023",
+      "title": "校外培训行政处罚暂行办法",
+      "issuer": "教育部",
+      "url": "https://www.moe.gov.cn/jyb_xxgk/xxgk/zhengce/guizhang/202309/t20230912_1079802.html",
+      "documentNumber": "教育部令第53号",
+      "documentDate": "2023-08-23",
+      "publishedAt": "2023-09-12",
+      "effectiveAt": "2023-10-15",
+      "scope": "面向3周岁以上学龄前儿童、中小学生违法开展校外培训",
+      "articles": [
+        "2",
+        "17",
+        "18",
+        "19",
+        "22"
+      ],
+      "verifiedClaims": [
+        "未经审批以及以咨询、文化传播等名义变相开展学科培训，有相应监管和处罚规定。",
+        "网络平台明知或应知违法培训仍提供服务、培训机构收费或广告违规，存在相应责任。"
+      ],
+      "implementationImplication": "模块名字、在线形式或将收费包装为会员费不自动决定资质类别；真实招生与交易须先核主体和服务。",
+      "confirmationRequired": [
+        "培训或工具服务属性",
+        "机构许可、线上线下经营边界",
+        "平台与实际培训提供者责任"
+      ],
+      "status": "official_text_verified",
+      "applicabilityToCurrentService": "conditional_on_actual_training_service_classification; online_form_not_exempt"
+    },
+    {
+      "id": "HB-ARTS-STANDARD-2026",
+      "title": "湖北省文化艺术类校外培训机构设置标准（暂行）及审批流程（暂行）",
+      "issuer": "湖北省文化和旅游厅等四部门",
+      "url": "https://wlt.hubei.gov.cn/zfxxgk/zc/gfxwj/202602/t20260211_5875345.shtml",
+      "documentNumber": "鄂文旅发〔2026〕1号",
+      "documentDate": "2026-01-05",
+      "publishedAt": "2026-01-23",
+      "effectiveAt": "自公布之日起",
+      "officialValidity": "有效",
+      "scope": "湖北省面向3至6岁学龄前儿童和中小学生的文化艺术非学科培训",
+      "articles": [
+        "2",
+        "5",
+        "20",
+        "23",
+        "24",
+        "25",
+        "26"
+      ],
+      "verifiedClaims": [
+        "该文明确废除原2022试行标准和流程。",
+        "核准、法人登记、收费专户及预收费监管有具体要求；一次性预收受3个月、60课时、5000元限制。",
+        "文化艺术机构不能借艺术培训之名开设学科类课程。"
+      ],
+      "implementationImplication": "艺考专业课与艺考文化课不可仅凭受众混为同类；不得套用旧试行标准替代2026文件。",
+      "confirmationRequired": [
+        "实际培训项目类别及属地区县审批要求",
+        "非营利或营利主体、账户监管方式",
+        "收费上限适用范围及最新实施细则"
+      ],
+      "supersedes": "鄂文旅发〔2022〕33号相关试行标准和流程",
+      "status": "official_text_verified",
+      "applicabilityToCurrentService": "local_background_not_assumed_directly_applicable"
+    },
+    {
+      "id": "WH-OFFLINE-FEE-2026",
+      "title": "关于义务教育阶段线下学科类校外培训收费有关事项的通知",
+      "issuer": "武汉市发改委、教育局、市场监管局",
+      "url": "https://fgw.wuhan.gov.cn/zfxxgk/zfxxgk_4/sysf/202601/P020260107356522785817.pdf",
+      "landingUrl": "https://fgw.wuhan.gov.cn/zfxxgk/zfxxgk_4/sysf/202601/t20260107_2707664.html",
+      "documentNumber": "武发改价费〔2025〕274号",
+      "documentDate": "2025-09-22",
+      "publishedAt": "2026-01-07",
+      "effectiveAt": "2026年春季开学起",
+      "scope": "武汉义务教育阶段线下学科类收费，普通高中线下学科类参照执行；不自动适用于线上价格",
+      "verifiedClaims": [
+        "按班型设政府指导基准价和上浮限制，要求公示、示范合同和不得另收培训费外费用。",
+        "单科预收费不得超过3个月且不超过60课时；退费按开课情况处理，手续不超过20个工作日。"
+      ],
+      "implementationImplication": "仅保留为武汉线下学科培训收费背景；本次全国线上工具测评和任务定制不得引用该文件设定线上售价、预收费上限或佣金政策。若实际交付被认定为线上培训，再核经营主体及相关主管机关适用的收费、专户和退款规则。",
+      "confirmationRequired": [
+        "真实线上交付是否属于培训",
+        "如属于线上培训，其经营主体及相关主管机关适用的收费文件",
+        "全国线上产品价格、优惠及推广费的合同与财务口径"
+      ],
+      "status": "official_pdf_verified",
+      "applicabilityToCurrentService": "background_only_not_online_pricing_basis"
+    },
+    {
+      "id": "CN-PREPAY-2021",
+      "title": "教育部等六部门关于加强校外培训机构预收费监管工作的通知",
+      "issuer": "教育部等六部门",
+      "url": "https://www.moe.gov.cn/srcsite/A29/202110/t20211028_575840.html",
+      "alternateOfficialUrl": "https://jyt.gxzf.gov.cn/zfxxgk/fdzdgknr/tzgg_58179/P020211111575262671810.pdf",
+      "documentNumber": "教监管函〔2021〕2号",
+      "documentDate": "2021-10-21",
+      "publishedAt": "2021-10-29",
+      "scope": "面向中小学生（含幼儿园）的线上、线下培训预收费",
+      "verifiedClaims": [
+        "培训预收费须纳入本机构专用账户和属地监管，不能由个人或非本机构账户代收。",
+        "学科、非学科预收费均在监管范围；普通高中学科收费参照政府指导管理。"
+      ],
+      "implementationImplication": "分享人只做经审核的渠道协作，不代收学费，不直接从受监管预付款中自动分佣。",
+      "confirmationRequired": [
+        "专户收款及退款流程",
+        "佣金资金来源与财务处理",
+        "当地银行托管或风险保证金要求"
+      ],
+      "status": "official_search_text_and_government_pdf_verified",
+      "applicabilityToCurrentService": "conditional_on_actual_training_service_classification; online_form_not_exempt"
+    },
+    {
+      "id": "WH-TRAINING-NOTICE-2026",
+      "title": "远离违规培训，共度充实假期——关于2026年寒假理性参加校外培训告家长书",
+      "issuer": "武汉市教育局",
+      "url": "https://jyj.wuhan.gov.cn/zwdt/tsgg/202601/t20260123_2717331.shtml",
+      "documentDate": null,
+      "publishedAt": "2026-01-23",
+      "scope": "武汉2026年寒假培训风险提示；不是全部经营活动的独立许可依据",
+      "verifiedClaims": [
+        "提示核验机构资质和规范收退费，列示无证、变相学科培训等风险。"
+      ],
+      "implementationImplication": "当地仍在持续执行培训监管；具体高中、时间安排等不能只凭宣传页判断许可。",
+      "confirmationRequired": [
+        "经营所在区教育部门对当前服务及推广形式的确认"
+      ],
+      "status": "official_text_verified",
+      "applicabilityToCurrentService": "local_background_not_assumed_directly_applicable"
+    },
+    {
+      "id": "CN-ANTI-MLM-2005",
+      "title": "禁止传销条例",
+      "issuer": "国务院；国家行政法规库",
+      "url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=148&Query=",
+      "documentNumber": "国务院令第444号",
+      "documentDate": "2005-08-23",
+      "publishedAt": "2005-08-23",
+      "effectiveAt": "2005-11-01",
+      "scope": "境内传销行为及为其提供互联网等条件",
+      "articles": [
+        "2",
+        "7",
+        "9",
+        "26"
+      ],
+      "verifiedClaims": [
+        "人数计酬、交费取得加入或发展资格、形成上下线并以下线销售业绩向上线计酬等是法定审查重点。",
+        "条例第7条没有“三层以下必合法”的豁免。"
+      ],
+      "implementationImplication": "仅设计一位直接推荐人、真实交易后审核结算，无入门费、招募奖励、团队层级或间接下线佣金；这是产品限制，不是整体合法性结论。",
+      "confirmationRequired": [
+        "完整激励规则、实际资金流和参与者关系",
+        "优惠是否成为付费入门或发展资格"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-COMPETITION-2025",
+      "title": "中华人民共和国反不正当竞争法（2025年修订）",
+      "issuer": "全国人大常委会；市场监管总局公布",
+      "url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_3737890d856a4e44a8ea07c50c90c116.html",
+      "documentDate": "2025-06-27",
+      "publishedAt": "2025-10-15",
+      "effectiveAt": "2025-10-15",
+      "scope": "生产经营活动中的不正当竞争",
+      "articles": [
+        "8",
+        "9"
+      ],
+      "verifiedClaims": [
+        "明示折扣或中间人佣金须如实入账；向交易相关工作人员、受托办事人或利用职权影响交易者输送利益有商业贿赂限制。",
+        "虚假交易、虚假评价及误导性商业宣传受到规制。"
+      ],
+      "implementationImplication": "直接推广奖励也需核实际中介角色、利益冲突、合同和入账，不能一律认定可付；拒绝假客户、刷单和伪造评价。",
+      "confirmationRequired": [
+        "合作人真实身份与利益冲突",
+        "合法中间人或其他合同关系",
+        "退款冲销、发票或其他凭证、会计记账"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-TEACHER-REFERRAL-2015",
+      "title": "严禁中小学校和在职中小学教师有偿补课的规定",
+      "issuer": "教育部",
+      "url": "https://www.moe.gov.cn/srcsite/A10/s7002/201507/t20150706_192618.html",
+      "documentDate": "2015-06-29",
+      "publishedAt": "2015-07-06",
+      "scope": "中小学校和在职中小学教师",
+      "verifiedClaims": [
+        "禁止在职中小学教师为培训机构和他人介绍生源、提供相关信息。"
+      ],
+      "implementationImplication": "不得将学校老师、班主任或其掌握的学生名单作为有偿转介资源；招募端应核实排除该身份。",
+      "confirmationRequired": [
+        "协作者是否在职中小学教师或存在学校职权利益冲突"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-PIPL-2021",
+      "title": "中华人民共和国个人信息保护法",
+      "issuer": "全国人大常委会；中央网信办公布",
+      "url": "https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm",
+      "documentDate": "2021-08-20",
+      "publishedAt": "2021-08-20",
+      "effectiveAt": "2021-11-01",
+      "scope": "境内个人信息处理及法律规定的境外处理活动",
+      "articles": [
+        "4",
+        "6",
+        "13",
+        "15",
+        "17",
+        "19",
+        "21",
+        "23",
+        "25",
+        "28",
+        "29",
+        "30",
+        "31",
+        "38",
+        "55"
+      ],
+      "verifiedClaims": [
+        "须有合法处理基础，限于明确目的的最少信息，明示用途与保存期限，支持依法撤回和删除。",
+        "不满14周岁个人信息属敏感信息；相关处理有监护人同意和专门规则要求。",
+        "委托处理、提供给其他处理者、公开及出境分别有额外义务，不能将一次同意通用于所有用途。"
+      ],
+      "implementationImplication": "匿名示例不收姓名电话学校成绩；随机渠道码不等于匿名化。合作人只能看自有脱敏转介状态，不能看儿童身份、成绩和联系方式。",
+      "confirmationRequired": [
+        "真实数据最小字段及法律基础",
+        "微信/CRM/支付方属于委托处理还是独立接收方",
+        "云服务实际存储处理地区与出境要求",
+        "监护与学生授权边界"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-IIT-2018",
+      "title": "中华人民共和国个人所得税法（2018年修正）",
+      "issuer": "全国人大常委会；国家税务总局公布",
+      "url": "https://www.chinatax.gov.cn/n810219/n810744/n3752930/n3752974/c3970366/content.html",
+      "documentDate": "2018-08-31",
+      "publishedAt": null,
+      "effectiveAt": "2019-01-01",
+      "scope": "个人所得纳税和支付方扣缴",
+      "articles": [
+        "9",
+        "10"
+      ],
+      "verifiedClaims": [
+        "支付所得方的扣缴义务和纳税人识别号规则应依实际业务履行。"
+      ],
+      "implementationImplication": "不得承诺免税佣金；只有准备依法实际结算时，按税务流程收集必要实名资料，访客或分享体验不先收身份证。",
+      "confirmationRequired": [
+        "谁支付所得、谁扣缴申报",
+        "收款人类型、纳税身份与必要实名字段",
+        "税前税后金额和凭证"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-IIT-REGULATION-2018",
+      "title": "中华人民共和国个人所得税法实施条例",
+      "issuer": "国务院；国家税务总局公布",
+      "url": "https://www.chinatax.gov.cn/chinatax/n810219/n810744/n3752930/n3752974/c3963364/content.html",
+      "documentDate": "2018-12-18",
+      "publishedAt": "2018-12-18",
+      "effectiveAt": "2019-01-01",
+      "scope": "个人所得具体类别",
+      "articles": [
+        "6"
+      ],
+      "verifiedClaims": [
+        "介绍、经纪、广告等服务列入劳务报酬相关范围；受雇及经营活动另有类别。"
+      ],
+      "implementationImplication": "个人推广所得不能只因界面写“奖励”就按免税赠与处理，也不能不看合同一律套固定税率。",
+      "confirmationRequired": [
+        "实际劳动/劳务/经营关系",
+        "主管税务机关对所得类别、申报和发票的确认"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "CN-PLATFORM-TAX-2025",
+      "title": "国家税务总局关于互联网平台企业报送涉税信息有关事项的公告",
+      "issuer": "国家税务总局",
+      "url": "https://fgk.chinatax.gov.cn/zcfgk/c100012/c5241477/content.html",
+      "documentNumber": "国家税务总局公告2025年第15号",
+      "documentDate": "2025-06-26",
+      "publishedAt": "2025-06-26",
+      "officialValidity": "全文有效",
+      "scope": "符合《互联网平台企业涉税信息报送规定》的平台企业及其平台内经营者、从业人员",
+      "verifiedClaims": [
+        "教育、培训、经纪、广告等服务平台属于列举范围；需结合是否为平台内经营者、从业人员提供营利性服务判断。",
+        "身份及收入等报送字段和周期由公告规定。"
+      ],
+      "implementationImplication": "自营学习平台与允许协作者开展网络经营的平台不能凭名称等同；确认适用后再建设身份及收入报送，不把所有家长访客当从业者采集。",
+      "confirmationRequired": [
+        "本系统是否属于法定报送平台、报送主体是谁",
+        "协作者是否平台内从业人员",
+        "报送与已有扣缴信息的衔接"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "wecom-contact-way",
+      "title": "客户联系「联系我」管理",
+      "url": "https://developer.work.weixin.qq.com/document/path/92228",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2026-10-08",
+      "scope": "企业自建、代开发、第三方应用的客户联系配置接口",
+      "verified": true,
+      "capabilities": [
+        "创建面向已配置客户联系功能成员的二维码或小程序联系按钮",
+        "联系我state为企业自定义渠道标识，长度不超过30字符，可随客户详情返回",
+        "API返回config_id，应用应保存以便编辑、删除"
+      ],
+      "prerequisites": [
+        "自建应用须配置为客户联系可调用接口应用；代开发、第三方需相应联系我权限",
+        "成员须已激活、实名认证并配置客户联系，且在可见范围内",
+        "小程序联系按钮须接入官方插件"
+      ],
+      "limits": [
+        "不是任意H5网页的个人微信自动加好友接口",
+        "不由state识别家长身份、学生授权或付款事实",
+        "临时会话模式仅支持医疗行业，不用于本教育模块"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wecom-acquisition-link",
+      "title": "获客链接管理",
+      "url": "https://developer.work.weixin.qq.com/document/path/97297",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2025-11-17",
+      "scope": "获客助手链接创建、查询、编辑、删除",
+      "verified": true,
+      "capabilities": [
+        "管理当前应用创建的获客链接及关联接待成员",
+        "创建后返回link_id与获客URL，可按官方格式附customer_channel",
+        "文档提供将获客链接转换为微信scheme的方式"
+      ],
+      "prerequisites": [
+        "自建应用须为可调用应用；代开发、第三方需获客助手权限",
+        "关联成员须在应用可见或可建联范围",
+        "相关功能与经营类目、企业后台实际开通能力一致"
+      ],
+      "limits": [
+        "客户与成员关系绑定等功能仅部分经营类目支持，应在高级功能-获客助手中确认",
+        "链接有效不代表运营奖励活动获微信审核认可"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wecom-acquisition-customer",
+      "title": "获取由获客链接添加的客户信息",
+      "url": "https://developer.work.weixin.qq.com/document/path/97298",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2026-02-06",
+      "scope": "指定应用所建获客链接带来的客户列表",
+      "verified": true,
+      "capabilities": [
+        "返回external_userid、跟进人userid、chat_status及state",
+        "customer_channel不超过64字节，超长会截断，并可作为state返回",
+        "chat_status区分未发消息、已发送消息、状态未知"
+      ],
+      "limits": [
+        "state仅为渠道参数，不是认证令牌或支付证明",
+        "没有承诺识别每个匿名网页访问者",
+        "不得用点击或已聊天状态直接确认成交、应付奖励或真实学生身份"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wecom-customer-detail",
+      "title": "获取客户详情",
+      "url": "https://developer.work.weixin.qq.com/document/path/92114",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2025-12-19",
+      "scope": "按external_userid获取应用权限范围内客户及跟进关系",
+      "verified": true,
+      "capabilities": [
+        "按权限返回客户昵称、类型及跟进关系等字段",
+        "add_way是系统来源枚举，state是企业自定义渠道，二者不同",
+        "自建应用在客户为微信用户、企业绑定同主体微信开发者ID等条件下可取得unionid"
+      ],
+      "limits": [
+        "第三方和代开发应用不可取得该接口的unionid和remark_mobiles",
+        "remark_mobiles是成员备注手机号，并非自动获得的微信实名手机号",
+        "营销获客应用仅可读其带来的客户且跟进人须在允许范围",
+        "微信昵称/外部联系人ID不证明法定姓名、监护关系或学生授权"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wecom-customer-events",
+      "title": "客户联系回调通知：事件格式",
+      "url": "https://developer.work.weixin.qq.com/document/path/92130",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2024-06-03",
+      "scope": "客户联系新增、删除等事件",
+      "verified": true,
+      "capabilities": [
+        "新增客户事件可返回UserID、ExternalUserID、State，关联联系我或获客链接渠道",
+        "需为应用配置客户联系权限及相应回调开关"
+      ],
+      "limits": [
+        "回调代表该事件，不代表成交或支付",
+        "实现前须配置并验证官方回调机制、去重及事件顺序，不能信任浏览器自行提交的客户ID"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wecom-acquisition-events",
+      "title": "获客助手事件通知",
+      "url": "https://developer.work.weixin.qq.com/document/path/97299",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2026-07-22",
+      "scope": "获客链接访问、好友请求、消息及额度事件",
+      "verified": true,
+      "capabilities": [
+        "open_profile和friend_request载荷包含LinkId及State，文档未提供客户身份字段",
+        "首次收到通过获客链接添加客户的消息时可收到ExternalUserID及LinkId",
+        "支持额度耗尽、链接异常或删除等状态事件"
+      ],
+      "limits": [
+        "打开链接回调仅部分经营类目支持，须在企业后台确认",
+        "好友请求不等于已成功添加或成交",
+        "不能把无客户ID的访问回调拼接成已确认客户身份",
+        "多次收消息事件存在版本变化及ChatKey有效期，启用前另核当时文档"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wecom-acquisition-quota",
+      "title": "获客助手额度管理与使用统计",
+      "url": "https://developer.work.weixin.qq.com/document/path/97375",
+      "publisher": "企业微信开发者中心",
+      "publishedAt": null,
+      "updatedAt": "2023-08-08",
+      "scope": "获客助手剩余额度、链接使用统计",
+      "verified": true,
+      "capabilities": [
+        "查询剩余使用量、即将过期额度和指定链接访问统计",
+        "统计返回点击客户数、新增客户数"
+      ],
+      "limits": [
+        "存在购买和到期额度，具体价格及现有套餐需在企业后台确认",
+        "历史累计使用量不是当前客户人数",
+        "接口统计粒度为日，仅能查最近180天，单次跨度不超过30天"
+      ],
+      "issuer": "企业微信开发者中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wechat-external-links",
+      "title": "微信外部链接内容管理规范",
+      "url": "https://weixin.qq.com/agreement/weixin_external_links_content_management_specification",
+      "publisher": "腾讯公司微信团队",
+      "publishedAt": null,
+      "updatedAt": "2025-10-23",
+      "effectiveAt": "2025-10-23",
+      "scope": "在微信内传播的非微信公众平台域名外链；部分近似内容参照管理",
+      "verified": true,
+      "constraints": [
+        "2.1涵盖强制分享后获取服务以及以金钱、奖品等利益诱导分享外链",
+        "2.7禁止非法分销及未满足许可或监管要求的经营内容",
+        "2.11约束未明确告知并取得同意的数据收集使用，及擅自获取好友关系链等信息",
+        "平台可限制链接、域名、账号传播或访问"
+      ],
+      "productImplications": [
+        "公开入口不设分享解锁、分享领钱、转发截图领奖、集赞或邀请助力任务",
+        "普通自愿分享与经营者推广合作须分开设计，不能凭一级佣金自称符合微信规则",
+        "渠道参数采用不含个人资料的内部随机代号，不公开学生/家长数据或关系链",
+        "具体推广机制、页面及经营类目应由运营主体向平台确认后再启用"
+      ],
+      "issuer": "腾讯公司微信团队",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wechatpay-transfer-admission",
+      "title": "开发接入准备：商家转账",
+      "url": "https://pay.weixin.qq.com/doc/v3/merchant/4013740645",
+      "publisher": "微信支付商户文档中心",
+      "publishedAt": null,
+      "updatedAt": "2026-06-01",
+      "scope": "新版商家转账开通条件",
+      "verified": true,
+      "prerequisites": [
+        "商户号信用及风险记录符合要求",
+        "单独申请商家转账产品权限",
+        "开通或提额时按后台要求提交真实转账场景证明"
+      ],
+      "limits": [
+        "当前文档暂不支持小微商户",
+        "本研究未核验本项目商户号、资质、权限、额度或场景获批状态"
+      ],
+      "issuer": "微信支付商户文档中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wechatpay-transfer-product",
+      "title": "产品介绍：商家转账",
+      "url": "https://pay.weixin.qq.com/doc/v3/merchant/4012711988",
+      "publisher": "微信支付商户文档中心",
+      "publishedAt": null,
+      "updatedAt": "2026-08-07",
+      "scope": "2025-01-15上线的新版商家转账",
+      "verified": true,
+      "capabilities": [
+        "获准商户可向用户零钱转账",
+        "有用户确认收款和用户授权免确认两种模式；免确认模式仍需用户事先授权",
+        "按实际场景报备资金背景，佣金报酬可用于向劳务提供方支付报酬"
+      ],
+      "limits": [
+        "具备接口不代表本教育推广业务自动获准",
+        "需商户自行完成资金准备、应用绑定、安全配置和用户身份对应",
+        "不可将企业微信external_userid直接当作微信支付appid下的openid",
+        "真实姓名校验规则有金额条件，应按当前模式与商户要求执行，不提前向匿名访客采集实名信息"
+      ],
+      "issuer": "微信支付商户文档中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wechatpay-transfer-faq",
+      "title": "常见问题：商家转账",
+      "url": "https://pay.weixin.qq.com/doc/v3/merchant/4013778940",
+      "publisher": "微信支付商户文档中心",
+      "publishedAt": null,
+      "updatedAt": "2026-08-05",
+      "scope": "新版商家转账调用与收款限制",
+      "verified": true,
+      "constraints": [
+        "新商户只能接入新版商家转账，不能新接入旧商家转账到零钱",
+        "收款微信需实名、openid正确且账号无异常",
+        "请求被受理不等于转账成功，应查单确认终态",
+        "用户确认模式中，超过24小时未确认会自动关单退回，实际完成时间可能更晚",
+        "微信不主动推送确认消息，商户需拉起官方确认页"
+      ],
+      "limits": [
+        "本模块不能默认展示奖励已到账或承诺微信零钱发佣",
+        "付款方式、确认模式、开通场景、税务处理与实名收款流程仍需主体确认"
+      ],
+      "issuer": "微信支付商户文档中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "wechatpay-commission-reporting",
+      "title": "佣金报酬：商家转账",
+      "url": "https://pay.weixin.qq.com/doc/v3/merchant/4013774590",
+      "publisher": "微信支付商户文档中心",
+      "publishedAt": null,
+      "updatedAt": "2025-07-15",
+      "scope": "已获批佣金报酬场景的报备参数",
+      "verified": true,
+      "constraints": [
+        "发起时需传与获批业务相符的场景参数及报备背景",
+        "佣金报酬场景需报告岗位类型与报酬说明"
+      ],
+      "limits": [
+        "存在此场景不等于推广奖励、诱导分享活动或税务处理获得批准",
+        "不得把场景ID、金额、收款人或支付状态交由匿名前端决定"
+      ],
+      "issuer": "微信支付商户文档中心",
+      "status": "official_https_text_verified"
+    },
+    {
+      "id": "CN-TUTORING-CLASSIFICATION-2021",
+      "title": "教育部办公厅关于印发《义务教育阶段校外培训项目分类鉴别指南》的通知",
+      "issuer": "教育部办公厅",
+      "url": "https://www.moe.gov.cn/srcsite/A29/202111/t20211112_579358.html",
+      "documentNumber": "教监管厅函〔2021〕16号",
+      "documentDate": "2021-11-08",
+      "publishedAt": "2021-11-12",
+      "scope": "校外培训机构面向义务教育阶段学生实施校外培训；普通高中须另核适用依据",
+      "verifiedClaims": [
+        "分类综合考量培训目的、内容、方式和结果评价，不能仅依据产品名称。",
+        "所列培训方式包含教师、虚拟者或人工智能讲授示范及互动；疑难项目由主管部门组织鉴别。"
+      ],
+      "implementationImplication": "初中工具测评、任务定制应先核实际功能交付；若包含学科讲解、互动和训练，不能仅凭线上或AI工具名称排除培训属性。不得将本指南直接说成高中业务的一刀切分类结论。",
+      "confirmationRequired": [
+        "分别核初中与高中服务的实际交付和适用规则",
+        "必要时向经营主体及相关教育主管部门提交功能、交付、收费和交互流程确认"
+      ],
+      "status": "official_text_verified"
+    },
+    {
+      "id": "wecom-kf-link",
+      "title": "获取客服账号链接",
+      "publisher": "企业微信开发者中心",
+      "url": "https://developer.work.weixin.qq.com/document/path/94665",
+      "publishedAt": null,
+      "updatedAt": "2026-10-14",
+      "scope": "有微信客服权限的应用取得指定客服账号咨询链接",
+      "verified": true,
+      "capabilities": [
+        "官方返回示例使用HTTPS work.weixin.qq.com/kf/路径，可嵌入H5供用户主动咨询",
+        "scene非空时可按文档附加经URL编码的scene_param，长度不超过128字节"
+      ],
+      "prerequisites": [
+        "自建应用配置为微信客服可调用接口应用；第三方或代开发需相应获取基础信息权限",
+        "微信客服组件应用仅能获取企业授权接入客服账号链接"
+      ],
+      "limits": [
+        "官方明确返回链接不能修改或把参数复制到其他链接；额外scene_param遵守文档前提",
+        "客服会话与企业微信客户联系是不同能力，不能把打开客服链接算作成功添加外部联系人",
+        "本次最新文档样例为/kf/，未将/kfid/或任意work.weixin.qq.com路径列为已核允许范围"
+      ],
+      "status": "official_text_verified_via_direct_https_get"
+    }
+  ],
+  "proposedBoundaries": [
+    {
+      "id": "training-classification",
+      "type": "implementation_inference",
+      "sourceIds": [
+        "HB-ARTS-STANDARD-2026",
+        "WH-OFFLINE-FEE-2026",
+        "CN-TUTORING-PENALTY-2023"
+      ],
+      "rule": "以课程内容、对象、交付和收费实质区分类别；艺考文化课不能因学生为艺考生而直接按艺术非学科业务处理。"
+    },
+    {
+      "id": "one-level-not-safe-harbor",
+      "type": "implementation_inference",
+      "sourceIds": [
+        "CN-ANTI-MLM-2005",
+        "CN-COMPETITION-2025",
+        "CN-ADS-2021"
+      ],
+      "rule": "无入门费、无层级、无招募奖励、仅直接有效交易的规则可减少特定风险，不能替代广告、培训、税务和平台核验。"
+    },
+    {
+      "id": "no-minor-referral-details",
+      "type": "implementation_inference",
+      "sourceIds": [
+        "CN-PIPL-2021"
+      ],
+      "rule": "转介人权限与家长学习摘要权限分开；分享公开说明，不共享学生私有成绩、答案或授权PDF；合作方只获必要脱敏结算状态。"
+    },
+    {
+      "id": "money-not-clicks",
+      "type": "implementation_inference",
+      "sourceIds": [
+        "CN-PREPAY-2021",
+        "CN-COMPETITION-2025",
+        "CN-IIT-2018"
+      ],
+      "rule": "点击、渠道state、加好友、咨询、订单、已付款、退款、服务履行和最终应结算分别记录，任何单一微信回调不能自动证明可发佣。"
+    },
+    {
+      "id": "closed-by-default",
+      "type": "task_constraint",
+      "sourceIds": [],
+      "rule": "真实获客、实名采集、结算及商家转账默认关闭；仅在主体/资质、文案渠道、客户授权、收退费、财税、商户能力逐项确认后启用对应能力。"
+    }
+  ],
+  "requiredConfirmations": [
+    {
+      "owner": "经营主体及属地区县教育/市场监管部门",
+      "items": [
+        "主体证照与实际服务类别",
+        "高中学科/非学科/学习工具、线上线下边界",
+        "家长分享卡、推广页、私聊、群聊及激励是否允许",
+        "公示信息与商业广告区别"
+      ]
+    },
+    {
+      "owner": "教育/文旅/发改及托管银行（按实际类别）",
+      "items": [
+        "价格、预收费专户和合同",
+        "合作佣金资金来源、结算时间与退款冲销",
+        "线上学科收费适用文件，不套武汉线下价格"
+      ]
+    },
+    {
+      "owner": "企业微信管理员",
+      "items": [
+        "企业认证、客户联系权限、可调用应用和可见成员范围",
+        "获客助手开通情况及实际额度/计费",
+        "回调加解密、客户数据字段权限和客户同意"
+      ]
+    },
+    {
+      "owner": "微信支付商户及支付服务方",
+      "items": [
+        "商户主体和产品权限",
+        "真实转账业务场景获批",
+        "用户确认或授权模式",
+        "收款身份、可用余额、限额和税务义务"
+      ]
+    },
+    {
+      "owner": "财税负责人及主管税务机关",
+      "items": [
+        "协作者合同、实际所得类别、扣缴义务",
+        "结算实名必要性和信息保管",
+        "平台涉税报送适用性、发票/凭证要求"
+      ]
+    },
+    {
+      "owner": "隐私与安全负责人",
+      "items": [
+        "不含儿童真实资料的试用设计",
+        "同意与撤回、主体范围、保存删除",
+        "CRM/支付委托或独立提供关系",
+        "真实云地区及跨境处理情况"
+      ]
+    }
+  ],
+  "supersededEvidence": [
+    {
+      "url": "https://wlt.hubei.gov.cn/norms/202309/t20230906_4826761.shtml",
+      "title": "旧湖北文化艺术类培训试行标准",
+      "reason": "2026暂行标准明确废除原试行版；该旧规范库页面仍可访问，且页面元数据日期与正文落款不一致，不作为现行依据。"
+    }
+  ],
+  "platformVerification": "已先浏览检索；web工具对部分腾讯原站不可打开，随后使用本机HTTPS GET直接读取下列官方原站，HTTP 200并核对标题、更新时间与正文。没有登录任何企业或商户后台，没有测试真实客户、支付或回调。",
+  "platformBoundary": {
+    "canBuildBeforeActivation": [
+      "公开可访问、无需分享解锁的介绍页",
+      "不带身份资料的来源代号与模拟归因演示",
+      "只在管理端维护合作邀请、审核、合同、结算草稿状态",
+      "将点击、建联、首次沟通、交易、退款、结算、付款终态区分记录"
+    ],
+    "defaultDisabled": [
+      "实际企业微信链接创建与客户数据同步",
+      "真实客户绑定及外部联系人身份转换",
+      "奖励规则生效、佣金可提现和任何自动支付"
+    ],
+    "merchantOrOperatorMustConfirm": [
+      "教育业务资质、经营类目和推广内容的当地要求",
+      "企业微信主体认证、实名成员、客户联系及获客助手权限、费用",
+      "自建/代开发/第三方接入模式以及字段权限",
+      "微信外链运营机制是否可用于实际推广活动",
+      "支付商户主体、场景申请、appid绑定、收款授权、额度和资金来源",
+      "真实服务与成交证据、退款扣回规则、合作合同和纳税义务"
+    ],
+    "explicitNonClaims": [
+      "state不认证身份，不建立监护授权，不证明成交",
+      "点击不等于成功添加，成功添加不等于咨询成交",
+      "可以计算结算草稿不等于可以自动付款",
+      "一级推广或直接奖励本身不是合规结论",
+      "本研究不构成账户已获批、政策承诺或法律意见"
+    ]
+  },
+  "platformSummary": [
+    "联系我state≤30字符；获客链接customer_channel≤64字节，超长会截断。归因码不是客户身份或交易凭证。",
+    "普通H5访问、链接打开、发起好友申请、成功建联、首条消息是不同事件；不能假定每次打开都获得ExternalUserID。",
+    "企业微信external_userid、微信unionid、支付appid下的openid和本平台家长/学生账号是不同命名空间，需独立授权及可核验绑定。",
+    "微信外链对利益诱导分享有明确约束。单层推荐、到账后返奖等标签不构成平台许可。",
+    "商家转账存在受审批的佣金报酬场景，但不证明当前业务可用；商户权限、收款确认/授权、实名、资金及财税需分别核验。"
+  ],
+  "sourceCount": 29,
+  "serviceApplicability": {
+    "userClarificationAt": "2026-11-15",
+    "serviceDescription": "面向全国初高中学生的线上工具测评和任务定制",
+    "territory": "中国境内全国线上服务；不假定只在湖北或武汉经营",
+    "classificationStatus": "unresolved_requires_substance_review",
+    "assessmentBasis": [
+      "实际交付的是工具功能、测评报告、任务推荐，还是持续学科讲解、示范、答疑、批改及训练",
+      "是否包括真人或AI授课互动、固定课表、督学或教师服务承诺",
+      "服务对象学段、训练内容、评价目的、收费对象和收费对应的实际交付",
+      "经营主体所在地、线上服务资质及跨地区服务的主管机关管辖口径"
+    ],
+    "nonConclusions": [
+      "使用工具测评或任务定制名称并不自动构成培训，也不自动排除培训监管",
+      "线上形式不自动豁免广告、未成年人个人信息、消费者权益、财税和可能适用的培训规则",
+      "义务教育分类鉴别指南直接适用义务教育培训，不能不加区分套为普通高中全部经营规则",
+      "武汉线下价格与湖北文化艺术机构设置材料仅为属地及分类边界背景，不直接作为全国线上工具定价、收费上限或经营许可依据"
+    ],
+    "sourceIds": [
+      "CN-TUTORING-CLASSIFICATION-2021",
+      "CN-TUTORING-PENALTY-2023",
+      "CN-ADS-2021",
+      "CN-PREPAY-2021"
+    ]
+  },
+  "contactUrlDraftAllowlist": {
+    "status": "research_recommendation_not_account_approval",
+    "checkedAt": "2026-11-15",
+    "scope": "只用于经营主体配置草稿的URL结构限制；不授权外部调用、发布、客户同步或付款",
+    "navigation": [
+      {
+        "scheme": "https",
+        "hostname": "work.weixin.qq.com",
+        "pathFamily": "/ca/{one_nonempty_id_segment}",
+        "allowedQueryKeys": [
+          "customer_channel"
+        ],
+        "sourceIds": [
+          "wecom-acquisition-link",
+          "wecom-acquisition-customer"
+        ],
+        "sourceUrl": "https://developer.work.weixin.qq.com/document/path/97297",
+        "evidence": "官方获客详情示例link.url为https://work.weixin.qq.com/ca/xxxxxx；customer_channel按97298核验。",
+        "requiredEvidence": "真实启用前须核对该企业当前应用官方生成的完整URL及链接归属"
+      },
+      {
+        "scheme": "https",
+        "hostname": "work.weixin.qq.com",
+        "pathFamily": "/kf/{one_nonempty_id_segment}",
+        "allowedQueryKeys": [
+          "enc_scene",
+          "scene_param"
+        ],
+        "sourceIds": [
+          "wecom-kf-link"
+        ],
+        "sourceUrl": "https://developer.work.weixin.qq.com/document/path/94665",
+        "evidence": "2026-10-14更新原文返回url示例为https://work.weixin.qq.com/kf/kfcbf8f8d07ac7215f?enc_scene=ENCGFSDF567DF。",
+        "requiredEvidence": "只接收本主体官方生成链接，保留其参数完整性；scene_param仅在满足文档前提时附加，不复制加密参数到其他链接"
+      }
+    ],
+    "qrImageOnly": [
+      {
+        "scheme": "https",
+        "hostname": "p.qpic.cn",
+        "pathFamily": "/wwhead/{opaque_path}/0",
+        "sourceIds": [
+          "wecom-contact-way"
+        ],
+        "sourceUrl": "https://developer.work.weixin.qq.com/document/path/92228",
+        "evidence": "qr_code字段示例为该图片地址；此证据不支持把该host作为咨询跳转目标。",
+        "requiredEvidence": "实际图片URL需来自本企业官方API返回；不得利用该host允许任意用户上传内容"
+      }
+    ],
+    "notVerifiedOrNotAllowed": [
+      "*.qq.com通配",
+      "*.weixin.qq.com通配",
+      "work.weixin.qq.com根路径或任意路径",
+      "work.weixin.qq.com/kfid/（本次最新原文未核得，需另核实际官方来源）",
+      "qyapi.weixin.qq.com接口URL作为访客跳转地址",
+      "weixin:、javascript:、data:以及HTTP链接（本草稿只接受HTTPS）"
+    ],
+    "validationRecommendations": [
+      "用标准URL解析并精确比较hostname，禁止用户名密码、非默认端口和fragment",
+      "路径限定为对应业务单一ID段；不接受额外层级、反斜线、点段或编码斜线",
+      "查询键只允许该业务文档支持的键，拒绝重复键和任意redirect/next/url参数",
+      "不要用endsWith(qq.com)或仅字符串前缀匹配；不要将域名结构校验视为链接已获批",
+      "可对ID使用保守ASCII字母数字下划线短横线限制；这是本地限制，不声称官方穷尽字符规范",
+      "将完整官方生成URL及证据作为待审核配置保存，真实业务开关继续关闭"
+    ]
+  }
+}

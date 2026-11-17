@@ -1,0 +1,151 @@
+{
+  "checkedAt": "2026-11-14",
+  "timezone": "Asia/Shanghai",
+  "targetExamYear": 2027,
+  "verificationMethod": "浏览官方原文；发布日期以原文或官方栏目日期为据；未获取全文的数字不升级为已核实",
+  "sources": [
+    {
+      "id": "hubei-registration-2027",
+      "title": "湖北省2027年普通高等学校招生考试报名须知",
+      "publisher": "湖北省教育考试院",
+      "url": "https://www.hbea.edu.cn/html/2026-10/16178.html",
+      "publishedAt": "2026-10-16",
+      "applicableYear": 2027,
+      "status": "verified_official_text",
+      "supports": ["3+1+2", "total_750", "subject_score_types", "arts_registration"],
+      "summary": "第五部分（三）确认全国统考语文、数学、外语各150分；选择考各100分，首选科目计原始分，再选科目计等级分；合计750分。",
+      "limits": "未在本文核得2027年文化课各科具体考试日期和试卷题型分值。"
+    },
+    {
+      "id": "hubei-arts-exam-2027",
+      "title": "2027年普通高校招生艺术类专业考试报考须知",
+      "publisher": "湖北省教育考试院",
+      "url": "https://www.hbea.edu.cn/html/2026-10/16214.html",
+      "publishedAt": "2026-10-27",
+      "applicableYear": 2027,
+      "status": "verified_official_text",
+      "supports": ["arts_exam_categories", "registration_dependency"],
+      "summary": "2027年艺术专业考试含省级统考、省际联考和高校校考；文化课报名与专业考试报名是不同环节。",
+      "limits": "专业考试安排不能代替2027年文化课考试安排或录取规则。"
+    },
+    {
+      "id": "hubei-schedule-2026",
+      "title": "2026年高考温馨提示（一）：考试信息，提前知晓",
+      "publisher": "湖北省教育考试院",
+      "url": "https://www.hbea.edu.cn/html/2026-05/15865.html",
+      "publishedAt": "2026-05-22",
+      "applicableYear": 2026,
+      "status": "verified_official_text",
+      "supports": ["2026_cultural_exam_schedule"],
+      "summary": "2026年湖北文化考试安排为6月7日至9日；语文150分钟，数学与外语120分钟，选择考每科75分钟。",
+      "limits": "仅适用2026，不应把这些日期当作已确认的2027安排。"
+    },
+    {
+      "id": "hubei-grading-explainer-2019",
+      "title": "《湖北省高考综合改革实施方案》政策解读",
+      "publisher": "湖北省教育厅（湖北省教育考试院发布）",
+      "url": "https://www.hbea.edu.cn/files/2019-04/20190423164543_1844757024.pdf",
+      "publishedAt": "2019-04-23",
+      "applicableYear": 2021,
+      "status": "verified_official_text",
+      "supports": ["why_grade_scores", "grade_conversion_depends_on_cohort"],
+      "summary": "第25—26问解释：再选科目原始分需结合该科考生群体的等级与分布转换，原始分不是等级分。",
+      "limits": "这是改革政策解释，不能据其示例推算2027真实赋分或全省排名；其中旧考试时长不得覆盖年度安排。"
+    },
+    {
+      "id": "hubei-arts-admission-2026",
+      "title": "省教育厅关于做好2026年普通高等学校艺术类专业招生工作的通知",
+      "publisher": "湖北省教育厅",
+      "url": "https://jyt.hubei.gov.cn/bmdt/ztzl/gxzs/xxgk/ywgg/202601/t20260123_5862757.shtml",
+      "publishedAt": "2026-01-23",
+      "documentDate": "2026-01-21",
+      "applicableYear": 2026,
+      "status": "verified_official_text",
+      "supports": ["different_admission_rules_by_category", "culture_and_professional_requirements", "college_prospectus"],
+      "summary": "2026艺术文化控制线、专业要求、投档成绩构成按招生类别区分；校考录取还应核验学校当年招生简章。",
+      "limits": "只作2026政策参考，不外推2027；400、450、500、550不是通用录取线。"
+    },
+    {
+      "id": "hubei-cutoffs-2026",
+      "title": "省教育厅关于湖北省2026年普通高校招生录取控制分数线的通知",
+      "publisher": "湖北省教育考试院",
+      "url": "https://www.hbea.edu.cn/html/2026-06/15961.html",
+      "publishedAt": "2026-06-25",
+      "applicableYear": 2026,
+      "status": "official_page_verified_image_content_not_transcribed",
+      "supports": ["official_cutoff_reference_link"],
+      "summary": "官方2026录取控制分数线原件入口。",
+      "limits": "正文为图片，本次未转录或验证具体分数；产品不应据此条元数据展示具体分数。"
+    },
+    {
+      "id": "moe-paper-review-2026",
+      "title": "铸魂育人 引领方向 科学选拔——教育部教育考试院专家评析2026年高考全国卷试题",
+      "publisher": "教育部网站（来源：中国教育报）",
+      "url": "https://www.moe.gov.cn/jyb_xwfb/xw_zt/moe_357/2026/2026_zt08/mtbd/202606/t20260610_1440059.html",
+      "publishedAt": "2026-06-10",
+      "applicableYear": 2026,
+      "status": "verified_official_republication",
+      "supports": ["recent_national_paper_examples", "competency_over_mechanical_drilling"],
+      "summary": "官方刊载的2026全国卷评析讨论语文阅读与写作、数学数列与函数、英语作文等题目，强调基础理解、思维和迁移。",
+      "limits": "并非湖北六科完整题型分值清单；文综卷不用于湖北；不能把案例写为2027必考题。"
+    },
+    {
+      "id": "hubei-official-index",
+      "title": "普通高考栏目",
+      "publisher": "湖北省教育考试院",
+      "url": "https://www.hbea.edu.cn/html/gaokao/index.html",
+      "publishedAt": null,
+      "applicableYear": null,
+      "status": "verified_official_index",
+      "supports": ["publication_dates", "future_policy_recheck_entry"],
+      "summary": "截至核对日，栏目列有2027报名与艺术专业考试通知、2026文化考试和录取信息。",
+      "limits": "本次未核得2027文化考试详细安排或2027艺术类完整录取通知；这是检索结果边界，不声称所有渠道均未发布。"
+    }
+  ],
+  "rules": {
+    "sourceId": "hubei-registration-2027",
+    "examYear": 2027,
+    "maxTotal": 750,
+    "supportedCombination": ["chinese", "math", "english", "history", "geography", "politics"],
+    "subjects": [
+      {"id": "chinese", "name": "语文", "max": 150, "officialScoreType": "raw"},
+      {"id": "math", "name": "数学", "max": 150, "officialScoreType": "raw"},
+      {"id": "english", "name": "英语", "max": 150, "officialScoreType": "raw"},
+      {"id": "history", "name": "历史", "max": 100, "officialScoreType": "raw"},
+      {"id": "geography", "name": "地理", "max": 100, "officialScoreType": "grade"},
+      {"id": "politics", "name": "思想政治", "max": 100, "officialScoreType": "grade"}
+    ],
+    "publicCopy": "语文、数学、英语各150分；历史按原始分计，地理与思想政治按等级分计，总分750。地理、政治练习原始分仅用于学习反馈，平台不将其换算为真实高考等级分。",
+    "schedule2027": {"status": "not_verified", "date": null, "display": "2027文化课正式考试安排待核验；计划中的预计考试日期由老师或学生调整，并非官方确认日期。"},
+    "admission2027": {"status": "not_verified", "display": "录取应逐项核对当年湖北省政策、专业类别和目标学校招生章程；目标档只用于学习规划。"}
+  },
+  "historicalSchedule2026": [
+    {"subject": "chinese", "date": "2026-06-07", "start": "09:00", "end": "11:30"},
+    {"subject": "math", "date": "2026-06-07", "start": "15:00", "end": "17:00"},
+    {"subject": "history", "date": "2026-06-08", "start": "09:00", "end": "10:15"},
+    {"subject": "english", "date": "2026-06-08", "start": "15:00", "end": "17:00"},
+    {"subject": "geography", "date": "2026-06-09", "start": "11:00", "end": "12:15"},
+    {"subject": "politics", "date": "2026-06-09", "start": "14:30", "end": "15:45"}
+  ],
+  "paperStructureAudit": {
+    "status": "incomplete",
+    "publicCopy": "已核实六科总分口径；近年湖北适用试卷的完整题型、题数、分值仍需原卷及正式出版材料逐项复核。当前代表题组为原创教学示例，不是整卷覆盖或今年命题预测。",
+    "subjects": [
+      {"subject": "chinese", "historicalYear": 2026, "evidenceSourceId": "moe-paper-review-2026", "verifiedScope": "全国卷评析中的阅读与写作案例", "fullStructureVerified": false, "exactQuestionCount": null},
+      {"subject": "math", "historicalYear": 2026, "evidenceSourceId": "moe-paper-review-2026", "verifiedScope": "全国卷评析中的数列、函数等能力要求", "fullStructureVerified": false, "exactQuestionCount": null},
+      {"subject": "english", "historicalYear": 2026, "evidenceSourceId": "moe-paper-review-2026", "verifiedScope": "全国卷评析中的作文等案例", "fullStructureVerified": false, "exactQuestionCount": null},
+      {"subject": "history", "historicalYear": null, "evidenceSourceId": null, "verifiedScope": "本次未取得湖北近年原卷的官方完整题型证据", "fullStructureVerified": false, "exactQuestionCount": null},
+      {"subject": "geography", "historicalYear": null, "evidenceSourceId": null, "verifiedScope": "本次未取得湖北近年原卷的官方完整题型证据", "fullStructureVerified": false, "exactQuestionCount": null},
+      {"subject": "politics", "historicalYear": null, "evidenceSourceId": null, "verifiedScope": "本次未取得湖北近年原卷的官方完整题型证据", "fullStructureVerified": false, "exactQuestionCount": null}
+    ],
+    "nextEvidenceRequired": ["获取具有明确来源和使用许可的近年湖北适用原卷或省考试院正式试题精析出版材料", "由学科老师核对版本、题号、分值、题型、变化并签署真实审核记录", "按考试年度发布题型结构快照，保留变更记录"]
+  },
+  "implementationConstraints": [
+    "学段、地区、考试年度、组合、单科计分口径是显式字段，不混用初中题库。",
+    "目标档六科总和须校验；当前基线可以低于400、可以缺测；缺测显示未覆盖。",
+    "地理/政治字段必须区分mock_raw、official_grade和target_grade；不提供无全省同科分布依据的真实赋分计算。",
+    "官方分数线不等于学校最终录取结果；不得把目标档显示为通用文化录取线。",
+    "来源核验、自动校验、教师审核分别记录；本研究不构成教师学科审核。",
+    "公开演示不读取成绩记录、答案密钥、私有PDF或未成年人资料；示例题与合成案例醒目标明。"
+  ]
+}

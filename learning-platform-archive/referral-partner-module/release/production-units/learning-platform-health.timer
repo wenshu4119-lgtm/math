@@ -1,0 +1,8 @@
+[Unit]
+Description=Learning platform operational check every five minutes
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=300
+Unit=learning-platform-health.service
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,6 @@
+# Generate with node scripts/setup.mjs. Never reuse the math repository's secrets.
+SESSION_SECRET=generate-a-random-secret-at-least-32-characters
+APP_ORIGIN=http://127.0.0.1:8788
+APP_ENV=local
+# Cloudflare has no OCR/AI provider binding. Node local OCR is opt-in with --ocr.
+# Optional engine/model directories use process env OCR_ENGINE_DIR / OCR_MODEL_DIR.

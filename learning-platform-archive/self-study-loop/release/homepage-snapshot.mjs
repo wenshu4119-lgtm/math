@@ -1,0 +1,7 @@
+import{readFileSync,writeFileSync,mkdirSync,readdirSync,cpSync,existsSync}from'node:fs';import{join}from'node:path';import{createHash}from'node:crypto';import{cf,cfZone}from'./cf-client.mjs';
+const dir='.local/homepage-before';if(existsSync(dir)&&!process.argv.includes('--refresh-state'))throw Error('Existing homepage snapshot preserved; use --refresh-state for API state only');
+if(!existsSync(dir)){mkdirSync(dir,{recursive:true});for(const name of ['public','release/production-worker.mjs','wrangler.production.jsonc','release/production-deployment.json']){const target=join(dir,name);mkdirSync(join(target,'..'),{recursive:true});cpSync(name,target,{recursive:true});}}
+const deployed=await cf('/workers/scripts/learning-platform-production/deployments'),routes=await cfZone('/workers/routes');
+const active=deployed.deployments?.[0]||deployed[0]||deployed;const route=routes.find(r=>r.pattern==='mrxu.uk/*');
+const hashes={};for(const name of readdirSync(join(dir,'public')))if(!name.includes('.'))continue;else{try{hashes[name]=createHash('sha256').update(readFileSync(join(dir,'public',name))).digest('hex');}catch{}}
+const state={observedAt:new Date().toISOString(),activeDeployment:active,rootRoute:route,publicHashes:hashes,backendChanged:false};writeFileSync(join(dir,'baseline.json'),JSON.stringify(state,null,2));mkdirSync('test-results/homepage',{recursive:true});writeFileSync('test-results/homepage/baseline.json',JSON.stringify(state,null,2));console.log(JSON.stringify({activeVersions:active.versions,route,sourceBackup:dir}));

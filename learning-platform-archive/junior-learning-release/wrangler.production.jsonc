@@ -1,0 +1,23 @@
+{
+  "name": "learning-platform-production",
+  "main": "release/production-worker.mjs",
+  "account_id": "e790168a5525cfa3180de7a2aea228ab",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page"
+  },
+  "vars": {
+    "APP_ORIGIN": "https://mrxu.uk",
+    "PREVIEW_ORIGIN": "https://learning-platform-production.wenshu4119.workers.dev",
+    "BACKEND_ORIGIN": "https://earning-origin.mrxu.uk",
+    "MAINTENANCE": "false"
+  }
+}

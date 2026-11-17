@@ -1,0 +1,31 @@
+[Unit]
+Description=Protected original-source learning QA
+After=network.target deeptutor-local-llm.service deeptutor-local-embedding.service
+[Service]
+Type=simple
+User=deeptutor
+Group=deeptutor
+WorkingDirectory=/var/lib/deeptutor/runtime
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=DEEPTUTOR_HOME=/var/lib/deeptutor/runtime
+Environment=DEEPTUTOR_WORKSPACE_ROOT=/var/lib/deeptutor/runtime/content
+Environment=LEARNING_QA_TOKEN_FILE=/var/lib/deeptutor/local-models/learning-qa.key
+ExecStart=/opt/deeptutor/venv/bin/python -B /opt/learning-qa/bridge.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/deeptutor/runtime
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=any
+IPAddressAllow=localhost
+CPUQuota=20%
+MemoryMax=350M
+TasksMax=64
+Nice=15
+StandardOutput=null
+StandardError=null
+[Install]
+WantedBy=multi-user.target

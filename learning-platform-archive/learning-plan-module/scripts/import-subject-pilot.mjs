@@ -1,0 +1,4 @@
+import {openDatabase,migrate} from './local-db.mjs';
+import {importPilot,withdrawPilot} from '../src/question-bank-expansion.mjs';
+const a=process.argv.slice(2),value=k=>a.includes(k)?a[a.indexOf(k)+1]:null;if(!value('--database'))throw Error('Explicit --database required');
+const db=openDatabase(value('--database'));try{migrate(db);let org=value('--org');if(!org){const all=db.sqlite.prepare('SELECT id FROM organizations').all();if(all.length!==1)throw Error('Explicit --org required');org=all[0].id;}if(!db.sqlite.prepare('SELECT id FROM organizations WHERE id=?').get(org))throw Error('Organization missing');console.log(JSON.stringify(value('--withdraw')?await withdrawPilot(db,org,value('--withdraw')):await importPilot(db,org,{batchId:value('--batch')||undefined})));}finally{db.sqlite.close();}

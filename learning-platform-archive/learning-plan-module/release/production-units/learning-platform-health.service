@@ -1,0 +1,7 @@
+[Unit]
+Description=Learning platform protected backend and backup check
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/learning-platform/current/release/production-health.py
+UMask=0077
+TimeoutStartSec=40
