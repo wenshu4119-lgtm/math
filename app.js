@@ -3269,6 +3269,128 @@
     $('confirmIngestBtn').addEventListener('click', confirmIngestToBank);
     $('runDeepDedupBtn').addEventListener('click', runDeepDedupCleanup);
     $('saveKbDocBtn').addEventListener('click', saveKbDoc);
+
+    // 正式协议与声明弹窗事件（登录卡片 + 页面页脚 + 提现规则内链）
+    document.querySelectorAll('[data-legal-doc]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openLegalModal(btn.dataset.legalDoc);
+      });
+    });
+    $('closeLegalModalBtn').addEventListener('click', closeLegalModal);
+    $('confirmLegalModalBtn').addEventListener('click', closeLegalModal);
+    $('legalModalBackdrop').addEventListener('click', e => {
+      if (e.target === $('legalModalBackdrop')) closeLegalModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !$('legalModalBackdrop').classList.contains('hidden')) {
+        closeLegalModal();
+      }
+    });
+  }
+
+  // ==================== 正式协议与声明文本库（含政策边界与开源引用说明） ====================
+  const LEGAL_DOCS = {
+    terms: {
+      badge: '服务与版权规范 · 2026-11 版',
+      title: '《用户服务协议》',
+      meta: '适用范围：许老师工作室 / 铭师学习规划管理平台（https://mrxu.uk）全站功能',
+      html: `
+        <h4>一、平台定位与服务范围</h4>
+        <p>本平台（<strong>mrxu.uk</strong>）由<strong>许老师工作室</strong>运营，面向初高中学员、家长及合作教研教师提供学情建档分流、全自动红黄绿灯《考点过关手册》、DeepTutor 消灯任务包、印刷体试卷结构识别、自助与 AI 智能组卷（学生原卷与教师解析双版）、动态成长曲线及定制升学规划报告工具。</p>
+        <p>平台输出的学习计划、薄弱考点分析及诊断报告旨在辅助家庭与教师高效规划学习进度，<strong>不构成任何保分、保录取或考试结果承诺</strong>，亦不替代学校正常课堂教学与教育考试院的官方招考规定。</p>
+
+        <h4>二、四种服务模式与积分充值 / 消耗规则</h4>
+        <ul>
+          <li><strong>1. 自学模式</strong>：按实际调用的资源模块扣减积分（调取知识库讲义 2 积分、DeepTutor 消灯任务包 5 积分、智能组卷出卷 8 积分、生成规划复盘报告 3 积分）。</li>
+          <li><strong>2. 答疑模式</strong>：分为“主动提交错题答疑”（基础 8 积分）与“全功能包干：排计划 + 批改 + 只讲错题”（基础 30 积分），结合单次答疑时长（超出 15 分钟部分每 15 分钟加收 4 积分）及学段系数（初中 1.0×、高中 1.2×）自动结算扣减。</li>
+          <li><strong>3. 定期测评模式</strong>：支持设定每周、每两周或每月定期测评一次，自动生成阶段诊断报告并登记规划分析课（15 积分 / 次）。</li>
+          <li><strong>4. 报课模式（线下 / 机构在读学员）</strong>：线下或企业微信缴费后，由许老师或管理员在总控台为您开通报课权限；权限有效期内，<strong>除“答疑模式”按需单独计点外</strong>，其余题型手册、消灯包、智能组卷、定期测评与规划报告功能均<strong> 0 积分免费畅享</strong>。</li>
+        </ul>
+
+        <h4>三、邀请奖励与积分提现规范（含未成年人保护）</h4>
+        <ul>
+          <li><strong>单层直推与反违规红线</strong>：受邀好友绑定您的专属邀请码后，新人立得 <strong>+10 积分</strong>、邀请人获赠 <strong>+20 积分</strong>；好友后续在平台产生有效积分消耗时，系统自动向邀请人返还消费额的 <strong>10%</strong> 作为积分回馈。本机制严格限定为<strong>单层直接邀请</strong>，绝无多级计酬、无入门门槛费、不做强迫分享解锁；同时<strong>严禁在职中小学教师利用职务之便向本平台有偿介绍生源</strong>。</li>
+          <li><strong>积分使用与现金提现</strong>：积分可用于平台内功能消费抵扣，亦可于账户可用余额<strong>满 200 积分</strong>（按 1 积分 = ¥0.5 折算，即 ¥100 起）后发起现金提现申请；申请提交后对应积分暂予冻结，由许老师工作室管理员核对收款方式与合规记录后批准打款或驳回全额退分。</li>
+          <li><strong>未成年人监护声明</strong>：未满 18 周岁的未成年学员，<strong>必须在父母或其他法定监护人的全程知情、同意及有效监护下使用本平台服务、参与好友邀请活动，并由家长或法定监护人代为审核与申请积分现金提现</strong>。</li>
+        </ul>
+
+        <h4>四、原版过关手册与题库版权保护声明（三道锁）</h4>
+        <ul>
+          <li>本平台收录与研发的初高中 16 学科《考点过关手册》知识目录树、基础与总结讲义、真题/变式题目库、名师诊断评语及精装报告排版，均属<strong>许老师工作室 / 铭师学习规划原创及自有教研资产</strong>。</li>
+          <li>未经授权访问码验证，严禁以任何技术手段探测、抓取或解析后端 API 目录与地区分数线数据；平台内受保护区域已叠加<strong>禁止右键、禁止选中复制与全屏倾斜防伪水印</strong>（<code>许老师工作室 / 铭师学习规划原创 · 盗版必究</code>）。</li>
+          <li><strong>严禁任何机构或个人通过爬虫抓取、录屏翻印、截图传播或二次封装倒卖本平台手册题型与题库内容</strong>，一经发现，工作室保留立即终止授权并依法追究著作权及不正当竞争责任的权利。</li>
+        </ul>
+      `
+    },
+    privacy: {
+      badge: '数据安全红线 · 最小化收集',
+      title: '《隐私保护协议》',
+      meta: '遵循原则：最小必要、全程脱敏、家长可控、随时撤回删除',
+      html: `
+        <h4>一、工作室核心隐私红线（绝不收集与读取敏感信息）</h4>
+        <p>依据《中华人民共和国个人信息保护法》及未成年人网络保护要求，本平台从架构底层贯彻“非实名体验与最小必要收集”红线：</p>
+        <ul>
+          <li><strong>零敏感身份收集</strong>：入学建档环节仅需填写学员匿名代号或昵称（如“小铭同学 / A18号”）及所在学段，<strong>平台绝不收集、绝不强制要求填写、也不存储学生真实姓名、身份证号、具体就读中小学校名、家庭住址等敏感身份资料</strong>。</li>
+          <li><strong>AI 识图拍卷“三不原则”</strong>：上传试卷照片前，页面强制要求家长或教师确认<strong>已物理遮挡学生姓名、考号与学校印记</strong>；后端 AI 模型指令严格限定为<strong>仅提取印刷体题干结构（题号/科目/考点/难度/分值），绝不读取学生手写笔迹与作答内容，绝不由 AI 自动判对错或打分</strong>，所有识别结果强制标注“需人工复核”。</li>
+          <li><strong>原图零留存</strong>：拍卷上传的图片仅在 Worker 内存瞬时调用识图模型后立即丢弃，<strong>不写入数据库、不存档至第三方公开图床</strong>。</li>
+        </ul>
+
+        <h4>二、云端加密存储与数据隔离机制</h4>
+        <ul>
+          <li><strong>受保护云端持久化</strong>：学员规划档案、五项过关统计字段、阶段考分曲线、智能组卷记录及积分流水保存在受访问权限保护的 <strong>Cloudflare D1 数据库（mingshi-planning-db）</strong> 中；所有读写接口均受授权访问码（SHA-256 常量时间校验）及同源安全策略（Same-Origin）严密隔离。</li>
+          <li><strong>推广邀请隐私隔离</strong>：推荐关系中，邀请人仅能查看脱敏后的返利积分数量，<strong>绝无权限查看受邀学员的任何成绩、红黄绿灯薄弱清单、上传试卷或规划报告</strong>。</li>
+          <li><strong>合规审核边界</strong>：仅在家长主动申请现金提现并勾选确认规则后，于提现表单单独填写必要的核对收款联系方式（微信 / 支付宝说明），该信息仅用于当笔人工打款核对，绝不对外共享或用于商业推销。</li>
+        </ul>
+
+        <h4>三、用户查阅、更正与永久删除权利</h4>
+        <ul>
+          <li>家长及授权教师可在平台内随时修改建档基础信息、校准地区分数线、增删学校阶段考试分数或切换本地/云端工作状态。</li>
+          <li>如家长决定停止使用本平台，可随时通过云端删除接口或联系许老师工作室（<strong>18986280310 / 微信同号</strong>），申请<strong>彻底注销并永久清除云端 D1 数据库中对应的学员规划档案、过关进度、考分记录与报告文本</strong>（关联子表级联永久删除）。</li>
+        </ul>
+      `
+    },
+    sources: {
+      badge: '公开口径 · 合规引用说明',
+      title: '《数据与引用声明》',
+      meta: '涵盖：招考公开参考线边界、基础图表库及 AI 辅助工具许可证说明',
+      html: `
+        <h4>一、各省市中高考录取分数线与艺考折算数据声明</h4>
+        <ul>
+          <li><strong>数据来源与用途</strong>：本平台内置的全国主要省市中考总满分与示范高中参照线、全国高考省份选科/985/211/特控参照线以及分省艺考综合分默认折算比例，均整理自<strong>各地省级、市级教育厅与教育考试院公开发布的历史招考政策文件</strong>（如湖北省教育考试院官网 <code>hbea.edu.cn</code>、湖北省教育厅 <code>jyt.hubei.gov.cn</code> 等公开口径）。</li>
+          <li><strong>动态修正与兜底说明</strong>：招考政策、加分项及投档线每年随考生人数与试题难度动态变化。对于部分未直接收录的县市高中，系统尝试调用公开口径估算或按省/市重点高中参照档位预填并标注“需人工核对”。<strong>页面已永久保留【当地考试总满分】与【目标校近三年平均线】手动输入框，所有数据仅供前期规划参考，最终一律以当年当地教育考试院及目标院校正式招生简章为准</strong>。</li>
+        </ul>
+
+        <h4>二、前端图表引擎与开源组件许可证说明</h4>
+        <ul>
+          <li><strong>Chart.js v4.4.1（MIT License）</strong>：用于平台第 3 步“阶段分数上升走势折线图”与“多维学情差距雷达图”的可视化绘制；版权归 <code>(c) 2023 Chart.js Contributors</code> 所有。已完整本地化托管于 <code>chart.min.js</code>，不请求外部公共 CDN，确保在校园及家庭网络环境中稳定加载。</li>
+          <li><strong>@kurkle/color v0.3.2（MIT License）</strong>：内嵌于 Chart.js 官方构建包内的色彩解析辅助库，版权归 <code>(c) 2023 Jukka Kurkela</code> 所有。</li>
+          <li><strong>纯原生离线组件与零外网依赖</strong>：精装规划长图导出、推广海报生成、Word (<code>.docx</code>) 文档文本提取与斜向防伪水印均采用浏览器原生 Canvas 2D、SVG 与标准 Web Streams API 自研实现，未捆绑其他商业闭源或具有传染性开源许可证（如 AGPL-3.0 的 PyMuPDF 等）之运行依赖。</li>
+        </ul>
+
+        <h4>三、基础设施、AI 辅助及教研架构声明</h4>
+        <ul>
+          <li><strong>云端运行时与存储</strong>：全站静态资源、接口路由鉴权及云端永久存档运行于 <strong>Cloudflare Workers</strong> 与 <strong>Cloudflare D1</strong> 托管基础设施。</li>
+          <li><strong>AI 结构化辅助边界</strong>：平台印刷体试卷结构识别使用 <code>@cf/mistralai/mistral-small-3.1-24b-instruct</code>；一句话智能组卷需求解析、未收录校名估算参考及智能切题分段辅助使用 <code>@cf/meta/llama-3.1-8b-instruct</code>。模型输出均设有确定性规则兜底与人工复核环节。</li>
+          <li><strong>原创教研说明</strong>：DeepTutor 式“诊断 → 讲义 → 练题 → 复测消灯”闭环思想结合许老师工作室 16 学科过关教学法独立工程实现；若需核查开源许可证全文或授权范围，请联系工作室（18986280310）。</li>
+        </ul>
+      `
+    }
+  };
+
+  function openLegalModal(docKey) {
+    const doc = LEGAL_DOCS[docKey] || LEGAL_DOCS.terms;
+    $('legalModalBadge').textContent = doc.badge;
+    $('legalModalTitle').textContent = doc.title;
+    $('legalModalMeta').textContent = doc.meta;
+    $('legalModalBody').innerHTML = doc.html;
+    $('legalModalBody').scrollTop = 0;
+    $('legalModalBackdrop').classList.remove('hidden');
+  }
+
+  function closeLegalModal() {
+    $('legalModalBackdrop').classList.add('hidden');
   }
 
   document.addEventListener('DOMContentLoaded', () => {

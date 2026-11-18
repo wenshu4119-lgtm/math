@@ -1043,6 +1043,114 @@ html, body {
   background: #FEF8EA !important;
 }
 
+/* ==================== 极简页脚与正式协议阅读弹窗 ==================== */
+.legal-links-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #E1E7EA;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legal-link-btn {
+  border: none;
+  background: transparent;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.16s;
+}
+.legal-link-btn:hover {
+  color: var(--accent);
+}
+
+.site-footer {
+  margin-top: 28px;
+  padding: 14px 12px 6px;
+  border-top: 1px solid #DFE5E8;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.site-footer .legal-links-bar {
+  margin-top: 6px;
+  padding-top: 0;
+  border-top: none;
+}
+
+.legal-modal-box {
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 760px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  border-top: 5px solid var(--primary);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.legal-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid #EAEFEF;
+  background: #FAFBFA;
+}
+
+.legal-modal-body {
+  padding: 18px 24px;
+  overflow-y: auto;
+  max-height: 64vh;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: #2A343D;
+}
+
+.legal-modal-body h4 {
+  margin: 16px 0 6px;
+  font-size: 14.5px;
+  color: var(--primary);
+  border-left: 3px solid var(--accent);
+  padding-left: 8px;
+}
+.legal-modal-body h4:first-child {
+  margin-top: 0;
+}
+.legal-modal-body p {
+  margin: 0 0 8px;
+}
+.legal-modal-body ul {
+  margin: 0 0 10px;
+  padding-left: 20px;
+}
+.legal-modal-body li {
+  margin-bottom: 4px;
+}
+
+.legal-modal-foot {
+  padding: 12px 24px 16px;
+  border-top: 1px solid #EAEFEF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #FAFBFA;
+  font-size: 12px;
+  color: var(--muted);
+}
+
 /* ==================== A4 打印与 PDF 导出排版 ==================== */
 @media print {
   @page {
@@ -1052,7 +1160,7 @@ html, body {
   body {
     background: #FFFFFF;
   }
-  .site-header, .main-nav-bar, .no-print, #authGate, #wizardSection {
+  .site-header, .main-nav-bar, .no-print, #authGate, #wizardSection, #siteFooter, #legalModalBackdrop {
     display: none !important;
   }
   .app-container {

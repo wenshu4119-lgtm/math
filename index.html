@@ -73,6 +73,14 @@
         <button type="button" id="unlockBtn" class="btn btn-primary" style="flex:1;">验证并进入平台</button>
         <button type="button" id="fillLocalCodeBtn" class="btn btn-outline hidden">填入本地调试码</button>
       </div>
+
+      <div class="legal-links-bar">
+        <button type="button" class="legal-link-btn" data-legal-doc="terms">《用户服务协议》</button>
+        <span>·</span>
+        <button type="button" class="legal-link-btn" data-legal-doc="privacy">《隐私保护协议》</button>
+        <span>·</span>
+        <button type="button" class="legal-link-btn" data-legal-doc="sources">《数据与引用声明》</button>
+      </div>
     </section>
   </main>
 
@@ -1038,7 +1046,7 @@
 
           <label style="display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:var(--primary); margin-bottom:10px; cursor:pointer;">
             <input id="withdrawRulesCheck" type="checkbox" style="margin-top:3px;">
-            <span>我已阅读并同意<strong>《积分与奖励规则》</strong>：积分可用于系统内抵扣充值，满 200 积分（折合 ¥100）可申请现金提现；<strong>未成年学员须在家长监护与知情同意下参与分享及提现</strong>。</span>
+            <span>我已阅读并同意<button type="button" class="legal-link-btn" data-legal-doc="terms" style="font-size:12.5px; font-weight:700;">《用户服务协议》及积分奖励规则</button>：积分可用于系统内抵扣充值，满 200 积分（折合 ¥100）可申请现金提现；<strong>未成年学员须在家长监护与知情同意下参与分享及提现</strong>。</span>
           </label>
 
           <button type="button" id="submitWithdrawBtn" class="btn btn-primary btn-sm">提交现金提现申请</button>
@@ -1233,6 +1241,17 @@
       </div>
     </section>
 
+    <footer id="siteFooter" class="site-footer no-print">
+      <div>许老师工作室 · 铭师学习规划管理平台 (mrxu.uk) · 电话/微信：18986280310 · 江岸区百步亭花园路现代城一区</div>
+      <div class="legal-links-bar">
+        <button type="button" class="legal-link-btn" data-legal-doc="terms">《用户服务协议》</button>
+        <span>·</span>
+        <button type="button" class="legal-link-btn" data-legal-doc="privacy">《隐私保护协议》</button>
+        <span>·</span>
+        <button type="button" class="legal-link-btn" data-legal-doc="sources">《数据与引用声明》</button>
+      </div>
+    </footer>
+
   </div>
 
   <!-- ==================== DeepTutor 闭环：【专属消灯任务包】互动弹窗 ==================== -->
@@ -1271,6 +1290,25 @@
         <div style="display:flex; justify-content:flex-end; margin-top:12px;">
           <button type="button" id="packCompleteBtn" class="btn btn-accent">提交复测结果并自动消灯 ✓</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 正式协议与声明独立阅读弹窗 ==================== -->
+  <div id="legalModalBackdrop" class="drawer-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
+    <div class="legal-modal-box">
+      <div class="legal-modal-head">
+        <div>
+          <span id="legalModalBadge" class="badge badge-navy">官方协议文本</span>
+          <h3 id="legalModalTitle" style="margin:6px 0 2px; color:var(--primary); font-size:18px;">协议详情</h3>
+          <div id="legalModalMeta" style="font-size:12px; color:var(--muted);">许老师工作室 / 铭师学习规划管理平台 (mrxu.uk)</div>
+        </div>
+        <button type="button" id="closeLegalModalBtn" class="btn btn-outline btn-sm">关闭 ✕</button>
+      </div>
+      <div id="legalModalBody" class="legal-modal-body"></div>
+      <div class="legal-modal-foot">
+        <span>生效主体：许老师工作室（mrxu.uk） · 如有疑问请联系：18986280310（微信同号）</span>
+        <button type="button" id="confirmLegalModalBtn" class="btn btn-primary btn-sm">我已阅读并了解</button>
       </div>
     </div>
   </div>
