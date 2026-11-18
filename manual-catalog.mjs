@@ -134,12 +134,16 @@ export function getPublicCatalogPayload() {
 }
 
 export function findManualNodeById(nodeId) {
-  const m = String(nodeId || '').match(/^(junior|senior)_([a-z]+)_/);
+  const m = String(nodeId || '').match(/^(junior|senior)_([a-z]+)_c(\d+)/);
   if (!m) return null;
-  const [, stage, subjKey] = m;
+  const [, stage, subjKey, chIdxStr] = m;
   const subj = FULL_MANUAL_CATALOG[stage]?.[subjKey];
   if (!subj) return null;
-  return subj.flatNodes.find(n => n.nodeId === nodeId) || null;
+  const exact = subj.flatNodes.find(n => n.nodeId === nodeId);
+  if (exact) return exact;
+  const chIdx = Math.max(0, Number(chIdxStr) - 1);
+  const fallbackCh = subj.chapters?.[chIdx] || subj.chapters?.[0];
+  return fallbackCh?.items?.[0] || subj.flatNodes[0] || null;
 }
 
 // ==================== 全自动红黄绿灯亮灯核心算法 ====================

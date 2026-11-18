@@ -1262,7 +1262,7 @@
             <span>${ch.group ? `<span class="badge badge-navy" style="margin-right:6px;">${escapeHtml(ch.group)}</span>` : ''}${escapeHtml(ch.title)}</span>
             <span style="font-size:12px; color:var(--muted);">
               ${chRed ? `🔴${chRed} ` : ''}${chYellow ? `🟡${chYellow} ` : ''}${chGreen ? `🟢${chGreen} ` : ''}
-              共 ${filteredItems.length} 考点 ${isOpen ? '▾' : '▸'}
+              共 ${filteredItems.length} 个题型 · 已过关 ${chGreen}/${filteredItems.length} ${isOpen ? '▾' : '▸'}
             </span>
           </div>
           <div class="chapter-body ${isOpen ? '' : 'hidden'}">
@@ -2547,10 +2547,12 @@
     if (order.some(s => s.key === curSubj)) $('ingestSubjectSelect').value = curSubj;
 
     const subjKey = $('ingestSubjectSelect').value || 'math';
-    const nodes = (bootstrap.catalog?.[stage]?.[subjKey]?.chapters || []).flatMap(c => c.items);
-    $('ingestKbNodeSelect').innerHTML = nodes.slice(0, 120).map(n =>
-      `<option value="${escapeHtml(n.nodeId)}">${escapeHtml(n.chapterTitle)} · ${escapeHtml(n.title)}</option>`
-    ).join('');
+    const chapters = bootstrap.catalog?.[stage]?.[subjKey]?.chapters || [];
+    $('ingestKbNodeSelect').innerHTML = chapters.map(ch => `
+      <optgroup label="${escapeHtml(ch.title)}">
+        ${(ch.items || []).map(n => `<option value="${escapeHtml(n.nodeId)}">${escapeHtml(n.title)}</option>`).join('')}
+      </optgroup>
+    `).join('');
   }
 
   async function loadAdminOverview() {
@@ -2773,10 +2775,12 @@
         alertBox.classList.remove('hidden');
       }
 
-      const nodes = (bootstrap.catalog?.[stage]?.[subjectKey]?.chapters || []).flatMap(c => c.items);
-      const getNodeOpts = selId => nodes.slice(0, 120).map(n =>
-        `<option value="${escapeHtml(n.nodeId)}" ${n.nodeId === selId ? 'selected' : ''}>${escapeHtml(n.chapterTitle)} · ${escapeHtml(n.title)}</option>`
-      ).join('');
+      const chapters = bootstrap.catalog?.[stage]?.[subjectKey]?.chapters || [];
+      const getNodeOpts = selId => chapters.map(ch => `
+        <optgroup label="${escapeHtml(ch.title)}">
+          ${(ch.items || []).map(n => `<option value="${escapeHtml(n.nodeId)}" ${n.nodeId === selId ? 'selected' : ''}>${escapeHtml(n.title)}</option>`).join('')}
+        </optgroup>
+      `).join('');
 
       $('ingestPreviewWrap').classList.remove('hidden');
       $('ingestPreviewTableBody').innerHTML = ingestPreviewItems.map((it, idx) => {

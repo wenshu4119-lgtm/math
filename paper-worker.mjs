@@ -59,6 +59,7 @@ async function ensureD1Tables(db) {
   const stmts = [
     `CREATE TABLE IF NOT EXISTS sys_config_thresholds (config_key TEXT PRIMARY KEY, red_error_rate REAL NOT NULL DEFAULT 0.40, yellow_error_rate REAL NOT NULL DEFAULT 0.15, red_consecutive_wrong INTEGER NOT NULL DEFAULT 2, watermark_text TEXT NOT NULL DEFAULT '许老师工作室 / 铭师学习规划原创 · 盗版必究', points_rules_json TEXT NOT NULL DEFAULT '{}', updated_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS student_profiles (student_id TEXT PRIMARY KEY, display_alias TEXT NOT NULL, access_role TEXT NOT NULL DEFAULT 'student', stage TEXT NOT NULL, grade_label TEXT NOT NULL, enrollment_category TEXT NOT NULL, sprint_sub_type TEXT, growth_sub_type TEXT, province TEXT NOT NULL, city TEXT, subject_track TEXT, art_formula_preset TEXT, art_culture_weight REAL, art_major_weight REAL, art_major_score REAL, art_major_max REAL DEFAULT 300, target_school_name TEXT, target_cutoff_score REAL, local_max_score REAL, baseline_score REAL, required_culture_target REAL, advance_span_weeks INTEGER DEFAULT 0, target_difficulty TEXT DEFAULT '中等', target_mastery_level TEXT DEFAULT '良好', study_rhythm TEXT NOT NULL DEFAULT 'part_time', custom_cycle_days INTEGER NOT NULL DEFAULT 7, available_hours_per_day REAL NOT NULL DEFAULT 2.5, service_mode TEXT NOT NULL DEFAULT 'self_study', eval_frequency TEXT DEFAULT 'biweekly', course_enabled INTEGER NOT NULL DEFAULT 0, points_balance INTEGER NOT NULL DEFAULT 100, invite_code TEXT UNIQUE, invited_by_code TEXT, cleared_red_count INTEGER NOT NULL DEFAULT 0, tasks_json TEXT NOT NULL DEFAULT '[]', admin_commentary TEXT DEFAULT '', workspace_state_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL DEFAULT (datetime('now')), updated_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS manual_nodes (node_id TEXT PRIMARY KEY, stage TEXT NOT NULL, subject_key TEXT NOT NULL, subject_label TEXT NOT NULL, parent_id TEXT, node_level INTEGER NOT NULL, sort_order INTEGER NOT NULL DEFAULT 0, code TEXT, title TEXT NOT NULL, difficulty_tag TEXT DEFAULT '基础', default_planned_count INTEGER NOT NULL DEFAULT 5)`,
     `CREATE TABLE IF NOT EXISTS student_manual_progress (progress_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, node_id TEXT NOT NULL, planned_count INTEGER NOT NULL DEFAULT 5, completed_count INTEGER NOT NULL DEFAULT 0, wrong_count INTEGER NOT NULL DEFAULT 0, explained_count INTEGER NOT NULL DEFAULT 0, is_passed INTEGER NOT NULL DEFAULT 0, consecutive_wrong INTEGER NOT NULL DEFAULT 0, error_rate REAL NOT NULL DEFAULT 0.0, light_status TEXT NOT NULL DEFAULT 'unstarted', last_diagnosed_at TEXT, updated_at TEXT NOT NULL DEFAULT (datetime('now')), UNIQUE(student_id, node_id))`,
     `CREATE TABLE IF NOT EXISTS school_exam_scores (score_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, exam_type TEXT NOT NULL, exam_name TEXT NOT NULL, exam_date TEXT NOT NULL, subject_key TEXT NOT NULL DEFAULT 'total', score_obtained REAL NOT NULL, max_score REAL NOT NULL, target_score REAL, rank_note TEXT DEFAULT '', entered_by_role TEXT NOT NULL DEFAULT 'parent', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS planning_reports (report_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, report_title TEXT NOT NULL DEFAULT '许老师工作室 · 独家升学规划与过关诊断报告', radar_metrics_json TEXT NOT NULL, battle_summary_json TEXT NOT NULL, auto_commentary TEXT NOT NULL, admin_polished_commentary TEXT, seal_label TEXT NOT NULL DEFAULT '许老师工作室 / 铭师学习规划专用章', signature_teacher TEXT NOT NULL DEFAULT '许老师', created_at TEXT NOT NULL DEFAULT (datetime('now')), updated_at TEXT NOT NULL DEFAULT (datetime('now')))`,
@@ -1349,6 +1350,10 @@ async function handleApiV1(request, env, url) {
        ORDER BY w.created_at DESC LIMIT 50`
     ).all();
 
+    const mnCountRow = await env.DB.prepare(
+      'SELECT COUNT(*) AS cnt FROM manual_nodes'
+    ).first().catch(() => ({ cnt: 0 }));
+
     const kbCountRow = await env.DB.prepare(
       'SELECT COUNT(*) AS cnt FROM knowledge_base_docs'
     ).first();
@@ -1370,6 +1375,7 @@ async function handleApiV1(request, env, url) {
       withdrawals: wds?.results || [],
       knowledgeDocs: kbs?.results || [],
       knowledgeDocCount: Number(kbCountRow?.cnt || 0),
+      manualNodeCount: Number(mnCountRow?.cnt || 0),
       questionBankCount: Number(qCountRow?.cnt || 0),
       variantQuestionCount: Number(qCountRow?.variants || 0),
       unreviewedQuestionCount: Number(qCountRow?.unreviewed || 0),
@@ -1383,6 +1389,7 @@ async function handleApiV1(request, env, url) {
     await ensureD1Tables(env.DB);
     const tableNames = [
       'sys_config_thresholds',
+      'manual_nodes',
       'student_profiles',
       'student_manual_progress',
       'school_exam_scores',
