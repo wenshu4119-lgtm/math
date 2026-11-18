@@ -22,12 +22,20 @@
       </div>
 
       <div id="headerControls" class="header-controls hidden">
+        <div class="cloud-bar-group">
+          <select id="cloudStudentSelect" class="cloud-select" title="切换云端学员档案">
+            <option value="">当前本地档案</option>
+          </select>
+          <button type="button" id="newStudentBtn" class="btn-ghost-light" style="padding:4px 8px; font-size:12px;">+ 新建学员</button>
+          <button type="button" id="syncCloudNowBtn" class="btn-ghost-light" style="padding:4px 8px; font-size:12px;">☁️ 保存云端</button>
+          <span id="cloudSyncStatusBadge" class="cloud-status-pill">云端就绪</span>
+        </div>
         <div id="activeProfilePill" class="student-pill">尚未建档</div>
         <div class="role-switch" role="group" aria-label="视角切换">
           <button type="button" id="roleStudentBtn" class="role-btn active" data-role="student">学员 / 家长端</button>
           <button type="button" id="roleAdminBtn" class="role-btn" data-role="admin">名师 / 管理员</button>
         </div>
-        <button type="button" id="openWizardBtn" class="btn-ghost-light">新建 / 修改档案</button>
+        <button type="button" id="openWizardBtn" class="btn-ghost-light">修改当前档案</button>
         <button type="button" id="lockAppBtn" class="btn-ghost-light">退出锁定</button>
       </div>
     </div>
@@ -351,7 +359,7 @@
         </button>
       </div>
       <div class="secondary-modules">
-        <button type="button" id="navPhase2" class="sub-tab" data-view="viewPhase2Preview">智能组卷中心（二期）</button>
+        <button type="button" id="navPhase2" class="sub-tab" data-view="viewPhase2Preview">自助与 AI 智能组卷中心</button>
         <button type="button" id="navPhase3" class="sub-tab" data-view="viewPhase3Preview">积分钱包 / 管理员总控（三期）</button>
       </div>
     </nav>
@@ -704,26 +712,165 @@
       </article>
     </section>
 
-    <!-- ==================== 二期 / 三期架构预览页（去杂乱占位，清晰可预期） ==================== -->
-    <section id="viewPhase2Preview" class="card hidden">
-      <div class="card-head">
-        <h3 class="card-title">模块 3 · 自助与 AI 智能组卷中心 <span class="badge badge-gold">第二期施工交付清单</span></h3>
+    <!-- ==================== 模块 3：自助与 AI 智能组卷中心（独立快捷入口） ==================== -->
+    <section id="viewPhase2Preview" class="hidden">
+      <div class="card no-print">
+        <div class="card-head">
+          <h3 class="card-title">自助与 AI 智能组卷中心 <span class="badge badge-gold">按手册题型抽题 · 双版本标准 A4 输出</span></h3>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button type="button" id="examModeManualBtn" class="btn btn-sm btn-primary">手动精准组卷</button>
+            <button type="button" id="examModeAiBtn" class="btn btn-sm btn-outline">AI 一句话智能组卷</button>
+          </div>
+        </div>
+
+        <!-- 历史云端试卷回溯 -->
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px; padding:10px 12px; background:var(--surface-soft); border-radius:var(--radius-sm);">
+          <strong style="font-size:12.5px; color:var(--primary);">云端历史组卷：</strong>
+          <select id="savedExamsSelect" class="select" style="flex:1; min-width:220px;">
+            <option value="">暂无已保存试卷，可在下方快速组卷</option>
+          </select>
+          <button type="button" id="loadSavedExamBtn" class="btn btn-outline btn-sm">调取试卷</button>
+        </div>
+
+        <!-- 方式 1：手动精准组卷面板 -->
+        <div id="examManualPanel">
+          <div class="form-grid" style="margin-bottom:12px;">
+            <div class="field-group">
+              <label class="field-label" for="examStageSelect">学段选择</label>
+              <select id="examStageSelect" class="select">
+                <option value="senior">高中 / 高考</option>
+                <option value="junior">初中 / 中考</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="examGradeSelect">适用年级</label>
+              <select id="examGradeSelect" class="select">
+                <option value="高二">高二</option>
+                <option value="高一">高一</option>
+                <option value="高三">高三</option>
+                <option value="九年级">九年级</option>
+                <option value="八年级">八年级</option>
+                <option value="七年级">七年级</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="examSubjectSelect">考试学科</label>
+              <select id="examSubjectSelect" class="select"></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="examDurationInput">建议答题时长（分钟）</label>
+              <input id="examDurationInput" class="input" type="number" value="90" min="30" max="180">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:12px;">
+            <div class="field-group">
+              <label class="field-label" for="examBasicCountInput">【基础】题量（题）</label>
+              <input id="examBasicCountInput" class="input" type="number" value="4" min="0" max="20">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="examMediumCountInput">【中等】题量（题）</label>
+              <input id="examMediumCountInput" class="input" type="number" value="4" min="0" max="20">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="examHardCountInput">【压轴】题量（题）</label>
+              <input id="examHardCountInput" class="input" type="number" value="2" min="0" max="12">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="examCustomTitleInput">自定义试卷名称（选填）</label>
+              <input id="examCustomTitleInput" class="input" type="text" placeholder="留空则按年级与学科自动命名">
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; flex:1;">
+              <strong style="font-size:13px; color:var(--primary);">按《过关手册》勾选目标题型节点（不选则按全科均衡抽取）：</strong>
+              <input id="examNodeSearchInput" class="input" type="text" placeholder="搜索章节或题型关键词..." style="max-width:240px; padding:5px 9px; font-size:12.5px;">
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" id="examSelectWeakNodesBtn" class="btn btn-gold btn-sm">🎯 一键勾选红黄灯薄弱题型</button>
+              <button type="button" id="examSelectAllNodesBtn" class="btn btn-outline btn-sm">全选当前筛查</button>
+              <button type="button" id="examClearNodesBtn" class="btn btn-outline btn-sm">清空勾选</button>
+            </div>
+          </div>
+
+          <div id="examNodeChecklist" class="node-check-grid"></div>
+
+          <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+            <button type="button" id="generateManualExamBtn" class="btn btn-primary">按手册勾选题型智能抽题组卷 →</button>
+          </div>
+        </div>
+
+        <!-- 方式 2：AI 自然语言一句话智能组卷面板 -->
+        <div id="examAiPanel" class="hidden">
+          <div class="notice-box">
+            输入一句话教学需求，系统将结合 Workers AI 教研规则自动识别学段、学科、期中/期末范围、标准难度梯度并匹配《过关手册》题型组卷；若某类真题库存不足将明确发出缺题补充提示。
+          </div>
+          <div class="field-group" style="margin-bottom:10px;">
+            <label class="field-label" for="aiExamPromptInput">一句话描述您的组卷需求</label>
+            <textarea id="aiExamPromptInput" class="textarea" rows="3" placeholder="例如：高二数学第一学期期中考试试卷，中等偏难"></textarea>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px;">
+            <span style="font-size:12px; color:var(--muted);">快捷示例：</span>
+            <button type="button" class="btn btn-outline btn-sm" data-ai-preset="高二数学第一学期期中考试试卷，中等偏难">高二数学第一学期期中（中等偏难）</button>
+            <button type="button" class="btn btn-outline btn-sm" data-ai-preset="九年级中考数学二次函数与方程专题提优训练，偏难压轴">初三数学函数方程专题压轴</button>
+            <button type="button" class="btn btn-outline btn-sm" data-ai-preset="高一物理上学期基础巩固过关小测">高一物理基础夯实小测</button>
+          </div>
+          <div style="display:flex; justify-content:flex-end;">
+            <button type="button" id="generateAiExamBtn" class="btn btn-accent">✨ AI 自动识别结构并智能组卷 →</button>
+          </div>
+        </div>
       </div>
-      <p style="color:var(--muted);">本板块已于 D1 数据库（<code>question_bank</code>、<code>knowledge_base_docs</code>、<code>generated_exams</code>）完成表结构建库，将在第二期正式上线以下完整能力：</p>
-      <div class="choice-grid">
-        <div class="choice-card">
-          <h4>1. 手动精准选题组卷</h4>
-          <p>按年级、学科与《过关手册》具体题型勾选，设定【基础 / 中等 / 压轴】题数，支持单题“换一题”。</p>
-        </div>
-        <div class="choice-card">
-          <h4>2. AI 自然语言智能组卷</h4>
-          <p>输入需求（如“高二数学期中中等偏难”），AI 自动规划题型与分值结构并从真题库抓题，储备不足时预警提示。</p>
-        </div>
-        <div class="choice-card">
-          <h4>3. 双版本标准 A4 导出</h4>
-          <p>标准 A4 试卷密封线/得分栏排版，一键导出【学生原卷版（无答案）】与【教师解析版（含标签与精讲）】。</p>
+
+      <!-- 缺题储备预警提示条 -->
+      <div id="examShortageAlertBox" class="notice-box warn hidden no-print"></div>
+
+      <!-- 双版本切换与 A4/长图导出工具栏 -->
+      <div id="examResultToolbar" class="card hidden no-print">
+        <div class="card-head" style="margin-bottom:0; padding-bottom:0; border:none;">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" id="examViewStudentBtn" class="btn btn-primary btn-sm">【学生原卷版（无答案）】</button>
+            <button type="button" id="examViewTeacherBtn" class="btn btn-outline btn-sm">【教师解析版（含答案、解析及手册标签）】</button>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" id="printExamPaperBtn" class="btn btn-primary btn-sm">导出打印级 A4 试卷 PDF</button>
+            <button type="button" id="exportExamImageBtn" class="btn btn-gold btn-sm">导出试卷高清长图 PNG</button>
+          </div>
         </div>
       </div>
+
+      <!-- 标准 A4 考卷实体预览区（含密封线、姓名栏、得分栏与全屏斜向水印） -->
+      <article id="examPaperSheet" class="exam-paper-sheet anti-theft-protected hidden">
+        <div class="exam-seal-line">
+          <span>班级：_________　姓名：_________　学号：_________　密 封 线 内 请 勿 答 题</span>
+        </div>
+
+        <div class="exam-header-box">
+          <h2 id="examPaperMainTitle">标准过关测验试卷</h2>
+          <div id="examPaperMetaRow" class="exam-meta-line"></div>
+          <table class="exam-score-table">
+            <thead>
+              <tr>
+                <th>题号 / 大题</th>
+                <th>一、选择题</th>
+                <th>二、填空题</th>
+                <th>三、解答综合题</th>
+                <th>卷面总分</th>
+                <th>实得分数</th>
+                <th>复核人</th>
+              </tr>
+            </thead>
+            <tbody id="examScoreTableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="examQuestionsList"></div>
+
+        <div style="margin-top:24px; padding-top:12px; border-top:1px dashed var(--border); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <span>许老师工作室 · 铭师学习规划平台 (mrxu.uk) 原创教研出品 · 盗版必究</span>
+          <span>配套《考点过关手册》红黄绿灯闭环系统</span>
+        </div>
+      </article>
     </section>
 
     <section id="viewPhase3Preview" class="card hidden">

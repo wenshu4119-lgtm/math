@@ -824,11 +824,197 @@ html, body {
   gap: 16px;
 }
 
+/* ==================== 顶部云端多学员档案同步条 ==================== */
+.cloud-bar-group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+
+.cloud-select {
+  background: rgba(15, 29, 49, 0.55);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  max-width: 190px;
+}
+
+.cloud-status-pill {
+  font-size: 11.5px;
+  color: #DDF3E6;
+  padding: 2px 6px;
+}
+
+/* ==================== 模块 3：自助与 AI 智能组卷中心 & A4 标准考卷排版 ==================== */
+.node-check-grid {
+  max-height: 290px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: #FAFBFB;
+}
+
+.node-check-chapter {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #DDE5E8;
+}
+
+.node-check-chapter-title {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.node-check-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 6px 12px;
+}
+
+.node-check-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.exam-paper-sheet {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid #C6D0D6;
+  box-shadow: 0 10px 30px rgba(27, 54, 93, 0.09);
+  border-radius: 6px;
+  padding: 32px 34px 36px 76px;
+  margin-top: 14px;
+}
+
+.exam-seal-line {
+  position: absolute;
+  left: 14px;
+  top: 24px;
+  bottom: 24px;
+  width: 44px;
+  border-right: 2px dashed #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 11.5px;
+  letter-spacing: 3px;
+  color: #475569;
+  user-select: none;
+}
+
+.exam-header-box {
+  text-align: center;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+
+.exam-header-box h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.exam-meta-line {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.exam-score-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 20px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.exam-score-table th, .exam-score-table td {
+  border: 1px solid #475569;
+  padding: 6px 10px;
+}
+
+.exam-score-table th {
+  background: #F4F6F8;
+  color: var(--primary);
+}
+
+.exam-section-banner {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 18px 0 10px;
+  padding: 6px 10px;
+  background: var(--primary-tint);
+  border-left: 4px solid var(--primary);
+}
+
+.exam-question-card {
+  border-bottom: 1px dashed #E2E8F0;
+  padding: 12px 4px;
+  page-break-inside: avoid;
+}
+
+.exam-q-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.exam-q-stem {
+  font-size: 14.5px;
+  line-height: 1.7;
+  white-space: pre-line;
+  color: #111827;
+}
+
+.exam-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 6px 16px;
+  margin-top: 8px;
+  padding-left: 16px;
+  font-size: 13.5px;
+}
+
+.exam-answer-space {
+  height: 76px;
+  border-bottom: 1px dotted #CBD5E1;
+  margin-top: 6px;
+}
+
+.teacher-analysis-box {
+  background: #F6FAF8;
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #1E3A34;
+}
+
 /* ==================== A4 打印与 PDF 导出排版 ==================== */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 14mm;
+    margin: 12mm;
   }
   body {
     background: #FFFFFF;
@@ -840,10 +1026,15 @@ html, body {
     max-width: 100%;
     padding: 0;
   }
-  .report-book {
+  .card {
     box-shadow: none;
-    border-width: 2px;
-    page-break-inside: avoid;
+    border: none;
+    padding: 0;
+  }
+  .report-book, .exam-paper-sheet {
+    box-shadow: none;
+    margin-top: 0;
+    border-width: 1px;
   }
   .watermark-overlay {
     opacity: 0.14 !important;

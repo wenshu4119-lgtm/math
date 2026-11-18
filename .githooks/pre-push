@@ -1,18 +1,37 @@
 #!/bin/sh
 # 推送前自动把站点部署到 Cloudflare Workers（正式域名 https://mrxu.uk）
 # 启用方式：git config core.hooksPath .githooks
-# 依赖：本机已执行过 npx wrangler login；换电脑需重新授权。
 # 部署失败不阻止推送，仅给出警告。
 cat >/dev/null 2>&1
 ROOT=$(git rev-parse --show-toplevel) || exit 0
 cd "$ROOT" || exit 0
 
-OUT=$(npx --yes wrangler@4 deploy 2>&1)
-RC=$?
+WORKBUDDY_NODE_DIR="/c/Users/Administrator/.workbuddy-ai/binaries/node/versions/22.22.2-6"
+CODEX_NODE_DIR="/c/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin"
+WRANGLER_BIN="/c/Users/Administrator/Desktop/junior-learning-platform/node_modules/wrangler/bin/wrangler.js"
+
+for d in "$WORKBUDDY_NODE_DIR" "$CODEX_NODE_DIR"; do
+  if [ -d "$d" ]; then
+    PATH="$d:$PATH"
+  fi
+done
+export PATH
+
+if command -v npx >/dev/null 2>&1; then
+  OUT=$(npx --yes wrangler@4 deploy 2>&1)
+  RC=$?
+elif command -v node >/dev/null 2>&1 && [ -f "$WRANGLER_BIN" ]; then
+  OUT=$(node "$WRANGLER_BIN" deploy 2>&1)
+  RC=$?
+else
+  echo "[auto-deploy] 未检测到 node/npx 环境，请确认 Node 安装路径后重试。" >&2
+  exit 0
+fi
+
 printf '%s\n' "$OUT" | tail -6
 
 if [ "$RC" -eq 0 ]; then
-  echo "[auto-deploy] https://mrxu.uk 已更新"
+  echo "[auto-deploy] https://mrxu.uk (muddy-wildflower-44b9) 已自动部署更新"
 else
   echo "[auto-deploy] 部署失败：请运行 npx wrangler login 重新授权后重试" >&2
 fi

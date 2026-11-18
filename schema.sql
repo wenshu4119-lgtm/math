@@ -56,6 +56,10 @@ CREATE TABLE IF NOT EXISTS student_profiles (
   points_balance INTEGER NOT NULL DEFAULT 100,
   invite_code TEXT UNIQUE,
   invited_by_code TEXT,
+  cleared_red_count INTEGER NOT NULL DEFAULT 0,
+  tasks_json TEXT NOT NULL DEFAULT '[]',
+  admin_commentary TEXT DEFAULT '',
+  workspace_state_json TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -105,7 +109,7 @@ CREATE INDEX IF NOT EXISTS idx_manual_nodes_subject
 CREATE TABLE IF NOT EXISTS student_manual_progress (
   progress_id TEXT PRIMARY KEY,
   student_id TEXT NOT NULL REFERENCES student_profiles(student_id) ON DELETE CASCADE,
-  node_id TEXT NOT NULL REFERENCES manual_nodes(node_id) ON DELETE CASCADE,
+  node_id TEXT NOT NULL,
   planned_count INTEGER NOT NULL DEFAULT 5,     -- 计划做题数
   completed_count INTEGER NOT NULL DEFAULT 0,   -- 已完成题数
   wrong_count INTEGER NOT NULL DEFAULT 0,       -- 不会/错误数
@@ -126,7 +130,7 @@ CREATE INDEX IF NOT EXISTS idx_progress_light
 CREATE TABLE IF NOT EXISTS light_clear_packs (
   pack_id TEXT PRIMARY KEY,
   student_id TEXT NOT NULL REFERENCES student_profiles(student_id) ON DELETE CASCADE,
-  node_id TEXT NOT NULL REFERENCES manual_nodes(node_id) ON DELETE CASCADE,
+  node_id TEXT NOT NULL,
   trigger_light TEXT NOT NULL DEFAULT 'red',
   diagnosis_reason TEXT NOT NULL,               -- 薄弱知识原因分析
   advice_text TEXT NOT NULL,                    -- 靶向解决建议
@@ -165,6 +169,7 @@ CREATE TABLE IF NOT EXISTS school_exam_scores (
   score_obtained REAL NOT NULL,
   max_score REAL NOT NULL,
   target_score REAL,
+  rank_note TEXT DEFAULT '',
   entered_by_role TEXT NOT NULL DEFAULT 'parent',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -189,7 +194,7 @@ CREATE TABLE IF NOT EXISTS knowledge_base_docs (
   doc_id TEXT PRIMARY KEY,
   stage TEXT NOT NULL,
   subject_key TEXT NOT NULL,
-  manual_node_id TEXT REFERENCES manual_nodes(node_id),
+  manual_node_id TEXT,
   kb_category TEXT NOT NULL,                    -- 基础必掌握类 | 总结归纳类
   title TEXT NOT NULL,
   content_markdown TEXT NOT NULL,
@@ -202,7 +207,7 @@ CREATE TABLE IF NOT EXISTS question_bank (
   q_id TEXT PRIMARY KEY,
   stage TEXT NOT NULL,
   subject_key TEXT NOT NULL,
-  manual_node_id TEXT REFERENCES manual_nodes(node_id),
+  manual_node_id TEXT,
   difficulty TEXT NOT NULL,                     -- 基础 | 中等 | 压轴
   question_type TEXT NOT NULL,                  -- 选择 | 填空 | 解答 | 实验 | 作文 | 其他
   stem_text TEXT NOT NULL,
@@ -229,7 +234,11 @@ CREATE TABLE IF NOT EXISTS generated_exams (
   prompt_text TEXT,
   stage TEXT NOT NULL,
   subject_key TEXT NOT NULL,
+  grade_label TEXT DEFAULT '',
+  total_score INTEGER NOT NULL DEFAULT 100,
+  duration_minutes INTEGER NOT NULL DEFAULT 90,
   question_ids_json TEXT NOT NULL,
+  exam_payload_json TEXT NOT NULL DEFAULT '{}',
   insufficient_warnings_json TEXT DEFAULT '[]',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

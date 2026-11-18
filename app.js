@@ -11,6 +11,7 @@
   const WATERMARK_TEXT = '许老师工作室 / 铭师学习规划原创 · 盗版必究';
 
   const DEFAULT_STATE = {
+    studentId: '',
     role: 'student',
     wizardDone: false,
     wizardStep: 1,
@@ -63,6 +64,10 @@
   let bootstrap = null;
   let paperDraft = null;
   let currentPack = null;
+  let currentExam = null;
+  let currentExamWarnings = [];
+  let examViewMode = 'student';
+  let cloudSyncTimer = null;
   let trendChartInstance = null;
   let radarChartInstance = null;
   const openChapterIds = new Set();
@@ -89,10 +94,119 @@
     }
   }
 
-  function saveState() {
+  function saveState(triggerCloud = true) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (_) { /* ignore quota errors */ }
+    if (triggerCloud && accessCode && bootstrap?.d1Enabled && state.wizardDone) {
+      scheduleCloudSync();
+    }
+  }
+
+  function setCloudBadge(text, ok = true) {
+    const el = $('cloudSyncStatusBadge');
+    if (!el) return;
+    el.textContent = text;
+    el.style.color = ok ? '#DDF3E6' : '#FDE68A';
+  }
+
+  function scheduleCloudSync() {
+    if (cloudSyncTimer) clearTimeout(cloudSyncTimer);
+    setCloudBadge('待同步...');
+    cloudSyncTimer = setTimeout(() => {
+      syncToCloudNow(true);
+    }, 1500);
+  }
+
+  async function loadCloudStudentsList() {
+    const sel = $('cloudStudentSelect');
+    if (!sel || !accessCode) return;
+    try {
+      const res = await apiFetch('/api/v1/cloud/students');
+      if (!res.d1Enabled) {
+        setCloudBadge('本地存储模式', false);
+        return;
+      }
+      const list = res.students || [];
+      const currentOption = state.studentId ? '' : '<option value="">当前本地新建学员（未上云）</option>';
+      const opts = list.map(s =>
+        `<option value="${escapeHtml(s.student_id)}">${escapeHtml(s.display_alias)} · ${escapeHtml(s.grade_label)} (${escapeHtml(s.province || '')})</option>`
+      ).join('');
+      sel.innerHTML = currentOption + opts || '<option value="">暂无云端学员，建档后自动上云</option>';
+      if (state.studentId && list.some(s => s.student_id === state.studentId)) {
+        sel.value = state.studentId;
+      }
+      setCloudBadge(`云端 ${list.length} 档案`);
+    } catch (_) {
+      setCloudBadge('云端离线', false);
+    }
+  }
+
+  async function syncToCloudNow(silent = false) {
+    if (!accessCode || !bootstrap?.d1Enabled) {
+      if (!silent) alert('当前环境未启用 Cloudflare D1 云端数据库，仅保留在本地浏览器。');
+      return;
+    }
+    if (!state.studentId) {
+      state.studentId = 'stu_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+    }
+    setCloudBadge('同步中...');
+    try {
+      const res = await apiFetch('/api/v1/cloud/student/save', {
+        method: 'POST',
+        body: JSON.stringify({
+          studentId: state.studentId,
+          workspace: state
+        })
+      });
+      state.studentId = res.studentId;
+      saveState(false);
+      await loadCloudStudentsList();
+      setCloudBadge('已云端同步 ✓');
+      if (!silent) alert(`档案已安全保存至 Cloudflare D1 云端数据库！\n学员编号：${res.studentId}\n已同步过关节点：${res.progressCount} 项，考分记录：${res.scoresCount} 条。`);
+    } catch (err) {
+      setCloudBadge('同步失败', false);
+      if (!silent) alert(`云端保存失败：${err.message}`);
+    }
+  }
+
+  async function switchCloudStudent(studentId) {
+    if (!studentId) return;
+    setCloudBadge('拉取中...');
+    try {
+      const res = await apiFetch(`/api/v1/cloud/student?studentId=${encodeURIComponent(studentId)}`);
+      if (!res?.workspace) throw new Error('云端返回档案为空');
+      const keepRole = state.role;
+      state = {
+        ...deepClone(DEFAULT_STATE),
+        ...res.workspace,
+        role: keepRole,
+        studentId: res.studentId,
+        profile: { ...DEFAULT_STATE.profile, ...(res.workspace.profile || {}) },
+        thresholds: { ...DEFAULT_STATE.thresholds, ...(res.workspace.thresholds || {}) }
+      };
+      openChapterIds.clear();
+      saveState(false);
+      enterMainWorkspace(true);
+      setCloudBadge('已切换云端档案 ✓');
+    } catch (err) {
+      setCloudBadge('切换失败', false);
+      alert(`读取云端档案失败：${err.message}`);
+    }
+  }
+
+  function createNewStudentArchive() {
+    const keepRole = state.role;
+    state = {
+      ...deepClone(DEFAULT_STATE),
+      role: keepRole,
+      studentId: 'stu_' + Date.now().toString(36),
+      wizardDone: false,
+      wizardStep: 1
+    };
+    openChapterIds.clear();
+    saveState(false);
+    enterMainWorkspace(true);
   }
 
   function escapeHtml(str) {
@@ -235,7 +349,7 @@
     $('accessCodeInput').value = '';
   }
 
-  function enterMainWorkspace() {
+  function enterMainWorkspace(skipCloudList = false) {
     $('authGate').classList.add('hidden');
     $('mainApp').classList.remove('hidden');
     $('headerControls').classList.remove('hidden');
@@ -254,6 +368,7 @@
       switchMainView(state.activeView || 'viewStep1');
     }
     updateHeaderPill();
+    if (!skipCloudList) loadCloudStudentsList();
   }
 
   function syncRoleUI() {
@@ -610,11 +725,12 @@
       if (finalize) {
         state.wizardDone = true;
         state.tasks = p.dailyTasks.map(t => ({ ...t, done: false }));
-        saveState();
+        saveState(false);
         updateHeaderPill();
         $('wizardSection').classList.add('hidden');
         $('mainNavBar').classList.remove('hidden');
         switchMainView('viewStep1');
+        syncToCloudNow(true);
       } else {
         saveState();
       }
@@ -626,7 +742,7 @@
   // ==================== 导航与视图切换 ====================
   function switchMainView(viewId) {
     state.activeView = viewId;
-    saveState();
+    saveState(false);
 
     const views = ['viewStep1', 'viewStep2', 'viewStep3', 'viewPhase2Preview', 'viewPhase3Preview'];
     views.forEach(id => $(id).classList.toggle('hidden', id !== viewId));
@@ -638,6 +754,7 @@
     if (viewId === 'viewStep1') renderStep1Tasks();
     if (viewId === 'viewStep2') renderStep2Manual();
     if (viewId === 'viewStep3') renderStep3ArchiveAndReport();
+    if (viewId === 'viewPhase2Preview') initExamCenterView();
   }
 
   // ==================== 第 1 步：今日任务 & 拍卷测漏 ====================
@@ -1658,6 +1775,426 @@
     a.click();
   }
 
+  // ==================== 模块 3：自助与 AI 智能组卷中心 ====================
+  const checkedExamNodes = new Set();
+
+  function initExamCenterView() {
+    if (!bootstrap?.catalog) return;
+    if (!$('examStageSelect').dataset.inited) {
+      $('examStageSelect').value = state.manualStage === 'junior' ? 'junior' : 'senior';
+      $('examStageSelect').dataset.inited = '1';
+      renderExamSubjectOptions();
+      $('examSubjectSelect').value = state.manualSubject || 'math';
+    } else {
+      renderExamNodeChecklist();
+    }
+    loadSavedExamsDropdown();
+    if (currentExam) renderAssembledExam();
+  }
+
+  function renderExamSubjectOptions() {
+    if (!bootstrap?.subjectOrder) return;
+    const stage = $('examStageSelect').value === 'junior' ? 'junior' : 'senior';
+    const order = bootstrap.subjectOrder[stage] || [];
+    const cur = $('examSubjectSelect').value;
+    $('examSubjectSelect').innerHTML = order
+      .map(s => `<option value="${escapeHtml(s.key)}">${escapeHtml(s.label)}</option>`)
+      .join('');
+    if (order.some(s => s.key === cur)) $('examSubjectSelect').value = cur;
+    checkedExamNodes.clear();
+    renderExamNodeChecklist();
+  }
+
+  function renderExamNodeChecklist() {
+    const stage = $('examStageSelect').value === 'junior' ? 'junior' : 'senior';
+    const subjKey = $('examSubjectSelect').value || 'math';
+    const subj = bootstrap?.catalog?.[stage]?.[subjKey];
+    const container = $('examNodeChecklist');
+    if (!subj || !container) return;
+
+    const kw = ($('examNodeSearchInput').value || '').trim().toLowerCase();
+    const blocks = (subj.chapters || []).map(ch => {
+      const items = (ch.items || []).filter(it => !kw || it.title.toLowerCase().includes(kw) || ch.title.toLowerCase().includes(kw));
+      if (!items.length) return '';
+      const itemsHtml = items.map(it => {
+        const ev = evaluateNodeProgress(state.progress[it.nodeId], it.defaultPlannedCount);
+        const dot = ev.light_status === 'red' ? '🔴 ' : (ev.light_status === 'yellow' ? '🟡 ' : (ev.light_status === 'green' ? '🟢 ' : ''));
+        return `
+          <label class="node-check-label">
+            <input type="checkbox" data-exam-node="${escapeHtml(it.nodeId)}" ${checkedExamNodes.has(it.nodeId) ? 'checked' : ''}>
+            <span>${dot}${escapeHtml(it.title)}</span>
+          </label>
+        `;
+      }).join('');
+      return `
+        <div class="node-check-chapter">
+          <div class="node-check-chapter-title">${escapeHtml(ch.title)}（${items.length}）</div>
+          <div class="node-check-items">${itemsHtml}</div>
+        </div>
+      `;
+    }).join('');
+    container.innerHTML = blocks || '<div style="color:var(--muted); font-size:12.5px;">暂无匹配题型节点</div>';
+  }
+
+  function selectWeakManualNodesForExam() {
+    const stage = $('examStageSelect').value === 'junior' ? 'junior' : 'senior';
+    const subjKey = $('examSubjectSelect').value || 'math';
+    const subj = bootstrap?.catalog?.[stage]?.[subjKey];
+    if (!subj) return;
+    checkedExamNodes.clear();
+    let count = 0;
+    subj.chapters.forEach(ch => {
+      ch.items.forEach(it => {
+        const ev = evaluateNodeProgress(state.progress[it.nodeId], it.defaultPlannedCount);
+        if (ev.light_status === 'red' || ev.light_status === 'yellow') {
+          checkedExamNodes.add(it.nodeId);
+          count += 1;
+        }
+      });
+    });
+    renderExamNodeChecklist();
+    if (!count) {
+      alert('当前所选学科暂未标记红黄灯薄弱节点；您可以先到第 2 步标记薄弱项，或直接不勾选节点按全科抽题组卷。');
+    }
+  }
+
+  async function loadSavedExamsDropdown() {
+    if (!accessCode) return;
+    try {
+      const res = await apiFetch('/api/v1/exams/list');
+      const list = res.exams || [];
+      const sel = $('savedExamsSelect');
+      if (!list.length) {
+        sel.innerHTML = '<option value="">云端暂无历史试卷，完成组卷后将自动存档</option>';
+        return;
+      }
+      sel.innerHTML = list.map(e =>
+        `<option value="${escapeHtml(e.exam_id)}">[${e.mode === 'ai_nl' ? 'AI' : '手动'}] ${escapeHtml(e.title)}（${e.total_score}分 · ${escapeHtml(e.created_at.slice(0, 16))}）</option>`
+      ).join('');
+    } catch (_) { /* optional */ }
+  }
+
+  async function loadSavedExamById() {
+    const examId = $('savedExamsSelect').value;
+    if (!examId) return;
+    try {
+      const res = await apiFetch(`/api/v1/exams/detail?examId=${encodeURIComponent(examId)}`);
+      if (!res?.exam?.questions) throw new Error('试卷数据为空');
+      currentExam = res.exam;
+      currentExamWarnings = res.insufficientWarnings || [];
+      renderAssembledExam();
+    } catch (err) {
+      alert(`调取云端试卷失败：${err.message}`);
+    }
+  }
+
+  async function generateManualExam() {
+    const btn = $('generateManualExamBtn');
+    btn.disabled = true;
+    btn.textContent = '抽题组卷并校验题库中...';
+    try {
+      const res = await apiFetch('/api/v1/exams/assemble-manual', {
+        method: 'POST',
+        body: JSON.stringify({
+          studentId: state.studentId || '',
+          stage: $('examStageSelect').value,
+          gradeLabel: $('examGradeSelect').value,
+          subjectKey: $('examSubjectSelect').value,
+          selectedNodeIds: Array.from(checkedExamNodes),
+          counts: {
+            basic: Number($('examBasicCountInput').value) || 0,
+            medium: Number($('examMediumCountInput').value) || 0,
+            hard: Number($('examHardCountInput').value) || 0
+          },
+          examTitle: $('examCustomTitleInput').value.trim(),
+          durationMinutes: Number($('examDurationInput').value) || 90
+        })
+      });
+      currentExam = res.exam;
+      currentExamWarnings = res.insufficientWarnings || [];
+      renderAssembledExam();
+      loadSavedExamsDropdown();
+    } catch (err) {
+      alert(`手动组卷失败：${err.message}`);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '按手册勾选题型智能抽题组卷 →';
+    }
+  }
+
+  async function generateAiExam() {
+    const promptText = $('aiExamPromptInput').value.trim();
+    if (!promptText) {
+      alert('请先输入一句话组卷要求，例如：“高二数学第一学期期中考试试卷，中等偏难”。');
+      return;
+    }
+    const btn = $('generateAiExamBtn');
+    btn.disabled = true;
+    btn.textContent = '✨ AI 规划试卷结构与抽题中...';
+    try {
+      const res = await apiFetch('/api/v1/exams/assemble-ai', {
+        method: 'POST',
+        body: JSON.stringify({
+          studentId: state.studentId || '',
+          promptText,
+          fallbackStage: $('examStageSelect').value || state.manualStage,
+          fallbackSubjectKey: $('examSubjectSelect').value || state.manualSubject
+        })
+      });
+      currentExam = res.exam;
+      currentExamWarnings = res.insufficientWarnings || [];
+      if (res.blueprint) {
+        currentExamWarnings.unshift({
+          message: `✨ AI 结构识别结果：学段【${res.blueprint.gradeLabel}】 · 学科【${res.blueprint.subjectLabel}】 · 难度【${res.blueprint.difficultyProfile}】 · 命中《过关手册》节点 ${res.blueprint.matchedNodeCount} 个（基础 ${res.blueprint.counts.basic} / 中等 ${res.blueprint.counts.medium} / 压轴 ${res.blueprint.counts.hard}）。`
+        });
+      }
+      renderAssembledExam();
+      loadSavedExamsDropdown();
+    } catch (err) {
+      alert(`AI 智能组卷失败：${err.message}`);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✨ AI 自动识别结构并智能组卷 →';
+    }
+  }
+
+  async function swapSingleExamQuestion(qIdx) {
+    if (!currentExam?.questions?.[qIdx]) return;
+    const curQ = currentExam.questions[qIdx];
+    try {
+      const res = await apiFetch('/api/v1/exams/swap-question', {
+        method: 'POST',
+        body: JSON.stringify({
+          examId: currentExam.examId,
+          stage: currentExam.stage,
+          subjectKey: currentExam.subjectKey,
+          currentQuestion: curQ,
+          excludeQuestionIds: currentExam.questions.map(q => q.qId)
+        })
+      });
+      if (res?.question) {
+        currentExam.questions[qIdx] = res.question;
+        renderAssembledExam();
+      }
+    } catch (err) {
+      alert(`换一题失败：${err.message}`);
+    }
+  }
+
+  function renderAssembledExam() {
+    if (!currentExam) return;
+    $('examResultToolbar').classList.remove('hidden');
+    $('examPaperSheet').classList.remove('hidden');
+
+    const warnBox = $('examShortageAlertBox');
+    if (currentExamWarnings.length > 0) {
+      warnBox.innerHTML = currentExamWarnings.map(w => `<div>• ${escapeHtml(w.message)}</div>`).join('');
+      warnBox.classList.remove('hidden');
+    } else {
+      warnBox.classList.add('hidden');
+    }
+
+    const isTeacher = examViewMode === 'teacher';
+    $('examViewStudentBtn').className = `btn btn-sm ${!isTeacher ? 'btn-primary' : 'btn-outline'}`;
+    $('examViewTeacherBtn').className = `btn btn-sm ${isTeacher ? 'btn-accent' : 'btn-outline'}`;
+
+    const modeBadge = isTeacher ? '【教师解析版 · 含答案解析及手册标签】' : '【学生原卷版 · 无答案】';
+    $('examPaperMainTitle').textContent = `${currentExam.title} ${isTeacher ? '（教师解析版）' : ''}`;
+    $('examPaperMetaRow').textContent = `${modeBadge} | 年级学科：${currentExam.gradeLabel} · ${currentExam.subjectLabel} | 考试时长：${currentExam.durationMinutes} 分钟 | 满分：${currentExam.totalScore} 分`;
+
+    const secScores = { '选择': 0, '填空': 0, '解答': 0 };
+    (currentExam.questions || []).forEach(q => {
+      if (q.questionType === '选择') secScores['选择'] += Number(q.score || 0);
+      else if (q.questionType === '填空') secScores['填空'] += Number(q.score || 0);
+      else secScores['解答'] += Number(q.score || 0);
+    });
+    $('examScoreTableBody').innerHTML = `
+      <tr>
+        <td><strong>满分 / 得分</strong></td>
+        <td>${secScores['选择']} 分 / ____</td>
+        <td>${secScores['填空']} 分 / ____</td>
+        <td>${secScores['解答']} 分 / ____</td>
+        <td><strong>${currentExam.totalScore} 分</strong></td>
+        <td>________</td>
+        <td>________</td>
+      </tr>
+    `;
+
+    let lastSectionType = '';
+    const sectionTitles = { '选择': '一、选择题', '填空': '二、填空题', '解答': '三、解答与综合应用题' };
+    const html = (currentExam.questions || []).map((q, idx) => {
+      const secKey = (q.questionType === '选择' || q.questionType === '填空') ? q.questionType : '解答';
+      const banner = secKey !== lastSectionType
+        ? `<div class="exam-section-banner">${sectionTitles[secKey]}</div>`
+        : '';
+      lastSectionType = secKey;
+
+      const optionsHtml = Array.isArray(q.options) && q.options.length > 0
+        ? `<div class="exam-options-grid">${q.options.map(opt => `<div>${escapeHtml(opt)}</div>`).join('')}</div>`
+        : (!isTeacher && secKey === '解答' ? '<div class="exam-answer-space"></div>' : '');
+
+      const teacherBox = isTeacher
+        ? `
+          <div class="teacher-analysis-box">
+            <div><strong>【参考答案】</strong>${escapeHtml(q.answer)}</div>
+            <div style="margin-top:4px;"><strong>【精讲解析】</strong>${escapeHtml(q.analysis)}</div>
+            <div style="margin-top:4px; font-size:12px; color:var(--primary);">
+              <strong>【《过关手册》映射标签】</strong>${escapeHtml(q.chapterTitle || currentExam.subjectLabel)} → ${escapeHtml(q.manualNodeTitle || '综合题型')}（难度：${escapeHtml(q.difficulty)}${q.needsBankReplenish ? ' · ⚠️ 待补充原题' : ''}）
+            </div>
+          </div>
+        `
+        : '';
+
+      return `
+        ${banner}
+        <div class="exam-question-card">
+          <div class="exam-q-head">
+            <div>
+              <strong>第 ${q.no} 题</strong>
+              <span class="badge badge-navy" style="margin-left:6px;">${escapeHtml(q.difficulty)} · ${q.score}分</span>
+              ${q.needsBankReplenish ? '<span class="badge badge-yellow">储备补位</span>' : ''}
+            </div>
+            <button type="button" class="btn btn-outline btn-sm no-print" data-swap-q="${idx}">🔄 换一题</button>
+          </div>
+          <div class="exam-q-stem">${escapeHtml(q.stem)}</div>
+          ${optionsHtml}
+          ${teacherBox}
+        </div>
+      `;
+    }).join('');
+
+    $('examQuestionsList').innerHTML = html;
+  }
+
+  function exportExamLongImage() {
+    if (!currentExam?.questions?.length) return;
+    const isTeacher = examViewMode === 'teacher';
+    const W = 1080;
+    const PAD_L = 88;
+    const PAD_R = 54;
+    const CONTENT_W = W - PAD_L - PAD_R;
+
+    const tmp = document.createElement('canvas').getContext('2d');
+    tmp.font = '18px "PingFang SC", "Microsoft YaHei", sans-serif';
+
+    const blocks = currentExam.questions.map(q => {
+      const stemLines = wrapTextLines(tmp, `第 ${q.no} 题（${q.difficulty} · ${q.score}分）  ${q.stem}`, CONTENT_W - 12);
+      const optLines = (q.options || []).flatMap(o => wrapTextLines(tmp, `    ${o}`, CONTENT_W - 24));
+      const teacherLines = isTeacher
+        ? [
+            ...wrapTextLines(tmp, `【答案】${q.answer}`, CONTENT_W - 24),
+            ...wrapTextLines(tmp, `【解析】${q.analysis}`, CONTENT_W - 24),
+            ...wrapTextLines(tmp, `【手册标签】${q.chapterTitle || currentExam.subjectLabel} → ${q.manualNodeTitle}`, CONTENT_W - 24)
+          ]
+        : [];
+      const h = 24 + (stemLines.length + optLines.length) * 28 + (isTeacher ? (teacherLines.length * 26 + 24) : (q.questionType === '解答' ? 68 : 10));
+      return { q, stemLines, optLines, teacherLines, h };
+    });
+
+    const totalH = 290 + blocks.reduce((a, b) => a + b.h, 0) + 120;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = totalH;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, W, totalH);
+
+    // 左侧标准 A4 装订密封线
+    ctx.strokeStyle = '#64748B';
+    ctx.setLineDash([8, 6]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(64, 30);
+    ctx.lineTo(64, totalH - 30);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.save();
+    ctx.translate(36, Math.min(720, totalH / 2));
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = '#475569';
+    ctx.font = '15px "PingFang SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('班级：___________    姓名：___________    学号：___________    密 封 线 内 请 勿 答 题', 0, 0);
+    ctx.restore();
+
+    // 试卷抬头
+    ctx.fillStyle = '#1B365D';
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 28px "PingFang SC", sans-serif';
+    ctx.fillText(`${currentExam.title}${isTeacher ? '（教师解析版）' : '（学生原卷）'}`, (PAD_L + W - PAD_R) / 2, 76);
+
+    ctx.fillStyle = '#5C6773';
+    ctx.font = '16px "PingFang SC", sans-serif';
+    ctx.fillText(`时长：${currentExam.durationMinutes} 分钟   总分：${currentExam.totalScore} 分   得分：_______   复核：_______`, (PAD_L + W - PAD_R) / 2, 114);
+
+    ctx.strokeStyle = '#1B365D';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(PAD_L, 136);
+    ctx.lineTo(W - PAD_R, 136);
+    ctx.stroke();
+
+    let y = 178;
+    ctx.textAlign = 'left';
+    blocks.forEach(b => {
+      ctx.fillStyle = '#111827';
+      ctx.font = '18px "PingFang SC", sans-serif';
+      b.stemLines.forEach(ln => {
+        ctx.fillText(ln, PAD_L, y);
+        y += 28;
+      });
+      ctx.fillStyle = '#334155';
+      b.optLines.forEach(ln => {
+        ctx.fillText(ln, PAD_L, y);
+        y += 28;
+      });
+      if (isTeacher && b.teacherLines.length > 0) {
+        const boxH = b.teacherLines.length * 26 + 16;
+        ctx.fillStyle = '#F2F8F5';
+        ctx.fillRect(PAD_L, y - 10, CONTENT_W, boxH);
+        ctx.fillStyle = '#1F4E46';
+        ctx.font = '16px "PingFang SC", sans-serif';
+        let ty = y + 14;
+        b.teacherLines.forEach(ln => {
+          ctx.fillText(ln, PAD_L + 12, ty);
+          ty += 26;
+        });
+        y += boxH + 10;
+      } else {
+        y += (b.q.questionType === '解答' ? 68 : 14);
+      }
+      ctx.strokeStyle = '#E2E8F0';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(PAD_L, y - 6);
+      ctx.lineTo(W - PAD_R, y - 6);
+      ctx.stroke();
+      y += 22;
+    });
+
+    // 全屏防伪水印
+    ctx.save();
+    ctx.fillStyle = 'rgba(27, 54, 93, 0.08)';
+    ctx.font = 'bold 18px "PingFang SC", sans-serif';
+    for (let wy = 160; wy < totalH; wy += 240) {
+      for (let wx = 90; wx < W; wx += 420) {
+        ctx.save();
+        ctx.translate(wx, wy);
+        ctx.rotate(-0.4);
+        ctx.fillText(WATERMARK_TEXT, 0, 0);
+        ctx.restore();
+      }
+    }
+    ctx.restore();
+
+    const a = document.createElement('a');
+    a.download = `${currentExam.title}_${isTeacher ? '教师解析版' : '学生原卷版'}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  }
+
   // ==================== 事件绑定 ====================
   function bindEvents() {
     $('fillLocalCodeBtn').addEventListener('click', () => {
@@ -1927,6 +2464,76 @@
     });
     $('printReportBtn').addEventListener('click', () => window.print());
     $('exportLongImageBtn').addEventListener('click', exportReportLongImage);
+
+    // 顶部云端多学员档案同步与切换
+    $('syncCloudNowBtn').addEventListener('click', () => syncToCloudNow(false));
+    $('newStudentBtn').addEventListener('click', createNewStudentArchive);
+    $('cloudStudentSelect').addEventListener('change', e => {
+      if (e.target.value) switchCloudStudent(e.target.value);
+    });
+
+    // 模块 3：自助与 AI 智能组卷中心事件
+    $('examModeManualBtn').addEventListener('click', () => {
+      $('examManualPanel').classList.remove('hidden');
+      $('examAiPanel').classList.add('hidden');
+      $('examModeManualBtn').className = 'btn btn-sm btn-primary';
+      $('examModeAiBtn').className = 'btn btn-sm btn-outline';
+    });
+    $('examModeAiBtn').addEventListener('click', () => {
+      $('examManualPanel').classList.add('hidden');
+      $('examAiPanel').classList.remove('hidden');
+      $('examModeAiBtn').className = 'btn btn-sm btn-accent';
+      $('examModeManualBtn').className = 'btn btn-sm btn-outline';
+    });
+
+    $('examStageSelect').addEventListener('change', renderExamSubjectOptions);
+    $('examSubjectSelect').addEventListener('change', () => {
+      checkedExamNodes.clear();
+      renderExamNodeChecklist();
+    });
+    $('examNodeSearchInput').addEventListener('input', renderExamNodeChecklist);
+    $('examNodeChecklist').addEventListener('change', e => {
+      const nid = e.target.dataset.examNode;
+      if (!nid) return;
+      if (e.target.checked) checkedExamNodes.add(nid);
+      else checkedExamNodes.delete(nid);
+    });
+    $('examSelectWeakNodesBtn').addEventListener('click', selectWeakManualNodesForExam);
+    $('examSelectAllNodesBtn').addEventListener('click', () => {
+      document.querySelectorAll('#examNodeChecklist [data-exam-node]').forEach(cb => {
+        cb.checked = true;
+        checkedExamNodes.add(cb.dataset.examNode);
+      });
+    });
+    $('examClearNodesBtn').addEventListener('click', () => {
+      checkedExamNodes.clear();
+      renderExamNodeChecklist();
+    });
+
+    $('generateManualExamBtn').addEventListener('click', generateManualExam);
+    $('generateAiExamBtn').addEventListener('click', generateAiExam);
+    $('loadSavedExamBtn').addEventListener('click', loadSavedExamById);
+    document.querySelectorAll('[data-ai-preset]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $('aiExamPromptInput').value = btn.dataset.aiPreset;
+      });
+    });
+
+    $('examViewStudentBtn').addEventListener('click', () => {
+      examViewMode = 'student';
+      renderAssembledExam();
+    });
+    $('examViewTeacherBtn').addEventListener('click', () => {
+      examViewMode = 'teacher';
+      renderAssembledExam();
+    });
+    $('printExamPaperBtn').addEventListener('click', () => window.print());
+    $('exportExamImageBtn').addEventListener('click', exportExamLongImage);
+    $('examQuestionsList').addEventListener('click', e => {
+      const btn = e.target.closest('[data-swap-q]');
+      if (!btn) return;
+      swapSingleExamQuestion(Number(btn.dataset.swapQ));
+    });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
