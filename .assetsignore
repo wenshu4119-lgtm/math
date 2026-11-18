@@ -19,3 +19,10 @@ tests/
 .assetsignore
 package.json
 package-lock.json
+*.pdf
+*.docx
+*.sql
+*.mjs
+platform-ui/
+research/
+scratch/
