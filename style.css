@@ -1010,6 +1010,39 @@ html, body {
   color: #1E3A34;
 }
 
+/* ==================== 模块 4 & 5：积分钱包、裂变海报与管理员总控台 ==================== */
+.wallet-btn-pill {
+  background: rgba(181, 137, 56, 0.25);
+  border: 1px solid rgba(246, 229, 184, 0.55);
+  color: #FEF3C7;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.wallet-btn-pill:hover {
+  background: rgba(181, 137, 56, 0.42);
+}
+
+.poster-canvas-preview {
+  width: 100%;
+  max-width: 360px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: block;
+  margin-top: 10px;
+}
+
+.dedup-row-exact {
+  background: #FDF2F2 !important;
+}
+.dedup-row-warn {
+  background: #FEF8EA !important;
+}
+
 /* ==================== A4 打印与 PDF 导出排版 ==================== */
 @media print {
   @page {

@@ -31,6 +31,7 @@
           <span id="cloudSyncStatusBadge" class="cloud-status-pill">云端就绪</span>
         </div>
         <div id="activeProfilePill" class="student-pill">尚未建档</div>
+        <button type="button" id="headerWalletBtn" class="wallet-btn-pill">💰 积分: -- · 自学模式</button>
         <div class="role-switch" role="group" aria-label="视角切换">
           <button type="button" id="roleStudentBtn" class="role-btn active" data-role="student">学员 / 家长端</button>
           <button type="button" id="roleAdminBtn" class="role-btn" data-role="admin">名师 / 管理员</button>
@@ -360,7 +361,8 @@
       </div>
       <div class="secondary-modules">
         <button type="button" id="navPhase2" class="sub-tab" data-view="viewPhase2Preview">自助与 AI 智能组卷中心</button>
-        <button type="button" id="navPhase3" class="sub-tab" data-view="viewPhase3Preview">积分钱包 / 管理员总控（三期）</button>
+        <button type="button" id="navPhase3" class="sub-tab" data-view="viewPhase3Preview">💰 积分钱包 &amp; 邀请裂变</button>
+        <button type="button" id="navAdminConsole" class="sub-tab" data-view="viewAdminConsole">🛡️ 管理员总控 &amp; 智能入库</button>
       </div>
     </nav>
 
@@ -873,23 +875,360 @@
       </article>
     </section>
 
-    <section id="viewPhase3Preview" class="card hidden">
-      <div class="card-head">
-        <h3 class="card-title">模块 4 &amp; 5 · 商业积分钱包、分享裂变与智能入库总控台 <span class="badge badge-gold">第三期施工交付清单</span></h3>
+    <!-- ==================== 模块 4：四种服务模式、积分钱包与邀请裂变提现 ==================== -->
+    <section id="viewPhase3Preview" class="hidden">
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">我的积分钱包与服务模式 <span class="badge badge-gold">四种模式灵活切换 · 云端实时结算</span></h3>
+          <button type="button" id="refreshWalletBtn" class="btn btn-outline btn-sm">刷新账本</button>
+        </div>
+
+        <div class="traffic-summary-bar">
+          <div class="kpi-tile green">
+            <div class="kpi-label">当前可用积分</div>
+            <div id="walletPointsVal" class="kpi-val">--</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">当前生效服务模式</div>
+            <div id="walletModeVal" class="kpi-val" style="font-size:17px;">自学模式</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">报课特权状态</div>
+            <div id="walletCourseVal" class="kpi-val" style="font-size:17px;">未开通</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-label">我的专属邀请码</div>
+            <div id="walletInviteCodeVal" class="kpi-val" style="font-size:17px;">--</div>
+          </div>
+        </div>
+
+        <label class="field-label" style="display:block; margin-bottom:8px;">切换或查看服务模式（线下 / 企业微信缴费后由许老师在总控台充值积分或开通报课权限）</label>
+        <div class="choice-grid">
+          <div class="choice-card selected" data-service-mode="self_study">
+            <h4>1. 自学模式</h4>
+            <p>按使用模块扣分：知识库讲义 2 分 · 消灯任务包 5 分 · 智能组卷 8 分 · 规划报告 3 分。</p>
+          </div>
+          <div class="choice-card" data-service-mode="qa_tutoring">
+            <h4>2. 答疑模式</h4>
+            <p>分“全功能包干（排计划+批改+讲错题）”与“主动提交错题答疑”，按功能+年级+时长计分。</p>
+          </div>
+          <div class="choice-card" data-service-mode="periodic_eval">
+            <h4>3. 定期测评模式</h4>
+            <p>支持每周 / 每两周 / 每月自动测评出诊断报告并登记一次规划分析课（15 积分/次，报课免扣）。</p>
+          </div>
+          <div class="choice-card" data-service-mode="enrolled_course">
+            <h4>4. 报课模式（机构学员）</h4>
+            <p>管理员后台开通课程权限后，免费畅享除“答疑服务”外的全部题库、组卷与规划功能。</p>
+          </div>
+        </div>
+
+        <div class="two-col-layout" style="margin-top:10px;">
+          <!-- 自学与定期测评即时体验结算区 -->
+          <div class="cutoff-preview-panel">
+            <strong style="color:var(--primary);">自学资源调用 / 定期测评记录（报课权限自动享 0 积分）</strong>
+            <div class="form-grid" style="margin-top:10px;">
+              <div class="field-group">
+                <label class="field-label" for="selfStudyModuleSelect">自学调用模块</label>
+                <select id="selfStudyModuleSelect" class="select">
+                  <option value="kb_doc">调取【知识库】基础/归纳讲义（2 积分）</option>
+                  <option value="light_pack">解锁 DeepTutor【消灯任务包】（5 积分）</option>
+                  <option value="smart_exam">生成【智能组卷中心】标准卷（8 积分）</option>
+                  <option value="report_export">生成并导出规划复盘报告（3 积分）</option>
+                </select>
+              </div>
+              <div class="field-group" style="justify-content:flex-end;">
+                <button type="button" id="selfStudyConsumeBtn" class="btn btn-primary">使用模块并自动结算</button>
+              </div>
+            </div>
+
+            <div class="form-grid" style="margin-top:12px; padding-top:10px; border-top:1px dashed #C8DAD3;">
+              <div class="field-group">
+                <label class="field-label" for="evalFreqSelect">定期测评频率设定</label>
+                <select id="evalFreqSelect" class="select">
+                  <option value="weekly">每周测评一次（周度规划复盘课）</option>
+                  <option value="biweekly" selected>每两周测评一次（双周过关分析课）</option>
+                  <option value="monthly">每月测评一次（月考趋势总结课）</option>
+                </select>
+              </div>
+              <div class="field-group" style="justify-content:flex-end;">
+                <button type="button" id="triggerPeriodicEvalBtn" class="btn btn-accent">登记一次定期测评与规划分析课</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 答疑模式计费与扣减计算器 -->
+          <div class="editable-override-box" style="margin-top:0;">
+            <strong style="color:#6B4D18;">答疑模式积分结算（含全功能包干 / 主动错题答疑）</strong>
+            <div class="form-grid" style="margin-top:10px;">
+              <div class="field-group">
+                <label class="field-label" for="qaSubModeSelect">答疑服务档位</label>
+                <select id="qaSubModeSelect" class="select">
+                  <option value="single_question">主动提交错题答疑（基础 8 积分）</option>
+                  <option value="full_package">全功能包干：排计划+批改+只讲错题（基础 30 积分）</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="qaGradeStageSelect">学员学段系数</label>
+                <select id="qaGradeStageSelect" class="select">
+                  <option value="junior">初中阶段（1.0× 基准系数）</option>
+                  <option value="senior">高中阶段（1.2× 高阶系数）</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="qaDurationInput">预计答疑时长（分钟）</label>
+                <input id="qaDurationInput" class="input" type="number" value="30" min="10" max="180" step="5">
+              </div>
+              <div class="field-group" style="justify-content:flex-end;">
+                <button type="button" id="submitQaConsumeBtn" class="btn btn-gold">提交答疑申请并扣减积分</button>
+              </div>
+            </div>
+            <div id="qaCostPreviewText" style="font-size:12.5px; color:#6B4D18; margin-top:8px;">预计扣除积分计算中...</div>
+          </div>
+        </div>
       </div>
-      <p style="color:var(--muted);">积分流水、裂变邀请与提现审计表（<code>points_ledger</code>、<code>referral_records</code>、<code>withdrawal_requests</code>）及阈值配置已在第一期写入 <code>schema.sql</code>，将在第三期上线：</p>
-      <div class="choice-grid">
-        <div class="choice-card">
-          <h4>四种服务模式 &amp; 积分钱包</h4>
-          <p>支持自学按模块扣点、答疑按功能与时长计点、定期测评报告及管理员开通全功能报课权限。</p>
+
+      <!-- 邀请好友赚积分（海报裂变） + 现金提现申请 -->
+      <div class="two-col-layout">
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title">邀请好友赚积分 · 专属推广海报 <span class="badge badge-green">注册+20分 · 消费自动返10%</span></h3>
+          </div>
+
+          <div class="field-group" style="margin-bottom:10px;">
+            <label class="field-label" for="inviteShareLinkInput">我的专属邀请推广链接</label>
+            <div style="display:flex; gap:8px;">
+              <input id="inviteShareLinkInput" class="input" type="text" readonly>
+              <button type="button" id="copyInviteLinkBtn" class="btn btn-outline btn-sm" style="white-space:nowrap;">复制链接</button>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+            <button type="button" id="generatePosterBtn" class="btn btn-primary btn-sm">一键生成推广海报</button>
+            <button type="button" id="downloadPosterBtn" class="btn btn-gold btn-sm">下载高清海报 PNG</button>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:10px; padding-top:10px; border-top:1px dashed var(--border);">
+            <div class="field-group">
+              <label class="field-label" for="bindFriendCodeInput">受邀填写好友邀请码（领 10 迎新积分，好友得 20 分）</label>
+              <div style="display:flex; gap:8px;">
+                <input id="bindFriendCodeInput" class="input" type="text" placeholder="输入 MXUXXXXXX" maxlength="16">
+                <button type="button" id="bindFriendCodeBtn" class="btn btn-accent btn-sm" style="white-space:nowrap;">绑定并领分</button>
+              </div>
+            </div>
+          </div>
+
+          <canvas id="referralPosterCanvas" class="poster-canvas-preview"></canvas>
         </div>
-        <div class="choice-card">
-          <h4>邀请好友海报裂变与提现</h4>
-          <p>生成专属邀请码与推广海报，好友注册消费自动返点，附简明《积分与奖励规则》合规提示及现金提现审批。</p>
+
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title">积分现金提现申请与账本明细 <span class="badge badge-navy">满 200 分可提现 (1分 = ¥0.5)</span></h3>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:10px;">
+            <div class="field-group">
+              <label class="field-label" for="withdrawPointsInput">提现积分数量（≥ 200）</label>
+              <input id="withdrawPointsInput" class="input" type="number" value="200" min="200" step="50">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="withdrawAccountInput">收款微信 / 支付宝账号说明</label>
+              <input id="withdrawAccountInput" class="input" type="text" placeholder="例如：微信 189xxxx0310（备注家长称呼）">
+            </div>
+          </div>
+
+          <label style="display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:var(--primary); margin-bottom:10px; cursor:pointer;">
+            <input id="withdrawRulesCheck" type="checkbox" style="margin-top:3px;">
+            <span>我已阅读并同意<strong>《积分与奖励规则》</strong>：积分可用于系统内抵扣充值，满 200 积分（折合 ¥100）可申请现金提现；<strong>未成年学员须在家长监护与知情同意下参与分享及提现</strong>。</span>
+          </label>
+
+          <button type="button" id="submitWithdrawBtn" class="btn btn-primary btn-sm">提交现金提现申请</button>
+
+          <h4 style="margin:14px 0 6px; font-size:13.5px; color:var(--primary);">我的提现申请记录</h4>
+          <div style="overflow-x:auto; max-height:140px;">
+            <table class="data-table">
+              <thead><tr><th>积分 / 金额</th><th>收款说明</th><th>状态</th></tr></thead>
+              <tbody id="walletWithdrawalsBody"></tbody>
+            </table>
+          </div>
+
+          <h4 style="margin:14px 0 6px; font-size:13.5px; color:var(--primary);">最近积分收支账本</h4>
+          <div style="overflow-x:auto; max-height:200px;">
+            <table class="data-table">
+              <thead><tr><th>变动</th><th>余额</th><th>业务说明</th></tr></thead>
+              <tbody id="walletLedgerBody"></tbody>
+            </table>
+          </div>
         </div>
-        <div class="choice-card">
-          <h4>智能文档切题 &amp; 三级去重入库</h4>
-          <p>上传 Word/PDF 试卷，AI 自动切题识别【基础/中等/压轴】与手动归档，经文本指纹+85%语义相似度拦截后安全入库。</p>
+      </div>
+    </section>
+
+    <!-- ==================== 模块 5：管理员全能总控台 & 智能切题三级去重入库 ==================== -->
+    <section id="viewAdminConsole" class="hidden">
+      <!-- 子区 1：管理员全能代客总控台 -->
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">管理员全能总控台 · 代客管理 / 充减积分 / 报课开通 / 提现审批 <span class="badge badge-red">最高权限</span></h3>
+          <button type="button" id="refreshAdminOverviewBtn" class="btn btn-outline btn-sm">刷新云端总控数据</button>
+        </div>
+
+        <h4 style="margin:0 0 8px; color:var(--primary);">学员总览（一键切换视角代填建档 / 代录分数 / 改红绿灯 / 润色规划书 / 充减积分 / 开通报课）</h4>
+        <div style="overflow-x:auto; margin-bottom:16px;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>学员代号 / 年级</th>
+                <th>当前服务模式</th>
+                <th>积分余额</th>
+                <th>报课权限</th>
+                <th>快捷操作（代客管理 &amp; 权益控制）</th>
+              </tr>
+            </thead>
+            <tbody id="adminStudentsTableBody"></tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:0 0 8px; color:var(--primary);">现金提现待审清单</h4>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>申请学员</th>
+                <th>积分 / 现金</th>
+                <th>收款账户说明</th>
+                <th>审核状态</th>
+                <th>审核操作</th>
+              </tr>
+            </thead>
+            <tbody id="adminWithdrawalsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 子区 2：智能文档上传入库（知识库归档 + AI 切题 + 三档难度 + 三级防重拦截） -->
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">智能文档切题 &amp; 三级防重入库工作台 <span id="qbStatsBadge" class="badge badge-navy">云端题库：0 题</span></h3>
+          <button type="button" id="runDeepDedupBtn" class="btn btn-gold btn-sm">🧹 全库一键深度查重清理（三级防重）</button>
+        </div>
+
+        <div class="form-grid" style="margin-bottom:14px;">
+          <div class="field-group">
+            <label class="field-label" for="ingestTargetSelect">入库目标库</label>
+            <select id="ingestTargetSelect" class="select">
+              <option value="question_bank">【题目库】（AI 自动切分为独立单题 + 难度分档 + 三级去重）</option>
+              <option value="knowledge_base">【知识库】（标记为基础必掌握类或总结归纳类讲义）</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="ingestStageSelect">适用学段</label>
+            <select id="ingestStageSelect" class="select">
+              <option value="senior">高中 / 高考</option>
+              <option value="junior">初中 / 中考</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="ingestGradeSelect">适用年级说明</label>
+            <select id="ingestGradeSelect" class="select">
+              <option value="高二">高二</option>
+              <option value="高一">高一</option>
+              <option value="高三">高三</option>
+              <option value="九年级">九年级</option>
+              <option value="八年级">八年级</option>
+              <option value="七年级">七年级</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="ingestSubjectSelect">归属学科</label>
+            <select id="ingestSubjectSelect" class="select"></select>
+          </div>
+        </div>
+
+        <!-- 知识库录入分支 -->
+        <div id="ingestKbPanel" class="hidden">
+          <div class="form-grid" style="margin-bottom:10px;">
+            <div class="field-group">
+              <label class="field-label" for="ingestKbCategorySelect">知识库文档分类</label>
+              <select id="ingestKbCategorySelect" class="select">
+                <option value="基础必掌握类">基础必掌握类（核心定义/公式前提/易错清单）</option>
+                <option value="总结归纳类">总结归纳类（模型母题/通法套路/高频题型梳理）</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="ingestKbNodeSelect">关联《过关手册》考点</label>
+              <select id="ingestKbNodeSelect" class="select"></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="ingestKbTitleInput">讲义标题</label>
+              <input id="ingestKbTitleInput" class="input" type="text" placeholder="例如：函数单调性与奇偶性综合通法清单">
+            </div>
+          </div>
+          <div class="field-group" style="margin-bottom:10px;">
+            <label class="field-label" for="ingestKbContentInput">讲义正文内容（可结合下方上传文件解析写入）</label>
+            <textarea id="ingestKbContentInput" class="textarea" rows="5" placeholder="输入或粘贴知识库讲义内容..."></textarea>
+          </div>
+          <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
+            <button type="button" id="saveKbDocBtn" class="btn btn-accent">保存归档至【知识库】✓</button>
+          </div>
+
+          <h4 style="margin:0 0 8px; color:var(--primary);">已入库【知识库】讲义清单</h4>
+          <div style="overflow-x:auto; max-height:220px;">
+            <table class="data-table">
+              <thead><tr><th>分类标签</th><th>标题与学科</th><th>入库时间</th></tr></thead>
+              <tbody id="kbDocsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 题目库智能切题 + 三级查重分支 -->
+        <div id="ingestQbPanel">
+          <div class="upload-zone" id="ingestDropZone" style="margin-bottom:12px;">
+            <input id="ingestFileInput" type="file" accept=".docx,.txt,.md,.csv,.pdf" style="display:none;">
+            <div style="font-weight:700; color:var(--primary); margin-bottom:4px;">点击上传单题文本、Word (.docx) 或 PDF 套卷（前端自动解析正文文本）</div>
+            <div id="ingestFileStatus" style="font-size:12.5px; color:var(--muted);">支持 .docx / .txt 直接提取段落，或下方粘贴试题内容快速切题</div>
+          </div>
+
+          <div class="field-group" style="margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <label class="field-label" for="ingestRawTextInput">试卷原文 / 待切分题目文本</label>
+              <button type="button" id="loadSampleIngestBtn" class="btn btn-outline btn-sm">载入含“原题重复+85%变式+新题”演练样卷</button>
+            </div>
+            <textarea id="ingestRawTextInput" class="textarea" rows="6" placeholder="粘贴整套试卷或若干道题干（支持带题号 1. 2. 3.、选项 A-D、【答案】与【解析】）..."></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:14px;">
+            <button type="button" id="runIngestPreviewBtn" class="btn btn-primary">✨ AI 自动切题 · 匹配难度标签 · 一二级防重预览 →</button>
+          </div>
+
+          <div id="ingestDedupAlertBox" class="notice-box warn hidden"></div>
+
+          <div id="ingestPreviewWrap" class="hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+              <strong style="color:var(--primary);">切题与三级防重预览列表（请管理员核对难度、手册标签与去重处置后入库）</strong>
+              <button type="button" id="confirmIngestBtn" class="btn btn-accent">确认入库（写入云端 D1 题库）✓</button>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>序 / 题型</th>
+                    <th>切分题干预览与防重相似比对</th>
+                    <th>难度分档</th>
+                    <th>归属《过关手册》标签</th>
+                    <th>入库处置决策</th>
+                  </tr>
+                </thead>
+                <tbody id="ingestPreviewTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <h4 style="margin:16px 0 8px; color:var(--primary);">最近已入库云端题库清单（含变式题标识）</h4>
+          <div style="overflow-x:auto; max-height:220px;">
+            <table class="data-table">
+              <thead><tr><th>题型 / 难度</th><th>题干摘要</th><th>防重标签</th></tr></thead>
+              <tbody id="recentQuestionsBody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

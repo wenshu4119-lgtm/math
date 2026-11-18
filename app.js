@@ -67,6 +67,8 @@
   let currentExam = null;
   let currentExamWarnings = [];
   let examViewMode = 'student';
+  let walletSummary = null;
+  let ingestPreviewItems = [];
   let cloudSyncTimer = null;
   let trendChartInstance = null;
   let radarChartInstance = null;
@@ -368,6 +370,13 @@
       switchMainView(state.activeView || 'viewStep1');
     }
     updateHeaderPill();
+    loadWalletSummary();
+    try {
+      const refParam = new URLSearchParams(window.location.search).get('ref');
+      if (refParam && $('bindFriendCodeInput') && !$('bindFriendCodeInput').value) {
+        $('bindFriendCodeInput').value = refParam.toUpperCase();
+      }
+    } catch (_) { /* ignore */ }
     if (!skipCloudList) loadCloudStudentsList();
   }
 
@@ -744,7 +753,7 @@
     state.activeView = viewId;
     saveState(false);
 
-    const views = ['viewStep1', 'viewStep2', 'viewStep3', 'viewPhase2Preview', 'viewPhase3Preview'];
+    const views = ['viewStep1', 'viewStep2', 'viewStep3', 'viewPhase2Preview', 'viewPhase3Preview', 'viewAdminConsole'];
     views.forEach(id => $(id).classList.toggle('hidden', id !== viewId));
 
     document.querySelectorAll('.step-tab, .sub-tab').forEach(btn => {
@@ -755,6 +764,8 @@
     if (viewId === 'viewStep2') renderStep2Manual();
     if (viewId === 'viewStep3') renderStep3ArchiveAndReport();
     if (viewId === 'viewPhase2Preview') initExamCenterView();
+    if (viewId === 'viewPhase3Preview') initWalletView();
+    if (viewId === 'viewAdminConsole') initAdminConsoleView();
   }
 
   // ==================== 第 1 步：今日任务 & 拍卷测漏 ====================
@@ -1292,6 +1303,7 @@
       $('packRetestCompletedInput').value = 3;
       $('packRetestWrongInput').value = 0;
       $('packDrawerBackdrop').classList.remove('hidden');
+      silentSelfStudyTrack('light_pack');
     } catch (err) {
       alert(`生成消灯包失败：${err.message}`);
     }
@@ -1914,6 +1926,7 @@
       currentExamWarnings = res.insufficientWarnings || [];
       renderAssembledExam();
       loadSavedExamsDropdown();
+      silentSelfStudyTrack('smart_exam');
     } catch (err) {
       alert(`手动组卷失败：${err.message}`);
     } finally {
@@ -1950,6 +1963,7 @@
       }
       renderAssembledExam();
       loadSavedExamsDropdown();
+      silentSelfStudyTrack('smart_exam');
     } catch (err) {
       alert(`AI 智能组卷失败：${err.message}`);
     } finally {
@@ -2193,6 +2207,595 @@
     a.download = `${currentExam.title}_${isTeacher ? '教师解析版' : '学生原卷版'}.png`;
     a.href = canvas.toDataURL('image/png');
     a.click();
+  }
+
+  // ==================== 模块 4：积分钱包、四种服务模式、推广海报与提现 ====================
+  const MODE_LABELS = {
+    self_study: '自学模式',
+    qa_tutoring: '答疑模式',
+    periodic_eval: '定期测评模式',
+    enrolled_course: '报课模式'
+  };
+
+  function getActiveStudentId() {
+    if (!state.studentId) {
+      state.studentId = 'stu_' + Date.now().toString(36);
+      saveState(false);
+    }
+    return state.studentId;
+  }
+
+  async function loadWalletSummary() {
+    if (!accessCode || !bootstrap?.d1Enabled) return;
+    try {
+      const sid = getActiveStudentId();
+      const alias = encodeURIComponent(state.profile?.studentName || '新学员');
+      walletSummary = await apiFetch(`/api/v1/wallet/summary?studentId=${encodeURIComponent(sid)}&alias=${alias}`);
+      updateHeaderWalletButton();
+      if (state.activeView === 'viewPhase3Preview') renderWalletView();
+    } catch (_) { /* ignore if offline */ }
+  }
+
+  function updateHeaderWalletButton() {
+    const btn = $('headerWalletBtn');
+    if (!btn) return;
+    if (!walletSummary) {
+      btn.textContent = '💰 积分钱包 · 加载中';
+      return;
+    }
+    const modeLabel = MODE_LABELS[walletSummary.serviceMode] || '自学模式';
+    btn.textContent = `💰 积分: ${walletSummary.pointsBalance} · ${modeLabel}`;
+  }
+
+  async function silentSelfStudyTrack(moduleKey) {
+    if (!accessCode || !bootstrap?.d1Enabled) return;
+    if (walletSummary && walletSummary.serviceMode !== 'self_study' && !walletSummary.courseEnabled) return;
+    try {
+      const res = await apiFetch('/api/v1/wallet/consume', {
+        method: 'POST',
+        body: JSON.stringify({ studentId: getActiveStudentId(), kind: 'self_study', moduleKey })
+      });
+      if (walletSummary) walletSummary.pointsBalance = res.balanceAfter;
+      updateHeaderWalletButton();
+    } catch (_) { /* non-blocking usage tracking */ }
+  }
+
+  function initWalletView() {
+    loadWalletSummary().then(() => {
+      renderWalletView();
+      drawReferralPoster();
+    });
+    updateQaCostPreview();
+  }
+
+  function renderWalletView() {
+    if (!walletSummary) return;
+    const w = walletSummary;
+    $('walletPointsVal').textContent = `${w.pointsBalance} 分`;
+    $('walletModeVal').textContent = MODE_LABELS[w.serviceMode] || '自学模式';
+    $('walletCourseVal').textContent = w.courseEnabled ? '已开通（除答疑全免）' : '未开通';
+    $('walletInviteCodeVal').textContent = w.inviteCode || '--';
+    $('evalFreqSelect').value = w.evalFrequency || 'biweekly';
+
+    document.querySelectorAll('#viewPhase3Preview [data-service-mode]').forEach(card => {
+      card.classList.toggle('selected', card.dataset.serviceMode === w.serviceMode);
+    });
+
+    const shareUrl = `${window.location.origin}/?ref=${encodeURIComponent(w.inviteCode || '')}`;
+    $('inviteShareLinkInput').value = shareUrl;
+
+    const wds = w.withdrawals || [];
+    $('walletWithdrawalsBody').innerHTML = wds.length
+      ? wds.map(r => {
+          const stLabel = r.audit_status === 'approved' ? '<span class="badge badge-green">已审核打款</span>' : (r.audit_status === 'rejected' ? '<span class="badge badge-red">已驳回退分</span>' : '<span class="badge badge-yellow">待审核</span>');
+          return `<tr><td><strong>${r.points_amount}分</strong> (¥${r.cash_yuan})</td><td>${escapeHtml(r.admin_note || '--')}</td><td>${stLabel}</td></tr>`;
+        }).join('')
+      : '<tr><td colspan="3" style="color:var(--muted); text-align:center;">暂无提现记录</td></tr>';
+
+    const led = w.ledger || [];
+    $('walletLedgerBody').innerHTML = led.length
+      ? led.map(l => {
+          const sign = l.delta > 0 ? `<span style="color:var(--green); font-weight:700;">+${l.delta}</span>` : `<span style="color:var(--red); font-weight:700;">${l.delta}</span>`;
+          return `<tr><td>${sign}</td><td>${l.balance_after}</td><td>${escapeHtml(l.description)}<br><span style="font-size:11px; color:var(--muted);">${escapeHtml(l.created_at || '')}</span></td></tr>`;
+        }).join('')
+      : '<tr><td colspan="3" style="color:var(--muted); text-align:center;">暂无收支明细</td></tr>';
+  }
+
+  function updateQaCostPreview() {
+    const subMode = $('qaSubModeSelect').value;
+    const stage = $('qaGradeStageSelect').value;
+    const dur = Math.max(10, Math.min(180, Number($('qaDurationInput').value) || 20));
+    const base = subMode === 'full_package' ? 30 : 8;
+    const extra = Math.max(0, Math.ceil((dur - 15) / 15)) * 4;
+    const factor = stage === 'senior' ? 1.2 : 1.0;
+    const total = Math.round((base + extra) * factor);
+    $('qaCostPreviewText').textContent = `预计扣除：${total} 积分（基础功能 ${base} 分 + 时长加项 ${extra} 分 × 年级系数 ${factor}）`;
+  }
+
+  async function switchServiceMode(mode) {
+    try {
+      const res = await apiFetch('/api/v1/wallet/switch-mode', {
+        method: 'POST',
+        body: JSON.stringify({
+          studentId: getActiveStudentId(),
+          serviceMode: mode,
+          evalFrequency: $('evalFreqSelect').value
+        })
+      });
+      if (walletSummary) {
+        walletSummary.serviceMode = res.serviceMode;
+        walletSummary.evalFrequency = res.evalFrequency;
+      }
+      updateHeaderWalletButton();
+      renderWalletView();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function executeWalletConsume(payload) {
+    try {
+      const res = await apiFetch('/api/v1/wallet/consume', {
+        method: 'POST',
+        body: JSON.stringify({ studentId: getActiveStudentId(), ...payload })
+      });
+      await loadWalletSummary();
+      const rebateMsg = res.rebateAwarded > 0 ? `\n（已同步向您的邀请人返利 ${res.rebateAwarded} 积分）` : '';
+      alert(`业务已入账！\n${res.description}\n本次扣分：${res.deducted} 分，当前余额：${res.balanceAfter} 分。${rebateMsg}`);
+    } catch (err) {
+      alert(`扣分结算提示：${err.message}`);
+    }
+  }
+
+  async function bindFriendInviteCode() {
+    const code = $('bindFriendCodeInput').value.trim().toUpperCase();
+    if (!code) {
+      alert('请输入好友分享的邀请码。');
+      return;
+    }
+    try {
+      const res = await apiFetch('/api/v1/wallet/referral-bind', {
+        method: 'POST',
+        body: JSON.stringify({ studentId: getActiveStudentId(), inviteCode: code })
+      });
+      await loadWalletSummary();
+      alert(`绑定成功！\n已为您增加迎新奖励 +${res.welcomeBonus} 积分（当前余额 ${res.balanceAfter} 分），同时已为好友【${res.inviterName}】发放 +${res.inviterBonus} 邀请积分！`);
+    } catch (err) {
+      alert(`绑定失败：${err.message}`);
+    }
+  }
+
+  async function submitWithdrawRequest() {
+    if (!$('withdrawRulesCheck').checked) {
+      alert('请先勾选《积分与奖励规则》（含未成年人在家长监护下参与提示）。');
+      return;
+    }
+    const pts = Number($('withdrawPointsInput').value) || 0;
+    const account = $('withdrawAccountInput').value.trim();
+    try {
+      const res = await apiFetch('/api/v1/wallet/withdraw-request', {
+        method: 'POST',
+        body: JSON.stringify({
+          studentId: getActiveStudentId(),
+          pointsAmount: pts,
+          accountNote: account,
+          rulesAccepted: true
+        })
+      });
+      $('withdrawAccountInput').value = '';
+      await loadWalletSummary();
+      alert(`提现申请已提交审核（单号 ${res.withdrawId}）！\n申请 ${res.pointsAmount} 积分折合 ¥${res.cashYuan}，当前剩余积分 ${res.balanceAfter}。`);
+    } catch (err) {
+      alert(`申请提现失败：${err.message}`);
+    }
+  }
+
+  function drawReferralPoster() {
+    const canvas = $('referralPosterCanvas');
+    if (!canvas) return;
+    const W = 720;
+    const H = 960;
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    const grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, '#1B365D');
+    grad.addColorStop(0.65, '#173F47');
+    grad.addColorStop(1, '#1F4E46');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = '#B58938';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(24, 24, W - 48, H - 48);
+
+    ctx.fillStyle = '#F6E5B8';
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 20px "PingFang SC", sans-serif';
+    ctx.fillText('XU STUDIO · 铭师学习规划管理平台', W / 2, 92);
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 38px "PingFang SC", "Microsoft YaHei", sans-serif';
+    ctx.fillText('16 科考点过关红黄绿灯', W / 2, 165);
+    ctx.fillText('一站式定制提分方案', W / 2, 222);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.86)';
+    ctx.font = '20px "PingFang SC", sans-serif';
+    ctx.fillText('拍卷结构测漏 · 专属消灯任务包 · AI 智能组卷 · 精装成长报告', W / 2, 278);
+
+    // 居中白色卡片
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(68, 330, W - 136, 470);
+
+    const code = walletSummary?.inviteCode || 'MXU2026';
+    const stuName = state.profile?.studentName || '铭师学员';
+
+    ctx.fillStyle = '#1B365D';
+    ctx.font = 'bold 24px "PingFang SC", sans-serif';
+    ctx.fillText(`来自【${stuName}】的专属学习邀请函`, W / 2, 392);
+
+    ctx.fillStyle = '#5C6773';
+    ctx.font = '18px "PingFang SC", sans-serif';
+    ctx.fillText('访问 https://mrxu.uk 绑定下方邀请码', W / 2, 434);
+    ctx.fillText('新人立享 +10 积分，消费再返 10% 积分奖励', W / 2, 466);
+
+    // 专属邀请码金色框
+    ctx.fillStyle = '#FBF6EA';
+    ctx.fillRect(140, 500, W - 280, 96);
+    ctx.strokeStyle = '#B58938';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(140, 500, W - 280, 96);
+
+    ctx.fillStyle = '#8A621B';
+    ctx.font = '16px "PingFang SC", sans-serif';
+    ctx.fillText('专属邀请码（点击复制或绑定）', W / 2, 532);
+    ctx.fillStyle = '#1B365D';
+    ctx.font = 'bold 38px monospace';
+    ctx.fillText(code, W / 2, 578);
+
+    // 机构印章与二维码矩阵标识
+    ctx.strokeStyle = '#1B365D';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(W / 2 - 58, 622, 116, 116);
+    for (let r = 0; r < 7; r++) {
+      for (let c = 0; c < 7; c++) {
+        if (((r * 7 + c + code.charCodeAt(r % code.length)) % 2) === 0 || (r < 2 && c < 2) || (r < 2 && c > 4) || (r > 4 && c < 2)) {
+          ctx.fillStyle = '#1B365D';
+          ctx.fillRect(W / 2 - 48 + c * 14, 632 + r * 14, 11, 11);
+        }
+      }
+    }
+    ctx.fillStyle = '#1F4E46';
+    ctx.font = 'bold 16px "PingFang SC", sans-serif';
+    ctx.fillText('mrxu.uk · 扫码 / 访问绑定即刻启程', W / 2, 772);
+
+    ctx.fillStyle = '#F6E5B8';
+    ctx.font = '17px "PingFang SC", sans-serif';
+    ctx.fillText('许老师工作室 · 电话/微信：18986280310 · 百步亭现代城一区', W / 2, 868);
+    ctx.fillStyle = 'rgba(255,255,255,0.65)';
+    ctx.font = '14px "PingFang SC", sans-serif';
+    ctx.fillText('温馨提示：未成年学员请在家长监护下参与积分活动 · 原创体系 盗版必究', W / 2, 906);
+  }
+
+  // ==================== 模块 5：管理员全能总控台 & 智能切题三级去重入库 ====================
+  function initAdminConsoleView() {
+    if (!$('ingestStageSelect').dataset.inited) {
+      $('ingestStageSelect').value = state.manualStage === 'junior' ? 'junior' : 'senior';
+      $('ingestStageSelect').dataset.inited = '1';
+      renderIngestSubjectAndNodeSelects();
+    }
+    loadAdminOverview();
+  }
+
+  function renderIngestSubjectAndNodeSelects() {
+    if (!bootstrap?.subjectOrder) return;
+    const stage = $('ingestStageSelect').value === 'junior' ? 'junior' : 'senior';
+    const order = bootstrap.subjectOrder[stage] || [];
+    const curSubj = $('ingestSubjectSelect').value;
+    $('ingestSubjectSelect').innerHTML = order
+      .map(s => `<option value="${escapeHtml(s.key)}">${escapeHtml(s.label)}</option>`)
+      .join('');
+    if (order.some(s => s.key === curSubj)) $('ingestSubjectSelect').value = curSubj;
+
+    const subjKey = $('ingestSubjectSelect').value || 'math';
+    const nodes = (bootstrap.catalog?.[stage]?.[subjKey]?.chapters || []).flatMap(c => c.items);
+    $('ingestKbNodeSelect').innerHTML = nodes.slice(0, 120).map(n =>
+      `<option value="${escapeHtml(n.nodeId)}">${escapeHtml(n.chapterTitle)} · ${escapeHtml(n.title)}</option>`
+    ).join('');
+  }
+
+  async function loadAdminOverview() {
+    if (!accessCode || !bootstrap?.d1Enabled) return;
+    try {
+      const data = await apiFetch('/api/v1/admin/overview');
+      const stus = data.students || [];
+      $('adminStudentsTableBody').innerHTML = stus.length
+        ? stus.map(s => `
+            <tr>
+              <td>
+                <strong>${escapeHtml(s.display_alias)}</strong>
+                <div style="font-size:11.5px; color:var(--muted);">${escapeHtml(s.grade_label)} · ${escapeHtml(s.province || '')}${escapeHtml(s.city || '')}</div>
+              </td>
+              <td><span class="badge badge-navy">${escapeHtml(MODE_LABELS[s.service_mode] || s.service_mode || '自学模式')}</span></td>
+              <td><strong style="color:var(--accent);">${s.points_balance ?? 100}</strong> 分</td>
+              <td>${Number(s.course_enabled) === 1 ? '<span class="badge badge-green">已开通报课</span>' : '<span class="badge badge-yellow">未开通</span>'}</td>
+              <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button type="button" class="btn btn-primary btn-sm" data-adm-proxy="${escapeHtml(s.student_id)}">代管切换</button>
+                <button type="button" class="btn btn-outline btn-sm" data-adm-pts="${escapeHtml(s.student_id)}" data-delta="100">+100分</button>
+                <button type="button" class="btn btn-outline btn-sm" data-adm-pts="${escapeHtml(s.student_id)}" data-delta="-50">-50分</button>
+                <button type="button" class="btn btn-accent btn-sm" data-adm-course="${escapeHtml(s.student_id)}" data-enable="${Number(s.course_enabled) === 1 ? '0' : '1'}">${Number(s.course_enabled) === 1 ? '关闭报课' : '开通报课'}</button>
+              </td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="5" style="color:var(--muted); text-align:center;">暂无云端学员记录</td></tr>';
+
+      const wds = data.withdrawals || [];
+      $('adminWithdrawalsTableBody').innerHTML = wds.length
+        ? wds.map(w => `
+            <tr>
+              <td>${escapeHtml(w.display_alias || w.student_id)}</td>
+              <td><strong>${w.points_amount}分</strong> / ¥${w.cash_yuan}</td>
+              <td>${escapeHtml(w.admin_note || '--')}</td>
+              <td>${w.audit_status === 'pending' ? '<span class="badge badge-yellow">待审核</span>' : (w.audit_status === 'approved' ? '<span class="badge badge-green">已通过</span>' : '<span class="badge badge-red">已驳回</span>')}</td>
+              <td>
+                ${w.audit_status === 'pending'
+                  ? `<button type="button" class="btn btn-accent btn-sm" data-wd-audit="${escapeHtml(w.withdraw_id)}" data-dec="approved">✓ 批准</button>
+                     <button type="button" class="btn btn-outline btn-sm" data-wd-audit="${escapeHtml(w.withdraw_id)}" data-dec="rejected">✕ 驳回退分</button>`
+                  : '<span style="font-size:12px; color:var(--muted);">已完结</span>'}
+              </td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="5" style="color:var(--muted); text-align:center;">暂无提现审核申请</td></tr>';
+
+      const kbs = data.knowledgeDocs || [];
+      $('kbDocsTableBody').innerHTML = kbs.length
+        ? kbs.map(d => `
+            <tr>
+              <td><span class="badge ${d.kb_category === '总结归纳类' ? 'badge-gold' : 'badge-navy'}">${escapeHtml(d.kb_category)}</span></td>
+              <td><strong>${escapeHtml(d.title)}</strong><br><span style="font-size:11.5px; color:var(--muted);">${escapeHtml(d.stage)} · ${escapeHtml(d.subject_key)}</span></td>
+              <td style="font-size:12px; color:var(--muted);">${escapeHtml(d.created_at || '')}</td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="3" style="color:var(--muted); text-align:center;">暂无已上传的知识库讲义</td></tr>';
+
+      $('qbStatsBadge').textContent = `云端题库：${data.questionBankCount || 0} 题（含变式 ${data.variantQuestionCount || 0} 题）`;
+
+      const qs = data.recentQuestions || [];
+      $('recentQuestionsBody').innerHTML = qs.length
+        ? qs.map(q => `
+            <tr>
+              <td><span class="badge badge-navy">${escapeHtml(q.question_type)} · ${escapeHtml(q.difficulty)}</span></td>
+              <td>${escapeHtml(String(q.stem_text || '').slice(0, 75))}</td>
+              <td>${Number(q.is_variant) === 1 ? '<span class="badge badge-gold">变式训练题</span>' : '<span class="badge badge-green">标准原题</span>'}</td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="3" style="color:var(--muted); text-align:center;">云端自定义题库暂无新增试题，请使用上方切题工具入库</td></tr>';
+    } catch (err) {
+      console.error('admin overview err', err);
+    }
+  }
+
+  // 零外部依赖解析 .docx (ZIP -> word/document.xml) / .txt / PDF 文本流
+  async function extractTextFromUploadedFile(file) {
+    const name = (file?.name || '').toLowerCase();
+    if (name.endsWith('.txt') || name.endsWith('.md') || name.endsWith('.csv')) {
+      return await file.text();
+    }
+    if (name.endsWith('.docx')) {
+      const buf = new Uint8Array(await file.arrayBuffer());
+      const view = new DataView(buf.buffer);
+      let offset = 0;
+      const decoder = new TextDecoder('utf-8');
+      while (offset + 30 < buf.length) {
+        if (view.getUint32(offset, true) !== 0x04034b50) break;
+        const method = view.getUint16(offset + 8, true);
+        const compSize = view.getUint32(offset + 18, true);
+        const nameLen = view.getUint16(offset + 26, true);
+        const extraLen = view.getUint16(offset + 28, true);
+        const fname = decoder.decode(buf.subarray(offset + 30, offset + 30 + nameLen));
+        const dataStart = offset + 30 + nameLen + extraLen;
+        const dataEnd = dataStart + compSize;
+        if (fname === 'word/document.xml') {
+          let xmlStr = '';
+          const payload = buf.subarray(dataStart, dataEnd);
+          if (method === 0) {
+            xmlStr = decoder.decode(payload);
+          } else if (method === 8 && typeof DecompressionStream !== 'undefined') {
+            const ds = new DecompressionStream('deflate-raw');
+            const stream = new Blob([payload]).stream().pipeThrough(ds);
+            xmlStr = await new Response(stream).text();
+          }
+          if (xmlStr) {
+            const doc = new DOMParser().parseFromString(xmlStr, 'application/xml');
+            const paras = Array.from(doc.getElementsByTagName('w:p')).map(p =>
+              Array.from(p.getElementsByTagName('w:t')).map(t => t.textContent).join('')
+            ).filter(Boolean);
+            return paras.join('\n');
+          }
+        }
+        offset = dataEnd;
+      }
+      throw new Error('未能从该 .docx 中提取出 XML 段落，请尝试另存为标准 docx 或直接复制正文粘贴。');
+    }
+    if (name.endsWith('.pdf')) {
+      const raw = await file.text();
+      const chunks = raw.match(/\(([^()\\]{4,200})\)/g) || [];
+      const text = chunks.map(c => c.slice(1, -1)).filter(s => /[\u4e00-\u9fa5A-Za-z0-9]/.test(s)).join('\n');
+      if (text.length < 30) {
+        throw new Error('检测到该 PDF 为扫描图片版或压缩流格式，建议在 Step 1【拍卷测漏】传图提取或复制 PDF 文本粘贴到下方文本框。');
+      }
+      return text;
+    }
+    return await file.text();
+  }
+
+  function loadSampleIngestText() {
+    $('ingestTargetSelect').value = 'question_bank';
+    $('ingestStageSelect').value = 'senior';
+    renderIngestSubjectAndNodeSelects();
+    $('ingestSubjectSelect').value = 'math';
+    $('ingestKbPanel').classList.add('hidden');
+    $('ingestQbPanel').classList.remove('hidden');
+
+    $('ingestRawTextInput').value = [
+      '1. 已知集合 A = {x | x² - 3x - 4 ≤ 0}，B = {x | y = ln(x - 1)}，则 A ∩ B = （  ）',
+      'A. (1, 4]  B. [1, 4]  C. [-1, 4]  D. (1, 4)',
+      '【答案】A',
+      '【解析】解得 A = [-1, 4]，B = (1, +∞)，故交集为 (1, 4]。',
+      '',
+      '2. 已知正实数 a, b 满足 a + 2b = 4，则 1/a + 2/b 的最小值为（  ）',
+      'A. 9/4  B. 4  C. 5/2  D. 3',
+      '【答案】A',
+      '【解析】把 a+2b=4 除 4 进行“1 的代换”展开，用基本不等式求最小值。',
+      '',
+      '3. 已知函数 f(x) = x³ - 3ax² + 2 在 x = 2 处取得极小值，若对任意 x ∈ [-1, 3] 不等式 f(x) ≤ m 恒成立，求实数 a 的值及 m 的最小值。',
+      '【答案】a = 1，m 的最小值为 2。',
+      '【解析】由 f\'(2) = 0 解出 a = 1，再求导确定闭区间 [-1, 3] 上的最大值即可。'
+    ].join('\n');
+  }
+
+  async function runIngestPreview() {
+    const rawText = $('ingestRawTextInput').value.trim();
+    if (!rawText) {
+      alert('请先上传试卷文档或点击右上角“载入演练样卷”。');
+      return;
+    }
+    const btn = $('runIngestPreviewBtn');
+    btn.disabled = true;
+    btn.textContent = '切题分析与三级防重中...';
+    try {
+      const stage = $('ingestStageSelect').value;
+      const subjectKey = $('ingestSubjectSelect').value;
+      const res = await apiFetch('/api/v1/admin/ingest-preview', {
+        method: 'POST',
+        body: JSON.stringify({ rawText, stage, subjectKey })
+      });
+      ingestPreviewItems = res.items || [];
+      const sum = res.summary || {};
+
+      const alertBox = $('ingestDedupAlertBox');
+      if (sum.semanticWarningCount > 0 || sum.exactDuplicateCount > 0) {
+        alertBox.innerHTML = `<strong>三级防重拦截预警：</strong>共切出 <strong>${sum.total}</strong> 题，其中 <span style="color:var(--red);">精确重复 ${sum.exactDuplicateCount} 题</span>（默认舍弃）、<span style="color:var(--yellow);">语义相似度 ≥ 85% 预警 ${sum.semanticWarningCount} 题</span>（请下方决定“作为重复题舍弃”或“归类为变式训练题”），干净新题 ${sum.cleanCount} 题。`;
+        alertBox.classList.remove('hidden');
+      } else {
+        alertBox.innerHTML = `<strong>切题查重通过：</strong>共切分 <strong>${sum.total}</strong> 道独立单题，未检出重复或高相似题，请核对下方难度与手册标签后点击确认入库。`;
+        alertBox.classList.remove('hidden');
+      }
+
+      const nodes = (bootstrap.catalog?.[stage]?.[subjectKey]?.chapters || []).flatMap(c => c.items);
+      const getNodeOpts = selId => nodes.slice(0, 120).map(n =>
+        `<option value="${escapeHtml(n.nodeId)}" ${n.nodeId === selId ? 'selected' : ''}>${escapeHtml(n.chapterTitle)} · ${escapeHtml(n.title)}</option>`
+      ).join('');
+
+      $('ingestPreviewWrap').classList.remove('hidden');
+      $('ingestPreviewTableBody').innerHTML = ingestPreviewItems.map((it, idx) => {
+        const rowCls = it.dedupStatus === 'exact_duplicate' ? 'dedup-row-exact' : (it.dedupStatus === 'semantic_warning' ? 'dedup-row-warn' : '');
+        const dedupTag = it.dedupStatus === 'exact_duplicate'
+          ? `<span class="badge badge-red">一级拦截 · 100% 文本重复</span>`
+          : (it.dedupStatus === 'semantic_warning'
+            ? `<span class="badge badge-yellow">二级预警 · 语义相似 ${it.similarityPct}%</span>`
+            : `<span class="badge badge-green">查重通过 (${it.similarityPct}%)</span>`);
+        const simHint = it.similarTo ? `<div style="font-size:11.5px; color:var(--muted); margin-top:4px;">相似基准题：${escapeHtml(it.similarTo.stem)}</div>` : '';
+
+        return `
+          <tr class="${rowCls}">
+            <td><strong>#${it.seq}</strong><br><span class="badge badge-navy">${escapeHtml(it.questionType)}</span></td>
+            <td>
+              <div style="font-size:13px;">${escapeHtml(it.stem)}</div>
+              <div style="margin-top:4px;">${dedupTag}</div>
+              ${simHint}
+            </td>
+            <td>
+              <select class="select" data-ing-diff="${idx}" style="font-size:12px;">
+                <option value="基础" ${it.difficulty === '基础' ? 'selected' : ''}>基础</option>
+                <option value="中等" ${it.difficulty === '中等' ? 'selected' : ''}>中等</option>
+                <option value="压轴" ${it.difficulty === '压轴' ? 'selected' : ''}>压轴</option>
+              </select>
+            </td>
+            <td>
+              <select class="select" data-ing-node="${idx}" style="font-size:12px; min-width:190px;">
+                ${getNodeOpts(it.manualNodeId)}
+              </select>
+            </td>
+            <td>
+              <select class="select" data-ing-dec="${idx}" style="font-size:12px; min-width:160px;">
+                <option value="approve" ${it.defaultDecision === 'approve' ? 'selected' : ''}>✓ 作为标准题入库</option>
+                <option value="variant" ${it.defaultDecision === 'variant' ? 'selected' : ''}>★ 归类为变式训练题</option>
+                <option value="discard" ${it.defaultDecision === 'discard' ? 'selected' : ''}>✕ 作为重复题舍弃</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    } catch (err) {
+      alert(`切题查重失败：${err.message}`);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✨ AI 自动切题 · 匹配难度标签 · 一二级防重预览 →';
+    }
+  }
+
+  async function confirmIngestToBank() {
+    if (!ingestPreviewItems.length) return;
+    const payload = ingestPreviewItems.map((it, idx) => ({
+      ...it,
+      difficulty: document.querySelector(`[data-ing-diff="${idx}"]`)?.value || it.difficulty,
+      manualNodeId: document.querySelector(`[data-ing-node="${idx}"]`)?.value || it.manualNodeId,
+      decision: document.querySelector(`[data-ing-dec="${idx}"]`)?.value || it.defaultDecision
+    }));
+
+    try {
+      const res = await apiFetch('/api/v1/admin/ingest-commit', {
+        method: 'POST',
+        body: JSON.stringify({ items: payload })
+      });
+      $('ingestPreviewWrap').classList.add('hidden');
+      $('ingestDedupAlertBox').classList.add('hidden');
+      ingestPreviewItems = [];
+      await loadAdminOverview();
+      alert(`入库完成！\n标准原题入库：${res.approvedCount} 题\n变式训练题入库：${res.variantCount} 题\n已舍弃重复题：${res.discardedCount} 题`);
+    } catch (err) {
+      alert(`确认入库失败：${err.message}`);
+    }
+  }
+
+  async function runDeepDedupCleanup() {
+    try {
+      const res = await apiFetch('/api/v1/admin/deep-dedup-clean', { method: 'POST', body: '{}' });
+      await loadAdminOverview();
+      alert(`全库深度查重清理完成！\n累计扫描云端题库：${res.scannedCount} 题\n清理精确重复题：${res.exactRemovedCount} 题\n自动归类变式训练题：${res.variantMarkedCount} 题`);
+    } catch (err) {
+      alert(`深度查重失败：${err.message}`);
+    }
+  }
+
+  async function saveKbDoc() {
+    const title = $('ingestKbTitleInput').value.trim();
+    const content = $('ingestKbContentInput').value.trim();
+    if (!title || !content) {
+      alert('请填写知识库讲义标题与正文内容。');
+      return;
+    }
+    try {
+      const res = await apiFetch('/api/v1/admin/kb-save', {
+        method: 'POST',
+        body: JSON.stringify({
+          stage: $('ingestStageSelect').value,
+          subjectKey: $('ingestSubjectSelect').value,
+          kbCategory: $('ingestKbCategorySelect').value,
+          manualNodeId: $('ingestKbNodeSelect').value,
+          title,
+          contentMarkdown: content
+        })
+      });
+      $('ingestKbTitleInput').value = '';
+      $('ingestKbContentInput').value = '';
+      await loadAdminOverview();
+      alert(`知识库讲义已安全归档！（分类：${res.kbCategory}）`);
+    } catch (err) {
+      alert(`知识库归档失败：${err.message}`);
+    }
   }
 
   // ==================== 事件绑定 ====================
@@ -2534,6 +3137,138 @@
       if (!btn) return;
       swapSingleExamQuestion(Number(btn.dataset.swapQ));
     });
+
+    // 顶栏积分钱包快捷按钮
+    $('headerWalletBtn').addEventListener('click', () => switchMainView('viewPhase3Preview'));
+
+    // 模块 4：服务模式切换、扣点结算、邀请海报裂变与提现申请
+    $('refreshWalletBtn').addEventListener('click', () => loadWalletSummary());
+    document.querySelectorAll('#viewPhase3Preview [data-service-mode]').forEach(card => {
+      card.addEventListener('click', () => switchServiceMode(card.dataset.serviceMode));
+    });
+    $('selfStudyConsumeBtn').addEventListener('click', () => {
+      executeWalletConsume({ kind: 'self_study', moduleKey: $('selfStudyModuleSelect').value });
+    });
+    $('triggerPeriodicEvalBtn').addEventListener('click', () => {
+      executeWalletConsume({ kind: 'periodic_eval', evalFrequency: $('evalFreqSelect').value });
+    });
+    ['qaSubModeSelect', 'qaGradeStageSelect', 'qaDurationInput'].forEach(id => {
+      $(id).addEventListener('input', updateQaCostPreview);
+      $(id).addEventListener('change', updateQaCostPreview);
+    });
+    $('submitQaConsumeBtn').addEventListener('click', () => {
+      executeWalletConsume({
+        kind: 'qa_tutoring',
+        qaSubMode: $('qaSubModeSelect').value,
+        gradeStage: $('qaGradeStageSelect').value,
+        durationMinutes: Number($('qaDurationInput').value) || 20
+      });
+    });
+
+    $('copyInviteLinkBtn').addEventListener('click', async () => {
+      const link = $('inviteShareLinkInput').value;
+      try {
+        await navigator.clipboard.writeText(link);
+        alert('专属邀请链接已复制到剪贴板！');
+      } catch (_) {
+        $('inviteShareLinkInput').select();
+      }
+    });
+    $('generatePosterBtn').addEventListener('click', drawReferralPoster);
+    $('downloadPosterBtn').addEventListener('click', () => {
+      drawReferralPoster();
+      const a = document.createElement('a');
+      a.download = `许老师工作室_专属推广海报_${walletSummary?.inviteCode || 'MXU'}.png`;
+      a.href = $('referralPosterCanvas').toDataURL('image/png');
+      a.click();
+    });
+    $('bindFriendCodeBtn').addEventListener('click', bindFriendInviteCode);
+    $('submitWithdrawBtn').addEventListener('click', submitWithdrawRequest);
+
+    // 模块 5：管理员总控台 & 智能切题三级去重入库事件
+    $('refreshAdminOverviewBtn').addEventListener('click', loadAdminOverview);
+    $('adminStudentsTableBody').addEventListener('click', async e => {
+      const proxyBtn = e.target.closest('[data-adm-proxy]');
+      if (proxyBtn) {
+        state.role = 'admin';
+        sessionStorage.setItem(SESSION_ROLE_KEY, 'admin');
+        await switchCloudStudent(proxyBtn.dataset.admProxy);
+        switchMainView('viewStep1');
+        return;
+      }
+      const ptsBtn = e.target.closest('[data-adm-pts]');
+      if (ptsBtn) {
+        try {
+          const sid = ptsBtn.dataset.admPts;
+          const delta = Number(ptsBtn.dataset.delta);
+          await apiFetch('/api/v1/admin/points-adjust', {
+            method: 'POST',
+            body: JSON.stringify({ studentId: sid, delta, reason: `管理员后台快捷操作（${delta > 0 ? '+' : ''}${delta}积分）` })
+          });
+          await loadAdminOverview();
+          if (sid === state.studentId) loadWalletSummary();
+        } catch (err) { alert(err.message); }
+        return;
+      }
+      const courseBtn = e.target.closest('[data-adm-course]');
+      if (courseBtn) {
+        try {
+          const sid = courseBtn.dataset.admCourse;
+          const enable = courseBtn.dataset.enable === '1';
+          await apiFetch('/api/v1/admin/toggle-course', {
+            method: 'POST',
+            body: JSON.stringify({ studentId: sid, courseEnabled: enable })
+          });
+          await loadAdminOverview();
+          if (sid === state.studentId) loadWalletSummary();
+        } catch (err) { alert(err.message); }
+      }
+    });
+
+    $('adminWithdrawalsTableBody').addEventListener('click', async e => {
+      const btn = e.target.closest('[data-wd-audit]');
+      if (!btn) return;
+      try {
+        await apiFetch('/api/v1/admin/withdraw-audit', {
+          method: 'POST',
+          body: JSON.stringify({ withdrawId: btn.dataset.wdAudit, decision: btn.dataset.dec })
+        });
+        await loadAdminOverview();
+        loadWalletSummary();
+      } catch (err) { alert(err.message); }
+    });
+
+    $('ingestTargetSelect').addEventListener('change', e => {
+      const isKb = e.target.value === 'knowledge_base';
+      $('ingestKbPanel').classList.toggle('hidden', !isKb);
+      $('ingestQbPanel').classList.toggle('hidden', isKb);
+    });
+    $('ingestStageSelect').addEventListener('change', renderIngestSubjectAndNodeSelects);
+    $('ingestSubjectSelect').addEventListener('change', renderIngestSubjectAndNodeSelects);
+
+    $('ingestDropZone').addEventListener('click', () => $('ingestFileInput').click());
+    $('ingestFileInput').addEventListener('change', async e => {
+      const f = e.target.files?.[0];
+      if (!f) return;
+      $('ingestFileStatus').textContent = `正在解析文件：${f.name}...`;
+      try {
+        const text = await extractTextFromUploadedFile(f);
+        $('ingestRawTextInput').value = text;
+        if ($('ingestTargetSelect').value === 'knowledge_base') {
+          $('ingestKbContentInput').value = text;
+        }
+        $('ingestFileStatus').textContent = `已解析导入《${f.name}》（共提取 ${text.length} 字符）`;
+      } catch (err) {
+        $('ingestFileStatus').textContent = err.message;
+        alert(err.message);
+      }
+    });
+
+    $('loadSampleIngestBtn').addEventListener('click', loadSampleIngestText);
+    $('runIngestPreviewBtn').addEventListener('click', runIngestPreview);
+    $('confirmIngestBtn').addEventListener('click', confirmIngestToBank);
+    $('runDeepDedupBtn').addEventListener('click', runDeepDedupCleanup);
+    $('saveKbDocBtn').addEventListener('click', saveKbDoc);
   }
 
   document.addEventListener('DOMContentLoaded', () => {

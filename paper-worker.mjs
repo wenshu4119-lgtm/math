@@ -32,6 +32,26 @@ import {
   assembleAiExam
 } from './exam-engine.mjs';
 
+import {
+  splitAndClassifyDocument,
+  runDeepBankDeduplication,
+  computeTextHash,
+  computeSemanticSignature
+} from './question-ingestor.mjs';
+
+const POINTS_RULES = Object.freeze({
+  self_study: { kb_doc: 2, light_pack: 5, smart_exam: 8, report_export: 3 },
+  qa_tutoring: {
+    full_package_base: 30,
+    single_question_base: 8,
+    per_15min_extra: 4,
+    grade_factor: { junior: 1.0, senior: 1.2 }
+  },
+  periodic_eval: { base_cost: 15 },
+  referral: { register_bonus: 20, invitee_welcome: 10, consume_rebate_rate: 0.10 },
+  withdrawal: { min_points: 200, yuan_per_point: 0.5 }
+});
+
 let d1Initialized = false;
 
 async function ensureD1Tables(db) {
@@ -42,10 +62,60 @@ async function ensureD1Tables(db) {
     `CREATE TABLE IF NOT EXISTS student_manual_progress (progress_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, node_id TEXT NOT NULL, planned_count INTEGER NOT NULL DEFAULT 5, completed_count INTEGER NOT NULL DEFAULT 0, wrong_count INTEGER NOT NULL DEFAULT 0, explained_count INTEGER NOT NULL DEFAULT 0, is_passed INTEGER NOT NULL DEFAULT 0, consecutive_wrong INTEGER NOT NULL DEFAULT 0, error_rate REAL NOT NULL DEFAULT 0.0, light_status TEXT NOT NULL DEFAULT 'unstarted', last_diagnosed_at TEXT, updated_at TEXT NOT NULL DEFAULT (datetime('now')), UNIQUE(student_id, node_id))`,
     `CREATE TABLE IF NOT EXISTS school_exam_scores (score_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, exam_type TEXT NOT NULL, exam_name TEXT NOT NULL, exam_date TEXT NOT NULL, subject_key TEXT NOT NULL DEFAULT 'total', score_obtained REAL NOT NULL, max_score REAL NOT NULL, target_score REAL, rank_note TEXT DEFAULT '', entered_by_role TEXT NOT NULL DEFAULT 'parent', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS planning_reports (report_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, report_title TEXT NOT NULL DEFAULT '许老师工作室 · 独家升学规划与过关诊断报告', radar_metrics_json TEXT NOT NULL, battle_summary_json TEXT NOT NULL, auto_commentary TEXT NOT NULL, admin_polished_commentary TEXT, seal_label TEXT NOT NULL DEFAULT '许老师工作室 / 铭师学习规划专用章', signature_teacher TEXT NOT NULL DEFAULT '许老师', created_at TEXT NOT NULL DEFAULT (datetime('now')), updated_at TEXT NOT NULL DEFAULT (datetime('now')))`,
-    `CREATE TABLE IF NOT EXISTS generated_exams (exam_id TEXT PRIMARY KEY, student_id TEXT, title TEXT NOT NULL, mode TEXT NOT NULL, prompt_text TEXT, stage TEXT NOT NULL, subject_key TEXT NOT NULL, grade_label TEXT DEFAULT '', total_score INTEGER NOT NULL DEFAULT 100, duration_minutes INTEGER NOT NULL DEFAULT 90, question_ids_json TEXT NOT NULL, exam_payload_json TEXT NOT NULL DEFAULT '{}', insufficient_warnings_json TEXT DEFAULT '[]', created_at TEXT NOT NULL DEFAULT (datetime('now')))`
+    `CREATE TABLE IF NOT EXISTS knowledge_base_docs (doc_id TEXT PRIMARY KEY, stage TEXT NOT NULL, subject_key TEXT NOT NULL, manual_node_id TEXT, kb_category TEXT NOT NULL, title TEXT NOT NULL, content_markdown TEXT NOT NULL, source_file_name TEXT, created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS question_bank (q_id TEXT PRIMARY KEY, stage TEXT NOT NULL, subject_key TEXT NOT NULL, manual_node_id TEXT, difficulty TEXT NOT NULL, question_type TEXT NOT NULL, stem_text TEXT NOT NULL, options_json TEXT DEFAULT '[]', answer_text TEXT NOT NULL, analysis_text TEXT NOT NULL, text_hash TEXT NOT NULL, semantic_sig TEXT NOT NULL, is_variant INTEGER NOT NULL DEFAULT 0, variant_of_id TEXT, review_status TEXT NOT NULL DEFAULT 'pending', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS generated_exams (exam_id TEXT PRIMARY KEY, student_id TEXT, title TEXT NOT NULL, mode TEXT NOT NULL, prompt_text TEXT, stage TEXT NOT NULL, subject_key TEXT NOT NULL, grade_label TEXT DEFAULT '', total_score INTEGER NOT NULL DEFAULT 100, duration_minutes INTEGER NOT NULL DEFAULT 90, question_ids_json TEXT NOT NULL, exam_payload_json TEXT NOT NULL DEFAULT '{}', insufficient_warnings_json TEXT DEFAULT '[]', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS points_ledger (ledger_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, delta INTEGER NOT NULL, balance_after INTEGER NOT NULL, action_type TEXT NOT NULL, description TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS referral_records (ref_id TEXT PRIMARY KEY, inviter_student_id TEXT NOT NULL, invitee_student_id TEXT NOT NULL, invite_code TEXT NOT NULL, reward_points INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL DEFAULT 'registered', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS withdrawal_requests (withdraw_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, points_amount INTEGER NOT NULL, cash_yuan REAL NOT NULL, rules_accepted INTEGER NOT NULL DEFAULT 0, guardian_confirmed INTEGER NOT NULL DEFAULT 0, audit_status TEXT NOT NULL DEFAULT 'pending', admin_note TEXT, created_at TEXT NOT NULL DEFAULT (datetime('now')), reviewed_at TEXT)`
   ];
   await db.batch(stmts.map(sql => db.prepare(sql)));
   d1Initialized = true;
+}
+
+function makeInviteCode(studentId) {
+  let hash = 0;
+  const s = String(studentId || Date.now());
+  for (let i = 0; i < s.length; i++) hash = ((hash << 5) - hash + s.charCodeAt(i)) >>> 0;
+  return 'MXU' + hash.toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
+}
+
+async function ensureStudentRowForWallet(db, studentId, fallbackAlias = '新学员') {
+  await ensureD1Tables(db);
+  const sid = String(studentId || 'stu_default').trim().slice(0, 64);
+  let row = await db.prepare('SELECT * FROM student_profiles WHERE student_id = ?').bind(sid).first();
+  if (!row) {
+    const code = makeInviteCode(sid);
+    await db.prepare(
+      `INSERT INTO student_profiles (
+        student_id, display_alias, access_role, stage, grade_label, enrollment_category,
+        province, city, points_balance, invite_code
+      ) VALUES (?, ?, 'student', 'junior', '九年级（初三冲刺）', 'graduation_sprint', '湖北省', '武汉市', 100, ?)`
+    ).bind(sid, fallbackAlias, code).run();
+    row = await db.prepare('SELECT * FROM student_profiles WHERE student_id = ?').bind(sid).first();
+  } else if (!row.invite_code) {
+    const code = makeInviteCode(sid);
+    await db.prepare('UPDATE student_profiles SET invite_code = ? WHERE student_id = ?').bind(code, sid).run();
+    row.invite_code = code;
+  }
+  return row;
+}
+
+async function adjustStudentPoints(db, studentId, delta, actionType, description) {
+  const row = await ensureStudentRowForWallet(db, studentId);
+  const curBal = Number(row.points_balance ?? 100);
+  const nextBal = curBal + Number(delta);
+  if (nextBal < 0) {
+    throw Object.assign(new Error(`积分余额不足（当前 ${curBal} 积分，本次需 ${Math.abs(delta)} 积分）`), { status: 400 });
+  }
+  await db.prepare(`UPDATE student_profiles SET points_balance = ?, updated_at = datetime('now') WHERE student_id = ?`)
+    .bind(nextBal, studentId).run();
+  const ledgerId = `lg_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
+  await db.prepare(
+    `INSERT INTO points_ledger (ledger_id, student_id, delta, balance_after, action_type, description)
+     VALUES (?, ?, ?, ?, ?, ?)`
+  ).bind(ledgerId, studentId, Number(delta), nextBal, actionType, description).run();
+  return { balanceAfter: nextBal, ledgerId };
 }
 
 async function loadApprovedD1Questions(db, stage, subjectKey) {
@@ -552,6 +622,37 @@ async function handleApiV1(request, env, url) {
       progress: body.progress || {},
       thresholds: body.thresholds || DEFAULT_TRAFFIC_THRESHOLDS
     });
+    if (env.DB) {
+      try {
+        await ensureD1Tables(env.DB);
+        const kbRows = await env.DB.prepare(
+          'SELECT doc_id, kb_category, title, content_markdown FROM knowledge_base_docs WHERE manual_node_id = ? ORDER BY created_at DESC LIMIT 3'
+        ).bind(node.nodeId).all();
+        if (kbRows?.results?.length) {
+          const customDocs = kbRows.results.map(d => ({
+            docId: d.doc_id,
+            kbCategory: `${d.kb_category} · 工作室入库`,
+            title: d.title,
+            summary: String(d.content_markdown || '').slice(0, 140),
+            checklist: String(d.content_markdown || '').split(/\n+/).filter(Boolean).slice(0, 4)
+          }));
+          pack.knowledgeDocs = [...customDocs, ...pack.knowledgeDocs];
+        }
+        const qRows = await env.DB.prepare(
+          "SELECT q_id, difficulty, question_type, stem_text, answer_text FROM question_bank WHERE manual_node_id = ? AND review_status != 'discarded' ORDER BY created_at DESC LIMIT 3"
+        ).bind(node.nodeId).all();
+        if (qRows?.results?.length) {
+          const customQs = qRows.results.map(q => ({
+            qId: q.q_id,
+            difficulty: q.difficulty,
+            type: `${q.question_type} · 工作室入库真题`,
+            prompt: q.stem_text,
+            keyHint: `参考核对：${String(q.answer_text || '').slice(0, 80)}`
+          }));
+          pack.practiceQuestions = [...customQs, ...pack.practiceQuestions].slice(0, 4);
+        }
+      } catch (_) { /* keep default DeepTutor pack if D1 unavailable */ }
+    }
     return reply({ pack });
   }
 
@@ -981,6 +1082,423 @@ async function handleApiV1(request, env, url) {
       exam: JSON.parse(row.exam_payload_json || '{}'),
       insufficientWarnings: JSON.parse(row.insufficient_warnings_json || '[]')
     });
+  }
+
+  // ==================== 三期模块 4：商业模式、积分钱包、分享裂变与提现 ====================
+  if (path === '/api/v1/wallet/summary' && request.method === 'GET') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const studentId = String(url.searchParams.get('studentId') || 'stu_default').trim();
+    const alias = String(url.searchParams.get('alias') || '新学员').trim();
+    const stu = await ensureStudentRowForWallet(env.DB, studentId, alias);
+
+    const ledgerRes = await env.DB.prepare(
+      'SELECT * FROM points_ledger WHERE student_id = ? ORDER BY created_at DESC LIMIT 40'
+    ).bind(stu.student_id).all();
+
+    const refRes = await env.DB.prepare(
+      'SELECT * FROM referral_records WHERE inviter_student_id = ? ORDER BY created_at DESC LIMIT 30'
+    ).bind(stu.student_id).all();
+
+    const wdRes = await env.DB.prepare(
+      'SELECT * FROM withdrawal_requests WHERE student_id = ? ORDER BY created_at DESC LIMIT 20'
+    ).bind(stu.student_id).all();
+
+    return reply({
+      studentId: stu.student_id,
+      displayAlias: stu.display_alias,
+      pointsBalance: Number(stu.points_balance ?? 100),
+      serviceMode: stu.service_mode || 'self_study',
+      evalFrequency: stu.eval_frequency || 'biweekly',
+      courseEnabled: Number(stu.course_enabled || 0) === 1,
+      inviteCode: stu.invite_code,
+      invitedByCode: stu.invited_by_code || '',
+      rules: POINTS_RULES,
+      ledger: ledgerRes?.results || [],
+      referrals: refRes?.results || [],
+      withdrawals: wdRes?.results || []
+    });
+  }
+
+  if (path === '/api/v1/wallet/switch-mode' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const studentId = String(body.studentId || 'stu_default').trim();
+    const mode = ['self_study', 'qa_tutoring', 'periodic_eval', 'enrolled_course'].includes(body.serviceMode)
+      ? body.serviceMode : 'self_study';
+    const evalFreq = ['weekly', 'biweekly', 'monthly'].includes(body.evalFrequency)
+      ? body.evalFrequency : 'biweekly';
+
+    const stu = await ensureStudentRowForWallet(env.DB, studentId);
+    if (mode === 'enrolled_course' && Number(stu.course_enabled || 0) !== 1) {
+      return reply({ error: 'course_not_enabled', message: '【报课模式】需由许老师 / 管理员在后台为您开通报课权限后启用。' }, 403);
+    }
+
+    await env.DB.prepare(
+      `UPDATE student_profiles SET service_mode = ?, eval_frequency = ?, updated_at = datetime('now') WHERE student_id = ?`
+    ).bind(mode, evalFreq, stu.student_id).run();
+
+    return reply({ updated: true, serviceMode: mode, evalFrequency: evalFreq });
+  }
+
+  if (path === '/api/v1/wallet/consume' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const studentId = String(body.studentId || 'stu_default').trim();
+    const stu = await ensureStudentRowForWallet(env.DB, studentId);
+    const courseEnabled = Number(stu.course_enabled || 0) === 1;
+    const kind = body.kind || 'self_study';
+
+    let cost = 0;
+    let actionType = 'self_study_deduct';
+    let desc = '';
+
+    if (kind === 'qa_tutoring') {
+      // 报课模式“除答疑外全部畅享”，故答疑模式始终按功能费+年级系数+答疑时长扣积分
+      const subMode = body.qaSubMode === 'full_package' ? 'full_package' : 'single_question';
+      const gradeFactor = (body.gradeStage || stu.stage) === 'senior' ? POINTS_RULES.qa_tutoring.grade_factor.senior : POINTS_RULES.qa_tutoring.grade_factor.junior;
+      const durationMin = Math.max(10, Math.min(180, Number(body.durationMinutes) || 20));
+      const base = subMode === 'full_package' ? POINTS_RULES.qa_tutoring.full_package_base : POINTS_RULES.qa_tutoring.single_question_base;
+      const extraBlocks = Math.max(0, Math.ceil((durationMin - 15) / 15));
+      cost = Math.round((base + extraBlocks * POINTS_RULES.qa_tutoring.per_15min_extra) * gradeFactor);
+      actionType = 'qa_deduct';
+      desc = `答疑服务（${subMode === 'full_package' ? '全功能包干' : '主动提交错题答疑'} · ${(body.gradeStage || stu.stage) === 'senior' ? '高中' : '初中'} · ${durationMin}分钟）`;
+    } else if (kind === 'periodic_eval') {
+      cost = courseEnabled ? 0 : POINTS_RULES.periodic_eval.base_cost;
+      actionType = 'periodic_eval_deduct';
+      desc = `定期测评与规划分析课（${body.evalFrequency || stu.eval_frequency || 'biweekly'}${courseEnabled ? ' · 报课免积分' : ''}）`;
+    } else {
+      const modKey = body.moduleKey || 'kb_doc';
+      const rawCost = POINTS_RULES.self_study[modKey] ?? 3;
+      cost = courseEnabled ? 0 : rawCost;
+      actionType = 'self_study_deduct';
+      const labels = { kb_doc: '知识库讲义', light_pack: '消灯任务包', smart_exam: '智能组卷', report_export: '规划复盘报告' };
+      desc = `自学模式消耗：${labels[modKey] || modKey}${courseEnabled ? '（报课权限免费畅享）' : ''}`;
+    }
+
+    const adj = await adjustStudentPoints(env.DB, stu.student_id, -cost, actionType, desc);
+
+    // 消费自动向邀请人返佣（10%）
+    let rebateAwarded = 0;
+    if (cost > 0 && stu.invited_by_code) {
+      const inviter = await env.DB.prepare('SELECT student_id FROM student_profiles WHERE invite_code = ?')
+        .bind(stu.invited_by_code).first();
+      if (inviter && inviter.student_id !== stu.student_id) {
+        rebateAwarded = Math.max(1, Math.round(cost * POINTS_RULES.referral.consume_rebate_rate));
+        await adjustStudentPoints(
+          env.DB,
+          inviter.student_id,
+          rebateAwarded,
+          'referral_bonus',
+          `邀请好友【${stu.display_alias}】消费返利（10%）`
+        );
+        await env.DB.prepare(
+          `INSERT INTO referral_records (ref_id, inviter_student_id, invitee_student_id, invite_code, reward_points, status)
+           VALUES (?, ?, ?, ?, ?, 'consumed')`
+        ).bind(`ref_${Date.now().toString(36)}`, inviter.student_id, stu.student_id, stu.invited_by_code, rebateAwarded).run();
+      }
+    }
+
+    return reply({
+      deducted: cost,
+      balanceAfter: adj.balanceAfter,
+      courseFreeApplied: courseEnabled && kind !== 'qa_tutoring',
+      rebateAwarded,
+      description: desc
+    });
+  }
+
+  if (path === '/api/v1/wallet/referral-bind' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const studentId = String(body.studentId || 'stu_default').trim();
+    const code = String(body.inviteCode || '').trim().toUpperCase();
+    if (!code) return reply({ error: 'missing_code', message: '请输入好友分享的邀请码。' }, 400);
+
+    const stu = await ensureStudentRowForWallet(env.DB, studentId);
+    if (stu.invited_by_code) {
+      return reply({ error: 'already_bound', message: `本账号已绑定邀请码（${stu.invited_by_code}），不可重复领取。` }, 400);
+    }
+    if (stu.invite_code === code) {
+      return reply({ error: 'self_invite', message: '不能填写自己的邀请码。' }, 400);
+    }
+
+    const inviter = await env.DB.prepare('SELECT student_id, display_alias FROM student_profiles WHERE invite_code = ?').bind(code).first();
+    if (!inviter) {
+      return reply({ error: 'code_not_found', message: '未找到该邀请码，请核对后重试。' }, 404);
+    }
+
+    await env.DB.prepare('UPDATE student_profiles SET invited_by_code = ? WHERE student_id = ?').bind(code, stu.student_id).run();
+    const invBonus = POINTS_RULES.referral.register_bonus;
+    const welcomeBonus = POINTS_RULES.referral.invitee_welcome;
+
+    await adjustStudentPoints(env.DB, inviter.student_id, invBonus, 'referral_bonus', `成功邀请新学员【${stu.display_alias}】注册奖励`);
+    const myRes = await adjustStudentPoints(env.DB, stu.student_id, welcomeBonus, 'referral_bonus', `绑定好友邀请码（${code}）新人迎新礼包`);
+
+    await env.DB.prepare(
+      `INSERT INTO referral_records (ref_id, inviter_student_id, invitee_student_id, invite_code, reward_points, status)
+       VALUES (?, ?, ?, ?, ?, 'registered')`
+    ).bind(`ref_${Date.now().toString(36)}`, inviter.student_id, stu.student_id, code, invBonus).run();
+
+    return reply({
+      bound: true,
+      inviterName: inviter.display_alias,
+      inviterBonus: invBonus,
+      welcomeBonus,
+      balanceAfter: myRes.balanceAfter
+    });
+  }
+
+  if (path === '/api/v1/wallet/withdraw-request' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const studentId = String(body.studentId || 'stu_default').trim();
+    const pts = Math.floor(Number(body.pointsAmount) || 0);
+    const accountInfo = String(body.accountNote || '').trim().slice(0, 80);
+
+    if (body.rulesAccepted !== true) {
+      return reply({ error: 'rules_required', message: '请先阅读并勾选《积分与奖励规则》（含未成年人监护提示）。' }, 400);
+    }
+    if (pts < POINTS_RULES.withdrawal.min_points) {
+      return reply({ error: 'below_minimum', message: `满 ${POINTS_RULES.withdrawal.min_points} 积分方可发起现金提现。` }, 400);
+    }
+    if (!accountInfo) {
+      return reply({ error: 'missing_account', message: '请填写收款微信或支付宝联系方式以便管理员核对打款。' }, 400);
+    }
+
+    const stu = await ensureStudentRowForWallet(env.DB, studentId);
+    const cashYuan = Number((pts * POINTS_RULES.withdrawal.yuan_per_point).toFixed(2));
+    const adj = await adjustStudentPoints(env.DB, stu.student_id, -pts, 'withdraw_freeze', `申请现金提现冻结 ${pts} 积分（约 ¥${cashYuan}）`);
+
+    const wid = `wd_${Date.now().toString(36)}`;
+    await env.DB.prepare(
+      `INSERT INTO withdrawal_requests (
+        withdraw_id, student_id, points_amount, cash_yuan, rules_accepted,
+        guardian_confirmed, audit_status, admin_note
+      ) VALUES (?, ?, ?, ?, 1, 1, 'pending', ?)`
+    ).bind(wid, stu.student_id, pts, cashYuan, `收款方式：${accountInfo}`).run();
+
+    return reply({
+      submitted: true,
+      withdrawId: wid,
+      pointsAmount: pts,
+      cashYuan,
+      balanceAfter: adj.balanceAfter
+    });
+  }
+
+  // ==================== 三期模块 5：管理员全能总控台 & 智能切题三级去重入库 ====================
+  if (path === '/api/v1/admin/overview' && request.method === 'GET') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    await ensureD1Tables(env.DB);
+
+    const stus = await env.DB.prepare(
+      `SELECT student_id, display_alias, stage, grade_label, province, city, study_rhythm,
+              service_mode, course_enabled, points_balance, cleared_red_count, invite_code, updated_at
+       FROM student_profiles ORDER BY updated_at DESC LIMIT 80`
+    ).all();
+
+    const wds = await env.DB.prepare(
+      `SELECT w.*, s.display_alias FROM withdrawal_requests w
+       LEFT JOIN student_profiles s ON w.student_id = s.student_id
+       ORDER BY w.created_at DESC LIMIT 50`
+    ).all();
+
+    const kbs = await env.DB.prepare(
+      'SELECT doc_id, stage, subject_key, manual_node_id, kb_category, title, content_markdown, source_file_name, created_at FROM knowledge_base_docs ORDER BY created_at DESC LIMIT 40'
+    ).all();
+
+    const qCountRow = await env.DB.prepare(
+      "SELECT COUNT(*) AS cnt, SUM(CASE WHEN is_variant = 1 THEN 1 ELSE 0 END) AS variants FROM question_bank WHERE review_status != 'discarded'"
+    ).first();
+
+    const qRecent = await env.DB.prepare(
+      "SELECT q_id, stage, subject_key, manual_node_id, difficulty, question_type, stem_text, is_variant, review_status, created_at FROM question_bank WHERE review_status != 'discarded' ORDER BY created_at DESC LIMIT 30"
+    ).all();
+
+    return reply({
+      students: stus?.results || [],
+      withdrawals: wds?.results || [],
+      knowledgeDocs: kbs?.results || [],
+      questionBankCount: Number(qCountRow?.cnt || 0),
+      variantQuestionCount: Number(qCountRow?.variants || 0),
+      recentQuestions: qRecent?.results || []
+    });
+  }
+
+  if (path === '/api/v1/admin/points-adjust' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const studentId = String(body.studentId || '').trim();
+    const delta = Math.trunc(Number(body.delta) || 0);
+    const reason = String(body.reason || '管理员手动充减积分').trim().slice(0, 80);
+    if (!studentId || delta === 0) return reply({ error: 'invalid_params' }, 400);
+
+    const res = await adjustStudentPoints(env.DB, studentId, delta, delta > 0 ? 'recharge' : 'admin_adjust', reason);
+    return reply({ adjusted: true, studentId, delta, balanceAfter: res.balanceAfter });
+  }
+
+  if (path === '/api/v1/admin/toggle-course' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const studentId = String(body.studentId || '').trim();
+    const enabledFlag = body.courseEnabled ? 1 : 0;
+    const stu = await ensureStudentRowForWallet(env.DB, studentId);
+
+    const nextMode = enabledFlag ? 'enrolled_course' : (stu.service_mode === 'enrolled_course' ? 'self_study' : stu.service_mode);
+    await env.DB.prepare(
+      `UPDATE student_profiles SET course_enabled = ?, service_mode = ?, updated_at = datetime('now') WHERE student_id = ?`
+    ).bind(enabledFlag, nextMode, stu.student_id).run();
+
+    return reply({ updated: true, studentId: stu.student_id, courseEnabled: enabledFlag === 1, serviceMode: nextMode });
+  }
+
+  if (path === '/api/v1/admin/withdraw-audit' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    const body = await readJsonBody(request);
+    const withdrawId = String(body.withdrawId || '').trim();
+    const decision = body.decision === 'approved' ? 'approved' : 'rejected';
+    const note = String(body.adminNote || '').trim().slice(0, 120);
+
+    await ensureD1Tables(env.DB);
+    const wd = await env.DB.prepare('SELECT * FROM withdrawal_requests WHERE withdraw_id = ?').bind(withdrawId).first();
+    if (!wd) return reply({ error: 'not_found' }, 404);
+    if (wd.audit_status !== 'pending') {
+      return reply({ error: 'already_reviewed', message: '该笔提现申请已经审核处理过了。' }, 400);
+    }
+
+    await env.DB.prepare(
+      `UPDATE withdrawal_requests SET audit_status = ?, admin_note = COALESCE(NULLIF(?, ''), admin_note), reviewed_at = datetime('now') WHERE withdraw_id = ?`
+    ).bind(decision, note, withdrawId).run();
+
+    if (decision === 'rejected') {
+      await adjustStudentPoints(
+        env.DB,
+        wd.student_id,
+        Number(wd.points_amount),
+        'admin_adjust',
+        `提现申请（${withdrawId}）已驳回并退还积分`
+      );
+    }
+
+    return reply({ audited: true, withdrawId, decision });
+  }
+
+  if (path === '/api/v1/admin/kb-save' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    await ensureD1Tables(env.DB);
+    const body = await readJsonBody(request);
+    const stage = body.stage === 'junior' ? 'junior' : 'senior';
+    const subjectKey = String(body.subjectKey || 'math');
+    const kbCategory = body.kbCategory === '总结归纳类' ? '总结归纳类' : '基础必掌握类';
+    const title = String(body.title || '').trim();
+    const content = String(body.contentMarkdown || '').trim();
+    if (!title || !content) return reply({ error: 'missing_fields', message: '请填写知识库标题与正文内容。' }, 400);
+
+    const docId = `kb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 5)}`;
+    await env.DB.prepare(
+      `INSERT INTO knowledge_base_docs (doc_id, stage, subject_key, manual_node_id, kb_category, title, content_markdown, source_file_name)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(
+      docId,
+      stage,
+      subjectKey,
+      body.manualNodeId || null,
+      kbCategory,
+      title.slice(0, 120),
+      content,
+      String(body.sourceFileName || '手工/文档录入').slice(0, 120)
+    ).run();
+
+    return reply({ saved: true, docId, kbCategory, title });
+  }
+
+  if (path === '/api/v1/admin/ingest-preview' && request.method === 'POST') {
+    const body = await readJsonBody(request, 2 * 1024 * 1024);
+    const rawText = String(body.rawText || '').trim();
+    if (!rawText) return reply({ error: 'empty_text', message: '请先上传试卷文档或粘贴题目文本。' }, 400);
+
+    const stage = body.stage === 'junior' ? 'junior' : 'senior';
+    const subjectKey = String(body.subjectKey || 'math');
+    const existingQuestions = await loadApprovedD1Questions(env.DB, stage, subjectKey);
+    const aiBinding = (env.AI && env.PAPER_AI_ENABLED === 'true') ? env.AI : null;
+
+    const preview = await splitAndClassifyDocument({
+      rawText,
+      stage,
+      subjectKey,
+      aiBinding,
+      existingQuestions
+    });
+    return reply(preview);
+  }
+
+  if (path === '/api/v1/admin/ingest-commit' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    await ensureD1Tables(env.DB);
+    const body = await readJsonBody(request, 2 * 1024 * 1024);
+    const items = Array.isArray(body.items) ? body.items : [];
+    if (!items.length) return reply({ error: 'empty_items' }, 400);
+
+    let approvedCount = 0;
+    let variantCount = 0;
+    let discardedCount = 0;
+    const stmts = [];
+
+    items.forEach((it, idx) => {
+      if (it.decision === 'discard') {
+        discardedCount += 1;
+        return;
+      }
+      const isVariant = it.decision === 'variant' ? 1 : 0;
+      if (isVariant) variantCount += 1;
+      else approvedCount += 1;
+
+      const qId = `qb_${Date.now().toString(36)}_${idx}_${Math.random().toString(36).slice(2, 5)}`;
+      const textHash = it.textHash || computeTextHash(it.stem);
+      const semanticSig = it.semanticSig || computeSemanticSignature(it.stem);
+      stmts.push(
+        env.DB.prepare(
+          `INSERT INTO question_bank (
+            q_id, stage, subject_key, manual_node_id, difficulty, question_type,
+            stem_text, options_json, answer_text, analysis_text,
+            text_hash, semantic_sig, is_variant, variant_of_id, review_status
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved')`
+        ).bind(
+          qId,
+          it.stage === 'junior' ? 'junior' : 'senior',
+          String(it.subjectKey || 'math'),
+          it.manualNodeId || null,
+          ['基础', '中等', '压轴'].includes(it.difficulty) ? it.difficulty : '中等',
+          String(it.questionType || '解答'),
+          String(it.stem || ''),
+          JSON.stringify(Array.isArray(it.options) ? it.options : []),
+          String(it.answer || '略'),
+          String(it.analysis || '按《过关手册》对应通法核对解题链路。'),
+          textHash,
+          semanticSig,
+          isVariant,
+          it.similarTo?.qId || null
+        )
+      );
+    });
+
+    for (let i = 0; i < stmts.length; i += 60) {
+      await env.DB.batch(stmts.slice(i, i + 60));
+    }
+
+    return reply({
+      committed: true,
+      approvedCount,
+      variantCount,
+      discardedCount
+    });
+  }
+
+  if (path === '/api/v1/admin/deep-dedup-clean' && request.method === 'POST') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    await ensureD1Tables(env.DB);
+    const report = await runDeepBankDeduplication(env.DB);
+    return reply(report);
   }
 
   return reply({ error: 'not_found' }, 404);
