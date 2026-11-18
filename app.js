@@ -959,15 +959,21 @@
     $('paperResultWrap').classList.remove('hidden');
     $('paperExamTitleText').textContent = `${result.exam || '未命名试卷'} — 【需人工复核】`;
 
-    const subjNodesCache = {};
+    const subjOptsCache = {};
     const getOptionsForSubj = (sKey, selectedNodeId) => {
       const k = bootstrap?.catalog?.[stage]?.[sKey] ? sKey : (Object.keys(bootstrap?.catalog?.[stage] || {})[0] || 'math');
-      if (!subjNodesCache[k]) {
-        subjNodesCache[k] = (bootstrap?.catalog?.[stage]?.[k]?.chapters || []).flatMap(c => c.items);
+      if (!subjOptsCache[k]) {
+        const chapters = bootstrap?.catalog?.[stage]?.[k]?.chapters || [];
+        subjOptsCache[k] = chapters.map(ch => ({
+          title: ch.title,
+          items: ch.items || []
+        }));
       }
-      return subjNodesCache[k].slice(0, 120).map(n =>
-        `<option value="${escapeHtml(n.nodeId)}" ${n.nodeId === selectedNodeId ? 'selected' : ''}>${escapeHtml(n.chapterTitle)} · ${escapeHtml(n.title)}</option>`
-      ).join('');
+      return subjOptsCache[k].map(ch => `
+        <optgroup label="${escapeHtml(ch.title)}">
+          ${ch.items.map(n => `<option value="${escapeHtml(n.nodeId)}" ${n.nodeId === selectedNodeId ? 'selected' : ''}>${escapeHtml(n.title)}</option>`).join('')}
+        </optgroup>
+      `).join('');
     };
 
     $('paperQuestionsTableBody').innerHTML = (result.questions || []).map((q, idx) => {
