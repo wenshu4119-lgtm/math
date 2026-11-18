@@ -8,6 +8,7 @@
   const STORAGE_KEY = 'mxu_workspace_state_v1';
   const SESSION_CODE_KEY = 'mxu_session_access_code';
   const SESSION_ROLE_KEY = 'mxu_session_role';
+  const SESSION_CAN_ADMIN_KEY = 'mxu_session_can_admin';
   const WATERMARK_TEXT = '许老师工作室 / 铭师学习规划原创 · 盗版必究';
 
   const DEFAULT_STATE = {
@@ -61,6 +62,7 @@
 
   let state = loadSavedState();
   let accessCode = sessionStorage.getItem(SESSION_CODE_KEY) || '';
+  let canSwitchAdmin = sessionStorage.getItem(SESSION_CAN_ADMIN_KEY) === '1';
   let bootstrap = null;
   let paperDraft = null;
   let currentPack = null;
@@ -219,6 +221,14 @@
       .replace(/"/g, '&quot;');
   }
 
+  function sanitizeSafeSvg(rawSvg) {
+    const s = String(rawSvg || '').trim();
+    if (!s.startsWith('<svg')) return '';
+    return s
+      .replace(/<script[\s\S]*?<\/script>/gi, '')
+      .replace(/\son[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+  }
+
   // ==================== 版权锁 2 & 3：水印叠加 + 禁右键/禁复制 ====================
   function installAntiTheftLocks() {
     const svg = `
@@ -319,9 +329,15 @@
         method: 'POST',
         body: JSON.stringify({ accessCode, role })
       });
+      canSwitchAdmin = Boolean(verified.canSwitchAdmin || verified.accessRole === 'admin');
       sessionStorage.setItem(SESSION_CODE_KEY, accessCode);
-      sessionStorage.setItem(SESSION_ROLE_KEY, verified.role || role);
-      state.role = verified.role === 'admin' ? 'admin' : 'student';
+      sessionStorage.setItem(SESSION_CAN_ADMIN_KEY, canSwitchAdmin ? '1' : '0');
+      const nextRole = canSwitchAdmin && (verified.role === 'admin' || role === 'admin') ? 'admin' : 'student';
+      sessionStorage.setItem(SESSION_ROLE_KEY, nextRole);
+      state.role = nextRole;
+      if (!canSwitchAdmin && state.activeView === 'viewAdminConsole') {
+        state.activeView = 'viewStep1';
+      }
 
       bootstrap = await apiFetch('/api/v1/bootstrap');
       if (bootstrap.thresholds && !localStorage.getItem(STORAGE_KEY)) {
@@ -332,7 +348,9 @@
       enterMainWorkspace();
     } catch (err) {
       accessCode = '';
+      canSwitchAdmin = false;
       sessionStorage.removeItem(SESSION_CODE_KEY);
+      sessionStorage.removeItem(SESSION_CAN_ADMIN_KEY);
       if (!silent) {
         errBox.textContent = err.message || '授权码验证失败，请核对后重试。';
         errBox.classList.remove('hidden');
@@ -342,8 +360,11 @@
 
   function lockApplication() {
     accessCode = '';
+    canSwitchAdmin = false;
     bootstrap = null;
     sessionStorage.removeItem(SESSION_CODE_KEY);
+    sessionStorage.removeItem(SESSION_ROLE_KEY);
+    sessionStorage.removeItem(SESSION_CAN_ADMIN_KEY);
     $('authGate').classList.remove('hidden');
     $('mainApp').classList.add('hidden');
     $('headerControls').classList.add('hidden');
@@ -381,9 +402,16 @@
   }
 
   function syncRoleUI() {
-    const isAdmin = state.role === 'admin';
+    if (!canSwitchAdmin && state.role === 'admin') {
+      state.role = 'student';
+      sessionStorage.setItem(SESSION_ROLE_KEY, 'student');
+    }
+    const isAdmin = canSwitchAdmin && state.role === 'admin';
+    if ($('roleSwitchGroup')) $('roleSwitchGroup').classList.toggle('hidden', !canSwitchAdmin);
+    if ($('navAdminConsole')) $('navAdminConsole').classList.toggle('hidden', !canSwitchAdmin);
     $('roleStudentBtn').classList.toggle('active', !isAdmin);
     $('roleAdminBtn').classList.toggle('active', isAdmin);
+    $('roleAdminBtn').classList.toggle('hidden', !canSwitchAdmin);
     $('adminThresholdPanel').classList.toggle('hidden', !isAdmin);
     $('adminRefreshCutoffsBtn').classList.toggle('hidden', !isAdmin);
     $('adminEditCommentaryBtn').classList.toggle('hidden', !isAdmin);
@@ -750,6 +778,10 @@
 
   // ==================== 导航与视图切换 ====================
   function switchMainView(viewId) {
+    if (viewId === 'viewAdminConsole' && !canSwitchAdmin) {
+      alert('权限不足：当前为学员/家长访问码，无法进入管理员总控台。');
+      viewId = 'viewStep1';
+    }
     state.activeView = viewId;
     saveState(false);
 
@@ -1289,16 +1321,27 @@
         </div>
       `).join('');
 
-      $('packQuestionsList').innerHTML = (pack.practiceQuestions || []).map((q, idx) => `
+      $('packQuestionsList').innerHTML = (pack.practiceQuestions || []).map((q, idx) => {
+        const safeSvg = sanitizeSafeSvg(q.diagramSvg);
+        const optsHtml = Array.isArray(q.options) && q.options.length
+          ? `<div style="font-size:12.5px; color:var(--text); margin:4px 0 6px; padding-left:8px; display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:4px 12px;">${q.options.map(o => `<div>${escapeHtml(o)}</div>`).join('')}</div>`
+          : '';
+        return `
         <div class="practice-row">
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; gap:6px; flex-wrap:wrap;">
             <strong>第 ${idx + 1} 题 · ${escapeHtml(q.type)}</strong>
-            <span class="badge badge-gold">难度：${escapeHtml(q.difficulty)}</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              ${q.reviewStatus === 'unreviewed' ? '<span class="badge badge-gold">待教师复核</span>' : ''}
+              <span class="badge badge-gold">难度：${escapeHtml(q.difficulty)}</span>
+            </div>
           </div>
           <div style="font-size:13.5px; margin-bottom:4px;">${escapeHtml(q.prompt)}</div>
+          ${safeSvg ? `<div class="exam-q-svg">${safeSvg}</div>` : ''}
+          ${optsHtml}
           <div style="font-size:12px; color:var(--accent);">破题提示：${escapeHtml(q.keyHint)}</div>
         </div>
-      `).join('');
+      `;
+      }).join('');
 
       $('packRetestCompletedInput').value = 3;
       $('packRetestWrongInput').value = 0;
@@ -2059,6 +2102,9 @@
         `
         : '';
 
+      const safeSvg = sanitizeSafeSvg(q.diagramSvg);
+      const svgBlock = safeSvg ? `<div class="exam-q-svg">${safeSvg}</div>` : '';
+
       return `
         ${banner}
         <div class="exam-question-card">
@@ -2066,11 +2112,13 @@
             <div>
               <strong>第 ${q.no} 题</strong>
               <span class="badge badge-navy" style="margin-left:6px;">${escapeHtml(q.difficulty)} · ${q.score}分</span>
+              ${q.reviewStatus === 'unreviewed' ? '<span class="badge badge-gold" style="margin-left:6px;">待教师复核</span>' : ''}
               ${q.needsBankReplenish ? '<span class="badge badge-yellow">储备补位</span>' : ''}
             </div>
             <button type="button" class="btn btn-outline btn-sm no-print" data-swap-q="${idx}">🔄 换一题</button>
           </div>
           <div class="exam-q-stem">${escapeHtml(q.stem)}</div>
+          ${svgBlock}
           ${optionsHtml}
           ${teacherBox}
         </div>
@@ -2559,20 +2607,62 @@
           `).join('')
         : '<tr><td colspan="3" style="color:var(--muted); text-align:center;">暂无已上传的知识库讲义</td></tr>';
 
-      $('qbStatsBadge').textContent = `云端题库：${data.questionBankCount || 0} 题（含变式 ${data.variantQuestionCount || 0} 题）`;
+      $('qbStatsBadge').textContent = `云端题库：${data.questionBankCount || 0} 题（待教师复核 ${data.unreviewedQuestionCount || 0} · 含配图 ${data.svgQuestionCount || 0} · 变式 ${data.variantQuestionCount || 0}）｜知识库讲义：${data.knowledgeDocCount || 0} 份`;
 
       const qs = data.recentQuestions || [];
       $('recentQuestionsBody').innerHTML = qs.length
         ? qs.map(q => `
             <tr>
               <td><span class="badge badge-navy">${escapeHtml(q.question_type)} · ${escapeHtml(q.difficulty)}</span></td>
-              <td>${escapeHtml(String(q.stem_text || '').slice(0, 75))}</td>
-              <td>${Number(q.is_variant) === 1 ? '<span class="badge badge-gold">变式训练题</span>' : '<span class="badge badge-green">标准原题</span>'}</td>
+              <td>
+                <div>${escapeHtml(String(q.stem_text || '').slice(0, 75))}</div>
+                ${sanitizeSafeSvg(q.diagram_svg) ? '<span class="badge badge-navy" style="margin-top:4px;">含SVG配图</span>' : ''}
+              </td>
+              <td>
+                ${Number(q.is_variant) === 1 ? '<span class="badge badge-gold">变式训练题</span>' : '<span class="badge badge-green">标准原题</span>'}
+                ${q.review_status === 'unreviewed' ? '<span class="badge badge-yellow" style="margin-left:4px;">待教师复核</span>' : ''}
+              </td>
             </tr>
           `).join('')
         : '<tr><td colspan="3" style="color:var(--muted); text-align:center;">云端自定义题库暂无新增试题，请使用上方切题工具入库</td></tr>';
     } catch (err) {
       console.error('admin overview err', err);
+    }
+  }
+
+  async function exportFullDatabaseBackup() {
+    if (!canSwitchAdmin) {
+      alert('权限不足：仅管理员专属密码登录时可导出全库数据备份。');
+      return;
+    }
+    const btn = $('exportFullDbBackupBtn');
+    const prevText = btn ? btn.textContent : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⏳ 正在打包全库 JSON...';
+    }
+    try {
+      const backup = await apiFetch('/api/v1/admin/export-backup');
+      const jsonStr = JSON.stringify(backup, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `mrxu-full-d1-backup-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      const cnts = backup.tableCounts || {};
+      alert(`全库数据备份导出成功！\n学员档案：${cnts.student_profiles || 0} 条\n过关进度：${cnts.student_manual_progress || 0} 条\n知识库讲义：${cnts.knowledge_base_docs || 0} 份\n题库试题：${cnts.question_bank || 0} 题`);
+    } catch (err) {
+      alert(`全库备份导出失败：${err.message}`);
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = prevText || '📥 一键导出全库数据备份';
+      }
     }
   }
 
@@ -2819,7 +2909,12 @@
     // 视角切换（学员 vs 管理员）
     ['roleStudentBtn', 'roleAdminBtn'].forEach(id => {
       $(id).addEventListener('click', () => {
-        state.role = $(id).dataset.role;
+        const nextRole = $(id).dataset.role;
+        if (nextRole === 'admin' && !canSwitchAdmin) {
+          alert('权限不足：请退出锁定后使用管理员专属密码登录，方可切换到名师/管理员视角。');
+          return;
+        }
+        state.role = nextRole;
         sessionStorage.setItem(SESSION_ROLE_KEY, state.role);
         saveState();
         syncRoleUI();
@@ -3185,7 +3280,46 @@
     $('bindFriendCodeBtn').addEventListener('click', bindFriendInviteCode);
     $('submitWithdrawBtn').addEventListener('click', submitWithdrawRequest);
 
+    // 模块 4：微信充值与报课引导复制 & 二维码占位加载
+    if ($('copyStudioWechatBtn')) {
+      $('copyStudioWechatBtn').addEventListener('click', async () => {
+        const wechatId = ($('studioWechatIdVal')?.textContent || 'xulaoshi_studio').trim();
+        try {
+          await navigator.clipboard.writeText(wechatId);
+          $('copyStudioWechatBtn').textContent = '✓ 已复制微信号';
+          setTimeout(() => {
+            if ($('copyStudioWechatBtn')) $('copyStudioWechatBtn').textContent = '📋 复制微信号';
+          }, 2200);
+        } catch (_) {
+          alert(`工作室微信号：${wechatId}`);
+        }
+      });
+    }
+    if ($('studioWechatQrImg')) {
+      const qrImg = $('studioWechatQrImg');
+      const qrFallback = $('studioWechatQrFallback');
+      const showQr = () => {
+        if (qrImg.naturalWidth > 0) {
+          qrImg.style.display = 'block';
+          if (qrFallback) qrFallback.style.display = 'none';
+        }
+      };
+      const showFallback = () => {
+        qrImg.style.display = 'none';
+        if (qrFallback) qrFallback.style.display = '';
+      };
+      qrImg.addEventListener('load', showQr);
+      qrImg.addEventListener('error', showFallback);
+      if (qrImg.complete) {
+        if (qrImg.naturalWidth > 0) showQr();
+        else showFallback();
+      }
+    }
+
     // 模块 5：管理员总控台 & 智能切题三级去重入库事件
+    if ($('exportFullDbBackupBtn')) {
+      $('exportFullDbBackupBtn').addEventListener('click', exportFullDatabaseBackup);
+    }
     $('refreshAdminOverviewBtn').addEventListener('click', loadAdminOverview);
     $('adminStudentsTableBody').addEventListener('click', async e => {
       const proxyBtn = e.target.closest('[data-adm-proxy]');
@@ -3369,11 +3503,17 @@
           <li><strong>纯原生离线组件与零外网依赖</strong>：精装规划长图导出、推广海报生成、Word (<code>.docx</code>) 文档文本提取与斜向防伪水印均采用浏览器原生 Canvas 2D、SVG 与标准 Web Streams API 自研实现，未捆绑其他商业闭源或具有传染性开源许可证（如 AGPL-3.0 的 PyMuPDF 等）之运行依赖。</li>
         </ul>
 
-        <h4>三、基础设施、AI 辅助及教研架构声明</h4>
+        <h4>三、基础设施、AI 辅助及运行环境说明</h4>
         <ul>
           <li><strong>云端运行时与存储</strong>：全站静态资源、接口路由鉴权及云端永久存档运行于 <strong>Cloudflare Workers</strong> 与 <strong>Cloudflare D1</strong> 托管基础设施。</li>
           <li><strong>AI 结构化辅助边界</strong>：平台印刷体试卷结构识别使用 <code>@cf/mistralai/mistral-small-3.1-24b-instruct</code>；一句话智能组卷需求解析、未收录校名估算参考及智能切题分段辅助使用 <code>@cf/meta/llama-3.1-8b-instruct</code>。模型输出均设有确定性规则兜底与人工复核环节。</li>
-          <li><strong>原创教研说明</strong>：DeepTutor 式“诊断 → 讲义 → 练题 → 复测消灯”闭环思想结合许老师工作室 16 学科过关教学法独立工程实现；若需核查开源许可证全文或授权范围，请联系工作室（18986280310）。</li>
+        </ul>
+
+        <h4>四、开源项目致谢、设计参考与原创边界声明</h4>
+        <ul>
+          <li><strong><code>HKUDS/DeepTutor</code>（开源教研工作流设计参考）</strong>：本平台“诊断亮灯 → 讲义精讲 → 靶向练题 → 复测消灯”的教学任务闭环架构与知识驱动交互理念，参考借鉴了开源项目 <code>HKUDS/DeepTutor</code> 的教研闭环方法论，致以诚挚谢意。</li>
+          <li><strong><code>WYJ0904/thewyj.uk</code>（开源工程架构参考）</strong>：本平台前后端在 Cloudflare Pages / Workers 边缘轻量部署模式、极简无构建零打包前端组织方式及部分静态交互工程实践方面，参考了开源项目 <code>WYJ0904/thewyj.uk</code> 的轻量级设计思路。</li>
+          <li><strong>原创边界声明</strong>：本平台（<code>mrxu.uk</code>）全部核心业务代码均由技术团队面向<strong>许老师工作室</strong>业务场景<strong>独立重新编写</strong>；平台内置的初高中 16 学科《考点过关手册》知识树、讲义及原创/教研题库均属<strong>许老师工作室自主教研资产</strong>。平台代码与资产严格遵守开源协议边界，<strong>未直接复制、未照搬或混入任何违反开源许可证（含传染性协议或禁止商用条款）的代码或受版权限制的数据内容</strong>；若需进一步核查合规清单，请联系工作室（18986280310）。</li>
         </ul>
       `
     }

@@ -214,11 +214,12 @@ CREATE TABLE IF NOT EXISTS question_bank (
   options_json TEXT DEFAULT '[]',
   answer_text TEXT NOT NULL,
   analysis_text TEXT NOT NULL,
+  diagram_svg TEXT DEFAULT '',                  -- 原题矢量 SVG 配图（如有）
   text_hash TEXT NOT NULL,                      -- 一级精准文本指纹去重
   semantic_sig TEXT NOT NULL,                   -- 二级 AI 语义相似度签名（>=85% 预警）
   is_variant INTEGER NOT NULL DEFAULT 0,        -- 1=变式训练题
   variant_of_id TEXT,
-  review_status TEXT NOT NULL DEFAULT 'pending', -- pending | approved | discarded
+  review_status TEXT NOT NULL DEFAULT 'pending', -- pending | unreviewed | approved | discarded
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

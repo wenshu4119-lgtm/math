@@ -32,7 +32,7 @@
         </div>
         <div id="activeProfilePill" class="student-pill">尚未建档</div>
         <button type="button" id="headerWalletBtn" class="wallet-btn-pill">💰 积分: -- · 自学模式</button>
-        <div class="role-switch" role="group" aria-label="视角切换">
+        <div id="roleSwitchGroup" class="role-switch" role="group" aria-label="视角切换">
           <button type="button" id="roleStudentBtn" class="role-btn active" data-role="student">学员 / 家长端</button>
           <button type="button" id="roleAdminBtn" class="role-btn" data-role="admin">名师 / 管理员</button>
         </div>
@@ -63,8 +63,8 @@
       </div>
 
       <div class="field-group" style="margin-bottom: 16px;">
-        <label class="field-label" for="accessCodeInput">授权访问码（PAPER_ACCESS_CODE）</label>
-        <input id="accessCodeInput" class="input" type="password" placeholder="请输入工作室分配的授权访问码" autocomplete="off">
+        <label class="field-label" for="accessCodeInput">授权访问码（学员码 / 管理员专属密码）</label>
+        <input id="accessCodeInput" class="input" type="password" placeholder="请输入工作室分配的学员访问码或管理员专属密码" autocomplete="off">
       </div>
 
       <div id="authErrorBox" class="notice-box warn hidden"></div>
@@ -910,6 +910,35 @@
           </div>
         </div>
 
+        <div class="wechat-guide-card">
+          <div class="wechat-guide-info">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px;">
+              <strong style="color:var(--primary); font-size:15px;">💬 线下 / 微信充值积分与报课开通引导</strong>
+              <span class="badge badge-gold">官方直通 · 极速人工充值开通</span>
+            </div>
+            <p style="margin:0 0 8px; font-size:13px; color:var(--text); line-height:1.65;">
+              如需购买学习积分或开通线下/线上【报课畅享权限】，请添加工作室微信号后联系许老师核对缴费并即时后台充点开通：
+            </p>
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;">
+              <span style="font-size:13px;">工作室微信号：<strong id="studioWechatIdVal" style="color:var(--accent); font-size:15px; letter-spacing:0.4px;">xulaoshi_studio</strong></span>
+              <button type="button" id="copyStudioWechatBtn" class="btn btn-outline btn-sm">📋 复制微信号</button>
+              <span style="font-size:12.5px; color:var(--muted);">客服电话 / 备用微信：<strong>18986280310</strong></span>
+            </div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.6;">
+              1. 复制微信号（或右侧扫码）添加工作室微信 → 2. 发送您的“学员匿名代号”及充值积分档位/报课意向 → 3. 管理员核对后在后台即时为您充点或开通【报课模式】。
+            </div>
+          </div>
+          <div id="studioWechatQrBox" class="wechat-qr-slot">
+            <img id="studioWechatQrImg" src="/wechat-qr.png" alt="许老师工作室微信二维码" style="display:none; width:100%; height:100%; object-fit:contain; border-radius:6px;">
+            <div id="studioWechatQrFallback" class="wechat-qr-fallback">
+              <div style="font-size:20px; margin-bottom:4px;">📱</div>
+              <div style="font-weight:700; color:var(--primary);">微信二维码预留位</div>
+              <div style="font-size:11px; color:var(--muted); margin-top:2px;">wechat-qr.png</div>
+              <div style="font-size:11px; color:var(--accent); margin-top:4px;">请搜：xulaoshi_studio</div>
+            </div>
+          </div>
+        </div>
+
         <label class="field-label" style="display:block; margin-bottom:8px;">切换或查看服务模式（线下 / 企业微信缴费后由许老师在总控台充值积分或开通报课权限）</label>
         <div class="choice-grid">
           <div class="choice-card selected" data-service-mode="self_study">
@@ -1076,7 +1105,10 @@
       <div class="card">
         <div class="card-head">
           <h3 class="card-title">管理员全能总控台 · 代客管理 / 充减积分 / 报课开通 / 提现审批 <span class="badge badge-red">最高权限</span></h3>
-          <button type="button" id="refreshAdminOverviewBtn" class="btn btn-outline btn-sm">刷新云端总控数据</button>
+          <div class="btn-row">
+            <button type="button" id="exportFullDbBackupBtn" class="btn btn-gold btn-sm">📥 一键导出全库数据备份</button>
+            <button type="button" id="refreshAdminOverviewBtn" class="btn btn-outline btn-sm">刷新云端总控数据</button>
+          </div>
         </div>
 
         <h4 style="margin:0 0 8px; color:var(--primary);">学员总览（一键切换视角代填建档 / 代录分数 / 改红绿灯 / 润色规划书 / 充减积分 / 开通报课）</h4>

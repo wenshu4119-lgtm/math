@@ -1043,6 +1043,55 @@ html, body {
   background: #FEF8EA !important;
 }
 
+.exam-q-svg {
+  margin: 10px 0;
+  padding: 10px 14px;
+  background: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  border-radius: 8px;
+  text-align: center;
+  overflow-x: auto;
+}
+.exam-q-svg svg {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+.wechat-guide-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 14px 0 18px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #F4F7FA 0%, #F2F7F5 100%);
+  border: 1px solid #C8D7E4;
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+}
+.wechat-guide-info {
+  flex: 1 1 320px;
+}
+.wechat-qr-slot {
+  width: 118px;
+  height: 118px;
+  flex-shrink: 0;
+  border: 1px dashed #94A3B8;
+  border-radius: 8px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px;
+}
+.wechat-qr-fallback {
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
 /* ==================== 极简页脚与正式协议阅读弹窗 ==================== */
 .legal-links-bar {
   display: flex;

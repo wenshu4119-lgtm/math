@@ -63,7 +63,7 @@ async function ensureD1Tables(db) {
     `CREATE TABLE IF NOT EXISTS school_exam_scores (score_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, exam_type TEXT NOT NULL, exam_name TEXT NOT NULL, exam_date TEXT NOT NULL, subject_key TEXT NOT NULL DEFAULT 'total', score_obtained REAL NOT NULL, max_score REAL NOT NULL, target_score REAL, rank_note TEXT DEFAULT '', entered_by_role TEXT NOT NULL DEFAULT 'parent', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS planning_reports (report_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, report_title TEXT NOT NULL DEFAULT '许老师工作室 · 独家升学规划与过关诊断报告', radar_metrics_json TEXT NOT NULL, battle_summary_json TEXT NOT NULL, auto_commentary TEXT NOT NULL, admin_polished_commentary TEXT, seal_label TEXT NOT NULL DEFAULT '许老师工作室 / 铭师学习规划专用章', signature_teacher TEXT NOT NULL DEFAULT '许老师', created_at TEXT NOT NULL DEFAULT (datetime('now')), updated_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS knowledge_base_docs (doc_id TEXT PRIMARY KEY, stage TEXT NOT NULL, subject_key TEXT NOT NULL, manual_node_id TEXT, kb_category TEXT NOT NULL, title TEXT NOT NULL, content_markdown TEXT NOT NULL, source_file_name TEXT, created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
-    `CREATE TABLE IF NOT EXISTS question_bank (q_id TEXT PRIMARY KEY, stage TEXT NOT NULL, subject_key TEXT NOT NULL, manual_node_id TEXT, difficulty TEXT NOT NULL, question_type TEXT NOT NULL, stem_text TEXT NOT NULL, options_json TEXT DEFAULT '[]', answer_text TEXT NOT NULL, analysis_text TEXT NOT NULL, text_hash TEXT NOT NULL, semantic_sig TEXT NOT NULL, is_variant INTEGER NOT NULL DEFAULT 0, variant_of_id TEXT, review_status TEXT NOT NULL DEFAULT 'pending', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS question_bank (q_id TEXT PRIMARY KEY, stage TEXT NOT NULL, subject_key TEXT NOT NULL, manual_node_id TEXT, difficulty TEXT NOT NULL, question_type TEXT NOT NULL, stem_text TEXT NOT NULL, options_json TEXT DEFAULT '[]', answer_text TEXT NOT NULL, analysis_text TEXT NOT NULL, diagram_svg TEXT DEFAULT '', text_hash TEXT NOT NULL, semantic_sig TEXT NOT NULL, is_variant INTEGER NOT NULL DEFAULT 0, variant_of_id TEXT, review_status TEXT NOT NULL DEFAULT 'pending', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS generated_exams (exam_id TEXT PRIMARY KEY, student_id TEXT, title TEXT NOT NULL, mode TEXT NOT NULL, prompt_text TEXT, stage TEXT NOT NULL, subject_key TEXT NOT NULL, grade_label TEXT DEFAULT '', total_score INTEGER NOT NULL DEFAULT 100, duration_minutes INTEGER NOT NULL DEFAULT 90, question_ids_json TEXT NOT NULL, exam_payload_json TEXT NOT NULL DEFAULT '{}', insufficient_warnings_json TEXT DEFAULT '[]', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS points_ledger (ledger_id TEXT PRIMARY KEY, student_id TEXT NOT NULL, delta INTEGER NOT NULL, balance_after INTEGER NOT NULL, action_type TEXT NOT NULL, description TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
     `CREATE TABLE IF NOT EXISTS referral_records (ref_id TEXT PRIMARY KEY, inviter_student_id TEXT NOT NULL, invitee_student_id TEXT NOT NULL, invite_code TEXT NOT NULL, reward_points INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL DEFAULT 'registered', created_at TEXT NOT NULL DEFAULT (datetime('now')))`,
@@ -121,9 +121,13 @@ async function adjustStudentPoints(db, studentId, delta, actionType, description
 async function loadApprovedD1Questions(db, stage, subjectKey) {
   if (!db) return [];
   try {
-    const res = await db.prepare(
-      'SELECT q_id, stage, subject_key, manual_node_id, difficulty, question_type, stem_text, options_json, answer_text, analysis_text FROM question_bank WHERE stage = ? AND subject_key = ? AND review_status != ? ORDER BY created_at DESC LIMIT 200'
-    ).bind(stage, subjectKey, 'discarded').all();
+    const crossStage = subjectKey === 'bio' || subjectKey === 'geo';
+    const sql = crossStage
+      ? 'SELECT q_id, stage, subject_key, manual_node_id, difficulty, question_type, stem_text, options_json, answer_text, analysis_text, diagram_svg, review_status FROM question_bank WHERE subject_key = ? AND review_status != ? ORDER BY created_at DESC LIMIT 300'
+      : 'SELECT q_id, stage, subject_key, manual_node_id, difficulty, question_type, stem_text, options_json, answer_text, analysis_text, diagram_svg, review_status FROM question_bank WHERE stage = ? AND subject_key = ? AND review_status != ? ORDER BY created_at DESC LIMIT 300';
+    const res = crossStage
+      ? await db.prepare(sql).bind(subjectKey, 'discarded').all()
+      : await db.prepare(sql).bind(stage, subjectKey, 'discarded').all();
     return res?.results || [];
   } catch (_) {
     return [];
@@ -196,15 +200,19 @@ function sameOrigin(request, url) {
   return origin === url.origin;
 }
 
+function hasConfiguredAccessCode(env) {
+  return Boolean(env.STUDENT_ACCESS_CODE || env.ADMIN_ACCESS_CODE || env.PAPER_ACCESS_CODE);
+}
+
 function enabled(env) {
-  return env.PAPER_AI_ENABLED === 'true' && !!env.PAPER_ACCESS_CODE
+  return env.PAPER_AI_ENABLED === 'true' && hasConfiguredAccessCode(env)
     && !!env.AI && !!env.PAPER_RATE_LIMITER;
 }
 
 function canaryEnabled(request, env) {
   return env.PAPER_AI_ENABLED === 'false' && env.PAPER_CANARY_ENABLED === 'true'
     && request.headers.get('X-Paper-Canary') === env.PAPER_CANARY_CODE
-    && !!env.PAPER_CANARY_CODE && !!env.PAPER_ACCESS_CODE
+    && !!env.PAPER_CANARY_CODE && hasConfiguredAccessCode(env)
     && !!env.AI && !!env.PAPER_RATE_LIMITER;
 }
 
@@ -219,17 +227,27 @@ async function constantTimeEqual(aStr, bStr) {
   return diff === 0;
 }
 
-async function authorized(request, env, url) {
+async function resolveAccessRole(request, env, url) {
   const supplied = request.headers.get('X-Paper-Access-Code') || '';
-  const expected = String(env.PAPER_ACCESS_CODE || '');
-  if (!expected) {
-    // 生产环境严格阻断；仅本机 localhost 未配置 .dev.vars 时允许显式本地预览码
-    if (url && isLocalhost(url)) {
-      return constantTimeEqual(supplied, LOCAL_DEV_PREVIEW_CODE);
-    }
-    return false;
+  if (!supplied) return null;
+  const adminExpected = String(env.ADMIN_ACCESS_CODE || '');
+  const studentExpected = String(env.STUDENT_ACCESS_CODE || env.PAPER_ACCESS_CODE || '');
+  if (adminExpected && (await constantTimeEqual(supplied, adminExpected))) {
+    return 'admin';
   }
-  return constantTimeEqual(supplied, expected);
+  if (studentExpected && (await constantTimeEqual(supplied, studentExpected))) {
+    return 'student';
+  }
+  if (!adminExpected && !studentExpected && url && isLocalhost(url)) {
+    if (await constantTimeEqual(supplied, LOCAL_DEV_PREVIEW_CODE)) {
+      return 'admin';
+    }
+  }
+  return null;
+}
+
+async function authorized(request, env, url) {
+  return Boolean(await resolveAccessRole(request, env, url));
 }
 
 async function readJsonBody(request, maxBytes = MAX_SMALL_JSON) {
@@ -419,7 +437,7 @@ async function handleApiV1(request, env, url) {
   const path = url.pathname;
 
   if (path === '/api/v1/auth/status' && request.method === 'GET') {
-    const localPreviewAllowed = isLocalhost(url) && !env.PAPER_ACCESS_CODE;
+    const localPreviewAllowed = isLocalhost(url) && !hasConfiguredAccessCode(env);
     return reply({
       studio: {
         name: STUDIO_META.name,
@@ -447,13 +465,24 @@ async function handleApiV1(request, env, url) {
     const reqForCheck = new Request(request.url, {
       headers: new Headers({ 'X-Paper-Access-Code': supplied })
     });
-    if (!(await authorized(reqForCheck, env, url))) {
+    const accessRole = await resolveAccessRole(reqForCheck, env, url);
+    if (!accessRole) {
       return reply({ verified: false, error: 'access_denied', message: '授权访问码错误，无法读取平台题型库。' }, 401);
     }
     const requestedRole = ['student', 'parent', 'admin'].includes(body.role) ? body.role : 'student';
+    if (requestedRole === 'admin' && accessRole !== 'admin') {
+      return reply({
+        verified: false,
+        error: 'admin_code_required',
+        message: '当前输入的是学员/家长访问码，无法进入许老师/管理员总控台；请输入管理员专属密码。'
+      }, 403);
+    }
+    const grantedRole = accessRole === 'admin' ? requestedRole : (requestedRole === 'parent' ? 'parent' : 'student');
     return reply({
       verified: true,
-      role: requestedRole,
+      role: grantedRole,
+      accessRole,
+      canSwitchAdmin: accessRole === 'admin',
       studio: STUDIO_META
     });
   }
@@ -462,8 +491,15 @@ async function handleApiV1(request, env, url) {
   if (!sameOrigin(request, url) && request.method !== 'GET') {
     return reply({ error: 'origin_not_allowed' }, 403);
   }
-  if (!(await authorized(request, env, url))) {
+  const accessRole = await resolveAccessRole(request, env, url);
+  if (!accessRole) {
     return reply({ error: 'unauthorized', message: '请先输入平台授权访问码解锁后台数据。' }, 401);
+  }
+  if (path.startsWith('/api/v1/admin/') && accessRole !== 'admin') {
+    return reply({
+      error: 'forbidden_admin_only',
+      message: '权限不足：学员/家长访问码严禁调用管理员总控台接口。'
+    }, 403);
   }
 
   if (path === '/api/v1/bootstrap' && request.method === 'GET') {
@@ -639,16 +675,26 @@ async function handleApiV1(request, env, url) {
           pack.knowledgeDocs = [...customDocs, ...pack.knowledgeDocs];
         }
         const qRows = await env.DB.prepare(
-          "SELECT q_id, difficulty, question_type, stem_text, answer_text FROM question_bank WHERE manual_node_id = ? AND review_status != 'discarded' ORDER BY created_at DESC LIMIT 3"
+          "SELECT q_id, difficulty, question_type, stem_text, options_json, answer_text, diagram_svg, review_status FROM question_bank WHERE manual_node_id = ? AND review_status != 'discarded' ORDER BY created_at DESC LIMIT 3"
         ).bind(node.nodeId).all();
         if (qRows?.results?.length) {
-          const customQs = qRows.results.map(q => ({
-            qId: q.q_id,
-            difficulty: q.difficulty,
-            type: `${q.question_type} · 工作室入库真题`,
-            prompt: q.stem_text,
-            keyHint: `参考核对：${String(q.answer_text || '').slice(0, 80)}`
-          }));
+          const customQs = qRows.results.map(q => {
+            let parsedOpts = [];
+            try {
+              parsedOpts = JSON.parse(q.options_json || '[]');
+              if (!Array.isArray(parsedOpts)) parsedOpts = [];
+            } catch (_) { parsedOpts = []; }
+            return {
+              qId: q.q_id,
+              difficulty: q.difficulty,
+              type: `${q.question_type} · 工作室入库真题`,
+              prompt: q.stem_text,
+              options: parsedOpts,
+              diagramSvg: String(q.diagram_svg || ''),
+              reviewStatus: q.review_status || 'unreviewed',
+              keyHint: `参考核对：${String(q.answer_text || '').slice(0, 80)}`
+            };
+          });
           pack.practiceQuestions = [...customQs, ...pack.practiceQuestions].slice(0, 4);
         }
       } catch (_) { /* keep default DeepTutor pack if D1 unavailable */ }
@@ -1303,25 +1349,65 @@ async function handleApiV1(request, env, url) {
        ORDER BY w.created_at DESC LIMIT 50`
     ).all();
 
+    const kbCountRow = await env.DB.prepare(
+      'SELECT COUNT(*) AS cnt FROM knowledge_base_docs'
+    ).first();
+
     const kbs = await env.DB.prepare(
       'SELECT doc_id, stage, subject_key, manual_node_id, kb_category, title, content_markdown, source_file_name, created_at FROM knowledge_base_docs ORDER BY created_at DESC LIMIT 40'
     ).all();
 
     const qCountRow = await env.DB.prepare(
-      "SELECT COUNT(*) AS cnt, SUM(CASE WHEN is_variant = 1 THEN 1 ELSE 0 END) AS variants FROM question_bank WHERE review_status != 'discarded'"
+      "SELECT COUNT(*) AS cnt, SUM(CASE WHEN is_variant = 1 THEN 1 ELSE 0 END) AS variants, SUM(CASE WHEN review_status = 'unreviewed' THEN 1 ELSE 0 END) AS unreviewed, SUM(CASE WHEN length(COALESCE(diagram_svg, '')) > 10 THEN 1 ELSE 0 END) AS svg_cnt FROM question_bank WHERE review_status != 'discarded'"
     ).first();
 
     const qRecent = await env.DB.prepare(
-      "SELECT q_id, stage, subject_key, manual_node_id, difficulty, question_type, stem_text, is_variant, review_status, created_at FROM question_bank WHERE review_status != 'discarded' ORDER BY created_at DESC LIMIT 30"
+      "SELECT q_id, stage, subject_key, manual_node_id, difficulty, question_type, stem_text, diagram_svg, is_variant, review_status, created_at FROM question_bank WHERE review_status != 'discarded' ORDER BY created_at DESC LIMIT 30"
     ).all();
 
     return reply({
       students: stus?.results || [],
       withdrawals: wds?.results || [],
       knowledgeDocs: kbs?.results || [],
+      knowledgeDocCount: Number(kbCountRow?.cnt || 0),
       questionBankCount: Number(qCountRow?.cnt || 0),
       variantQuestionCount: Number(qCountRow?.variants || 0),
+      unreviewedQuestionCount: Number(qCountRow?.unreviewed || 0),
+      svgQuestionCount: Number(qCountRow?.svg_cnt || 0),
       recentQuestions: qRecent?.results || []
+    });
+  }
+
+  if (path === '/api/v1/admin/export-backup' && request.method === 'GET') {
+    if (!env.DB) return reply({ error: 'd1_not_configured' }, 503);
+    await ensureD1Tables(env.DB);
+    const tableNames = [
+      'sys_config_thresholds',
+      'student_profiles',
+      'student_manual_progress',
+      'school_exam_scores',
+      'planning_reports',
+      'knowledge_base_docs',
+      'question_bank',
+      'generated_exams',
+      'points_ledger',
+      'referral_records',
+      'withdrawal_requests'
+    ];
+    const tables = {};
+    const tableCounts = {};
+    for (const tbl of tableNames) {
+      const res = await env.DB.prepare(`SELECT * FROM ${tbl}`).all().catch(() => ({ results: [] }));
+      const rows = res?.results || [];
+      tables[tbl] = rows;
+      tableCounts[tbl] = rows.length;
+    }
+    return reply({
+      exportedAt: new Date().toISOString(),
+      database: 'mingshi-planning-db',
+      studio: STUDIO_META,
+      tableCounts,
+      tables
     });
   }
 
@@ -1513,7 +1599,7 @@ export default {
         available: enabled(env),
         model: MODEL,
         requiresAccessCode: true,
-        localPreviewAllowed: isLocalhost(url) && !env.PAPER_ACCESS_CODE,
+        localPreviewAllowed: isLocalhost(url) && !hasConfiguredAccessCode(env),
         message: enabled(env)
           ? '仅提取印刷题干结构，所有结果须教师人工复核。'
           : '网站内识图 AI 服务尚未启用，可先使用离线结构录入或手工打卡。'

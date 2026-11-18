@@ -297,6 +297,8 @@ function normalizeD1Question(row) {
     options: opts,
     answer: row.answer_text,
     analysis: row.analysis_text,
+    diagramSvg: String(row.diagram_svg || ''),
+    reviewStatus: row.review_status || 'approved',
     sourceType: 'd1_bank',
     needsBankReplenish: false
   };
@@ -366,7 +368,7 @@ function synthesizeTopicQuestion({ stage, subjectKey, node, difficulty, qType, i
 function getCombinedPool(stage, subjectKey, d1Questions = []) {
   const fromD1 = (d1Questions || [])
     .map(r => (r.stem ? r : normalizeD1Question(r)))
-    .filter(q => q.stage === stage && q.subjectKey === subjectKey);
+    .filter(q => (q.stage === stage || subjectKey === 'bio' || subjectKey === 'geo') && q.subjectKey === subjectKey);
   const fromSeed = SEED_QUESTION_BANK
     .filter(q => q.stage === stage && q.subjectKey === subjectKey)
     .map(normalizeSeedQuestion);
