@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>考点消灯 | 艺考生文化课靶向过关规划系统 · 动画演示</title>
+  <link rel="stylesheet" href="xiaodeng-anim.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #F4F6F9 0%, #EDF2F7 100%);
+      color: #1F2937;
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .preview-header {
+      background: linear-gradient(135deg, #1B365D 0%, #173F47 65%, #1F4E46 100%);
+      color: #FFFFFF;
+      padding: 14px 24px;
+      box-shadow: 0 4px 16px rgba(18, 36, 63, 0.14);
+    }
+    .preview-header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .preview-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .preview-crest {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(246, 229, 184, 0.65);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #F6E5B8;
+    }
+    .preview-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+    .preview-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 2px;
+    }
+    .preview-back-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      background: rgba(255, 255, 255, 0.12);
+      transition: background 0.15s ease;
+    }
+    .preview-back-link:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+    .preview-main {
+      max-width: 1280px;
+      margin: 28px auto;
+      padding: 0 18px 40px;
+    }
+    .preview-intro {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .preview-intro h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 800;
+      color: #1B365D;
+    }
+    .preview-intro p {
+      margin: 0;
+      font-size: 14.5px;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <header class="preview-header">
+    <div class="preview-header-inner">
+      <div class="preview-brand">
+        <div class="preview-crest">灯</div>
+        <div>
+          <h1 class="preview-title">考点消灯 | 艺考生文化课靶向过关规划系统</h1>
+          <div class="preview-sub">传统大锅饭 vs 考点精准消灯 · 六步闭环可自动播放，也可点击切换</div>
+        </div>
+      </div>
+      <a class="preview-back-link" href="/">← 返回 mrxu.uk 首页</a>
+    </div>
+  </header>
+
+  <main class="preview-main">
+    <div class="preview-intro">
+      <h2>同样 120 天冲刺：传统大锅饭硬熬 vs 考点精准消灯</h2>
+      <p>左侧对照传统机构模式，右侧演示考点消灯六步闭环。页面会自动播放，也可点击任意一步切换。</p>
+    </div>
+
+    <div id="standaloneXiaodengAnim" data-xiaodeng-anim="standalone"></div>
+  </main>
+
+  <script src="xiaodeng-anim.js"></script>
+</body>
+</html>
